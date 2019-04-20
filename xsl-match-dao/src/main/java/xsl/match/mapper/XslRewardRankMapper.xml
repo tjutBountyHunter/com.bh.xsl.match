@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xsl.match.mapper.XslRewardRankMapper" >
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslRewardRank" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="rewardRankId" property="rewardRankId" jdbcType="VARCHAR" />
+    <result column="rewardRankName" property="rewardRankName" jdbcType="VARCHAR" />
+    <result column="rewardRankInfo" property="rewardRankInfo" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, rewardRankId, rewardRankName, rewardRankInfo
+  </sql>
+
+</mapper>

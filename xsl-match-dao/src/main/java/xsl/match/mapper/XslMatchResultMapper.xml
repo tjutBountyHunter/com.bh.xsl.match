@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xsl.match.mapper.XslMatchResultMapper" >
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchResult" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="matchResultId" property="matchResultId" jdbcType="VARCHAR" />
+    <result column="teamId" property="teamId" jdbcType="VARCHAR" />
+    <result column="rewardRankId" property="rewardRankId" jdbcType="VARCHAR" />
+    <result column="proveUrl" property="proveUrl" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, matchResultId, teamId, rewardRankId, proveUrl
+  </sql>
+
+</mapper>

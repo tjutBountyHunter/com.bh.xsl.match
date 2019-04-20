@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xsl.match.mapper.XslMatchRewardMapper" >
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchReward" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="matchId" property="matchId" jdbcType="VARCHAR" />
+    <result column="rewardId" property="rewardId" jdbcType="VARCHAR" />
+    <result column="rewardCreateTime" property="rewardCreateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, matchId, rewardId, rewardCreatTime
+  </sql>
+
+</mapper>

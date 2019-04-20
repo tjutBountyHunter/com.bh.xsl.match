@@ -1,0 +1,33 @@
+package com.xsl.pojo;
+
+public class XslMatchRank {
+    private Integer id;
+
+    private String matchRankId;
+
+    private String rankName;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getMatchRankId() {
+        return matchRankId;
+    }
+
+    public void setMatchRankId(String matchRankId) {
+        this.matchRankId = matchRankId;
+    }
+
+    public String getRankName() {
+        return rankName;
+    }
+
+    public void setRankName(String rankName) {
+        this.rankName = rankName;
+    }
+}

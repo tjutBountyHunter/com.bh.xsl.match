@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xsl.match.mapper.XslMatchTeamMapper" >
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchTeam" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="teamId" property="teamId" jdbcType="VARCHAR" />
+    <result column="matchId" property="matchId" jdbcType="VARCHAR" />
+    <result column="teamName" property="teamName" jdbcType="VARCHAR" />
+    <result column="teamSynopsis" property="teamSynopsis" jdbcType="VARCHAR" />
+    <result column="teamCreatorId" property="teamCreatorId" jdbcType="VARCHAR" />
+    <result column="teamCreateTime" property="teamCreateTime" jdbcType="TIMESTAMP" />
+    <result column="teamState" property="teamState" jdbcType="INTEGER" />
+    <result column="teamSlogan" property="teamSlogan" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, teamId, matchId, teamName, teamSynopsis, teamCreator, teamCreateTime, teamState, 
+    teamSlogan
+  </sql>
+
+</mapper>

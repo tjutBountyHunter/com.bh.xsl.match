@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xsl.match.mapper.XslTeamPositionMapper" >
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslTeamPosition" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="positionId" property="positionId" jdbcType="VARCHAR" />
+    <result column="positionName" property="positionName" jdbcType="VARCHAR" />
+    <result column="positionInfo" property="positionInfo" jdbcType="VARCHAR" />
+    <result column="positionRequirements" property="positionRequirements" jdbcType="VARCHAR" />
+    <result column="positionState" property="positionState" jdbcType="INTEGER" />
+    <result column="positionCreateTime" property="positionCreateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, positionId, positionName, positionInfo, positionQuirements, quirementsState, 
+    positionCreatTime
+  </sql>
+
+</mapper>

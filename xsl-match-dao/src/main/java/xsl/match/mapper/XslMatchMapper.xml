@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xsl.match.mapper.XslMatchMapper" >
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatch" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="matchId" property="matchId" jdbcType="VARCHAR" />
+    <result column="matchName" property="matchName" jdbcType="VARCHAR" />
+    <result column="matchRankId" property="matchRankId" jdbcType="VARCHAR" />
+    <result column="matchWebsite" property="matchWebsite" jdbcType="VARCHAR" />
+    <result column="matchOrientedId" property="matchOrientedId" jdbcType="VARCHAR" />
+    <result column="matchStartTime" property="matchStartTime" jdbcType="TIMESTAMP" />
+    <result column="matchEndTime" property="matchEndTime" jdbcType="TIMESTAMP" />
+    <result column="matchState" property="matchState" jdbcType="INTEGER" />
+    <result column="matchSignUpEndTime" property="matchSignUpEndTime" jdbcType="TIMESTAMP" />
+    <result column="matchAddress" property="matchAddress" jdbcType="VARCHAR" />
+    <result column="matchSignUpMaxNum" property="matchSignUpMaxNum" jdbcType="INTEGER" />
+    <result column="matchForm" property="matchForm" jdbcType="INTEGER" />
+    <result column="matchTeamNum" property="matchTeamNum" jdbcType="INTEGER" />
+    <result column="matchSignUpStartTime" property="matchSignUpStartTime" jdbcType="TIMESTAMP" />
+    <result column="matchCreateTime" property="matchCreateTime" jdbcType="TIMESTAMP" />
+    <result column="matchPosterUrl" property="matchPosterUrl" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, matchId, matchName, matchRankId, matchWebsite, matchOrientedId, matchStartTime, 
+    matchEndTime, matchState, matchSignUpEndTime, matchAddress, matchSignUpMaxNum, matchForm, 
+    matchTeamNum,matchSignUpStartTime,matchCreateTime,matchPosterUrl
+  </sql>
+  <select id="selectByMatchId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xsl_match
+    where matchId = #{matchId,jdbcType=VARCHAR}
+  </select>
+  <delete id="removeByMatchId" parameterType="java.lang.String">
+    delete form xsl_match
+    where matchId = #{matchId,jdbcType=VARCHAR}
+  </delete>
+  <update id="updateByMatchId" parameterType="com.xsl.pojo.XslMatch">
+    update xsl_match
+    set matchId = #{matchId,jdbcType=VARCHAR},
+      matchName = #{matchName,jdbcType=VARCHAR},
+      matchRankId = #{matchRankId,jdbcType=VARCHAR},
+      matchWebsite = #{matchWebsite,jdbcType=VARCHAR},
+      matchOrientedId = #{matchOrientedId,jdbcType=VARCHAR},
+      matchStartTime = #{matchStartTime,jdbcType=TIMESTAMP},
+      matchEndTime = #{matchEndTime,jdbcType=TIMESTAMP},
+      matchState = #{matchState,jdbcType=INTEGER},
+      matchSignUpEndTime = #{matchSignUpEndTime,jdbcType=TIMESTAMP},
+      matchAddress = #{matchAddress,jdbcType=VARCHAR},
+      matchSignUpMaxNum = #{matchSignUpMaxNum,jdbcType=INTEGER},
+      matchForm = #{matchForm,jdbcType=INTEGER},
+      matchTeamNum = #{matchTeamNum,jdbcType=INTEGER},
+      matchSignUpStartTime = #{matchSignUpStartTime,jdbcType=TIMESTAMP}
+      matchPosterUrl = #{matchPosterUrl,jdbcType=VARCHAR}
+      where matchId = #{matchId,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatch">
+    insert into xsl_match(matchId, matchName, matchRankId, matchWebsite, matchOrientedId, matchStartTime,
+    matchEndTime, matchState, matchSignUpEndTime, matchAddress, matchSignUpMaxNum, matchForm,
+    matchTeamNum,matchSignUpStartTime,matchPosterUrl)
+    values (#{matchId},#{matchName},#{matchRankId},#{matchWebsite},#{matchOrientedId},#{matchStartTime},#{matchEndTime},#{matchState},
+    #{matchSignUpEndTime},#{matchAddress},#{matchSignUpMaxNum},#{matchForm},#{matchTeamNum},#{matchSignUpStartTime},#{matchPosterUrl});
+  </insert>
+
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select  <include refid="Base_Column_List"/>
+    distinct
+    from xsl_match
+    <if test="orderBy != null">
+      order by #{orderBy}
+    </if>
+    <if test="orderBy != null">
+      order by matchCreateTime
+    </if>
+  </select>
+
+</mapper>
