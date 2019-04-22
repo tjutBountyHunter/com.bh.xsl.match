@@ -2,6 +2,7 @@
 <link href="/js/kindeditor-4.1.10/themes/default/default.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" charset="utf-8" src="/js/kindeditor-4.1.10/kindeditor-all-min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/jquery.serializejson.min.js"></script>
 <div style="padding:10px 10px 10px 10px">
 	<form id="itemAddForm" class="itemForm" method="post">
 	    <table cellpadding="5">
@@ -12,69 +13,89 @@
 	        <tr>
 	            <td>选择比赛级别:</td>
 				<td>
-					<input type="text" id="className" class="easyui-combobox" name="className"
-						   data-options="valueField:'matchRankId',textField:'mankName',url:'match/select/rank',prompt: '请选择比赛级别',required:true,editable:false" />
+					<input type="text" id="className" class="easyui-combobox" name="matchRankId"
+						   data-options="valueField:'matchRankId',textField:'rankName',url:'match/rank/selectAll',prompt: '请选择比赛级别',required:true,editable:false" />
 				</td>
 	        </tr>
 	        <tr>
-	            <td>比赛详情:</td>
-	            <td><input class="easyui-datetimebox" name="sellPoint" data-options="multiline:true,validType:'length[0,150]'" style="height:60px;width: 280px;"></input></td>
+	            <td>比赛官方网址:</td>
+	            <td><input type="text" id="matchWebsite" class="easyui-validatebox textbox" name="matchWebsite" data-options="" style="width: 280px; height: 20px"></input>
+					<nobr id="isMatchWebsite" style="color: red"></nobr></td>
+
 	        </tr>
 	        <tr>
-	            <td>商品价格:</td>
-	            <td><input class="easyui-numberbox" type="text" name="priceView" data-options="min:1,max:99999999,precision:2,required:true" />
-	            	<input type="hidden" name="price"/>
+	            <td>面向人群:</td>
+	            <td><input class="easyui-combobox" type="text" name="matchOrientedId"  data-options="valueField:'orientedId',
+	             			textField:'orientedName',url:'match/oriented/selectAll',prompt: '请选择面向人群',required:true,editable:false" />
+
 	            </td>
 	        </tr>
 	        <tr>
-	            <td>库存数量:</td>
-	            <td><input class="easyui-numberbox" type="text" name="num" data-options="min:1,max:99999999,precision:0,required:true" /></td>
+	            <td>报名开始时间:</td>
+	            <td><input class="easyui-datebox" name="matchSignUpStartTime" data-options="required:true" /></td>
 	        </tr>
+			<tr>
+				<td>报名截止时间:</td>
+				<td><input class="easyui-datebox" name="matchSignUpEndTime" data-options="required:true" /></td>
+			</tr>
 	        <tr>
-	            <td>条形码:</td>
+	            <td>最大参赛人数/团队数:</td>
 	            <td>
-	                <input class="easyui-textbox" type="text" name="barcode" data-options="validType:'length[1,30]'" />
+	                <input class="easyui-numberbox" type="text" name="matchSignUpMaxNum" data-options="min:1,max:99999999,precision:0" />
 	            </td>
 	        </tr>
+			<tr>
+				<td>比赛开始时间:</td>
+				<td><input class="easyui-datebox" name="matchStartTime" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td>比赛截止时间:</td>
+				<td><input class="easyui-datebox" name="matchEndTime" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td>比赛地址:</td>
+				<td>
+					<input class="easyui-textbox" type="text" name="matchAddress" style="width: 500px" data-options="required:true" />
+				</td>
+			</tr>
+			<tr>
+				<td>选择参赛形式:</td>
+				<td>
+					<input type="text" id="matchForm" class="easyui-combobox" name="matchForm"
+						   data-options="valueField:'matchForm',textField:'matchFormName',url:'match/info/select/form',prompt: '请选择参赛形式',required:true,editable:false" />
+					<nobr hidden="hidden" id="matchTeamNum">
+						&nbsp;&nbsp;团队人数限制:<input class="easyui-textbox" type="text" name="matchTeamNum"  data-options="" />
+					</nobr>
+				</td>
+
+			</tr>
 	        <tr>
-	            <td>商品图片:</td>
+	            <td>比赛宣传海报:</td>
 	            <td>
-	            	 <a href="javascript:void(0)" class="easyui-linkbutton picFileUpload">上传图片</a>
-	                 <input type="hidden" name="image"/>
+	            	 <input type="button"  id="onePicUpload" class="easyui-linkbutton picFileUpload" value="上传图片"></input>
+	                 <input type="hidden" name="matchPosterUrl" id="matchPosterUrl"/>
 	            </td>
-	        </tr>
-	        <tr>
-	            <td>商品描述:</td>
-	            <td>
-	                <textarea style="width:800px;height:300px;visibility:hidden;" name="desc"></textarea>
-	            </td>
-	        </tr>
-	        <tr class="params hide">
-	        	<td>商品规格:</td>
-	        	<td>
-	        		
-	        	</td>
 	        </tr>
 	    </table>
-	    <input type="hidden" name="itemParams"/>
 	</form>
 	<div style="padding:5px">
-	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
-	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+	    <a href="javascript:void(0)" class="easyui-linkbutton" style="width: 50px" onclick="submitForm()">提交</a>
+	    <a href="javascript:void(0)" class="easyui-linkbutton" style="width: 50px"  onclick="clearForm()">重置</a>
 	</div>
 </div>
 <script type="text/javascript">
 	var itemAddEditor ;
-	//页面初始化完毕后执行此方法
-	$(function(){
-		//创建富文本编辑器
-		itemAddEditor = E3.createEditor("#itemAddForm [name=desc]");
-		//初始化类目选择和图片上传器
-		E3.init({fun:function(node){
-			//根据商品的分类id取商品 的规格模板，生成规格信息。第四天内容。
-			//E3.changeItemParam(node, "itemAddForm");
-		}});
-	});
+	var isOk = true;
+	var FILE = {
+        kingEditorParams : {
+            //指定上传文件参数名称
+            filePostName  : "uploadFile",
+            //指定上传文件请求的url。
+            uploadJson : 'match/file/image/upload',
+            //上传类型，分别为image、flash、media、file
+            dir : "image",
+        }
+	}
 	//提交表单
 	function submitForm(){
 		//有效性验证
@@ -82,45 +103,78 @@
 			$.messager.alert('提示','表单还未填写完成!');
 			return ;
 		}
-		//取商品价格，单位为“分”
-		$("#itemAddForm [name=price]").val(eval($("#itemAddForm [name=priceView]").val()) * 100);
-		//同步文本框中的商品描述
-		itemAddEditor.sync();
-		//取商品的规格
-		/*
-		var paramJson = [];
-		$("#itemAddForm .params li").each(function(i,e){
-			var trs = $(e).find("tr");
-			var group = trs.eq(0).text();
-			var ps = [];
-			for(var i = 1;i<trs.length;i++){
-				var tr = trs.eq(i);
-				ps.push({
-					"k" : $.trim(tr.find("td").eq(0).find("span").text()),
-					"v" : $.trim(tr.find("input").val())
-				});
-			}
-			paramJson.push({
-				"group" : group,
-				"params": ps
-			});
-		});
-		//把json对象转换成字符串
-		paramJson = JSON.stringify(paramJson);
-		$("#itemAddForm [name=itemParams]").val(paramJson);
-		*/
-		//ajax的post方式提交表单
-		//$("#itemAddForm").serialize()将表单序列号为key-value形式的字符串
-		alert($("#itemAddForm").serialize());
-		$.post("/item/save",$("#itemAddForm").serialize(), function(data){
-			if(data.status == 200){
-				$.messager.alert('提示','新增商品成功!');
-			}
-		});
+		if (!isOk){
+            $.messager.alert('提示','表单填写有误!');
+            return ;
+        }
+		// alert(JSON.stringify($("#itemAddForm").serializeJSON()));
+		var da = JSON.stringify($("#itemAddForm").serializeJSON());
+		$.ajax({
+			type : 'post',
+			url : 'match/info/add',
+			data : da,
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			success : function (data) {
+                if(data.code == 200){
+                    $.messager.alert('提示','新增比赛成功!');
+                }
+            }
+		})
+		// $.post("match/info/add",$("#itemAddForm").serialize(), function(data){
+		// 	if(data.code == 200){
+		// 		$.messager.alert('提示','新增商品成功!');
+		// 	}
+		// },"application/json");
 	}
-	
+	/* 清空表单 */
 	function clearForm(){
 		$('#itemAddForm').form('reset');
 		itemAddEditor.html('');
 	}
+
+
+	$(document).ready(function () {
+	    $('#matchForm').combobox({
+			onSelect : function () {
+				var f = $('#matchForm').combobox('getValue');
+				if (f != 1){
+					$('#matchTeamNum').show();
+				}else {
+                    $('#matchTeamNum').hide();
+				}
+            }
+		})
+	    /* 网址校验 失去焦点 */
+		$('#matchWebsite').blur(function () {
+            var reg = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-.,@?^=%&:\/~+#]*[\w\-@?^=%&\/~+#])?$/;
+            var url = $('#matchWebsite').val();
+            if (url != "" && !reg.test(url)) {
+                $('#isMatchWebsite').text("请输入正确网址（包含协议）");
+                isOk = false;
+            }else {
+                $('#isMatchWebsite').text("");
+                isOk = true;
+			}
+        });
+		/* 单文件上传 + 回显 点击事件 */
+        $("#onePicUpload").click(function(){
+            var _self = $(this);
+            KindEditor.editor(FILE.kingEditorParams).loadPlugin('image', function() {
+                this.plugin.imageDialog({
+					//是否开启网络图片
+                    showRemote : false,
+					//回调函数
+                    clickFn : function(url, title, width, height, border, align) {
+                        var input = _self.siblings("input");
+                        $("#matchPosterUrl").val(url);
+                        input.parent().find("img").remove();
+                        input.val(url);
+                        input.after("<a href='"+url+"' target='_blank'><img src='"+url+"' width='80' height='50'/></a>");
+                        this.hideDialog();
+                    }
+                });
+            });
+        });
+    })
 </script>

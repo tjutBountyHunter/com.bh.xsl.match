@@ -1,17 +1,18 @@
 package xsl.match.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * 说明：
+ * 说明：页面导航
  *
  * @Auther: 11432_000
  * @Date: 2019/4/20 18:14
  * @Description:
  */
 @Controller
-public class TestController {
+public class PageController {
 
     @RequestMapping("/")
     public String index(){
@@ -19,7 +20,17 @@ public class TestController {
     }
 
     @RequestMapping("/item-add")
-    public String index2(){
+    public String matchAdd(){
         return "item-add";
+    }
+
+    @RequestMapping("/item-list")
+    public String matchList(){
+        return "item-list";
+    }
+
+    @RequestMapping("/item-edit")
+    public String editMatch(){
+        return "item-edit";
     }
 }

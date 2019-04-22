@@ -12,6 +12,7 @@
 <script type="text/javascript" src="js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+
 <style type="text/css">
 	.content {
 		padding: 10px 10px 10px 10px;
@@ -29,7 +30,7 @@
          	<li>
          		<span>商品管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'item-add'}">新增商品</li>
+	         		<li data-options="attributes:{'url':'item-add'}">添加比赛</li>
 	         		<li data-options="attributes:{'url':'item-list'}">查询商品</li>
 	         		<li data-options="attributes:{'url':'item-param-list'}">规格参数</li>
 	         	</ul>

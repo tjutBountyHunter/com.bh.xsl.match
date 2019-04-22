@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface XslMatchRankMapper {
     List<XslMatchRank> selectAll();
+
+    List<XslMatchRank> selectByRankId(Integer rankId);
 }

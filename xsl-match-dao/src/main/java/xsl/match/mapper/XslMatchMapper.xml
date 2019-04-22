@@ -36,8 +36,7 @@
   </delete>
   <update id="updateByMatchId" parameterType="com.xsl.pojo.XslMatch">
     update xsl_match
-    set matchId = #{matchId,jdbcType=VARCHAR},
-      matchName = #{matchName,jdbcType=VARCHAR},
+    set matchName = #{matchName,jdbcType=VARCHAR},
       matchRankId = #{matchRankId,jdbcType=VARCHAR},
       matchWebsite = #{matchWebsite,jdbcType=VARCHAR},
       matchOrientedId = #{matchOrientedId,jdbcType=VARCHAR},
@@ -49,7 +48,7 @@
       matchSignUpMaxNum = #{matchSignUpMaxNum,jdbcType=INTEGER},
       matchForm = #{matchForm,jdbcType=INTEGER},
       matchTeamNum = #{matchTeamNum,jdbcType=INTEGER},
-      matchSignUpStartTime = #{matchSignUpStartTime,jdbcType=TIMESTAMP}
+      matchSignUpStartTime = #{matchSignUpStartTime,jdbcType=TIMESTAMP},
       matchPosterUrl = #{matchPosterUrl,jdbcType=VARCHAR}
       where matchId = #{matchId,jdbcType=VARCHAR}
   </update>
@@ -63,12 +62,11 @@
 
   <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
     select  <include refid="Base_Column_List"/>
-    distinct
     from xsl_match
     <if test="orderBy != null">
       order by #{orderBy}
     </if>
-    <if test="orderBy != null">
+    <if test="orderBy == null">
       order by matchCreateTime
     </if>
   </select>

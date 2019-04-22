@@ -16,6 +16,12 @@
             <artifactId>xsl-match-domin</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.xsl</groupId>
+            <artifactId>xsl-match-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

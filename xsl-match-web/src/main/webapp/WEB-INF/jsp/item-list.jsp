@@ -1,23 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <table class="easyui-datagrid" id="itemList" title="商品列表" 
-       data-options="singleSelect:false,collapsible:true,pagination:true,url:'/item/list',method:'get',pageSize:30,toolbar:toolbar">
+       data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/info/list',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'ck',checkbox:true"></th>
-        	<th data-options="field:'id',width:60">商品ID</th>
-            <th data-options="field:'title',width:200">商品标题</th>
-            <th data-options="field:'cid',width:100">叶子类目</th>
-            <th data-options="field:'sellPoint',width:100">卖点</th>
-            <th data-options="field:'price',width:70,align:'right',formatter:E3.formatPrice">价格</th>
-            <th data-options="field:'num',width:70,align:'right'">库存数量</th>
-            <th data-options="field:'barcode',width:100">条形码</th>
-            <th data-options="field:'status',width:60,align:'center',formatter:E3.formatItemStatus">状态</th>
-            <th data-options="field:'created',width:130,align:'center',formatter:E3.formatDateTime">创建日期</th>
-            <th data-options="field:'updated',width:130,align:'center',formatter:E3.formatDateTime">更新日期</th>
+        	<th data-options="field:'matchId',checkbox:true"></th>
+            <th data-options="field:'matchName',width:150">比赛名称</th>
+            <th data-options="field:'matchWebsite',width:350">比赛官网</th>
+            <th data-options="field:'matchForm',width:100,align:'center',formatter:E3.formatForm">参数形式</th>
+            <th data-options="field:'matchState',width:80,align:'center',formatter:E3.formatMatchStatus">状态</th>
+            <th data-options="field:'matchCreateTime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
+            <th data-options="field:'matchRankId',width:100,align:'center',formatter:E3.formatRank">比赛等级</th>
+            <%--<th id="hidden-matchSignUpStartTime" data-options="field:'matchSignUpStartTime',width:10,align:'center',formatter:E3.formatDate"></th>--%>
+            <%--<th id="hidden-matchSignUpEndTime" data-options="field:'matchSignUpEndTime',width:10,align:'center',formatter:E3.formatDate"></th>--%>
+            <%--<th id="hidden-matchSignUpMaxNum" data-options="field:'matchSignUpMaxNum',width:10"></th>--%>
+            <%--<th id="hidden-matchStartTime" data-options="field:'matchStartTime',width:10,align:'center',formatter:E3.formatDate"></th>--%>
+            <%--<th id="hidden-matchEndTime" data-options="field:'matchEndTime',width:10,align:'center',formatter:E3.formatDate"></th>--%>
+            <%--<th id="hidden-matchAddress" data-options="field:'matchAddress',width:10"></th>--%>
+            <%--<th id="hidden-matchSignUpEndTime" data-options="field:'matchSignUpEndTime',width:10"></th>--%>
+            <%--<th id="hidden-matchPosterUrl" data-options="field:'matchPosterUrl',width:10"></th>--%>
         </tr>
     </thead>
 </table>
 <div id="itemEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'item-edit'" style="width:80%;height:80%;padding:10px;">
+</div>
+<div>
+    <button id="button" >buu</button>
 </div>
 <script>
 
@@ -31,14 +38,17 @@
     	ids = ids.join(",");
     	return ids;
     }
-    
+
+    /* Date 数据格式化 yyyy-MM-dd */
+    function myformatter(date){
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        var d = date.getDate();
+        return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+    }
+
+
     var toolbar = [{
-        text:'新增',
-        iconCls:'icon-add',
-        handler:function(){
-        	$(".tree-title:contains('新增商品')").parent().click();
-        }
-    },{
         text:'编辑',
         iconCls:'icon-edit',
         handler:function(){
@@ -51,56 +61,16 @@
         		$.messager.alert('提示','只能选择一个商品!');
         		return ;
         	}
-        	
         	$("#itemEditWindow").window({
         		onLoad :function(){
         			//回显数据
-        			var data = $("#itemList").datagrid("getSelections")[0];
-        			data.priceView = E3.formatPrice(data.price);
+                    var data = $("#itemList").datagrid("getSelections")[0];
+        			// 毫秒 转 标准日期
+                    data.matchSignUpStartTime = myformatter(new Date(data.matchSignUpStartTime));
+                    data.matchSignUpEndTime = myformatter(new Date(data.matchSignUpEndTime));
+                    data.matchStartTime = myformatter(new Date(data.matchStartTime));
+                    data.matchEndTime = myformatter(new Date(data.matchEndTime));
         			$("#itemeEditForm").form("load",data);
-        			
-        			// 加载商品描述
-        			$.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
-        				if(_data.status == 200){
-        					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
-        					itemEditEditor.html(_data.data.itemDesc);
-        				}
-        			});
-        			
-        			//加载商品规格
-        			$.getJSON('/rest/item/param/item/query/'+data.id,function(_data){
-        				if(_data && _data.status == 200 && _data.data && _data.data.paramData){
-        					$("#itemeEditForm .params").show();
-        					$("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
-        					$("#itemeEditForm [name=itemParamId]").val(_data.data.id);
-        					//回显商品规格
-        					 var paramData = JSON.parse(_data.data.paramData);
-        					
-        					 var html = "<ul>";
-        					 for(var i in paramData){
-        						 var pd = paramData[i];
-        						 html+="<li><table>";
-        						 html+="<tr><td colspan=\"2\" class=\"group\">"+pd.group+"</td></tr>";
-        						 
-        						 for(var j in pd.params){
-        							 var ps = pd.params[j];
-        							 html+="<tr><td class=\"param\"><span>"+ps.k+"</span>: </td><td><input autocomplete=\"off\" type=\"text\" value='"+ps.v+"'/></td></tr>";
-        						 }
-        						 
-        						 html+="</li></table>";
-        					 }
-        					 html+= "</ul>";
-        					 $("#itemeEditForm .params td").eq(1).html(html);
-        				}
-        			});
-        			
-        			E3.init({
-        				"pics" : data.image,
-        				"cid" : data.cid,
-        				fun:function(node){
-        					E3.changeItemParam(node, "itemeEditForm");
-        				}
-        			});
         		}
         	}).window("open");
         }
@@ -130,28 +100,6 @@
         	});
         }
     },'-',{
-        text:'下架',
-        iconCls:'icon-remove',
-        handler:function(){
-        	var ids = getSelectionsIds();
-        	if(ids.length == 0){
-        		$.messager.alert('提示','未选中商品!');
-        		return ;
-        	}
-        	$.messager.confirm('确认','确定下架ID为 '+ids+' 的商品吗？',function(r){
-        	    if (r){
-        	    	var params = {"ids":ids};
-                	$.post("/rest/item/instock",params, function(data){
-            			if(data.status == 200){
-            				$.messager.alert('提示','下架商品成功!',undefined,function(){
-            					$("#itemList").datagrid("reload");
-            				});
-            			}
-            		});
-        	    }
-        	});
-        }
-    },{
         text:'上架',
         iconCls:'icon-remove',
         handler:function(){
@@ -174,4 +122,11 @@
         	});
         }
     }];
+    $(document).ready(function () {
+        $('#hidden-matchSignUpStartTime').hide();
+        $('#button').click(function () {
+            var data = $("#itemList").datagrid("getSelections")[0];
+            alert(data.matchId + "   " + data.matchState);
+        })
+    })
 </script>
