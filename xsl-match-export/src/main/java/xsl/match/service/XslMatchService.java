@@ -29,4 +29,10 @@ public interface XslMatchService {
 
     /** 获取所有的比赛状态 */
     List<HashMap<String,String>> getAllState();
+
+    /** 根据 MatchId 删除多条记录 */
+    XslResult deleteMatchInfoByIds(String matchIds);
+
+    /** 变更比赛状态 */
+    XslResult updateMatchState(String matchId,Integer state);
 }

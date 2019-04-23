@@ -30,10 +30,6 @@
     from xsl_match
     where matchId = #{matchId,jdbcType=VARCHAR}
   </select>
-  <delete id="removeByMatchId" parameterType="java.lang.String">
-    delete form xsl_match
-    where matchId = #{matchId,jdbcType=VARCHAR}
-  </delete>
   <update id="updateByMatchId" parameterType="com.xsl.pojo.XslMatch">
     update xsl_match
     set matchName = #{matchName,jdbcType=VARCHAR},
@@ -70,5 +66,17 @@
       order by matchCreateTime
     </if>
   </select>
+
+  <delete id="deleteByMatchId" parameterType="java.lang.String">
+    delete from xsl_match
+    where
+    matchId = #{matchId}
+  </delete>
+
+  <update id="updateMatchState" parameterType="com.xsl.pojo.XslMatch">
+    update xsl_match
+    set matchState = #{matchState,jdbcType=INTEGER}
+    where  matchId = #{matchId,jdbcType=VARCHAR}
+  </update>
 
 </mapper>

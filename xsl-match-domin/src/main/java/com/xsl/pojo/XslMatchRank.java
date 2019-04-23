@@ -7,6 +7,8 @@ public class XslMatchRank {
 
     private String rankName;
 
+    private String rankInfo;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class XslMatchRank {
 
     public void setRankName(String rankName) {
         this.rankName = rankName;
+    }
+
+    public String getRankInfo() {
+        return rankInfo;
+    }
+
+    public void setRankInfo(String rankInfo) {
+        this.rankInfo = rankInfo;
     }
 }

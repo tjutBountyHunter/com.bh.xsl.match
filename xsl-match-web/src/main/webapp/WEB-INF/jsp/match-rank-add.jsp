@@ -4,7 +4,7 @@
 <script type="text/javascript" charset="utf-8" src="/js/kindeditor-4.1.10/lang/zh_CN.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/jquery.serializejson.min.js"></script>
 <div style="padding:10px 10px 10px 10px">
-	<form id="itemAddForm" class="itemForm" method="post">
+	<form id="matchRankAddForm" class="itemForm" method="post">
 	    <table cellpadding="5">
 			<tr>
 				<td>比赛名称:</td>
@@ -99,7 +99,7 @@
 	//提交表单
 	function submitForm(){
 		//有效性验证
-		if(!$('#itemAddForm').form('validate')){
+		if(!$('#matchRankAddForm').form('validate')){
 			$.messager.alert('提示','表单还未填写完成!');
 			return ;
 		}
@@ -107,8 +107,8 @@
             $.messager.alert('提示','表单填写有误!');
             return ;
         }
-		// alert(JSON.stringify($("#itemAddForm").serializeJSON()));
-		var da = JSON.stringify($("#itemAddForm").serializeJSON());
+		// alert(JSON.stringify($("#matchRankAddForm").serializeJSON()));
+		var da = JSON.stringify($("#matchRankAddForm").serializeJSON());
 		$.ajax({
 			type : 'post',
 			url : 'match/info/add',
@@ -121,7 +121,7 @@
                 }
             }
 		})
-		// $.post("match/info/add",$("#itemAddForm").serialize(), function(data){
+		// $.post("match/info/add",$("#matchRankAddForm").serialize(), function(data){
 		// 	if(data.code == 200){
 		// 		$.messager.alert('提示','新增商品成功!');
 		// 	}
@@ -129,7 +129,7 @@
 	}
 	/* 清空表单 */
 	function clearForm(){
-		$('#itemAddForm').form('reset');
+		$('#matchRankAddForm').form('reset');
 		itemAddEditor.html('');
 	}
 

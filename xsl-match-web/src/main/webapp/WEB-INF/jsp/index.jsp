@@ -21,18 +21,18 @@
 </head>
 <body class="easyui-layout">
     <!-- 头部标题 -->
-	<div data-options="region:'north',border:false" style="height:60px; padding:5px; background:#F3F3F3"> 
-		<span class="northTitle">宜立方商城后台管理系统</span>
-	    <span class="loginInfo">登录用户：admin&nbsp;&nbsp;姓名：管理员&nbsp;&nbsp;角色：系统管理员</span>
+	<div data-options="region:'north',border:false" style=height:60px; padding:5px; background:#F3F3F3">
+	<span class="northTitle">后台管理系统</span>
+	<span class="loginInfo">登录用户：admin&nbsp;&nbsp;姓名：管理员&nbsp;&nbsp;角色：系统管理员</span>
 	</div>
-    <div data-options="region:'west',title:'菜单',split:true" style="width:180px;">
-    	<ul id="menu" class="easyui-tree" style="margin-top: 10px;margin-left: 5px;">
+	<div data-options="region:'west',title:'菜单',split:true" style="width:180px;">
+		<ul id="menu" class="easyui-tree" style="margin-top: 10px;margin-left: 5px;">"
          	<li>
-         		<span>商品管理</span>
+         		<span>比赛管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'item-add'}">添加比赛</li>
-	         		<li data-options="attributes:{'url':'item-list'}">查询商品</li>
-	         		<li data-options="attributes:{'url':'item-param-list'}">规格参数</li>
+	         		<li data-options="attributes:{'url':'match-add'}">添加比赛</li>
+	         		<li data-options="attributes:{'url':'match-list'}">比赛管理</li>
+	         		<li data-options="attributes:{'url':'match-rank-list'}">比赛等级管理</li>
 	         	</ul>
          	</li>
          	<li>

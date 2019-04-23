@@ -6,9 +6,10 @@ import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.MatchForm;
 import com.xsl.enums.MatchState;
 import com.xsl.pojo.XslMatch;
-import com.xsl.pojo.XslMatchRank;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslMatchMapper;
@@ -17,7 +18,7 @@ import xsl.match.service.XslMatchService;
 import java.util.*;
 
 /**
- * 说明：
+ * 说明：比赛信息相关操作
  *
  * @Auther: 11432_000
  * @Date: 2019/4/21 14:19
@@ -25,6 +26,8 @@ import java.util.*;
  */
 @Service
 public class XslMatchServiceImpl implements XslMatchService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(XslMatchServiceImpl.class);
 
     private static final String FORM_KEY = "matchForm";
     private static final String FORM_INFO = "matchFormName";
@@ -77,8 +80,10 @@ public class XslMatchServiceImpl implements XslMatchService {
         }
         int insert = xslMatchMapper.insert(xslMatch);
         if (insert <= 0){
+            LOGGER.info("添加数据失败");
             return ResultUtils.isError("XslMatch插入失败");
         }
+        LOGGER.info("添加数据 matchId =" + matchId + " 成功");
         return ResultUtils.isOk();
     }
 
@@ -118,8 +123,10 @@ public class XslMatchServiceImpl implements XslMatchService {
 
         int i = xslMatchMapper.updateByMatchId(xslMatch);
         if (i <= 0){
+            LOGGER.info("更新数据 matchId =" + xslMatch.getMatchId() + " 失败");
             return ResultUtils.isError("更新数据失败");
         }
+        LOGGER.info("更新数据 matchId =" + xslMatch.getMatchId() + " 成功");
         return ResultUtils.isOk();
     }
 
@@ -142,5 +149,66 @@ public class XslMatchServiceImpl implements XslMatchService {
             list.add(map);
         }
         return list;
+    }
+
+    /**
+     *
+     * 功能描述: 删除一条或多条数据
+     *
+     * @param: [matchIds]
+     * @return: com.xsl.result.XslResult
+     * @auther: 11432_000
+     * @date: 2019/4/23 14:48
+     */
+    public XslResult deleteMatchInfoByIds(String matchIds) {
+        if (matchIds == null){
+            LOGGER.info("删除数据matchId为null");
+            return ResultUtils.isParameterError();
+        }
+        String[] split = matchIds.split(",");
+        if (split.length == 0){
+            return ResultUtils.isParameterError();
+        }
+        for (String matchId : split){
+            int i = xslMatchMapper.deleteByMatchId(matchId);
+            if (i <= 0){
+                LOGGER.info("删除数据 matchId =" +  matchId + " 失败");
+                return ResultUtils.isError("删除数据{" + matchId + "}失败");
+            }
+        }
+        LOGGER.info("删除数据 matchId = [" +  matchIds + "] 成功");
+        return ResultUtils.isOk();
+    }
+
+    /**
+     *
+     * 功能描述: 根据matchId修改比赛状态
+     *
+     * @param: [matchId, state]
+     * @return: com.xsl.result.XslResult
+     * @auther: 11432_000
+     * @date: 2019/4/23 16:24
+     */
+    public XslResult updateMatchState(String matchIds,Integer state) {
+        if (matchIds == null){
+            LOGGER.info("更新比赛状态 matchId 为null");
+            return ResultUtils.isParameterError();
+        }
+        String[] split = matchIds.split(",");
+        if (split.length == 0){
+            return ResultUtils.isParameterError();
+        }
+        XslMatch xslMatch = new XslMatch();
+        for (String matchId : split){
+            xslMatch.setMatchId(matchId);
+            xslMatch.setMatchState(state);
+            int i = xslMatchMapper.updateMatchState(xslMatch);
+            if (i <= 0){
+                LOGGER.info("更新比赛状态 matchId =" +  matchId + " 失败");
+                return ResultUtils.isError();
+            }
+        }
+        LOGGER.info("更新比赛状态 matchId = [" +  matchIds + "] 成功");
+        return ResultUtils.isOk();
     }
 }

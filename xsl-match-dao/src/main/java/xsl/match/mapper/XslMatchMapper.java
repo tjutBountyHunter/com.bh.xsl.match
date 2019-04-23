@@ -12,10 +12,11 @@ public interface XslMatchMapper {
     /** 查询所有数据 根据指定属性排序 默认为matchCreateTime*/
     List<XslMatch> selectAll(String orderBy);
     /** 根据比赛ID删除数据 */
-    int removeByMatchId(String matchId);
+    int deleteByMatchId(String matchId);
     /** 根据比赛ID更新数据 */
     int updateByMatchId(XslMatch xslMatch);
     /** 添加一条数据 */
     int insert(XslMatch xslMatch);
-
+    /** 更新比赛状态 */
+    int updateMatchState(XslMatch xslMatch);
 }

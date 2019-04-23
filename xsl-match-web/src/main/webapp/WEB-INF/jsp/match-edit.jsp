@@ -4,7 +4,7 @@
 <script type="text/javascript" charset="utf-8" src="/js/kindeditor-4.1.10/lang/zh_CN.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/jquery.serializejson.min.js"></script>
 <div style="padding:10px 10px 10px 10px">
-	<form id="itemeEditForm" class="itemForm" method="post">
+	<form id="matchEditForm" class="itemForm" method="post">
 		<table cellpadding="5">
 			<input type="text" hidden="hidden" name="matchId">
 			<tr>
@@ -21,7 +21,7 @@
 			<tr>
 				<td>比赛状态:</td>
 				<td>
-					<input type="text" id="classNam" class="easyui-combobox" name="matchRankId"
+					<input type="text" id="classNam" class="easyui-combobox" name="matchState"
 						   data-options="valueField:'matchState',textField:'matchStateInfo',url:'match/info/select/state',required:true,editable:false" />
 				</td>
 			</tr>
@@ -108,7 +108,7 @@
     //提交表单
     function submitForm(){
         //有效性验证
-        if(!$('#itemeEditForm').form('validate')){
+        if(!$('#matchEditForm').form('validate')){
             $.messager.alert('提示','表单还未填写完成!');
             return ;
         }
@@ -116,30 +116,37 @@
             $.messager.alert('提示','表单填写有误!');
             return ;
         }
-        // alert(JSON.stringify($("#itemeEditForm").serializeJSON()));
-        var da = JSON.stringify($("#itemeEditForm").serializeJSON());
-        $.ajax({
-            type : 'post',
-            url : 'match/info/edit',
-            data : da,
-            contentType : 'application/json; charset=utf-8',
-            dataType : 'json',
-            success : function (data) {
-                if(data.code == 200){
-                    $.messager.alert('提示','修改比赛成功!');
-                }
+        // alert(JSON.stringify($("#matchEditForm").serializeJSON()));
+        $.messager.confirm('确认','确定修改比赛吗？',function(r){
+            if (r){
+                var da = JSON.stringify($("#matchEditForm").serializeJSON());
+                $.ajax({
+                    type : 'post',
+                    url : 'match/info/edit',
+                    data : da,
+                    contentType : 'application/json; charset=utf-8',
+                    dataType : 'json',
+                    success : function (data) {
+                        if(data.code == 200){
+                            $.messager.alert('提示','修改比赛成功!');
+                            $('#matchEditWindow').window('close');
+                            $('#matchList').datagrid('reload');
+                        }
+                    }
+                })
             }
-        })
+        });
+
     }
     /* 清空表单 */
     function clearForm(){
-        $('#itemeEditForm').form('reset');
+        $('#matchEditForm').form('reset');
         itemAddEditor.html('');
     }
 
     /* 关闭页面 */
 	function winClose(){
-	    $('#itemEditWindow').window('close');
+	    $('#matchEditWindow').window('close');
 	}
 
     $(document).ready(function () {

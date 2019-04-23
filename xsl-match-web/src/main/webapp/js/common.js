@@ -54,7 +54,7 @@ var E3 = {
             return '比赛结束';
         }
         if (val == 6) {
-            return '比赛已删除';
+            return '比赛禁用';
         }
     },
     formatRank : function(val,row){

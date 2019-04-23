@@ -1,7 +1,6 @@
 package xsl.match.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -19,18 +18,28 @@ public class PageController {
         return "index";
     }
 
-    @RequestMapping("/item-add")
+    @RequestMapping("/match-add")
     public String matchAdd(){
-        return "item-add";
+        return "match-add";
     }
 
-    @RequestMapping("/item-list")
+    @RequestMapping("/match-list")
     public String matchList(){
-        return "item-list";
+        return "match-list";
     }
 
-    @RequestMapping("/item-edit")
+    @RequestMapping("/match-edit")
     public String editMatch(){
-        return "item-edit";
+        return "match-edit";
+    }
+
+    @RequestMapping("/match-rank-list")
+    public String matchRankList(){
+        return "match-rank-list";
+    }
+
+    @RequestMapping("/match-rank-edit")
+    public String editMatchRank(){
+        return "match-rank-edit";
     }
 }

@@ -9,7 +9,7 @@ package com.xsl.enums;
  * @Description:
  */
 public enum  StatusCode {
-    SUCCESS(200,"成功"),EXCEPTION(500,"服务器异常"),TIMEOUT(502,"超时");
+    SUCCESS(200,"成功"),EXCEPTION(500,"服务器异常"),TIMEOUT(502,"超时"),PARAMETER_ERROR(400,"参数错误");
 
     private Integer code;
     private String msg;

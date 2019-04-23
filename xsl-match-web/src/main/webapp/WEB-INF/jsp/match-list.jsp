@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<table class="easyui-datagrid" id="itemList" title="商品列表" 
+<table class="easyui-datagrid" id="matchList" title="比赛列表"
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/info/list',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
@@ -10,6 +10,7 @@
             <th data-options="field:'matchState',width:80,align:'center',formatter:E3.formatMatchStatus">状态</th>
             <th data-options="field:'matchCreateTime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
             <th data-options="field:'matchRankId',width:100,align:'center',formatter:E3.formatRank">比赛等级</th>
+            <%-- 比赛信息的其余属性 --%>
             <%--<th id="hidden-matchSignUpStartTime" data-options="field:'matchSignUpStartTime',width:10,align:'center',formatter:E3.formatDate"></th>--%>
             <%--<th id="hidden-matchSignUpEndTime" data-options="field:'matchSignUpEndTime',width:10,align:'center',formatter:E3.formatDate"></th>--%>
             <%--<th id="hidden-matchSignUpMaxNum" data-options="field:'matchSignUpMaxNum',width:10"></th>--%>
@@ -21,22 +22,32 @@
         </tr>
     </thead>
 </table>
-<div id="itemEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'item-edit'" style="width:80%;height:80%;padding:10px;">
-</div>
-<div>
-    <button id="button" >buu</button>
+<div id="matchEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'match-edit'" style="width:80%;height:80%;padding:10px;">
 </div>
 <script>
 
+    /* 获取被选中数据的MatchId */
     function getSelectionsIds(){
-    	var itemList = $("#itemList");
-    	var sels = itemList.datagrid("getSelections");
+    	var matchList = $("#matchList");
+    	var sels = matchList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].id);
+    		ids.push(sels[i].matchId);
     	}
     	ids = ids.join(",");
     	return ids;
+    }
+
+    /* 获取被选中数据的MatchName */
+    function getSelectionsNames(){
+        var matchList = $("#matchList");
+        var sels = matchList.datagrid("getSelections");
+        var names = [];
+        for(var i in sels){
+            names.push(sels[i].matchName);
+        }
+        names = names.join(",");
+        return names;
     }
 
     /* Date 数据格式化 yyyy-MM-dd */
@@ -61,16 +72,17 @@
         		$.messager.alert('提示','只能选择一个商品!');
         		return ;
         	}
-        	$("#itemEditWindow").window({
+        	$("#matchEditWindow").window({
         		onLoad :function(){
-        			//回显数据
-                    var data = $("#itemList").datagrid("getSelections")[0];
+        			// 取出被选中数据
+                    var data = $("#matchList").datagrid("getSelections")[0];
         			// 毫秒 转 标准日期
                     data.matchSignUpStartTime = myformatter(new Date(data.matchSignUpStartTime));
                     data.matchSignUpEndTime = myformatter(new Date(data.matchSignUpEndTime));
                     data.matchStartTime = myformatter(new Date(data.matchStartTime));
                     data.matchEndTime = myformatter(new Date(data.matchEndTime));
-        			$("#itemeEditForm").form("load",data);
+                    // 为表单提供数据
+        			$("#matchEditForm").form("load",data);
         		}
         	}).window("open");
         }
@@ -79,54 +91,61 @@
         iconCls:'icon-cancel',
         handler:function(){
         	var ids = getSelectionsIds();
+        	var names = getSelectionsNames();
         	if(ids.length == 0){
         		$.messager.alert('提示','未选中商品!');
         		return ;
         	}
-        	$.messager.confirm('确认','确定删除ID为 '+ids+' 的商品吗？',function(r){
+        	$.messager.confirm('确认','确定删除比赛 : ['+ names +'] 吗？',function(r){
         	    if (r){
-        	    	var params = {"ids":ids};
-                	$.post("/rest/item/delete",params, function(data){
-            			if(data.status == 200){
-            				$.messager.alert('提示','删除商品成功!',undefined,function(){
-            					$("#itemList").datagrid("reload");
-            				});
-            			}
-            			if(data.status == 500){
-            				$.messager.alert('提示','删除商品失败!');
-            			}
-            		});
+        	    	var params = {"matchIds":ids};
+                	$.ajax({
+                        method : 'get',
+                        data : params,
+                        url : 'match/info/delete',
+                        contentType : 'application/json; charset=utf-8',
+                        dataType : 'json',
+                        success : function (data) {
+                            if (data.code == 200){
+                                $.messager.alert('提示','比赛删除成功!');
+                                $('#matchList').datagrid('reload');
+                            }
+                        }
+                    })
         	    }
         	});
         }
     },'-',{
-        text:'上架',
+        text:'禁用比赛',
         iconCls:'icon-remove',
         handler:function(){
         	var ids = getSelectionsIds();
+        	var names = getSelectionsNames();
         	if(ids.length == 0){
         		$.messager.alert('提示','未选中商品!');
         		return ;
         	}
-        	$.messager.confirm('确认','确定上架ID为 '+ids+' 的商品吗？',function(r){
+        	$.messager.confirm('确认','确定禁用比赛 '+ names +' 吗？',function(r){
         	    if (r){
-        	    	var params = {"ids":ids};
-                	$.post("/rest/item/reshelf",params, function(data){
-            			if(data.status == 200){
-            				$.messager.alert('提示','上架商品成功!',undefined,function(){
-            					$("#itemList").datagrid("reload");
-            				});
-            			}
-            		});
+                    var params = {"matchIds":ids};
+                    $.ajax({
+                        method : 'get',
+                        data : params,
+                        url : 'match/info/update/disableMatch',
+                        contentType : 'application/json; charset=utf-8',
+                        dataType : 'json',
+                        success : function (data) {
+                            if (data.code == 200){
+                                $.messager.alert('提示','比赛禁用成功!');
+                                $('#matchList').datagrid('reload');
+                            }
+                        }
+                    })
         	    }
         	});
         }
     }];
     $(document).ready(function () {
-        $('#hidden-matchSignUpStartTime').hide();
-        $('#button').click(function () {
-            var data = $("#itemList").datagrid("getSelections")[0];
-            alert(data.matchId + "   " + data.matchState);
-        })
+
     })
 </script>

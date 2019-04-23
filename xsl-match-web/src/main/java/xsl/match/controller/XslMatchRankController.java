@@ -1,6 +1,7 @@
 package xsl.match.controller;
 
 import com.xsl.pojo.XslMatchRank;
+import com.xsl.result.XslResult;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,13 @@ public class XslMatchRankController {
     public XslMatchRank getRank(@Param("rankId") Integer rankId){
         XslMatchRank allRank = rankService.getRank(rankId);
         return allRank;
+    }
+
+    @RequestMapping("/edit")
+    @ResponseBody
+    public XslResult editMatchRankInfo(@RequestBody XslMatchRank xslMatchRank){
+        XslResult xslResult = rankService.updateMatchRankInfo(xslMatchRank);
+        return xslResult;
     }
 
 }

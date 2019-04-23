@@ -1,0 +1,588 @@
+
+
+[INFO ] 2019-04-23 20:53:31,461 method:org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:484)
+FrameworkServlet 'xsl-matchteam': initialization started
+
+
+[INFO ] 2019-04-23 20:53:31,484 method:org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:510)
+Refreshing WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 20:53:31 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 20:53:31,525 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-dao.xml]
+
+
+[INFO ] 2019-04-23 20:53:31,758 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-redis.xml]
+
+
+[INFO ] 2019-04-23 20:53:31,782 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-service.xml]
+
+
+[INFO ] 2019-04-23 20:53:31,890 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-trans.xml]
+
+
+[INFO ] 2019-04-23 20:53:31,961 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\springmvc.xml]
+
+
+[INFO ] 2019-04-23 20:53:32,434 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from class path resource [conf/db.properties]
+
+
+[INFO ] 2019-04-23 20:53:32,455 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\db.properties]
+
+
+[INFO ] 2019-04-23 20:53:32,455 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\fileConfig.properties]
+
+
+[INFO ] 2019-04-23 20:53:32,456 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\log4j.properties]
+
+
+[INFO ] 2019-04-23 20:53:32,461 method:org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:153)
+JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+
+
+[INFO ] 2019-04-23 20:53:34,362 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/file/image/upload],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.HashMap<java.lang.String, java.lang.Object> xsl.match.controller.FileController.oneImageUpload(org.springframework.web.multipart.MultipartFile)
+
+
+[INFO ] 2019-04-23 20:53:34,364 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.index()
+
+
+[INFO ] 2019-04-23 20:53:34,364 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchAdd()
+
+
+[INFO ] 2019-04-23 20:53:34,365 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchList()
+
+
+[INFO ] 2019-04-23 20:53:34,365 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.editMatch()
+
+
+[INFO ] 2019-04-23 20:53:34,365 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-rank-list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchRankList()
+
+
+[INFO ] 2019-04-23 20:53:34,368 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/select/form],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<java.util.HashMap<java.lang.String, java.lang.String>> xsl.match.controller.XslMatchController.getAllForm()
+
+
+[INFO ] 2019-04-23 20:53:34,369 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/select/state],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<java.util.HashMap<java.lang.String, java.lang.String>> xsl.match.controller.XslMatchController.getAllState()
+
+
+[INFO ] 2019-04-23 20:53:34,369 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.EasyUIDataGridResult xsl.match.controller.XslMatchController.getMatchList(java.lang.Integer,java.lang.Integer)
+
+
+[INFO ] 2019-04-23 20:53:34,370 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.addAMatchInfo(com.xsl.pojo.XslMatch)
+
+
+[INFO ] 2019-04-23 20:53:34,370 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.editMatchInfo(com.xsl.pojo.XslMatch)
+
+
+[INFO ] 2019-04-23 20:53:34,371 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/update/disableMatch],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.disableMatch(java.lang.String)
+
+
+[INFO ] 2019-04-23 20:53:34,372 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/delete],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.deleteSomeMatch(java.lang.String)
+
+
+[INFO ] 2019-04-23 20:53:34,373 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/select],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.pojo.XslMatchRank xsl.match.controller.XslMatchRankController.getRank(java.lang.Integer)
+
+
+[INFO ] 2019-04-23 20:53:34,374 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/selectAll],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<com.xsl.pojo.XslMatchRank> xsl.match.controller.XslMatchRankController.getAllRank()
+
+
+[INFO ] 2019-04-23 20:53:34,375 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/oriented/selectAll],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<com.xsl.pojo.XslOriented> xsl.match.controller.XslOrientedController.getAllOriented()
+
+
+[INFO ] 2019-04-23 20:53:34,911 method:org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache(RequestMappingHandlerAdapter.java:518)
+Looking for @ControllerAdvice: WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 20:53:31 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 20:53:35,062 method:org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache(RequestMappingHandlerAdapter.java:518)
+Looking for @ControllerAdvice: WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 20:53:31 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 20:53:35,424 method:org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.registerHandler(AbstractUrlHandlerMapping.java:314)
+Mapped URL path [/css/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#0'
+
+
+[INFO ] 2019-04-23 20:53:35,434 method:org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.registerHandler(AbstractUrlHandlerMapping.java:314)
+Mapped URL path [/js/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#1'
+
+
+[INFO ] 2019-04-23 20:53:35,622 method:org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:503)
+FrameworkServlet 'xsl-matchteam': initialization completed in 4159 ms
+
+
+[INFO ] 2019-04-23 20:56:27,838 method:org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:484)
+FrameworkServlet 'xsl-matchteam': initialization started
+
+
+[INFO ] 2019-04-23 20:56:27,871 method:org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:510)
+Refreshing WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 20:56:27 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 20:56:27,960 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-dao.xml]
+
+
+[INFO ] 2019-04-23 20:56:28,164 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-redis.xml]
+
+
+[INFO ] 2019-04-23 20:56:28,259 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-service.xml]
+
+
+[INFO ] 2019-04-23 20:56:28,404 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-trans.xml]
+
+
+[INFO ] 2019-04-23 20:56:28,522 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\springmvc.xml]
+
+
+[INFO ] 2019-04-23 20:56:29,300 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from class path resource [conf/db.properties]
+
+
+[INFO ] 2019-04-23 20:56:29,317 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\db.properties]
+
+
+[INFO ] 2019-04-23 20:56:29,317 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\fileConfig.properties]
+
+
+[INFO ] 2019-04-23 20:56:29,318 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\log4j.properties]
+
+
+[INFO ] 2019-04-23 20:56:29,326 method:org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:153)
+JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+
+
+[INFO ] 2019-04-23 20:56:31,112 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/file/image/upload],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.HashMap<java.lang.String, java.lang.Object> xsl.match.controller.FileController.oneImageUpload(org.springframework.web.multipart.MultipartFile)
+
+
+[INFO ] 2019-04-23 20:56:31,112 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.index()
+
+
+[INFO ] 2019-04-23 20:56:31,113 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchAdd()
+
+
+[INFO ] 2019-04-23 20:56:31,113 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.editMatch()
+
+
+[INFO ] 2019-04-23 20:56:31,114 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-rank-list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchRankList()
+
+
+[INFO ] 2019-04-23 20:56:31,115 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchList()
+
+
+[INFO ] 2019-04-23 20:56:31,116 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/select/state],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<java.util.HashMap<java.lang.String, java.lang.String>> xsl.match.controller.XslMatchController.getAllState()
+
+
+[INFO ] 2019-04-23 20:56:31,117 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.EasyUIDataGridResult xsl.match.controller.XslMatchController.getMatchList(java.lang.Integer,java.lang.Integer)
+
+
+[INFO ] 2019-04-23 20:56:31,117 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/select/form],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<java.util.HashMap<java.lang.String, java.lang.String>> xsl.match.controller.XslMatchController.getAllForm()
+
+
+[INFO ] 2019-04-23 20:56:31,117 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/delete],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.deleteSomeMatch(java.lang.String)
+
+
+[INFO ] 2019-04-23 20:56:31,118 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.editMatchInfo(com.xsl.pojo.XslMatch)
+
+
+[INFO ] 2019-04-23 20:56:31,118 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.addAMatchInfo(com.xsl.pojo.XslMatch)
+
+
+[INFO ] 2019-04-23 20:56:31,118 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/update/disableMatch],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.disableMatch(java.lang.String)
+
+
+[INFO ] 2019-04-23 20:56:31,119 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/select],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.pojo.XslMatchRank xsl.match.controller.XslMatchRankController.getRank(java.lang.Integer)
+
+
+[INFO ] 2019-04-23 20:56:31,119 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/selectAll],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<com.xsl.pojo.XslMatchRank> xsl.match.controller.XslMatchRankController.getAllRank()
+
+
+[INFO ] 2019-04-23 20:56:31,120 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/oriented/selectAll],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<com.xsl.pojo.XslOriented> xsl.match.controller.XslOrientedController.getAllOriented()
+
+
+[INFO ] 2019-04-23 20:56:31,518 method:org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache(RequestMappingHandlerAdapter.java:518)
+Looking for @ControllerAdvice: WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 20:56:27 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 20:56:31,589 method:org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache(RequestMappingHandlerAdapter.java:518)
+Looking for @ControllerAdvice: WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 20:56:27 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 20:56:31,732 method:org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.registerHandler(AbstractUrlHandlerMapping.java:314)
+Mapped URL path [/css/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#0'
+
+
+[INFO ] 2019-04-23 20:56:31,737 method:org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.registerHandler(AbstractUrlHandlerMapping.java:314)
+Mapped URL path [/js/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#1'
+
+
+[INFO ] 2019-04-23 20:56:31,842 method:org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:503)
+FrameworkServlet 'xsl-matchteam': initialization completed in 4001 ms
+
+
+[WARN ] 2019-04-23 20:57:04,417 method:org.springframework.web.servlet.DispatcherServlet.noHandlerFound(DispatcherServlet.java:1120)
+No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'xsl-matchteam'
+
+
+[INFO ] 2019-04-23 20:57:05,751 method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:655)
+{dataSource-1} inited
+
+
+[INFO ] 2019-04-23 20:57:30,911 method:xsl.match.service.impl.XslMatchServiceImpl.addAMatch(XslMatchServiceImpl.java:86)
+添加数据 matchId =M3a10c135-7815-4561-a339-d4ac7a387e86 成功
+
+
+[INFO ] 2019-04-23 20:57:53,676 method:xsl.match.service.impl.XslMatchServiceImpl.addAMatch(XslMatchServiceImpl.java:86)
+添加数据 matchId =Me894bb43-2e63-470e-818c-cbf764b33476 成功
+
+
+[INFO ] 2019-04-23 20:59:53,979 method:xsl.match.service.impl.XslMatchServiceImpl.deleteMatchInfoByIds(XslMatchServiceImpl.java:179)
+删除数据 matchId = [Me894bb43-2e63-470e-818c-cbf764b33476] 成功
+
+
+[INFO ] 2019-04-23 20:59:57,068 method:xsl.match.service.impl.XslMatchServiceImpl.deleteMatchInfoByIds(XslMatchServiceImpl.java:179)
+删除数据 matchId = [M3a10c135-7815-4561-a339-d4ac7a387e86] 成功
+
+
+[INFO ] 2019-04-23 21:00:21,716 method:xsl.match.service.impl.XslMatchServiceImpl.addAMatch(XslMatchServiceImpl.java:86)
+添加数据 matchId =M76035c95-673e-4bab-9a09-e0819a8b3781 成功
+
+
+[INFO ] 2019-04-23 21:00:50,602 method:xsl.match.service.impl.XslMatchServiceImpl.deleteMatchInfoByIds(XslMatchServiceImpl.java:179)
+删除数据 matchId = [M76035c95-673e-4bab-9a09-e0819a8b3781] 成功
+
+
+[INFO ] 2019-04-23 21:01:19,068 method:xsl.match.service.impl.XslMatchServiceImpl.addAMatch(XslMatchServiceImpl.java:86)
+添加数据 matchId =Md9850f5e-48b2-476c-a2d0-300cd63536e8 成功
+
+
+[INFO ] 2019-04-23 21:01:31,775 method:xsl.match.service.impl.XslMatchServiceImpl.updateMatchState(XslMatchServiceImpl.java:211)
+更新比赛状态 matchId = [Md9850f5e-48b2-476c-a2d0-300cd63536e8] 成功
+
+
+[INFO ] 2019-04-23 21:05:06,869 method:org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:484)
+FrameworkServlet 'xsl-matchteam': initialization started
+
+
+[INFO ] 2019-04-23 21:05:06,903 method:org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:510)
+Refreshing WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 21:05:06 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 21:05:06,956 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-dao.xml]
+
+
+[INFO ] 2019-04-23 21:05:07,301 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-redis.xml]
+
+
+[INFO ] 2019-04-23 21:05:07,324 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-service.xml]
+
+
+[INFO ] 2019-04-23 21:05:07,415 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-trans.xml]
+
+
+[INFO ] 2019-04-23 21:05:07,539 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\springmvc.xml]
+
+
+[INFO ] 2019-04-23 21:05:08,009 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from class path resource [conf/db.properties]
+
+
+[INFO ] 2019-04-23 21:05:08,033 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\db.properties]
+
+
+[INFO ] 2019-04-23 21:05:08,034 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\fileConfig.properties]
+
+
+[INFO ] 2019-04-23 21:05:08,034 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\log4j.properties]
+
+
+[INFO ] 2019-04-23 21:05:08,041 method:org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:153)
+JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+
+
+[INFO ] 2019-04-23 21:05:09,401 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/file/image/upload],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.HashMap<java.lang.String, java.lang.Object> xsl.match.controller.FileController.oneImageUpload(org.springframework.web.multipart.MultipartFile)
+
+
+[INFO ] 2019-04-23 21:05:09,402 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.index()
+
+
+[INFO ] 2019-04-23 21:05:09,403 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.editMatch()
+
+
+[INFO ] 2019-04-23 21:05:09,404 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-rank-edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.editMatchRank()
+
+
+[INFO ] 2019-04-23 21:05:09,408 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchList()
+
+
+[INFO ] 2019-04-23 21:05:09,409 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchAdd()
+
+
+[INFO ] 2019-04-23 21:05:09,409 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-rank-list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchRankList()
+
+
+[INFO ] 2019-04-23 21:05:09,413 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/select/form],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<java.util.HashMap<java.lang.String, java.lang.String>> xsl.match.controller.XslMatchController.getAllForm()
+
+
+[INFO ] 2019-04-23 21:05:09,415 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/select/state],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<java.util.HashMap<java.lang.String, java.lang.String>> xsl.match.controller.XslMatchController.getAllState()
+
+
+[INFO ] 2019-04-23 21:05:09,417 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.EasyUIDataGridResult xsl.match.controller.XslMatchController.getMatchList(java.lang.Integer,java.lang.Integer)
+
+
+[INFO ] 2019-04-23 21:05:09,419 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.addAMatchInfo(com.xsl.pojo.XslMatch)
+
+
+[INFO ] 2019-04-23 21:05:09,420 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/update/disableMatch],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.disableMatch(java.lang.String)
+
+
+[INFO ] 2019-04-23 21:05:09,421 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/delete],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.deleteSomeMatch(java.lang.String)
+
+
+[INFO ] 2019-04-23 21:05:09,421 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.editMatchInfo(com.xsl.pojo.XslMatch)
+
+
+[INFO ] 2019-04-23 21:05:09,422 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/select],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.pojo.XslMatchRank xsl.match.controller.XslMatchRankController.getRank(java.lang.Integer)
+
+
+[INFO ] 2019-04-23 21:05:09,422 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/selectAll],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<com.xsl.pojo.XslMatchRank> xsl.match.controller.XslMatchRankController.getAllRank()
+
+
+[INFO ] 2019-04-23 21:05:09,423 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/oriented/selectAll],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<com.xsl.pojo.XslOriented> xsl.match.controller.XslOrientedController.getAllOriented()
+
+
+[INFO ] 2019-04-23 21:05:10,296 method:org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache(RequestMappingHandlerAdapter.java:518)
+Looking for @ControllerAdvice: WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 21:05:06 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 21:05:10,404 method:org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache(RequestMappingHandlerAdapter.java:518)
+Looking for @ControllerAdvice: WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 21:05:06 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 21:05:10,531 method:org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.registerHandler(AbstractUrlHandlerMapping.java:314)
+Mapped URL path [/css/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#0'
+
+
+[INFO ] 2019-04-23 21:05:10,535 method:org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.registerHandler(AbstractUrlHandlerMapping.java:314)
+Mapped URL path [/js/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#1'
+
+
+[INFO ] 2019-04-23 21:05:10,711 method:org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:503)
+FrameworkServlet 'xsl-matchteam': initialization completed in 3838 ms
+
+
+[INFO ] 2019-04-23 21:05:19,286 method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:655)
+{dataSource-1} inited
+
+
+[ERROR] 2019-04-23 21:23:26,592 method:Test.test(Test.java:24)
+lllllllllllllllllllllllllllll
+
+
+[INFO ] 2019-04-23 21:23:47,808 method:org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:484)
+FrameworkServlet 'xsl-matchteam': initialization started
+
+
+[INFO ] 2019-04-23 21:23:47,851 method:org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:510)
+Refreshing WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 21:23:47 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 21:23:47,955 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-dao.xml]
+
+
+[INFO ] 2019-04-23 21:23:48,158 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-redis.xml]
+
+
+[INFO ] 2019-04-23 21:23:48,201 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-service.xml]
+
+
+[INFO ] 2019-04-23 21:23:48,309 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\applicationContext-trans.xml]
+
+
+[INFO ] 2019-04-23 21:23:48,402 method:org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317)
+Loading XML bean definitions from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\spring\springmvc.xml]
+
+
+[INFO ] 2019-04-23 21:23:48,881 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from class path resource [conf/db.properties]
+
+
+[INFO ] 2019-04-23 21:23:48,920 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\db.properties]
+
+
+[INFO ] 2019-04-23 21:23:48,921 method:org.springframework.core.io.support.PropertiesLoaderSupport.loadProperties(PropertiesLoaderSupport.java:172)
+Loading properties file from file [D:\git-down\xslmatchteam\xsl-match-web\target\classes\conf\fileConfig.properties]
+
+
+[INFO ] 2019-04-23 21:23:48,929 method:org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:153)
+JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+
+
+[INFO ] 2019-04-23 21:23:50,794 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/file/image/upload],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.HashMap<java.lang.String, java.lang.Object> xsl.match.controller.FileController.oneImageUpload(org.springframework.web.multipart.MultipartFile)
+
+
+[INFO ] 2019-04-23 21:23:50,796 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.index()
+
+
+[INFO ] 2019-04-23 21:23:50,797 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.editMatch()
+
+
+[INFO ] 2019-04-23 21:23:50,798 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchList()
+
+
+[INFO ] 2019-04-23 21:23:50,799 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchAdd()
+
+
+[INFO ] 2019-04-23 21:23:50,801 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-rank-list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.matchRankList()
+
+
+[INFO ] 2019-04-23 21:23:50,803 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match-rank-edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String xsl.match.controller.PageController.editMatchRank()
+
+
+[INFO ] 2019-04-23 21:23:50,806 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/select/form],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<java.util.HashMap<java.lang.String, java.lang.String>> xsl.match.controller.XslMatchController.getAllForm()
+
+
+[INFO ] 2019-04-23 21:23:50,806 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/select/state],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<java.util.HashMap<java.lang.String, java.lang.String>> xsl.match.controller.XslMatchController.getAllState()
+
+
+[INFO ] 2019-04-23 21:23:50,807 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.EasyUIDataGridResult xsl.match.controller.XslMatchController.getMatchList(java.lang.Integer,java.lang.Integer)
+
+
+[INFO ] 2019-04-23 21:23:50,807 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/delete],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.deleteSomeMatch(java.lang.String)
+
+
+[INFO ] 2019-04-23 21:23:50,808 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.addAMatchInfo(com.xsl.pojo.XslMatch)
+
+
+[INFO ] 2019-04-23 21:23:50,808 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.editMatchInfo(com.xsl.pojo.XslMatch)
+
+
+[INFO ] 2019-04-23 21:23:50,809 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/info/update/disableMatch],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchController.disableMatch(java.lang.String)
+
+
+[INFO ] 2019-04-23 21:23:50,810 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/select],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.pojo.XslMatchRank xsl.match.controller.XslMatchRankController.getRank(java.lang.Integer)
+
+
+[INFO ] 2019-04-23 21:23:50,810 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/selectAll],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<com.xsl.pojo.XslMatchRank> xsl.match.controller.XslMatchRankController.getAllRank()
+
+
+[INFO ] 2019-04-23 21:23:50,811 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/rank/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.xsl.result.XslResult xsl.match.controller.XslMatchRankController.editMatchRankInfo(com.xsl.pojo.XslMatchRank)
+
+
+[INFO ] 2019-04-23 21:23:50,811 method:org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:220)
+Mapped "{[/match/oriented/selectAll],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.List<com.xsl.pojo.XslOriented> xsl.match.controller.XslOrientedController.getAllOriented()
+
+
+[INFO ] 2019-04-23 21:23:51,469 method:org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache(RequestMappingHandlerAdapter.java:518)
+Looking for @ControllerAdvice: WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 21:23:47 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 21:23:51,573 method:org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache(RequestMappingHandlerAdapter.java:518)
+Looking for @ControllerAdvice: WebApplicationContext for namespace 'xsl-matchteam-servlet': startup date [Tue Apr 23 21:23:47 CST 2019]; root of context hierarchy
+
+
+[INFO ] 2019-04-23 21:23:51,701 method:org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.registerHandler(AbstractUrlHandlerMapping.java:314)
+Mapped URL path [/css/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#0'
+
+
+[INFO ] 2019-04-23 21:23:51,706 method:org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.registerHandler(AbstractUrlHandlerMapping.java:314)
+Mapped URL path [/js/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#1'
+
+
+[INFO ] 2019-04-23 21:23:51,853 method:org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:503)
+FrameworkServlet 'xsl-matchteam': initialization completed in 4041 ms
+
+
+[INFO ] 2019-04-23 21:24:10,653 method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:655)
+{dataSource-1} inited

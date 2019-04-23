@@ -1,9 +1,11 @@
 package xsl.match.controller;
 
 import com.xsl.Utils.ResultUtils;
+import com.xsl.enums.MatchState;
 import com.xsl.pojo.XslMatch;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -106,6 +108,37 @@ public class XslMatchController {
     public XslResult editMatchInfo(@RequestBody XslMatch xslMatch){
         XslResult xslResult = xslMatchService.updateAMatchInfo(xslMatch);
         return xslResult;
+    }
+
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    /**
+     *
+     * 功能描述: 根据MatchId删除记录
+     *
+     * @param: [matchIds]
+     * @return: com.xsl.result.XslResult
+     * @auther: 11432_000
+     * @date: 2019/4/23 15:48
+     */
+    public XslResult deleteSomeMatch(@Param("matchIds") String matchIds){
+        return xslMatchService.deleteMatchInfoByIds(matchIds);
+    }
+
+    @RequestMapping("/update/disableMatch")
+    @ResponseBody
+    /**
+     *
+     * 功能描述: 批量禁用比赛
+     *
+     * @param: [matchIds]
+     * @return: com.xsl.result.XslResult
+     * @auther: 11432_000
+     * @date: 2019/4/23 16:44
+     */
+    public XslResult disableMatch(@Param("matchIds") String matchIds){
+        return xslMatchService.updateMatchState(matchIds, MatchState.DELETE.getKey());
     }
 
 }

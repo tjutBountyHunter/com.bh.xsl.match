@@ -1,6 +1,7 @@
 package xsl.match.service;
 
 import com.xsl.pojo.XslMatchRank;
+import com.xsl.result.XslResult;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface XslMatchRankService {
     List<XslMatchRank> getAllRank();
     /** 根据id 获取等级信息 */
     XslMatchRank getRank(Integer rankId);
+    /** 更新比赛等级 */
+    XslResult updateMatchRankInfo(XslMatchRank xslMatchRank);
 }

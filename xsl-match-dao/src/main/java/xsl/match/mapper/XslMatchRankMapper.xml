@@ -5,9 +5,10 @@
     <!--<id column="Id" property="id" jdbcType="INTEGER" />-->
     <result column="matchRankId" property="matchRankId" jdbcType="VARCHAR"/>
     <result column="rankName" property="rankName" jdbcType="VARCHAR" />
+    <result column="rankInfo" property="rankInfo" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    matchRankId, rankName
+    matchRankId, rankName,rankInfo
   </sql>
   
   <select id="selectAll" resultMap="BaseResultMap">
@@ -19,5 +20,12 @@
     from xsl_match_rank
     where #{rankId}
   </select>
+
+  <update id="updateByRankId" parameterType="com.xsl.pojo.XslMatchRank">
+    update xsl_match_rank
+    set rankName = #{rankName},
+    rankInfo = #{rankInfo}
+    where matchRankId = #{matchRankId}
+  </update>
 
 </mapper>

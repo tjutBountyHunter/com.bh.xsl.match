@@ -1,3 +1,7 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import xsl.match.service.impl.XslMatchServiceImpl;
+
 import java.util.UUID;
 
 /**
@@ -13,4 +17,11 @@ public class Test {
 //        String uuid = UUID.randomUUID().toString();
 //        System.out.println(uuid);
 //    }
+private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
+
+    @org.junit.Test
+    public void test(){
+        LOGGER.error("lllllllllllllllllllllllllllll");
+    }
+
 }

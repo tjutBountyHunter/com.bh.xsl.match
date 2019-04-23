@@ -24,5 +24,16 @@ public class ResultUtils {
     public static XslResult isError(String msg){
         return new XslResult(StatusCode.EXCEPTION.getCode(),msg);
     }
+    public static XslResult isError(){
+        return isError(StatusCode.EXCEPTION.getMsg());
+    }
 
+
+    /** 发生参数异常 */
+    public static XslResult isParameterError(String msg){
+        return new XslResult(StatusCode.PARAMETER_ERROR.getCode(),msg);
+    }
+    public static XslResult isParameterError(){
+        return isParameterError(StatusCode.PARAMETER_ERROR.getMsg());
+    }
 }
