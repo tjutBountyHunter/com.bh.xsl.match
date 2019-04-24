@@ -17,4 +17,21 @@
     from xsl_oriented
   </select>
 
+  <insert id="insert" parameterType="com.xsl.pojo.XslOriented">
+    insert into xsl_oriented (orientedId, orientedName, orientedInfo)
+    values (#{orientedId},#{orientedName},#{orientedInfo})
+  </insert>
+
+  <delete id="deleteByOrientedId" parameterType="java.lang.String">
+    delete from xsl_oriented
+    where orientedId = #{orientedId}
+  </delete>
+
+  <update id="updateByOrientedId" parameterType="com.xsl.pojo.XslOriented">
+    update xsl_oriented
+    set orientedName = #{orientedName},
+     orientedInfo = #{orientedInfo}
+    where orientedId = #{orientedId}
+  </update>
+
 </mapper>

@@ -13,4 +13,8 @@ public interface XslMatchRankMapper {
     List<XslMatchRank> selectByRankId(Integer rankId);
 
     int updateByRankId(XslMatchRank xslMatchRank);
+
+    int insert(XslMatchRank xslMatchRank);
+
+    int deleteByMatchRankId(String matchRankId);
 }

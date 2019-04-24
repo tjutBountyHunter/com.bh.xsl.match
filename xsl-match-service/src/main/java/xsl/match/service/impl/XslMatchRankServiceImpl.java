@@ -1,8 +1,12 @@
 package xsl.match.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.MatchForm;
 import com.xsl.pojo.XslMatchRank;
+import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +18,7 @@ import xsl.match.service.XslMatchRankService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 说明：
@@ -39,22 +44,44 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
      * @auther: 11432_000
      * @date: 2019/4/21 14:24
      */
-    public List<XslMatchRank> getAllRank() {
-        List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectAll();
-        return xslMatchRanks;
+    public EasyUIDataGridResult getAllRank(Integer page,Integer rows) throws RuntimeException{
+        try {
+            List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectAll();
+            EasyUIDataGridResult result = new EasyUIDataGridResult();
+            result.setRows(xslMatchRanks);
+            if (page == null || rows == null){
+                return result;
+            }
+            //设置分页信息
+            PageHelper.startPage(page,rows);
+            //获取分页结果
+            PageInfo<XslMatchRank> xslMatchRankPageInfo = new PageInfo<XslMatchRank>(xslMatchRanks);
+            result.setTotal(xslMatchRankPageInfo.getTotal());
+            return result;
+        }catch (Exception e){
+            throw new RuntimeException("获取比赛信息异常:" + e.getMessage());
+        }
     }
 
     /**
      *
-     * 功能描述: 根据id获取的你信息
+     * 功能描述: 根据id获取比赛等级
      *
      * @param: [rankId]
      * @return: java.util.List<com.xsl.pojo.XslMatchRank>
      * @auther: 11432_000
      * @date: 2019/4/22 14:53
      */
-    public XslMatchRank getRank(Integer rankId) {
-        return xslMatchRankMapper.selectByRankId(rankId).get(0);
+    public XslResult getRank(Integer rankId)throws RuntimeException {
+        try{
+            List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByRankId(rankId);
+            if (xslMatchRanks == null || xslMatchRanks.size() == 0){
+                return ResultUtils.isParameterError();
+            }
+            return ResultUtils.isOk(xslMatchRanks.get(0));
+        }catch (Exception e){
+            throw new RuntimeException("获取比赛信息异常:"+ e.getMessage());
+        }
     }
 
     /**
@@ -66,12 +93,68 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
      * @auther: 11432_000
      * @date: 2019/4/23 21:16
      */
-    public XslResult updateMatchRankInfo(XslMatchRank xslMatchRank) {
-        int i = xslMatchRankMapper.updateByRankId(xslMatchRank);
-        if (i <= 0){
-            LOGGER.error("更新比赛等级信息失败");
-            return ResultUtils.isError();
+    public XslResult updateMatchRankInfo(XslMatchRank xslMatchRank)throws RuntimeException {
+        try{
+            int i = xslMatchRankMapper.updateByRankId(xslMatchRank);
+            if (i <= 0){
+                LOGGER.error("更新比赛等级信息失败");
+                return ResultUtils.isError();
+            }
+            return ResultUtils.isOk();
+        }catch (Exception e){
+            throw new RuntimeException("修改比赛等级信息异常:"+ e.getMessage());
         }
-        return ResultUtils.isOk();
+    }
+
+    public XslResult addMatchRank(XslMatchRank xslMatchRank) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 添加一条比赛记录
+         *
+         * @param: [xslMatchRank]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/4/24 15:43
+         */
+        String matchRankId = IdUtils.getUuid("MR");
+        xslMatchRank.setMatchRankId(matchRankId);
+        try{
+            int insert = xslMatchRankMapper.insert(xslMatchRank);
+            if (insert <= 0){
+                LOGGER.error("addMatchRank 添加比赛 失败");
+                return ResultUtils.isError("添加比赛等级失败");
+            }
+            return ResultUtils.isOk();
+        }catch (Exception e){
+            throw new RuntimeException("添加比赛等级异常:" + e.getMessage());
+        }
+    }
+
+    /**
+     *
+     * 功能描述: 删除一条或多条比赛等级记录
+     *
+     * @param: [matchRankIds]
+     * @return: com.xsl.result.XslResult
+     * @auther: 11432_000
+     * @date: 2019/4/24 16:20
+     */
+    public XslResult deleteMatchRanks(String matchRankIds) throws RuntimeException {
+        if (matchRankIds == null){
+            return ResultUtils.isParameterError("deleteMatchRanks() 参数为null");
+        }
+        //拆分多个id
+        String[] split = matchRankIds.split(",");
+        try {
+            for (String str : split){
+                int i = xslMatchRankMapper.deleteByMatchRankId(str);
+                if (i <= 0){
+                    return ResultUtils.isParameterError("deleteMatchRanks() 删除数据" + str + "失败");
+                }
+            }
+            return ResultUtils.isOk();
+        }catch (Exception e){
+            throw new RuntimeException("比赛等级删除异常：" + e.getMessage());
+        }
     }
 }

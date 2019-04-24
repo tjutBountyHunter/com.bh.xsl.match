@@ -1,6 +1,8 @@
 package xsl.match.service;
 
 import com.xsl.pojo.XslOriented;
+import com.xsl.result.EasyUIDataGridResult;
+import com.xsl.result.XslResult;
 
 import java.util.List;
 
@@ -13,5 +15,12 @@ import java.util.List;
  */
 public interface XslOrientedService {
     /** 获取所有面向人群 */
-    List<XslOriented> getAllXslOrienteds();
+    EasyUIDataGridResult getAllOrienteds(Integer page , Integer rows) throws RuntimeException;
+
+    /** 更新人群信息 */
+    XslResult updateOriented(XslOriented xslOriented)throws RuntimeException;
+    /** 添加一条人群 */
+    XslResult addOriented(XslOriented xslOriented)throws RuntimeException;
+    /** 删除一条或多条人群 */
+    XslResult deleteOrienteds(String matchOrientedIds)throws RuntimeException;
 }

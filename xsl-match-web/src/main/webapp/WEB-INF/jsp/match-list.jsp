@@ -22,7 +22,7 @@
         </tr>
     </thead>
 </table>
-<div id="matchEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'match-edit'" style="width:80%;height:80%;padding:10px;">
+<div id="matchEditWindow" class="easyui-window" title="编辑比赛信息" data-options="modal:true,closed:true,iconCls:'icon-save',href:'match-edit'" style="width:80%;height:80%;padding:10px;">
 </div>
 <script>
 

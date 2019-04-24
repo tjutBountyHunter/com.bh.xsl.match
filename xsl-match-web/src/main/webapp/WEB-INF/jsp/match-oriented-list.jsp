@@ -1,27 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<table class="easyui-datagrid" id="matchRankList" title="比赛等级列表"
-       data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/rank/selectAll/page',method:'get',pageSize:30,toolbar:toolbar">
+<table class="easyui-datagrid" id="matchOrientedList" title="面向人群列表"
+       data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/oriented/selectAll/page',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'matchRankId',checkbox:true"></th>
-            <th data-options="field:'rankName',width:150">等级名称</th>
-            <th data-options="field:'rankInfo',width:350">等级说明</th>
+        	<th data-options="field:'orientedId',checkbox:true"></th>
+            <th data-options="field:'orientedName',width:150">人群名称</th>
+            <th data-options="field:'orientedInfo',width:350">人群说明</th>
         </tr>
     </thead>
 </table>
-<div id="editRankWindow" class="easyui-window" title="编辑等级" data-options="modal:true,closed:true,iconCls:'icon-save',href:'match-rank-edit'" style="width:80%;height:80%;padding:10px;">
+<div id="editOrientedWindow" class="easyui-window" title="编辑人群" data-options="modal:true,closed:true,iconCls:'icon-save',href:'match-oriented-edit'" style="width:80%;height:80%;padding:10px;">
 </div>
-<div id="addRankWindow" class="easyui-window" title="添加等级" data-options="modal:true,closed:true,iconCls:'icon-save',href:'match-rank-add'" style="width:80%;height:80%;padding:10px;">
+<div id="addOrientedWindow" class="easyui-window" title="添加人群" data-options="modal:true,closed:true,iconCls:'icon-save',href:'match-oriented-add'" style="width:80%;height:80%;padding:10px;">
 </div>
 <script>
 
     /* 获取被选中数据的MatchId */
     function getSelectionsIds(){
-    	var matchRankList = $("#matchRankList");
-    	var sels = matchRankList.datagrid("getSelections");
+    	var matchOrientedList = $("#matchOrientedList");
+    	var sels = matchOrientedList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].matchRankId);
+    		ids.push(sels[i].orientedId);
     	}
     	ids = ids.join(",");
     	return ids;
@@ -29,11 +29,11 @@
 
     /* 获取被选中数据的MatchName */
     function getSelectionsNames(){
-        var matchRankList = $("#matchRankList");
-        var sels = matchRankList.datagrid("getSelections");
+        var matchOrientedList = $("#matchOrientedList");
+        var sels = matchOrientedList.datagrid("getSelections");
         var names = [];
         for(var i in sels){
-            names.push(sels[i].rankName);
+            names.push(sels[i].orientedName);
         }
         names = names.join(",");
         return names;
@@ -52,12 +52,12 @@
         		$.messager.alert('提示','只能选择一项!');
         		return ;
         	}
-        	$("#editRankWindow").window({
+        	$("#editOrientedWindow").window({
         		onLoad :function(){
         			// 取出被选中数据
-                    var data = $("#matchRankList").datagrid("getSelections")[0];
+                    var data = $("#matchOrientedList").datagrid("getSelections")[0];
                     // 为表单提供数据
-        			$("#matchRankEditForm").form("load",data);
+        			$("#matchOrientedEditForm").form("load",data);
         		}
         	}).window("open");
         }
@@ -71,19 +71,19 @@
         		$.messager.alert('提示','未选中记录!');
         		return ;
         	}
-        	$.messager.confirm('确认','确定删除比赛等级 : ['+ names +'] 吗？',function(r){
+        	$.messager.confirm('确认','确定删除 : ['+ names +'] 吗？',function(r){
         	    if (r){
-        	    	var params = {"matchRankIds":ids};
+        	    	var params = {"OrientedIds":ids};
                 	$.ajax({
                         method : 'get',
                         data : params,
-                        url : 'match/rank/delete',
+                        url : 'match/oriented/delete',
                         contentType : 'application/json; charset=utf-8',
                         dataType : 'json',
                         success : function (data) {
                             if (data.code == 200){
-                                $.messager.alert('提示','比赛等级删除成功!');
-                                $('#matchRankList').datagrid('reload');
+                                $.messager.alert('提示','删除成功!');
+                                $('#matchOrientedList').datagrid('reload');
                             }
                         }
                     })
@@ -94,7 +94,7 @@
         text:'新增',
         iconCls:'icon-add',
         handler:function() {
-            $("#addRankWindow").window().window("open");
+            $("#addOrientedWindow").window().window("open");
         }
     }]
     $(document).ready(function () {

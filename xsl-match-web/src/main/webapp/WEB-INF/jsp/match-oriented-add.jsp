@@ -4,22 +4,18 @@
 <script type="text/javascript" charset="utf-8" src="/js/kindeditor-4.1.10/lang/zh_CN.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/jquery.serializejson.min.js"></script>
 <div style="padding:10px 10px 10px 10px">
-	<form id="matchRankAddForm" class="itemForm" method="post">
+	<form id="matchOrientedAddForm" class="itemForm" method="post">
 		<table cellpadding="5">
-			<input type="text" hidden="hidden" name="matchId">
-			<%--<tr>--%>
-				<%--<td>ID:</td>--%>
-				<%--<td><input class="easyui-textbox" type="text" name="matchRankId" data-options="readonly:true" style="width: 280px;"></input></td>--%>
-			<%--</tr>--%>
+			<input type="text" hidden="hidden" name="orientedId">
 			<tr>
-				<td>级别名称:</td>
+				<td>人群名称:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="rankName" data-options="required:true" style="width: 280px;"></input>
+					<input class="easyui-textbox" type="text" name="orientedName" data-options="required:true" style="width: 280px;"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>说明:</td>
-				<td><input class="easyui-textbox" type="text" name="rankInfo" data-options="" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="orientedInfo" data-options="" style="width: 280px;"></input></td>
 			</tr>
 		</table>
 	</form>
@@ -33,11 +29,11 @@
 	//提交表单
 	function submitForm(){
 		//有效性验证
-		if(!$('#matchRankAddForm').form('validate')){
+		if(!$('#matchOrientedAddForm').form('validate')){
 			$.messager.alert('提示','表单还未填写完成!');
 			return ;
 		}
-		var da = JSON.stringify($("#matchRankAddForm").serializeJSON());
+		var da = JSON.stringify($("#matchOrientedAddForm").serializeJSON());
 		$.ajax({
 			type : 'post',
 			url : 'match/oriented/add',
@@ -46,16 +42,16 @@
 			dataType : 'json',
 			success : function (data) {
                 if(data.code == 200){
-                    $.messager.alert('提示','新增等级成功!');
-                    $('#addRankWindow').window('close');
-                    $('#matchRankList').datagrid('reload');
+                    $.messager.alert('提示','新增人群成功!');
+                    $('#addOrientedWindow').window('close');
+                    $('#matchOrientedList').datagrid('reload');
                 }
             }
 		})
 	}
 	/* 清空表单 */
 	function clearForm(){
-		$('#matchRankAddForm').form('reset');
+		$('#matchOrientedAddForm').form('reset');
 		itemAddEditor.html('');
 	}
 

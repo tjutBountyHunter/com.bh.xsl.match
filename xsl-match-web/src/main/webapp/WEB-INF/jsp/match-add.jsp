@@ -14,7 +14,7 @@
 	            <td>选择比赛级别:</td>
 				<td>
 					<input type="text" id="className" class="easyui-combobox" name="matchRankId"
-						   data-options="valueField:'matchRankId',textField:'rankName',url:'match/rank/selectAll',prompt: '请选择比赛级别',required:true,editable:false" />
+						   data-options="valueField:'matchRankId',textField:'rankName',url:'match/rank/selectAll/list',prompt: '请选择比赛级别',required:true,editable:false" />
 				</td>
 	        </tr>
 	        <tr>
@@ -26,7 +26,7 @@
 	        <tr>
 	            <td>面向人群:</td>
 	            <td><input class="easyui-combobox" type="text" name="matchOrientedId"  data-options="valueField:'orientedId',
-	             			textField:'orientedName',url:'match/oriented/selectAll',prompt: '请选择面向人群',required:true,editable:false" />
+	             			textField:'orientedName',url:'match/oriented/selectAll/list',prompt: '请选择面向人群',required:true,editable:false" />
 
 	            </td>
 	        </tr>

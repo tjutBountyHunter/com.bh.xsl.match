@@ -28,4 +28,14 @@
     where matchRankId = #{matchRankId}
   </update>
 
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatchRank">
+    insert into xsl_match_rank (matchRankId, rankName,rankInfo)
+    values (#{matchRankId},#{rankName},#{rankInfo})
+  </insert>
+
+  <delete id="deleteByMatchRankId" parameterType="java.lang.String">
+    delete from xsl_match_rank
+    where matchRankId = #{matchRankId}
+  </delete>
+
 </mapper>

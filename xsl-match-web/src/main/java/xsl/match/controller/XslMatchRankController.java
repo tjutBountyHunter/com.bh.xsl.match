@@ -1,6 +1,7 @@
 package xsl.match.controller;
 
 import com.xsl.pojo.XslMatchRank;
+import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ import java.util.List;
 public class XslMatchRankController {
 
     @Autowired
-    XslMatchRankService rankService;
+    XslMatchRankService xslMatchRankService;
 
-    @RequestMapping("/selectAll")
+    @RequestMapping("/selectAll/page")
     @ResponseBody
     /**
      *
@@ -39,24 +40,52 @@ public class XslMatchRankController {
      * @auther: 11432_000
      * @date: 2019/4/21 14:26
      */
-    public List<XslMatchRank> getAllRank(){
-        ArrayList<XslMatchRank> allRank =(ArrayList<XslMatchRank>) rankService.getAllRank();
+    public EasyUIDataGridResult getAllRankPage(Integer page,Integer rows){
+        EasyUIDataGridResult allRank = xslMatchRankService.getAllRank(page,rows);
         return allRank;
+    }
+
+    @RequestMapping("/selectAll/list")
+    @ResponseBody
+    /**
+     *
+     * 功能描述: 获取所有比赛等级
+     *
+     * @param: []
+     * @return: java.util.List<com.xsl.pojo.XslMatchRank>
+     * @auther: 11432_000
+     * @date: 2019/4/21 14:26
+     */
+    public List<XslMatchRank> getAllRankList(){
+        EasyUIDataGridResult allRank = xslMatchRankService.getAllRank(null,null);
+        return allRank.getRows();
     }
 
 
     @RequestMapping("/select")
     @ResponseBody
     public XslMatchRank getRank(@Param("rankId") Integer rankId){
-        XslMatchRank allRank = rankService.getRank(rankId);
+        XslMatchRank allRank =(XslMatchRank) xslMatchRankService.getRank(rankId).getData();
         return allRank;
     }
 
     @RequestMapping("/edit")
     @ResponseBody
     public XslResult editMatchRankInfo(@RequestBody XslMatchRank xslMatchRank){
-        XslResult xslResult = rankService.updateMatchRankInfo(xslMatchRank);
+        XslResult xslResult = xslMatchRankService.updateMatchRankInfo(xslMatchRank);
         return xslResult;
+    }
+
+    @RequestMapping("/add")
+    @ResponseBody
+    public XslResult addMatchRank(@RequestBody XslMatchRank xslMatchRank){
+        return xslMatchRankService.addMatchRank(xslMatchRank);
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public  XslResult deleteMatchRanks(@Param("matchRankIds") String matchRankIds){
+        return xslMatchRankService.deleteMatchRanks(matchRankIds);
     }
 
 }

@@ -33,6 +33,7 @@
 	         		<li data-options="attributes:{'url':'match-add'}">添加比赛</li>
 	         		<li data-options="attributes:{'url':'match-list'}">比赛管理</li>
 	         		<li data-options="attributes:{'url':'match-rank-list'}">比赛等级管理</li>
+					<li data-options="attributes:{'url':'match-oriented-list'}">比赛人群管理</li>
 	         	</ul>
          	</li>
          	<li>
