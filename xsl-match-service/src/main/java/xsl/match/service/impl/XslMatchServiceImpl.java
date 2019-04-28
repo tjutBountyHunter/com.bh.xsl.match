@@ -2,15 +2,23 @@ package xsl.match.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xsl.Utils.JedisUtils;
+import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.ResultUtils;
+import com.xsl.annotation.DeleteMatch;
+import com.xsl.annotation.SelectMatch;
+import com.xsl.annotation.UpdateMatch;
+import com.xsl.enums.DataStates;
 import com.xsl.enums.MatchForm;
 import com.xsl.enums.MatchState;
+import com.xsl.enums.ResultCode;
 import com.xsl.pojo.XslMatch;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslMatchMapper;
 import xsl.match.service.XslMatchService;
@@ -34,8 +42,12 @@ public class XslMatchServiceImpl implements XslMatchService {
 
     private static final String MATCH_STATE_KEY = "matchState";
     private static final String MATCH_STATE_INFO = "matchStateInfo";
+
     @Autowired
     XslMatchMapper xslMatchMapper;
+
+    @Value("MATCH_BUFFER_PREFIX")
+    private String MATCH_BUFFER_PREFIX;
 
 
     /**
@@ -47,6 +59,7 @@ public class XslMatchServiceImpl implements XslMatchService {
      * @auther: 11432_000
      * @date: 2019/4/21 14:25
      */
+    @Override
     public List<HashMap<String,String>> getAllForm() throws RuntimeException{
         ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map;
@@ -67,7 +80,9 @@ public class XslMatchServiceImpl implements XslMatchService {
      * @auther: 11432_000
      * @date: 2019/4/21 20:38
      */
-    public XslResult addAMatch(XslMatch xslMatch)throws RuntimeException {
+    @Override
+    @UpdateMatch
+    public XslResult addMatch(XslMatch xslMatch)throws RuntimeException {
         //生成比赛ID
         String uuid = UUID.randomUUID().toString();
         String matchId = "M" + uuid;
@@ -85,7 +100,7 @@ public class XslMatchServiceImpl implements XslMatchService {
                 return ResultUtils.isError("XslMatch插入失败");
             }
             LOGGER.info("添加数据 matchId =" + matchId + " 成功");
-            return ResultUtils.isOk();
+            return ResultUtils.isOk(matchId);
         }catch (Exception e){
             throw new RuntimeException("添加比赛信息异常:"+ e.getMessage());
         }
@@ -93,31 +108,47 @@ public class XslMatchServiceImpl implements XslMatchService {
 
     /**
      *
-     * 功能描述: 获取比赛列表
+     * 功能描述: 获取比赛列表(分页)
      *
      * @param: [page, rows]
      * @return: com.xsl.result.EasyUIDataGridResult
      * @auther: 11432_000
      * @date: 2019/4/22 13:35
      */
-    public EasyUIDataGridResult getMatchList(Integer page, Integer rows)throws RuntimeException {
+    @Override
+    public XslResult getMatchPage(Integer page, Integer rows)throws RuntimeException {
         //查询所有比赛信息
         try {
-            List<XslMatch> xslMatches = xslMatchMapper.selectAll(null);
+            List<XslMatch> xslMatches = getAllMatch();
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslMatches);
-            if (page == null || rows == null){
-                return result;
-            }
             //设置分页数和每页记录数
             PageHelper.startPage(page,rows);
             //获取分页结果
             PageInfo<XslMatch> pageInfo = new PageInfo(xslMatches);
             //获取记录数
             result.setTotal(pageInfo.getTotal());
-            return result;
+            return ResultUtils.isOk(result);
         }catch (Exception e){
             throw new RuntimeException("获取比赛信息列表异常:"  + e.getMessage());
+        }
+    }
+    @Override
+    public XslResult getMatchList() throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取比赛列表(不分页)
+         *
+         * @param: []
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/4/28 11:27
+         */
+        try {
+            List<XslMatch> xslMatches = getAllMatch();
+            return ResultUtils.isOk(xslMatches);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -130,7 +161,9 @@ public class XslMatchServiceImpl implements XslMatchService {
      * @auther: 11432_000
      * @date: 2019/4/22 19:26
      */
-    public XslResult updateAMatchInfo(XslMatch xslMatch) throws RuntimeException{
+    @Override
+    @UpdateMatch
+    public XslResult updateMatchInfo(XslMatch xslMatch) throws RuntimeException{
         try{
             int i = xslMatchMapper.updateByMatchId(xslMatch);
             if (i <= 0){
@@ -138,7 +171,7 @@ public class XslMatchServiceImpl implements XslMatchService {
                 return ResultUtils.isError("更新数据失败");
             }
             LOGGER.info("更新数据 matchId =" + xslMatch.getMatchId() + " 成功");
-            return ResultUtils.isOk();
+            return ResultUtils.isOk(xslMatch.getMatchId());
         }catch (Exception e){
             throw new RuntimeException("更新比赛信息异常:"  + e.getMessage());
         }
@@ -154,6 +187,7 @@ public class XslMatchServiceImpl implements XslMatchService {
      * @auther: 11432_000
      * @date: 2019/4/22 20:02
      */
+    @Override
     public List<HashMap<String, String>> getAllState()throws RuntimeException {
         ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map;
@@ -168,33 +202,23 @@ public class XslMatchServiceImpl implements XslMatchService {
 
     /**
      *
-     * 功能描述: 删除一条或多条数据
+     * 功能描述: 逻辑删除一条或多条数据
      *
      * @param: [matchIds]
      * @return: com.xsl.result.XslResult
      * @auther: 11432_000
      * @date: 2019/4/23 14:48
      */
+    @Override
+    @DeleteMatch
     public XslResult deleteMatchInfoByIds(String matchIds) throws RuntimeException{
-        if (matchIds == null){
-            LOGGER.info("删除数据matchId为null");
-            return ResultUtils.isParameterError();
-        }
-        //拆分多个id
-        String[] split = matchIds.split(",");
-        if (split.length == 0){
-            return ResultUtils.isParameterError();
-        }
         try{
-            for (String matchId : split){
-                int i = xslMatchMapper.deleteByMatchId(matchId);
-                if (i <= 0){
-                    LOGGER.error("deleteMatchInfoByIds 删除数据 matchId =" +  matchId + " 失败");
-                    return ResultUtils.isError("删除数据{" + matchId + "}失败");
-                }
+            XslResult result = updateMatchState(matchIds, DataStates.DELETE.getCode());
+            if (result.getCode().equals(ResultCode.SUCCESS.getCode())){
+                LOGGER.info("删除数据 matchId = [" +  matchIds + "] 成功");
+                return ResultUtils.isOk(matchIds);
             }
-            LOGGER.info("删除数据 matchId = [" +  matchIds + "] 成功");
-            return ResultUtils.isOk();
+            return ResultUtils.isError();
         }catch (Exception e){
             throw new RuntimeException("删除比赛信息异常：" + e.getMessage());
         }
@@ -209,6 +233,8 @@ public class XslMatchServiceImpl implements XslMatchService {
      * @auther: 11432_000
      * @date: 2019/4/23 16:24
      */
+    @Override
+    @UpdateMatch
     public XslResult updateMatchState(String matchIds,Integer state)throws RuntimeException {
         if (matchIds == null){
             LOGGER.info("更新比赛状态 matchId 为null");
@@ -231,9 +257,66 @@ public class XslMatchServiceImpl implements XslMatchService {
                 }
             }
             LOGGER.info("更新比赛状态 matchId = [" +  matchIds + "] 成功");
-            return ResultUtils.isOk();
+            return ResultUtils.isOk(matchIds);
         }catch (Exception e){
             throw new RuntimeException("更新比赛状态异常:" + e.getMessage());
         }
+    }
+    @Override
+    public XslResult selectAllMatchByMatchType(String matchTypeId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取某一类型的所有比赛
+         *
+         * @param: [matchTypeId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/4/27 13:54
+         */
+        try {
+            List<XslMatch> xslMatches = xslMatchMapper.selectAllByMatchTypeId(matchTypeId);
+            return ResultUtils.isOk(xslMatches);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public XslResult selectMatchInfoByMatchId(String matchId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 根据比赛id 获取比赛信息
+         *
+         * @param: [matchId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/4/28 20:49
+         */
+        String json = null;
+        try {
+            json = JedisUtils.get(MATCH_BUFFER_PREFIX + ":" + matchId);
+            XslMatch xslMatch = JsonUtils.jsonToPojo(json,XslMatch.class);
+            return ResultUtils.isOk(xslMatch);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    private List<XslMatch> getAllMatch(){
+        /**
+         *
+         * 功能描述:从redis 获取所有比赛
+         *
+         * @param: []
+         * @return: java.util.List<com.xsl.pojo.XslMatch>
+         * @auther: 11432_000
+         * @date: 2019/4/28 14:22
+         */
+        List<XslMatch> xslMatches = new ArrayList<XslMatch>();
+        Set<String> keys = JedisUtils.keys(MATCH_BUFFER_PREFIX);
+        for (String key : keys){
+            xslMatches.add(JsonUtils.jsonToPojo(JedisUtils.get(key),XslMatch.class));
+        }
+        return xslMatches;
     }
 }

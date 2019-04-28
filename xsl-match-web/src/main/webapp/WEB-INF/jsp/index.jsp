@@ -21,7 +21,7 @@
 </head>
 <body class="easyui-layout">
     <!-- 头部标题 -->
-	<div data-options="region:'north',border:false" style=height:60px; padding:5px; background:#F3F3F3">
+	<div data-options="region:'north',border:false" style="height:60px; padding:5px; background:#F3F3F3">
 	<span class="northTitle">后台管理系统</span>
 	<span class="loginInfo">登录用户：admin&nbsp;&nbsp;姓名：管理员&nbsp;&nbsp;角色：系统管理员</span>
 	</div>
@@ -34,12 +34,16 @@
 	         		<li data-options="attributes:{'url':'match-list'}">比赛管理</li>
 	         		<li data-options="attributes:{'url':'match-rank-list'}">比赛等级管理</li>
 					<li data-options="attributes:{'url':'match-oriented-list'}">比赛人群管理</li>
+					<li data-options="attributes:{'url':'match-reward-rank-list'}">奖励等级管理</li>
+					<li data-options="attributes:{'url':'match-reward-list-index'}">奖励管理</li>
+					<li data-options="attributes:{'url':'match-type-list'}">比赛类型管理</li>
 	         	</ul>
          	</li>
          	<li>
-         		<span>网站内容管理</span>
+         		<span>队伍管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'content-category'}">内容分类管理</li>
+	         		<li data-options="attributes:{'url':'match-team-add'}">创建队伍</li>
+					<li data-options="attributes:{'url':'match-team-list'}">队伍管理</li>
 	         		<li data-options="attributes:{'url':'content'}">内容管理</li>
 	         	</ul>
          	</li>
@@ -71,15 +75,14 @@ $(function(){
 				var tabs = $("#tabs");
 				var tab = tabs.tabs("getTab",node.text);
 				if(tab){
-					tabs.tabs("select",node.text);
-				}else{
-					tabs.tabs('add',{
-					    title:node.text,
-					    href: node.attributes.url,
-					    closable:true,
-					    bodyCls:"content"
-					});
+					tabs.tabs("close",node.text);
 				}
+                tabs.tabs('add',{
+                    title:node.text,
+                    href: node.attributes.url,
+                    closable:true,
+                    bodyCls:"content"
+                });
 			}
 		}
 	});

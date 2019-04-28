@@ -6,36 +6,45 @@
     <result column="matchRankId" property="matchRankId" jdbcType="VARCHAR"/>
     <result column="rankName" property="rankName" jdbcType="VARCHAR" />
     <result column="rankInfo" property="rankInfo" jdbcType="VARCHAR"/>
+    <result column="rankState" property="rankState" jdbcType="INTEGER"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    matchRankId, rankName,rankInfo
+    matchRankId, rankName,rankInfo,rankState
   </sql>
   
   <select id="selectAll" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> from xsl_match_rank
+    where rankState != 0
   </select>
 
-  <select id="selectByRankId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByRankId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from xsl_match_rank
-    where #{rankId}
+    where matchRankId = #{rankId} and rankState != 0
   </select>
 
   <update id="updateByRankId" parameterType="com.xsl.pojo.XslMatchRank">
     update xsl_match_rank
     set rankName = #{rankName},
-    rankInfo = #{rankInfo}
+    rankInfo = #{rankInfo},
+    rankState = #{rankState}
     where matchRankId = #{matchRankId}
   </update>
 
   <insert id="insert" parameterType="com.xsl.pojo.XslMatchRank">
-    insert into xsl_match_rank (matchRankId, rankName,rankInfo)
-    values (#{matchRankId},#{rankName},#{rankInfo})
+    insert into xsl_match_rank (matchRankId, rankName,rankInfo,rankState)
+    values (#{matchRankId},#{rankName},#{rankInfo},#{rankState})
   </insert>
 
   <delete id="deleteByMatchRankId" parameterType="java.lang.String">
     delete from xsl_match_rank
     where matchRankId = #{matchRankId}
   </delete>
+
+  <update id="updateRankStateByMatchRankId" parameterType="com.xsl.pojo.XslMatchRank">
+    update xsl_match_rank
+    set rankState = #{rankState}
+    where matchRankId = #{matchRankId}
+  </update>
 
 </mapper>

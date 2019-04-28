@@ -6,10 +6,48 @@
     <result column="rewardRankId" property="rewardRankId" jdbcType="VARCHAR" />
     <result column="rewardRankName" property="rewardRankName" jdbcType="VARCHAR" />
     <result column="rewardRankInfo" property="rewardRankInfo" jdbcType="VARCHAR" />
+    <result column="rewardRankState" property="rewardRankState" jdbcType="INTEGER"/>
   </resultMap>
 
   <sql id="Base_Column_List" >
-    Id, rewardRankId, rewardRankName, rewardRankInfo
+    rewardRankId, rewardRankName, rewardRankInfo,rewardRankState
   </sql>
+
+  <select id="selectAllRewardRank" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xsl_reward_rank
+    where rewardRankState != 0
+    order by Id
+  </select>
+
+  <select id="selectRewardRankByRewardRankId" resultType="com.xsl.pojo.XslRewardRank">
+    select <include refid="Base_Column_List"/>
+    from xsl_reward_rank
+    where rewardRankId = #{rewardRankId} and rewardRankState != 0
+  </select>
+
+  <insert id="insert" parameterType="com.xsl.pojo.XslRewardRank">
+    insert into xsl_reward_rank(rewardRankId, rewardRankName, rewardRankInfo,rewardRankState)
+    values (#{rewardRankId},#{rewardRankName},#{rewardRankInfo},#{rewardRankState})
+  </insert>
+
+  <update id="updateByRewardRankId" parameterType="com.xsl.pojo.XslRewardRank">
+    update xsl_reward_rank
+    set rewardRankName = #{rewardRankName},
+    rewardRankInfo = #{rewardRankInfo},
+    rewardRankState = #{rewardRankState}
+    where rewardRankId = #{rewardRankId}
+  </update>
+
+  <delete id="deleteByRewardRankId" parameterType="java.lang.String">
+    delete from xsl_reward_rank
+    where rewardRankId = #{rewardRankId}
+  </delete>
+
+  <update id="updateRewardRankStateByRewardRankId" parameterType="com.xsl.pojo.XslRewardRank">
+    update xsl_reward_rank
+    set rewardRankState = #{rewardRankState}
+    where rewardRankId = #{rewardRankId}
+  </update>
 
 </mapper>

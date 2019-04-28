@@ -19,16 +19,17 @@
     <result column="matchSignUpStartTime" property="matchSignUpStartTime" jdbcType="TIMESTAMP" />
     <result column="matchCreateTime" property="matchCreateTime" jdbcType="TIMESTAMP" />
     <result column="matchPosterUrl" property="matchPosterUrl" jdbcType="TIMESTAMP" />
+    <result column="matchTypeId" property="matchTypeId" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    Id, matchId, matchName, matchRankId, matchWebsite, matchOrientedId, matchStartTime, 
+    matchId, matchName, matchRankId, matchWebsite, matchOrientedId, matchStartTime,
     matchEndTime, matchState, matchSignUpEndTime, matchAddress, matchSignUpMaxNum, matchForm, 
-    matchTeamNum,matchSignUpStartTime,matchCreateTime,matchPosterUrl
+    matchTeamNum,matchSignUpStartTime,matchCreateTime,matchPosterUrl,matchTypeId
   </sql>
   <select id="selectByMatchId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from xsl_match
-    where matchId = #{matchId,jdbcType=VARCHAR}
+    where matchId = #{matchId,jdbcType=VARCHAR} and matchState != 0
   </select>
   <update id="updateByMatchId" parameterType="com.xsl.pojo.XslMatch">
     update xsl_match
@@ -45,20 +46,22 @@
       matchForm = #{matchForm,jdbcType=INTEGER},
       matchTeamNum = #{matchTeamNum,jdbcType=INTEGER},
       matchSignUpStartTime = #{matchSignUpStartTime,jdbcType=TIMESTAMP},
-      matchPosterUrl = #{matchPosterUrl,jdbcType=VARCHAR}
+      matchPosterUrl = #{matchPosterUrl,jdbcType=VARCHAR},
+      matchTypeId = #{matchTypeId}
       where matchId = #{matchId,jdbcType=VARCHAR}
   </update>
   <insert id="insert" parameterType="com.xsl.pojo.XslMatch">
     insert into xsl_match(matchId, matchName, matchRankId, matchWebsite, matchOrientedId, matchStartTime,
     matchEndTime, matchState, matchSignUpEndTime, matchAddress, matchSignUpMaxNum, matchForm,
-    matchTeamNum,matchSignUpStartTime,matchPosterUrl)
+    matchTeamNum,matchSignUpStartTime,matchPosterUrl,matchTypeId)
     values (#{matchId},#{matchName},#{matchRankId},#{matchWebsite},#{matchOrientedId},#{matchStartTime},#{matchEndTime},#{matchState},
-    #{matchSignUpEndTime},#{matchAddress},#{matchSignUpMaxNum},#{matchForm},#{matchTeamNum},#{matchSignUpStartTime},#{matchPosterUrl});
+    #{matchSignUpEndTime},#{matchAddress},#{matchSignUpMaxNum},#{matchForm},#{matchTeamNum},#{matchSignUpStartTime},#{matchPosterUrl},#{matchTypeId});
   </insert>
 
   <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
     select  <include refid="Base_Column_List"/>
     from xsl_match
+    where matchState != 0
     <if test="orderBy != null">
       order by #{orderBy}
     </if>
@@ -78,5 +81,35 @@
     set matchState = #{matchState,jdbcType=INTEGER}
     where  matchId = #{matchId,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectAllByMatchRankId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select  <include refid="Base_Column_List"/>
+    from xsl_match
+    where matchRankId = #{matchRankId} and matchState != 0
+    order by matchCreateTime
+  </select>
+  <select id="selectAllByOrientedId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select  <include refid="Base_Column_List"/>
+    from xsl_match
+    where matchOrientedId = #{matchOrientedId} and matchState != 0
+    order by matchCreateTime
+  </select>
+
+  <select id="getNumByMatchRankId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(matchRankId)
+    from xsl_match
+    where matchRankId = #{matchRankId} and matchState != 0
+  </select>
+  <select id="getNumByOrientedId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(matchOrientedId)
+    from xsl_match
+    where matchOrientedId = #{orientedId} and matchState != 0
+  </select>
+
+    <select id="selectAllByMatchTypeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from xsl_match
+        where matchTypeId = #{matchTypeId} and matchState != 0
+    </select>
 
 </mapper>

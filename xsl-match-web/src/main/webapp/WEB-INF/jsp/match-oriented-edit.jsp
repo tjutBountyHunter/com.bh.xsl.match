@@ -17,11 +17,14 @@
 				<td>说明:</td>
 				<td><input class="easyui-textbox" type="text" name="orientedInfo" data-options="" style="width: 280px;"></input></td>
 			</tr>
+			<tr>
+				<td><input  type="hidden" name="orientedState"  style="width: 280px;"></input></td>
+			</tr>
 		</table>
 	</form>
 	<div style="padding:5px">
 	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
-		<a href="javascript:void(0)" class="easyui-linkbutton" style="width: 50px"  onclick="clearForm()">重置</a>
+		<%--<a href="javascript:void(0)" class="easyui-linkbutton" style="width: 50px"  onclick="clearForm()">重置</a>--%>
 		<a href="javascript:void(0)" class="easyui-linkbutton" style="width: 50px"  onclick="winClose()">取消</a>
 	</div>
 </div>

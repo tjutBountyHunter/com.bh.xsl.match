@@ -8,8 +8,8 @@ package com.xsl.enums;
  * @Description:
  */
 public enum  MatchState {
-    BEFORE_SIGN_UP(0,"报名未开始"),SIGN_UP(1,"报名进行中"),SIGN_UP_END(2,"报名截止"),MATCH_START(3,"比赛进行中"),MATCH_REVIEW(4,"评审进行中"),MATCH_END(5,"比赛结束"),
-    DELETE(6,"比赛禁用");
+    BEFORE_SIGN_UP(1,"报名未开始"),SIGN_UP(2,"报名进行中"),SIGN_UP_END(3,"报名截止"),MATCH_START(4,"比赛进行中"),MATCH_REVIEW(5,"评审进行中"),MATCH_END(6,"比赛结束"),
+    DELETE(7,"比赛禁用");
 
     private Integer key;
     private String message;

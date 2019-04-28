@@ -11,6 +11,16 @@ public class XslMatchResult {
 
     private String proveUrl;
 
+    private Integer matchResultState;
+
+    public Integer getMatchResultState() {
+        return matchResultState;
+    }
+
+    public void setMatchResultState(Integer matchResultState) {
+        this.matchResultState = matchResultState;
+    }
+
     public Integer getId() {
         return id;
     }

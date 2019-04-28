@@ -19,4 +19,14 @@ public interface XslMatchMapper {
     int insert(XslMatch xslMatch);
     /** 更新比赛状态 */
     int updateMatchState(XslMatch xslMatch);
+    /** 根据比赛类类获取比赛 */
+    List<XslMatch> selectAllByMatchTypeId(String matchTypeId);
+
+    List<XslMatch> selectAllByMatchRankId(String matchRankId);
+
+    List<XslMatch> selectAllByOrientedId(String orientedId);
+
+    int getNumByMatchRankId(String matchRankId);
+
+    int getNumByOrientedId(String orientedId);
 }

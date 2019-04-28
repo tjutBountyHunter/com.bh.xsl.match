@@ -64,7 +64,7 @@ public class XslMatchRankController {
 
     @RequestMapping("/select")
     @ResponseBody
-    public XslMatchRank getRank(@Param("rankId") Integer rankId){
+    public XslMatchRank getRank(@Param("rankId") String rankId){
         XslMatchRank allRank =(XslMatchRank) xslMatchRankService.getRank(rankId).getData();
         return allRank;
     }

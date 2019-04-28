@@ -15,6 +15,16 @@ public class XslPositionApplication {
 
     private Date applicationTime;
 
+    private Integer positionState;
+
+    public Integer getPositionState() {
+        return positionState;
+    }
+
+    public void setPositionState(Integer positionState) {
+        this.positionState = positionState;
+    }
+
     public Integer getId() {
         return id;
     }

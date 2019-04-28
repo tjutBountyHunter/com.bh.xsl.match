@@ -9,6 +9,16 @@ public class XslRewardRank {
 
     private String rewardRankInfo;
 
+    private Integer rewardRankState;
+
+    public Integer getRewardRankState() {
+        return rewardRankState;
+    }
+
+    public void setRewardRankState(Integer rewardRankState) {
+        this.rewardRankState = rewardRankState;
+    }
+
     public Integer getId() {
         return id;
     }

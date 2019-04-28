@@ -9,6 +9,16 @@ public class XslOriented {
 
     private String orientedInfo;
 
+    private Integer orientedState;
+
+    public Integer getOrientedState() {
+        return orientedState;
+    }
+
+    public void setOrientedState(Integer orientedState) {
+        this.orientedState = orientedState;
+    }
+
     public Integer getId() {
         return id;
     }

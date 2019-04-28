@@ -17,6 +17,13 @@
 						   data-options="valueField:'matchRankId',textField:'rankName',url:'match/rank/selectAll/list',prompt: '请选择比赛级别',required:true,editable:false" />
 				</td>
 	        </tr>
+			<tr>
+				<td>选择比赛类型:</td>
+				<td>
+					<input type="text" id="className" class="easyui-combobox" name="matchTypeId"
+						   data-options="valueField:'matchTypeId',textField:'matchTypeName',url:'match/type/selectAll/list',prompt: '请选择比赛类型',required:true,editable:false" />
+				</td>
+			</tr>
 	        <tr>
 	            <td>比赛官方网址:</td>
 	            <td><input type="text" id="matchWebsite" class="easyui-validatebox textbox" name="matchWebsite" data-options="" style="width: 280px; height: 20px"></input>
@@ -49,7 +56,7 @@
 				<td><input class="easyui-datebox" name="matchStartTime" data-options="required:true" /></td>
 			</tr>
 			<tr>
-				<td>比赛截止时间:</td>
+				<td>比赛结束时间:</td>
 				<td><input class="easyui-datebox" name="matchEndTime" data-options="required:true" /></td>
 			</tr>
 			<tr>
@@ -91,7 +98,7 @@
             //指定上传文件参数名称
             filePostName  : "uploadFile",
             //指定上传文件请求的url。
-            uploadJson : 'match/file/image/upload',
+            uploadJson : 'file/image/upload',
             //上传类型，分别为image、flash、media、file
             dir : "image",
         }
@@ -122,11 +129,6 @@
                 }
             }
 		})
-		// $.post("match/info/add",$("#matchAddForm").serialize(), function(data){
-		// 	if(data.code == 200){
-		// 		$.messager.alert('提示','新增商品成功!');
-		// 	}
-		// },"application/json");
 	}
 	/* 清空表单 */
 	function clearForm(){
@@ -139,7 +141,7 @@
 	    $('#matchForm').combobox({
 			onSelect : function () {
 				var f = $('#matchForm').combobox('getValue');
-				if (f != 1){
+				if (f != "1"){
 					$('#matchTeamNum').show();
 				}else {
                     $('#matchTeamNum').hide();

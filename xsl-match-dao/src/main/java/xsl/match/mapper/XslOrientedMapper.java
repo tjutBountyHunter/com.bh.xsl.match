@@ -13,4 +13,6 @@ public interface XslOrientedMapper {
     int deleteByOrientedId(String orientedId);
 
     int updateByOrientedId(XslOriented xslOriented);
+
+    int updateOrientedStateByOrientedId(XslOriented xslOriented);
 }

@@ -6,20 +6,22 @@
     <result column="orientedId" property="orientedId" jdbcType="VARCHAR" />
     <result column="orientedName" property="orientedName" jdbcType="VARCHAR" />
     <result column="orientedInfo" property="orientedInfo" jdbcType="VARCHAR" />
+    <result column="orientedState" property="orientedState" jdbcType="INTEGER"/>
   </resultMap>
 
   <sql id="Base_Column_List" >
-     orientedId, orientedName, orientedInfo
+     orientedId, orientedName, orientedInfo,orientedState
   </sql>
 
   <select id="selectAll" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from xsl_oriented
+    where orientedState != 0
   </select>
 
   <insert id="insert" parameterType="com.xsl.pojo.XslOriented">
-    insert into xsl_oriented (orientedId, orientedName, orientedInfo)
-    values (#{orientedId},#{orientedName},#{orientedInfo})
+    insert into xsl_oriented (orientedId, orientedName, orientedInfo,orientedState)
+    values (#{orientedId},#{orientedName},#{orientedInfo},#{orientedState})
   </insert>
 
   <delete id="deleteByOrientedId" parameterType="java.lang.String">
@@ -30,7 +32,14 @@
   <update id="updateByOrientedId" parameterType="com.xsl.pojo.XslOriented">
     update xsl_oriented
     set orientedName = #{orientedName},
-     orientedInfo = #{orientedInfo}
+     orientedInfo = #{orientedInfo},
+     orientedState = #{orientedState}
+    where orientedId = #{orientedId}
+  </update>
+
+  <update id="updateOrientedStateByOrientedId" parameterType="com.xsl.pojo.XslOriented">
+    update xsl_oriented
+    set orientedState = #{orientedState}
     where orientedId = #{orientedId}
   </update>
 

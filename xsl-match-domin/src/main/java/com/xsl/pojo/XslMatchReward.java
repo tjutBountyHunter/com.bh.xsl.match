@@ -9,7 +9,9 @@ public class XslMatchReward {
 
     private String rewardId;
 
-    private Date rewardCreateTime;
+    private Date rewardAddTime;
+
+    private Integer matchRewardState;
 
     public Integer getId() {
         return id;
@@ -35,11 +37,19 @@ public class XslMatchReward {
         this.rewardId = rewardId;
     }
 
-    public Date getRewardCreateTime() {
-        return rewardCreateTime;
+    public Date getRewardAddTime() {
+        return rewardAddTime;
     }
 
-    public void setRewardCreateTime(Date rewardCreateTime) {
-        this.rewardCreateTime = rewardCreateTime;
+    public void setRewardAddTime(Date rewardAddTime) {
+        this.rewardAddTime = rewardAddTime;
+    }
+
+    public Integer getMatchRewardState() {
+        return matchRewardState;
+    }
+
+    public void setMatchRewardState(Integer matchRewardState) {
+        this.matchRewardState = matchRewardState;
     }
 }

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
+import com.xsl.enums.DataStates;
 import com.xsl.pojo.XslOriented;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -40,6 +41,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
      * @auther: 11432_000
      * @date: 2019/4/21 14:25
      */
+    @Override
     public EasyUIDataGridResult getAllOrienteds(Integer page ,Integer rows)throws RuntimeException {
         try{
             List<XslOriented> xslOrienteds = xslOrientedMapper.selectAll();
@@ -58,7 +60,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             throw new RuntimeException("获取面向人群列表异常:"  + e.getMessage());
         }
     }
-
+    @Override
     public XslResult updateOriented(XslOriented xslOriented) throws RuntimeException {
         /**
          *
@@ -80,7 +82,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             throw new RuntimeException("更新人群信息异常" + e.getMessage());
         }
     }
-
+    @Override
     public XslResult addOriented(XslOriented xslOriented) throws RuntimeException {
         /**
          *
@@ -93,6 +95,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
          */
         String uuid = IdUtils.getUuid("MO");
         xslOriented.setOrientedId(uuid);
+        xslOriented.setOrientedState(DataStates.NORMAL.getCode());
         try{
             int insert = xslOrientedMapper.insert(xslOriented);
             if (insert <= 0){
@@ -104,7 +107,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             throw new RuntimeException("添加人群异常：" + e.getMessage());
         }
     }
-
+    @Override
     public XslResult deleteOrienteds(String matchOrientedIds) throws RuntimeException {
         if (matchOrientedIds == null){
             LOGGER.info("删除人群 matchOrientedIds 为null");
@@ -116,8 +119,11 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             return ResultUtils.isParameterError();
         }
         try{
+            XslOriented xslOriented = new XslOriented();
             for (String matchOrientedId : split){
-                int i = xslOrientedMapper.deleteByOrientedId(matchOrientedId);
+                xslOriented.setOrientedId(matchOrientedId);
+                xslOriented.setOrientedState(DataStates.DELETE.getCode());
+                int i = xslOrientedMapper.updateOrientedStateByOrientedId(xslOriented);
                 if (i <= 0){
                     LOGGER.error("updateMatchState 删除 matchOrientedId =" +  matchOrientedId + " 失败");
                     return ResultUtils.isError();

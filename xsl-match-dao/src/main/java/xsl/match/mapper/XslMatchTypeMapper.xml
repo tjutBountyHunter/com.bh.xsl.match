@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xsl.match.mapper.XslMatchTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchType" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="matchTypeId" property="matchTypeId" jdbcType="VARCHAR" />
+    <result column="matchTypeName" property="matchTypeName" jdbcType="VARCHAR" />
+    <result column="matchTypeState" property="matchTypeState" jdbcType="INTEGER" />
+    <result column="matchTypeInfo" property="matchTypeInfo" jdbcType="VARCHAR" />
+    <result column="matchTypeCreateTime" property="matchTypeCreateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+     matchTypeId, matchTypeName, matchTypeState, matchTypeInfo, matchTypeCreateTime
+  </sql>
+
+  <select id="selectAllMatchType" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xsl_match_type
+    where matchTypeState != 0
+  </select>
+
+  <select id="selectMatchTypeByMatchTypeId" parameterType="java.lang.String">
+    select <include refid="Base_Column_List"/>
+    from xsl_match_type
+    where matchTypeState != 0 and matchTypeId = #{matchTypeId}
+  </select>
+
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatchType">
+    insert into xsl_match_type (matchTypeId, matchTypeName, matchTypeState, matchTypeInfo)
+    values (#{matchTypeId},#{matchTypeName},#{matchTypeState},#{matchTypeInfo});
+  </insert>
+
+  <update id="updateByMatchTypeId" parameterType="com.xsl.pojo.XslMatchType">
+    update xsl_match_type
+    set matchTypeName = #{matchTypeName},
+    matchTypeState = #{matchTypeState},
+    matchTypeInfo = #{matchTypeInfo}
+    where matchTypeId = #{matchTypeId}
+  </update>
+
+  <delete id="deleteByMatchTypeId" parameterType="java.lang.String">
+    delete from xsl_match_type
+    where matchTypeId = #{matchTypeId}
+  </delete>
+
+  <update id="updateTypeStateByMatchTypeId" parameterType="com.xsl.pojo.XslMatchType">
+    update xsl_match_type
+    set matchTypeState = #{matchTypeState}
+    where matchTypeId = #{matchTypeId}
+  </update>
+
+
+</mapper>

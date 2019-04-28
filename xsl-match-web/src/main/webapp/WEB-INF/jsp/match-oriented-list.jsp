@@ -16,7 +16,7 @@
 <script>
 
     /* 获取被选中数据的MatchId */
-    function getSelectionsIds(){
+    function getOrientedIds(){
     	var matchOrientedList = $("#matchOrientedList");
     	var sels = matchOrientedList.datagrid("getSelections");
     	var ids = [];
@@ -28,7 +28,7 @@
     }
 
     /* 获取被选中数据的MatchName */
-    function getSelectionsNames(){
+    function getOrientedNames(){
         var matchOrientedList = $("#matchOrientedList");
         var sels = matchOrientedList.datagrid("getSelections");
         var names = [];
@@ -43,7 +43,7 @@
         text:'编辑',
         iconCls:'icon-edit',
         handler:function(){
-        	var ids = getSelectionsIds();
+        	var ids = getOrientedIds();
         	if(ids.length == 0){
         		$.messager.alert('提示','必须选择一项才能编辑!');
         		return ;
@@ -65,8 +65,8 @@
         text:'删除',
         iconCls:'icon-cancel',
         handler:function(){
-        	var ids = getSelectionsIds();
-        	var names = getSelectionsNames();
+        	var ids = getOrientedIds();
+        	var names = getOrientedNames();
         	if(ids.length == 0){
         		$.messager.alert('提示','未选中记录!');
         		return ;

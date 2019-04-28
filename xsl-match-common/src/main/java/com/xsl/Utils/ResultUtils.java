@@ -1,6 +1,6 @@
 package com.xsl.Utils;
 
-import com.xsl.enums.StatusCode;
+import com.xsl.enums.ResultCode;
 import com.xsl.result.XslResult;
 
 /**
@@ -14,7 +14,7 @@ public class ResultUtils {
 
     /** 执行成功 */
     public static XslResult isOk(Object data){
-        return new XslResult(StatusCode.SUCCESS.getCode(),StatusCode.SUCCESS.getMsg(),data);
+        return new XslResult(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(),data);
     }
     public static XslResult isOk(){
         return isOk(null);
@@ -22,18 +22,18 @@ public class ResultUtils {
 
     /** 发生异常 */
     public static XslResult isError(String msg){
-        return new XslResult(StatusCode.EXCEPTION.getCode(),msg);
+        return new XslResult(ResultCode.EXCEPTION.getCode(),msg);
     }
     public static XslResult isError(){
-        return isError(StatusCode.EXCEPTION.getMsg());
+        return isError(ResultCode.EXCEPTION.getMsg());
     }
 
 
     /** 发生参数异常 */
     public static XslResult isParameterError(String msg){
-        return new XslResult(StatusCode.PARAMETER_ERROR.getCode(),msg);
+        return new XslResult(ResultCode.PARAMETER_ERROR.getCode(),msg);
     }
     public static XslResult isParameterError(){
-        return isParameterError(StatusCode.PARAMETER_ERROR.getMsg());
+        return isParameterError(ResultCode.PARAMETER_ERROR.getMsg());
     }
 }

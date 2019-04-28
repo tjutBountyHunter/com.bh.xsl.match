@@ -1,20 +1,19 @@
 package com.xsl.enums;
 
-
 /**
- * 说明：返回状态码
+ * 说明：队伍状态
  *
  * @Auther: 11432_000
- * @Date: 2019/4/21 20:22
+ * @Date: 2019/4/27 17:16
  * @Description:
  */
-public enum  StatusCode {
-    SUCCESS(200,"成功"),EXCEPTION(500,"服务器异常"),TIMEOUT(502,"超时"),PARAMETER_ERROR(400,"参数错误");
+public enum TeamStates {
+    DELETE(0,"已删除"),CREATE_SUCCESS(1,"创建成功"),RECRUIT(2,"招募新成员"),NOT_RECRUIT(3,"停止招募");
 
     private Integer code;
     private String msg;
 
-    StatusCode(Integer code, String msg) {
+    TeamStates(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

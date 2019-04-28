@@ -63,4 +63,59 @@ public class PageController {
     public String editOriented(){
         return "match-oriented-edit";
     }
+
+    @RequestMapping("match-reward-list")
+    public String rewardList(){
+        return "match-reward-list";
+    }
+
+    @RequestMapping("match-reward-add")
+    public String rewardAdd(){
+        return "match-reward-add";
+    }
+
+    @RequestMapping("match-reward-edit")
+    public String rewardEdit(){
+        return "match-reward-edit";
+    }
+
+    @RequestMapping("match-reward-rank-list")
+    public String rewardRankList(){
+        return "match-reward-rank-list";
+    }
+
+    @RequestMapping("match-reward-rank-add")
+    public String rewardRankAdd(){
+        return "match-reward-rank-add";
+    }
+
+    @RequestMapping("match-reward-list-index")
+    public String rewardRankList_index(){
+        return "match-reward-list-index";
+    }
+
+    @RequestMapping("match-type-list")
+    public String matchTypeList(){
+        return "match-type-list";
+    }
+
+    @RequestMapping("match-type-edit")
+    public String matchTypeEdit(){
+        return "match-type-edit";
+    }
+
+    @RequestMapping("match-type-add")
+    public String matchTypeAdd(){
+        return "match-type-add";
+    }
+
+    @RequestMapping("match-team-add")
+    public String teamAdd(){
+        return "match-team-add";
+    }
+
+    @RequestMapping("match-team-list")
+    public String teamList(){
+        return "match-team-list";
+    }
 }

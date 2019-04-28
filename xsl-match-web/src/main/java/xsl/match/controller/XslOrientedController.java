@@ -91,7 +91,7 @@ public class XslOrientedController {
     @ResponseBody
     /**
      *
-     * 功能描述: 删除一或多个面向人群
+     * 功能描述: 逻辑删除一或多个面向人群
      *
      * @param: []
      * @return: java.util.List<com.xsl.pojo.XslOriented>

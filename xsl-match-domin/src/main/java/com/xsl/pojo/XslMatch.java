@@ -37,7 +37,16 @@ public class XslMatch {
 
     private String matchPosterUrl;
 
+    private String matchTypeId;
 
+
+    public String getMatchTypeId() {
+        return matchTypeId;
+    }
+
+    public void setMatchTypeId(String matchTypeId) {
+        this.matchTypeId = matchTypeId;
+    }
 
     public Integer getId() {
         return id;

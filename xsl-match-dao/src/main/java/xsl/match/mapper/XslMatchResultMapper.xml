@@ -7,10 +7,11 @@
     <result column="teamId" property="teamId" jdbcType="VARCHAR" />
     <result column="rewardRankId" property="rewardRankId" jdbcType="VARCHAR" />
     <result column="proveUrl" property="proveUrl" jdbcType="VARCHAR" />
+    <result column="matchResultState" property="matchResultState" jdbcType="INTEGER"/>
   </resultMap>
 
   <sql id="Base_Column_List" >
-    Id, matchResultId, teamId, rewardRankId, proveUrl
+    Id, matchResultId, teamId, rewardRankId, proveUrl,matchResultState
   </sql>
 
 </mapper>

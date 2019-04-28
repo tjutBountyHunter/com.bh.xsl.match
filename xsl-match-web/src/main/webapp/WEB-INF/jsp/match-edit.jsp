@@ -8,6 +8,10 @@
 		<table cellpadding="5">
 			<input type="text" hidden="hidden" name="matchId">
 			<tr>
+				<td>比赛ID:</td>
+				<td><input class="easyui-textbox" type="text" name="matchId" data-options="readonly:true" style="width: 280px;"></input></td>
+			</tr>
+			<tr>
 				<td>比赛名称:</td>
 				<td><input class="easyui-textbox" type="text" name="matchName" data-options="required:true" style="width: 280px;"></input></td>
 			</tr>
@@ -16,6 +20,13 @@
 				<td>
 					<input type="text" id="classNam" class="easyui-combobox" name="matchRankId"
 						   data-options="valueField:'matchRankId',textField:'rankName',url:'match/rank/selectAll/list',prompt: '请选择比赛级别',required:true,editable:false" />
+				</td>
+			</tr>
+			<tr>
+				<td>比赛类型:</td>
+				<td>
+					<input type="text" id="className" class="easyui-combobox" name="matchTypeId"
+						   data-options="valueField:'matchTypeId',textField:'matchTypeName',url:'match/type/selectAll/list',prompt: '请选择比赛类型',required:true,editable:false" />
 				</td>
 			</tr>
 			<tr>
@@ -88,7 +99,7 @@
 	</form>
 	<div style="padding:5px">
 	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
-		<a href="javascript:void(0)" class="easyui-linkbutton" style="width: 50px"  onclick="clearForm()">重置</a>
+		<%--<a href="javascript:void(0)" class="easyui-linkbutton" style="width: 50px"  onclick="clearForm()">重置</a>--%>
 		<a href="javascript:void(0)" class="easyui-linkbutton" style="width: 50px"  onclick="winClose()">取消</a>
 	</div>
 </div>

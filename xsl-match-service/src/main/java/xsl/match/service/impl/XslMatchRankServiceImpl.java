@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
+import com.xsl.enums.DataStates;
 import com.xsl.enums.MatchForm;
 import com.xsl.pojo.XslMatchRank;
 import com.xsl.result.EasyUIDataGridResult;
@@ -44,6 +45,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
      * @auther: 11432_000
      * @date: 2019/4/21 14:24
      */
+    @Override
     public EasyUIDataGridResult getAllRank(Integer page,Integer rows) throws RuntimeException{
         try {
             List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectAll();
@@ -72,7 +74,8 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
      * @auther: 11432_000
      * @date: 2019/4/22 14:53
      */
-    public XslResult getRank(Integer rankId)throws RuntimeException {
+    @Override
+    public XslResult getRank(String rankId)throws RuntimeException {
         try{
             List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByRankId(rankId);
             if (xslMatchRanks == null || xslMatchRanks.size() == 0){
@@ -93,6 +96,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
      * @auther: 11432_000
      * @date: 2019/4/23 21:16
      */
+    @Override
     public XslResult updateMatchRankInfo(XslMatchRank xslMatchRank)throws RuntimeException {
         try{
             int i = xslMatchRankMapper.updateByRankId(xslMatchRank);
@@ -105,7 +109,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
             throw new RuntimeException("修改比赛等级信息异常:"+ e.getMessage());
         }
     }
-
+    @Override
     public XslResult addMatchRank(XslMatchRank xslMatchRank) throws RuntimeException {
         /**
          *
@@ -118,6 +122,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
          */
         String matchRankId = IdUtils.getUuid("MR");
         xslMatchRank.setMatchRankId(matchRankId);
+        xslMatchRank.setRankState(DataStates.NORMAL.getCode());
         try{
             int insert = xslMatchRankMapper.insert(xslMatchRank);
             if (insert <= 0){
@@ -132,13 +137,14 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
 
     /**
      *
-     * 功能描述: 删除一条或多条比赛等级记录
+     * 功能描述: 逻辑删除一条或多条比赛等级记录
      *
      * @param: [matchRankIds]
      * @return: com.xsl.result.XslResult
      * @auther: 11432_000
      * @date: 2019/4/24 16:20
      */
+    @Override
     public XslResult deleteMatchRanks(String matchRankIds) throws RuntimeException {
         if (matchRankIds == null){
             return ResultUtils.isParameterError("deleteMatchRanks() 参数为null");
@@ -146,8 +152,11 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
         //拆分多个id
         String[] split = matchRankIds.split(",");
         try {
+            XslMatchRank xslMatchRank = new XslMatchRank();
             for (String str : split){
-                int i = xslMatchRankMapper.deleteByMatchRankId(str);
+                xslMatchRank.setMatchRankId(str);
+                xslMatchRank.setRankState(DataStates.DELETE.getCode());
+                int i = xslMatchRankMapper.updateRankStateByMatchRankId(xslMatchRank);
                 if (i <= 0){
                     return ResultUtils.isParameterError("deleteMatchRanks() 删除数据" + str + "失败");
                 }

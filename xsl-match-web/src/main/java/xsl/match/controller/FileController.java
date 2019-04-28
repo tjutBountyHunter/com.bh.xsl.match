@@ -16,16 +16,16 @@ import java.util.HashMap;
  * @Description:
  */
 @Controller
-@RequestMapping("match/file")
+@RequestMapping("file")
 public class FileController {
 
 
     @RequestMapping("/image/upload")
     @ResponseBody
-    /** 单图片上传 成功：url+error 0 失败时 ：Error 1 + message */
+    /** 单图片上传 成功：url+error:0 失败时 ：Error:1 + message */
     public HashMap<String, Object> oneImageUpload(@Param("uploadFile")MultipartFile file){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("url","123456654321");
+        map.put("url","http://47.93.200.190/images/xslerp.jpg");
         map.put("error", 0);
         return map;
     }

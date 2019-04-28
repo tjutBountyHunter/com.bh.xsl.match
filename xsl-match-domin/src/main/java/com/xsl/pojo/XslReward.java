@@ -1,5 +1,7 @@
 package com.xsl.pojo;
 
+import java.util.Date;
+
 public class XslReward {
     private Integer id;
 
@@ -10,6 +12,18 @@ public class XslReward {
     private String rewardContent;
 
     private Integer contentQuota;
+
+    private Date rewardCreateTime;
+
+    private Integer rewardState;
+
+    public Integer getRewardState() {
+        return rewardState;
+    }
+
+    public void setRewardState(Integer rewardState) {
+        this.rewardState = rewardState;
+    }
 
     public Integer getId() {
         return id;
@@ -49,5 +63,13 @@ public class XslReward {
 
     public void setContentQuota(Integer contentQuota) {
         this.contentQuota = contentQuota;
+    }
+
+    public Date getRewardCreateTime() {
+        return rewardCreateTime;
+    }
+
+    public void setRewardCreateTime(Date rewardCreateTime) {
+        this.rewardCreateTime = rewardCreateTime;
     }
 }

@@ -5,11 +5,42 @@
     <id column="Id" property="id" jdbcType="INTEGER" />
     <result column="matchId" property="matchId" jdbcType="VARCHAR" />
     <result column="rewardId" property="rewardId" jdbcType="VARCHAR" />
-    <result column="rewardCreateTime" property="rewardCreateTime" jdbcType="TIMESTAMP" />
+    <result column="rewardAddTime" property="rewardAddTime" jdbcType="TIMESTAMP" />
+    <result column="matchRewardState" property="matchRewardState" jdbcType="INTEGER"/>
   </resultMap>
 
   <sql id="Base_Column_List" >
-    Id, matchId, rewardId, rewardCreatTime
+      matchId, rewardId, rewardAddTime,matchRewardState
   </sql>
+
+  <select id="selectRewardListByMatchId" parameterType="com.xsl.pojo.XslMatchReward" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xsl_match_reward
+    where matchId = #{matchId} and matchRewardState = #{matchRewardState}
+  </select>
+
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xsl_match_reward
+    where matchRewardState = #{matchRewardState}
+    order by <if test="orderBy == null">rewardAddTime</if>
+    <if test="orderBy != null">#{orderBy}</if>
+  </select>
+
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatchReward">
+    insert into xsl_match_reward( matchId, rewardId,matchRewardState)
+    values (#{matchId},#{rewardId},#{matchRewardState})
+  </insert>
+
+  <delete id="deleteByRewardIdAndMatchId" parameterType="com.xsl.pojo.XslMatchReward">
+    delete from xsl_match_reward
+    where matchId = #{matchId} and rewardId = #{rewardId}
+  </delete>
+
+  <update id="updateByRewardIdAndMatchId" parameterType="com.xsl.pojo.XslMatchReward">
+    update xsl_match_reward
+    set matchRewardState = #{matchRewardState}
+    where matchId = #{matchId} and rewardId = #{rewardId}
+  </update>
 
 </mapper>

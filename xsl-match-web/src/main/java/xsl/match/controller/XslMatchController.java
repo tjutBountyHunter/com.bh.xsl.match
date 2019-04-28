@@ -73,7 +73,7 @@ public class XslMatchController {
      * @date: 2019/4/22 11:56
      */
     public XslResult addAMatchInfo(@RequestBody XslMatch xslMatch){
-        XslResult xslResult = xslMatchService.addAMatch(xslMatch);
+        XslResult xslResult = xslMatchService.addMatch(xslMatch);
         return xslResult;
     }
 
@@ -89,8 +89,24 @@ public class XslMatchController {
      * @date: 2019/4/22 19:28
      */
     public EasyUIDataGridResult getMatchList(Integer page,Integer rows){
-        EasyUIDataGridResult matchList = xslMatchService.getMatchList(page, rows);
-        return matchList;
+        XslResult matchList = xslMatchService.getMatchPage(page, rows);
+        return (EasyUIDataGridResult) matchList.getData();
+    }
+
+    @RequestMapping("/selectAll/list")
+    @ResponseBody
+    /**
+     *
+     * 功能描述: 获取比赛列表--不分页
+     *
+     * @param: [page, rows]
+     * @return: com.xsl.result.EasyUIDataGridResult
+     * @auther: 11432_000
+     * @date: 2019/4/22 19:28
+     */
+    public List<XslMatch> getMatchList(){
+        XslResult matchList = xslMatchService.getMatchList();
+        return (List<XslMatch>) matchList.getData();
     }
 
 
@@ -106,7 +122,7 @@ public class XslMatchController {
      * @date: 2019/4/22 19:29
      */
     public XslResult editMatchInfo(@RequestBody XslMatch xslMatch){
-        XslResult xslResult = xslMatchService.updateAMatchInfo(xslMatch);
+        XslResult xslResult = xslMatchService.updateMatchInfo(xslMatch);
         return xslResult;
     }
 
@@ -115,7 +131,7 @@ public class XslMatchController {
     @ResponseBody
     /**
      *
-     * 功能描述: 根据MatchId删除记录
+     * 功能描述: 根据MatchId逻辑删除记录
      *
      * @param: [matchIds]
      * @return: com.xsl.result.XslResult
@@ -139,6 +155,39 @@ public class XslMatchController {
      */
     public XslResult disableMatch(@Param("matchIds") String matchIds){
         return xslMatchService.updateMatchState(matchIds, MatchState.DELETE.getKey());
+    }
+
+
+    @RequestMapping("/select/matchType")
+    @ResponseBody
+    public List<XslMatch> getAllMatchByMatchType(@Param("matchTypeId") String matchTypeId){
+        /**
+         *
+         * 功能描述: 获取某一类型的所有比赛
+         *
+         * @param: [matchTypeId]
+         * @return: java.util.List<com.xsl.pojo.XslMatch>
+         * @auther: 11432_000
+         * @date: 2019/4/27 14:00
+         */
+        XslResult result = xslMatchService.selectAllMatchByMatchType(matchTypeId);
+        return (List<XslMatch>) result.getData();
+    }
+
+    @RequestMapping("/select/one")
+    @ResponseBody
+    public XslMatch getMatchByMatchId(@Param("matchId") String matchId){
+        /**
+         *
+         * 功能描述: 获取指定的比赛
+         *
+         * @param: [matchId]
+         * @return: com.xsl.pojo.XslMatch
+         * @auther: 11432_000
+         * @date: 2019/4/28 20:51
+         */
+        XslResult result = xslMatchService.selectMatchInfoByMatchId(matchId);
+        return (XslMatch) result.getData();
     }
 
 }

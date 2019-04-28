@@ -20,6 +20,10 @@ Date.prototype.format = function(format){
     return format;
 };
 
+var rankType = [];
+var rewardRankType = [];
+var matchType = [];
+
 var E3 = {
 	/* Date转yyyy-MM-dd hh:mm:ss */
     formatDateTime : function(val,row){
@@ -35,39 +39,52 @@ var E3 = {
 	MATCH_REVIEW(4,"评审阶段"),MATCH_END(5,"比赛结束"),
     DELETE(6,"比赛已删除");*/
     formatMatchStatus : function formatStatus(val,row){
-        if (val == 0){
+        if (val == 1){
             return '报名未开始';
         }
-        if(val == 1){
+        if(val == 2){
             return '报名中';
         }
-        if (val == 2) {
+        if (val == 3) {
             return '报名截止';
         }
-        if (val == 3) {
+        if (val == 4) {
             return '比赛进行中';
         }
-        if (val == 4) {
+        if (val == 5) {
             return '评审阶段';
         }
-        if (val == 5) {
+        if (val == 6) {
             return '比赛结束';
         }
-        if (val == 6) {
+        if (val == 7) {
             return '比赛禁用';
         }
     },
     formatRank : function(val,row){
         var msg;
-		$.ajax({
-			method : 'get',
-			url : 'match/rank/select',
-			data : {'rankId': val},
-            async : false,
-			success : function (data) {
-				msg = data.rankName;
+        if (rankType.length == 0){
+            $.ajax({
+                method : 'get',
+                url : 'match/rank/selectAll/list',
+                async : false,
+                success : function (data) {
+                    // 动态的为对象添加属性
+                    $.each(data,function (index,value) {
+                        var rankInfo = {};
+                        eval("rankInfo.matchRankId = '" + value.matchRankId + "'");
+                        eval("rankInfo.rankName = '" + value.rankName + "'");
+                        rankType.push(rankInfo);
+                    })
+                }
+            });
+        }
+        $.each(rankType,function (index,value) {
+            if (value.matchRankId == val) {
+                msg = value.rankName;
+                return false;
             }
-		});
+        })
 		return msg + "";
     },
     /*PERSONAL(1,"个人"),GROUP(2,"团体"),UNLIMITED(3,"不限");*/
@@ -81,6 +98,71 @@ var E3 = {
         if (val == 3){
             return '不限';
         }
+    },
+    formatRewardRank : function(val,row){
+        var msg;
+        if (rewardRankType.length == 0){
+            $.ajax({
+                method : 'get',
+                url : 'match/reward/rank/selectAll',
+                async : false,
+                success : function (data) {
+                    // 动态的为对象添加属性
+                    $.each(data,function (index,value) {
+                        var rankInfo = {};
+                        eval("rankInfo.rewardRankId = '" + value.rewardRankId + "'");
+                        eval("rankInfo.rewardRankName = '" + value.rewardRankName + "'");
+                        rewardRankType.push(rankInfo);
+                    })
+                }
+            });
+        }
+        $.each(rewardRankType,function (index,value) {
+            if (value.rewardRankId == val) {
+                msg = value.rewardRankName;
+                return false;
+            }
+        })
+        return msg + "";
+    },
+    formatMatchType : function(val,row){
+        var msg;
+        if (matchType.length == 0){
+            $.ajax({
+                method : 'get',
+                url : 'match/type/selectAll/list',
+                async : false,
+                success : function (data) {
+                    // 动态的为对象添加属性
+                    $.each(data,function (index,value) {
+                        var rankInfo = {};
+                        eval("rankInfo.matchTypeId = '" + value.matchTypeId + "'");
+                        eval("rankInfo.matchTypeName = '" + value.matchTypeName + "'");
+                        matchType.push(rankInfo);
+                    })
+                }
+            });
+        }
+        $.each(matchType,function (index,value) {
+            if (value.matchTypeId == val) {
+                msg = value.matchTypeName;
+                return false;
+            }
+        })
+        return msg + "";
+    },
+    formatMatch : function(val,row){
+        var msg;
+        $.ajax({
+            method : 'get',
+            url : 'match/info/select/one',
+            data : {'matchId': val},
+            async : false,
+            success : function (data) {
+               msg = data.matchName;
+            }
+        });
+        return msg + "";
     }
 };
 

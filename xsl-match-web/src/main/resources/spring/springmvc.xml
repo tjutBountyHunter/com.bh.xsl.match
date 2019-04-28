@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"  xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
@@ -26,6 +26,9 @@
         <!-- 将路径上的参数映射到方法的传入参数中 -->
     </mvc:annotation-driven>
 
+    <!-- 项目初始化操作 -->
+    <bean id="PoneBlacklistCache" class="xsl.match.service.impl.InitService" scope="singleton" init-method="init"></bean>
+
     <!-- 加载配置文件 -->
     <context:property-placeholder location="classpath:conf/*.properties" />
 
@@ -43,6 +46,7 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="5242880"/>
     </bean>
+
 
 
 </beans>

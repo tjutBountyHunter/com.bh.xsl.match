@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!--&lt;!&ndash; 真正产生Connection的ConnectionFactory，用于连接到到mq &ndash;&gt;-->
+    <!--<bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">-->
+        <!--<property name="brokerURL" value="tcp://47.93.230.61:61616"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; Spring用于管理真正的ConnectionFactory的ConnectionFactory &ndash;&gt;-->
+    <!--<bean id="connectionFactory"-->
+          <!--class="org.springframework.jms.connection.SingleConnectionFactory">-->
+        <!--&lt;!&ndash; 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory &ndash;&gt;-->
+        <!--<property name="targetConnectionFactory" ref="targetConnectionFactory"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 配置生产者 &ndash;&gt;-->
+    <!--&lt;!&ndash; Spring提供的JMS工具类，它可以进行消息发送、接收等 &ndash;&gt;-->
+    <!--<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">-->
+        <!--&lt;!&ndash;  Spring用于管理真正的ConnectionFactory的ConnectionFactory &ndash;&gt;-->
+        <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+    <!--</bean>-->
+
+    <!--这个是队列目的地，点对点的 增加任务-->
+    <!--<bean id="addQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+        <!--<constructor-arg>-->
+            <!--<value>addTaskMQ</value>-->
+        <!--</constructor-arg>-->
+    <!--</bean>-->
+
+
+</beans>

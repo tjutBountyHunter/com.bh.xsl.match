@@ -8,10 +8,11 @@
     <result column="positionId" property="positionId" jdbcType="VARCHAR" />
     <result column="applicationState" property="applicationState" jdbcType="VARCHAR" />
     <result column="applicationTime" property="applicationTime" jdbcType="TIMESTAMP" />
+    <result column="positionState" property="positionState" jdbcType="INTEGER"/>
   </resultMap>
 
   <sql id="Base_Column_List" >
-    Id, userId, teamId, positionId, applicationState, applicationTime
+    Id, userId, teamId, positionId, applicationState, applicationTime,positionState
   </sql>
 
 </mapper>

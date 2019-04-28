@@ -7,10 +7,63 @@
     <result column="rewardRankId" property="rewardRankId" jdbcType="VARCHAR" />
     <result column="rewardContent" property="rewardContent" jdbcType="VARCHAR" />
     <result column="contentQuota" property="contentQuota" jdbcType="INTEGER" />
+    <result column="rewardCreateTime" property="rewardCreateTime" jdbcType="TIMESTAMP"/>
+    <result column="rewardState" property="rewardState" jdbcType="INTEGER"/>
   </resultMap>
 
   <sql id="Base_Column_List" >
-    Id, rewardId, rewardRankId, rewardContent, contentQuota
+      rewardId, rewardRankId, rewardContent, contentQuota,rewardCreateTime,rewardState
   </sql>
+
+  <select id="selectAllReward" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xsl_reward
+    where rewardState != 0
+    order by rewardCreateTime
+  </select>
+
+  <select id="selectAllRewardByRankId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List"/>
+    from xsl_reward
+    where rewardRankId = #{rewardRankId} and rewardState != 0
+    order by rewardCreatTime
+  </select>
+
+  <select id="selectRewardByRewardId" parameterType="java.lang.String" resultType="com.xsl.pojo.XslReward">
+    select <include refid="Base_Column_List"/>
+    from xsl_reward
+    where rewardId = #{rewardId} and rewardState != 0
+  </select>
+
+  <insert id="insert" parameterType="com.xsl.pojo.XslReward">
+    insert into xsl_reward (rewardId, rewardRankId, rewardContent, contentQuota,rewardState)
+    values (#{rewardId},#{rewardRankId},#{rewardContent},#{contentQuota},#{rewardState})
+  </insert>
+
+  <update id="updateByRewardId" parameterType="com.xsl.pojo.XslReward">
+    update xsl_reward
+    set rewardRankId = #{rewardRankId},
+    rewardContent = #{rewardContent},
+    contentQuota = #{contentQuota},
+    rewardState = #{rewardState}
+    where rewardId = #{rewardId}
+  </update>
+
+  <delete id="deleteByRewardId" parameterType="java.lang.String">
+    delete from xsl_reward
+    where rewardId = #{rewardId}
+  </delete>
+
+  <update id="updateRewardStateByRewardId" parameterType="com.xsl.pojo.XslReward">
+    update xsl_reward
+    set rewardState = #{rewardState}
+    where rewardId = #{rewardId}
+  </update>
+
+
+
+
+
+
 
 </mapper>

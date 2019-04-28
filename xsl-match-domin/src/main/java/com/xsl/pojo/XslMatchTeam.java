@@ -21,6 +21,8 @@ public class XslMatchTeam {
 
     private String teamSlogan;
 
+    private String teamLogoUrl;
+
     public Integer getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class XslMatchTeam {
 
     public void setTeamSlogan(String teamSlogan) {
         this.teamSlogan = teamSlogan;
+    }
+
+    public String getTeamLogoUrl() {
+        return teamLogoUrl;
+    }
+
+    public void setTeamLogoUrl(String teamLogoUrl) {
+        this.teamLogoUrl = teamLogoUrl;
     }
 }

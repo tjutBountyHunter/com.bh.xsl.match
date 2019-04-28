@@ -11,11 +11,65 @@
     <result column="teamCreateTime" property="teamCreateTime" jdbcType="TIMESTAMP" />
     <result column="teamState" property="teamState" jdbcType="INTEGER" />
     <result column="teamSlogan" property="teamSlogan" jdbcType="VARCHAR" />
+    <result column="teamLogoUrl" property="teamLogoUrl" jdbcType="VARCHAR"/>
   </resultMap>
 
   <sql id="Base_Column_List" >
-    Id, teamId, matchId, teamName, teamSynopsis, teamCreator, teamCreateTime, teamState, 
-    teamSlogan
+    teamId, matchId, teamName, teamSynopsis, teamCreatorId, teamCreateTime, teamState,
+    teamSlogan,teamLogoUrl
   </sql>
+
+  <select id="selectByTeamId" parameterType="java.lang.String" resultType="com.xsl.pojo.XslMatchTeam">
+    select <include refid="Base_Column_List"/>
+    from xsl_match_team
+    where teamId = #{teamId} and teamState != 0
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xsl_match_team
+    where teamState != 0
+    order by
+    <if test="orderBy != null">
+      #{orderBy}
+    </if>
+    <if test="orderBy == null">
+      teamCreateTime
+    </if>
+  </select>
+
+  <select id="selectAllByMatchId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xsl_match_team
+    where matchId = #{matchId} and teamState != 0
+  </select>
+
+  <delete id="deleteByTeamId" parameterType="java.lang.String">
+    delete from xsl_match_team
+    where teamId = #{teamId}
+  </delete>
+
+  <update id="updateByTeamId" parameterType="com.xsl.pojo.XslMatchTeam">
+    update xsl_match_team
+    set matchId = #{matchId},
+    teamName = #{teamName},
+    teamSynopsis = #{teamSynopsis},
+    teamCreatorId = #{teamCreatorId},
+    teamState = #{teamState},
+    teamSlogan = #{teamSlogan},
+    teamLogoUrl = #{teamLogoUrl}
+    where teamId = #{teamId}
+  </update>
+
+  <update id="updateTeamState" parameterType="com.xsl.pojo.XslMatchTeam">
+    update xsl_match_team
+    set teamState = #{teamState}
+    where teamId = #{teamId}
+  </update>
+
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatchTeam">
+    insert into xsl_match_team(teamId, matchId, teamName, teamSynopsis, teamCreatorId, teamState,teamSlogan,teamLogoUrl)
+    values (#{teamId},#{matchId},#{teamName},#{teamSynopsis},#{teamCreatorId},#{teamState},#{teamSlogan},#{teamLogoUrl})
+  </insert>
 
 </mapper>

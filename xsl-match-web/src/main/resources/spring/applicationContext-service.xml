@@ -2,10 +2,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- 配置包扫描器 -->
-	<context:component-scan base-package="xsl.match.service"/>
+	<context:component-scan base-package="xsl.match.*"/>
+
+	<!-- 加载配置文件 -->
+	<context:property-placeholder location="classpath:conf/buffer.properties" />
+
+	<!-- 自动扫描切面 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+	<bean id="updateMatch" class="xsl.match.advice.updateMatchBuffer"></bean>
 
 </beans>
