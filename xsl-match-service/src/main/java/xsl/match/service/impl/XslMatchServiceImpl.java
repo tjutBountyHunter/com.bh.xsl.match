@@ -13,6 +13,7 @@ import com.xsl.enums.MatchForm;
 import com.xsl.enums.MatchState;
 import com.xsl.enums.ResultCode;
 import com.xsl.pojo.XslMatch;
+import com.xsl.pojo.XslMatchExample;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
@@ -86,12 +87,12 @@ public class XslMatchServiceImpl implements XslMatchService {
         //生成比赛ID
         String uuid = UUID.randomUUID().toString();
         String matchId = "M" + uuid;
-        xslMatch.setMatchId(matchId);
+        xslMatch.setMatchid(matchId);
         //根据当前时间设置比赛状态
-        if (xslMatch.getMatchSignUpStartTime().compareTo(new Date()) <= 0){
-            xslMatch.setMatchState(MatchState.SIGN_UP.getKey());
+        if (xslMatch.getMatchsignupstarttime().compareTo(new Date()) <= 0){
+            xslMatch.setMatchstate(MatchState.SIGN_UP.getKey());
         }else {
-            xslMatch.setMatchState(MatchState.BEFORE_SIGN_UP.getKey());
+            xslMatch.setMatchstate(MatchState.BEFORE_SIGN_UP.getKey());
         }
         try{
             int insert = xslMatchMapper.insert(xslMatch);
@@ -165,13 +166,17 @@ public class XslMatchServiceImpl implements XslMatchService {
     @UpdateMatch
     public XslResult updateMatchInfo(XslMatch xslMatch) throws RuntimeException{
         try{
-            int i = xslMatchMapper.updateByMatchId(xslMatch);
+            XslMatchExample xslMatchExample = new XslMatchExample();
+            XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
+            criteria.andMatchidEqualTo(xslMatch.getMatchid());
+
+            int i = xslMatchMapper.updateByExampleSelective(xslMatch,xslMatchExample);
             if (i <= 0){
-                LOGGER.error("updateAMatchInfo 更新数据 matchId =" + xslMatch.getMatchId() + " 失败");
+                LOGGER.error("updateAMatchInfo 更新数据 matchId =" + xslMatch.getMatchid() + " 失败");
                 return ResultUtils.isError("更新数据失败");
             }
-            LOGGER.info("更新数据 matchId =" + xslMatch.getMatchId() + " 成功");
-            return ResultUtils.isOk(xslMatch.getMatchId());
+            LOGGER.info("更新数据 matchId =" + xslMatch.getMatchid() + " 成功");
+            return ResultUtils.isOk(xslMatch.getMatchid());
         }catch (Exception e){
             throw new RuntimeException("更新比赛信息异常:"  + e.getMessage());
         }
@@ -247,10 +252,13 @@ public class XslMatchServiceImpl implements XslMatchService {
         }
         try{
             XslMatch xslMatch = new XslMatch();
+            XslMatchExample xslMatchExample = new XslMatchExample();
+            XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
             for (String matchId : split){
-                xslMatch.setMatchId(matchId);
-                xslMatch.setMatchState(state);
-                int i = xslMatchMapper.updateMatchState(xslMatch);
+                xslMatchExample.clear();
+                criteria.andMatchidEqualTo(xslMatch.getMatchid());
+                xslMatch.setMatchstate(state);
+                int i = xslMatchMapper.updateByExampleSelective(xslMatch,xslMatchExample);
                 if (i <= 0){
                     LOGGER.error("updateMatchState 更新比赛状态 matchId =" +  matchId + " 失败");
                     return ResultUtils.isError();
@@ -274,7 +282,10 @@ public class XslMatchServiceImpl implements XslMatchService {
          * @date: 2019/4/27 13:54
          */
         try {
-            List<XslMatch> xslMatches = xslMatchMapper.selectAllByMatchTypeId(matchTypeId);
+            XslMatchExample xslMatchExample = new XslMatchExample();
+            XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
+            criteria.andMatchtypeidEqualTo(matchTypeId);
+            List<XslMatch> xslMatches = xslMatchMapper.selectByExample(xslMatchExample);
             return ResultUtils.isOk(xslMatches);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

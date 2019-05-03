@@ -1,22 +1,31 @@
 package xsl.match.mapper;
 
-
 import com.xsl.pojo.XslMatchRank;
-
+import com.xsl.pojo.XslMatchRankExample;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface XslMatchRankMapper {
+    long countByExample(XslMatchRankExample example);
 
-    List<XslMatchRank> selectAll();
+    int deleteByExample(XslMatchRankExample example);
 
-    List<XslMatchRank> selectByRankId(String rankId);
+    int deleteByPrimaryKey(Integer id);
 
-    int updateByRankId(XslMatchRank xslMatchRank);
+    int insert(XslMatchRank record);
 
-    int insert(XslMatchRank xslMatchRank);
+    int insertSelective(XslMatchRank record);
 
-    int deleteByMatchRankId(String matchRankId);
+    List<XslMatchRank> selectByExample(XslMatchRankExample example);
 
-    int updateRankStateByMatchRankId(XslMatchRank xslMatchRank);
+    XslMatchRank selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") XslMatchRank record, @Param("example") XslMatchRankExample example);
+
+    int updateByExample(@Param("record") XslMatchRank record, @Param("example") XslMatchRankExample example);
+
+    int updateByPrimaryKeySelective(XslMatchRank record);
+
+    int updateByPrimaryKey(XslMatchRank record);
 }

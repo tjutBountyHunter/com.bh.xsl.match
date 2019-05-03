@@ -4,6 +4,7 @@ import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.enums.ResultCode;
 import com.xsl.pojo.XslMatch;
+import com.xsl.pojo.XslMatchExample;
 import com.xsl.result.XslResult;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -55,10 +56,14 @@ public class updateMatchBuffer {
         if (xslResult.getData() != null){
             String matchIds = xslResult.getData().toString();
             String[] split = matchIds.split(",");
+            XslMatchExample xslMatchExample = new XslMatchExample();
+            XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
             for (String matchId : split){
                 try {
-                    XslMatch xslMatch = xslMatchMapper.selectByMatchId(matchId);
-                    JedisUtils.set(MATCH_BUFFER_PREFIX +  ":" + xslMatch.getMatchId(), JsonUtils.objectToJson(xslMatch));
+                    xslMatchExample.clear();
+                    criteria.andMatchidEqualTo(matchId);
+                    XslMatch xslMatch = xslMatchMapper.selectByExample(xslMatchExample).get(0);
+                    JedisUtils.set(MATCH_BUFFER_PREFIX +  ":" + xslMatch.getMatchid(), JsonUtils.objectToJson(xslMatch));
                     LOGGER.info("更新比赛缓存---成功");
                 } catch (Exception e) {
                     LOGGER.error("更新比赛缓存---失败");

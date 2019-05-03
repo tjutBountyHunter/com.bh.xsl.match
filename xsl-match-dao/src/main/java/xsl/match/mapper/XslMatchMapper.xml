@@ -3,113 +3,432 @@
 <mapper namespace="xsl.match.mapper.XslMatchMapper" >
   <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatch" >
     <id column="Id" property="id" jdbcType="INTEGER" />
-    <result column="matchId" property="matchId" jdbcType="VARCHAR" />
-    <result column="matchName" property="matchName" jdbcType="VARCHAR" />
-    <result column="matchRankId" property="matchRankId" jdbcType="VARCHAR" />
-    <result column="matchWebsite" property="matchWebsite" jdbcType="VARCHAR" />
-    <result column="matchOrientedId" property="matchOrientedId" jdbcType="VARCHAR" />
-    <result column="matchStartTime" property="matchStartTime" jdbcType="TIMESTAMP" />
-    <result column="matchEndTime" property="matchEndTime" jdbcType="TIMESTAMP" />
-    <result column="matchState" property="matchState" jdbcType="INTEGER" />
-    <result column="matchSignUpEndTime" property="matchSignUpEndTime" jdbcType="TIMESTAMP" />
-    <result column="matchAddress" property="matchAddress" jdbcType="VARCHAR" />
-    <result column="matchSignUpMaxNum" property="matchSignUpMaxNum" jdbcType="INTEGER" />
-    <result column="matchForm" property="matchForm" jdbcType="INTEGER" />
-    <result column="matchTeamNum" property="matchTeamNum" jdbcType="INTEGER" />
-    <result column="matchSignUpStartTime" property="matchSignUpStartTime" jdbcType="TIMESTAMP" />
-    <result column="matchCreateTime" property="matchCreateTime" jdbcType="TIMESTAMP" />
-    <result column="matchPosterUrl" property="matchPosterUrl" jdbcType="TIMESTAMP" />
-    <result column="matchTypeId" property="matchTypeId" jdbcType="VARCHAR"/>
+    <result column="matchId" property="matchid" jdbcType="VARCHAR" />
+    <result column="matchName" property="matchname" jdbcType="VARCHAR" />
+    <result column="matchRankId" property="matchrankid" jdbcType="VARCHAR" />
+    <result column="matchWebsite" property="matchwebsite" jdbcType="VARCHAR" />
+    <result column="matchOrientedId" property="matchorientedid" jdbcType="VARCHAR" />
+    <result column="matchStartTime" property="matchstarttime" jdbcType="TIMESTAMP" />
+    <result column="matchEndTime" property="matchendtime" jdbcType="TIMESTAMP" />
+    <result column="matchState" property="matchstate" jdbcType="INTEGER" />
+    <result column="matchSignUpEndTime" property="matchsignupendtime" jdbcType="TIMESTAMP" />
+    <result column="matchAddress" property="matchaddress" jdbcType="VARCHAR" />
+    <result column="matchSignUpMaxNum" property="matchsignupmaxnum" jdbcType="INTEGER" />
+    <result column="matchForm" property="matchform" jdbcType="INTEGER" />
+    <result column="matchTeamNum" property="matchteamnum" jdbcType="INTEGER" />
+    <result column="matchSignUpStartTime" property="matchsignupstarttime" jdbcType="TIMESTAMP" />
+    <result column="matchCreateTime" property="matchcreatetime" jdbcType="TIMESTAMP" />
+    <result column="matchPosterUrl" property="matchposterurl" jdbcType="VARCHAR" />
+    <result column="matchTypeId" property="matchtypeid" jdbcType="VARCHAR" />
+    <result column="matchInfo" property="matchinfo" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    matchId, matchName, matchRankId, matchWebsite, matchOrientedId, matchStartTime,
-    matchEndTime, matchState, matchSignUpEndTime, matchAddress, matchSignUpMaxNum, matchForm, 
-    matchTeamNum,matchSignUpStartTime,matchCreateTime,matchPosterUrl,matchTypeId
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
-  <select id="selectByMatchId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
-    from xsl_match
-    where matchId = #{matchId,jdbcType=VARCHAR} and matchState != 0
-  </select>
-  <update id="updateByMatchId" parameterType="com.xsl.pojo.XslMatch">
-    update xsl_match
-    set matchName = #{matchName,jdbcType=VARCHAR},
-      matchRankId = #{matchRankId,jdbcType=VARCHAR},
-      matchWebsite = #{matchWebsite,jdbcType=VARCHAR},
-      matchOrientedId = #{matchOrientedId,jdbcType=VARCHAR},
-      matchStartTime = #{matchStartTime,jdbcType=TIMESTAMP},
-      matchEndTime = #{matchEndTime,jdbcType=TIMESTAMP},
-      matchState = #{matchState,jdbcType=INTEGER},
-      matchSignUpEndTime = #{matchSignUpEndTime,jdbcType=TIMESTAMP},
-      matchAddress = #{matchAddress,jdbcType=VARCHAR},
-      matchSignUpMaxNum = #{matchSignUpMaxNum,jdbcType=INTEGER},
-      matchForm = #{matchForm,jdbcType=INTEGER},
-      matchTeamNum = #{matchTeamNum,jdbcType=INTEGER},
-      matchSignUpStartTime = #{matchSignUpStartTime,jdbcType=TIMESTAMP},
-      matchPosterUrl = #{matchPosterUrl,jdbcType=VARCHAR},
-      matchTypeId = #{matchTypeId}
-      where matchId = #{matchId,jdbcType=VARCHAR}
-  </update>
-  <insert id="insert" parameterType="com.xsl.pojo.XslMatch">
-    insert into xsl_match(matchId, matchName, matchRankId, matchWebsite, matchOrientedId, matchStartTime,
-    matchEndTime, matchState, matchSignUpEndTime, matchAddress, matchSignUpMaxNum, matchForm,
-    matchTeamNum,matchSignUpStartTime,matchPosterUrl,matchTypeId)
-    values (#{matchId},#{matchName},#{matchRankId},#{matchWebsite},#{matchOrientedId},#{matchStartTime},#{matchEndTime},#{matchState},
-    #{matchSignUpEndTime},#{matchAddress},#{matchSignUpMaxNum},#{matchForm},#{matchTeamNum},#{matchSignUpStartTime},#{matchPosterUrl},#{matchTypeId});
-  </insert>
-
-  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select  <include refid="Base_Column_List"/>
-    from xsl_match
-    where matchState != 0
-    <if test="orderBy != null">
-      order by #{orderBy}
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Id, matchId, matchName, matchRankId, matchWebsite, matchOrientedId, matchStartTime, 
+    matchEndTime, matchState, matchSignUpEndTime, matchAddress, matchSignUpMaxNum, matchForm, 
+    matchTeamNum, matchSignUpStartTime, matchCreateTime, matchPosterUrl, matchTypeId, 
+    matchInfo
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xsl.pojo.XslMatchExample" >
+    select
+    <if test="distinct" >
+      distinct
     </if>
-    <if test="orderBy == null">
-      order by matchCreateTime
+    <include refid="Base_Column_List" />
+    from xsl_match
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
     </if>
   </select>
-
-  <delete id="deleteByMatchId" parameterType="java.lang.String">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from xsl_match
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from xsl_match
-    where
-    matchId = #{matchId}
+    where Id = #{id,jdbcType=INTEGER}
   </delete>
-
-  <update id="updateMatchState" parameterType="com.xsl.pojo.XslMatch">
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.XslMatchExample" >
+    delete from xsl_match
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatch" >
+    insert into xsl_match (Id, matchId, matchName, 
+      matchRankId, matchWebsite, matchOrientedId, 
+      matchStartTime, matchEndTime, matchState, 
+      matchSignUpEndTime, matchAddress, matchSignUpMaxNum, 
+      matchForm, matchTeamNum, matchSignUpStartTime, 
+      matchCreateTime, matchPosterUrl, matchTypeId, 
+      matchInfo)
+    values (#{id,jdbcType=INTEGER}, #{matchid,jdbcType=VARCHAR}, #{matchname,jdbcType=VARCHAR}, 
+      #{matchrankid,jdbcType=VARCHAR}, #{matchwebsite,jdbcType=VARCHAR}, #{matchorientedid,jdbcType=VARCHAR}, 
+      #{matchstarttime,jdbcType=TIMESTAMP}, #{matchendtime,jdbcType=TIMESTAMP}, #{matchstate,jdbcType=INTEGER}, 
+      #{matchsignupendtime,jdbcType=TIMESTAMP}, #{matchaddress,jdbcType=VARCHAR}, #{matchsignupmaxnum,jdbcType=INTEGER}, 
+      #{matchform,jdbcType=INTEGER}, #{matchteamnum,jdbcType=INTEGER}, #{matchsignupstarttime,jdbcType=TIMESTAMP}, 
+      #{matchcreatetime,jdbcType=TIMESTAMP}, #{matchposterurl,jdbcType=VARCHAR}, #{matchtypeid,jdbcType=VARCHAR}, 
+      #{matchinfo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xsl.pojo.XslMatch" >
+    insert into xsl_match
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="matchid != null" >
+        matchId,
+      </if>
+      <if test="matchname != null" >
+        matchName,
+      </if>
+      <if test="matchrankid != null" >
+        matchRankId,
+      </if>
+      <if test="matchwebsite != null" >
+        matchWebsite,
+      </if>
+      <if test="matchorientedid != null" >
+        matchOrientedId,
+      </if>
+      <if test="matchstarttime != null" >
+        matchStartTime,
+      </if>
+      <if test="matchendtime != null" >
+        matchEndTime,
+      </if>
+      <if test="matchstate != null" >
+        matchState,
+      </if>
+      <if test="matchsignupendtime != null" >
+        matchSignUpEndTime,
+      </if>
+      <if test="matchaddress != null" >
+        matchAddress,
+      </if>
+      <if test="matchsignupmaxnum != null" >
+        matchSignUpMaxNum,
+      </if>
+      <if test="matchform != null" >
+        matchForm,
+      </if>
+      <if test="matchteamnum != null" >
+        matchTeamNum,
+      </if>
+      <if test="matchsignupstarttime != null" >
+        matchSignUpStartTime,
+      </if>
+      <if test="matchcreatetime != null" >
+        matchCreateTime,
+      </if>
+      <if test="matchposterurl != null" >
+        matchPosterUrl,
+      </if>
+      <if test="matchtypeid != null" >
+        matchTypeId,
+      </if>
+      <if test="matchinfo != null" >
+        matchInfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="matchid != null" >
+        #{matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchname != null" >
+        #{matchname,jdbcType=VARCHAR},
+      </if>
+      <if test="matchrankid != null" >
+        #{matchrankid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchwebsite != null" >
+        #{matchwebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="matchorientedid != null" >
+        #{matchorientedid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchstarttime != null" >
+        #{matchstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchendtime != null" >
+        #{matchendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchstate != null" >
+        #{matchstate,jdbcType=INTEGER},
+      </if>
+      <if test="matchsignupendtime != null" >
+        #{matchsignupendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchaddress != null" >
+        #{matchaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="matchsignupmaxnum != null" >
+        #{matchsignupmaxnum,jdbcType=INTEGER},
+      </if>
+      <if test="matchform != null" >
+        #{matchform,jdbcType=INTEGER},
+      </if>
+      <if test="matchteamnum != null" >
+        #{matchteamnum,jdbcType=INTEGER},
+      </if>
+      <if test="matchsignupstarttime != null" >
+        #{matchsignupstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchcreatetime != null" >
+        #{matchcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchposterurl != null" >
+        #{matchposterurl,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtypeid != null" >
+        #{matchtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchinfo != null" >
+        #{matchinfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xsl.pojo.XslMatchExample" resultType="java.lang.Integer" >
+    select count(*) from xsl_match
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
     update xsl_match
-    set matchState = #{matchState,jdbcType=INTEGER}
-    where  matchId = #{matchId,jdbcType=VARCHAR}
+    <set >
+      <if test="record.id != null" >
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchid != null" >
+        matchId = #{record.matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchname != null" >
+        matchName = #{record.matchname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchrankid != null" >
+        matchRankId = #{record.matchrankid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchwebsite != null" >
+        matchWebsite = #{record.matchwebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchorientedid != null" >
+        matchOrientedId = #{record.matchorientedid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchstarttime != null" >
+        matchStartTime = #{record.matchstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matchendtime != null" >
+        matchEndTime = #{record.matchendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matchstate != null" >
+        matchState = #{record.matchstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchsignupendtime != null" >
+        matchSignUpEndTime = #{record.matchsignupendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matchaddress != null" >
+        matchAddress = #{record.matchaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchsignupmaxnum != null" >
+        matchSignUpMaxNum = #{record.matchsignupmaxnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchform != null" >
+        matchForm = #{record.matchform,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchteamnum != null" >
+        matchTeamNum = #{record.matchteamnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchsignupstarttime != null" >
+        matchSignUpStartTime = #{record.matchsignupstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matchcreatetime != null" >
+        matchCreateTime = #{record.matchcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matchposterurl != null" >
+        matchPosterUrl = #{record.matchposterurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchtypeid != null" >
+        matchTypeId = #{record.matchtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchinfo != null" >
+        matchInfo = #{record.matchinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
   </update>
-
-  <select id="selectAllByMatchRankId" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select  <include refid="Base_Column_List"/>
-    from xsl_match
-    where matchRankId = #{matchRankId} and matchState != 0
-    order by matchCreateTime
-  </select>
-  <select id="selectAllByOrientedId" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select  <include refid="Base_Column_List"/>
-    from xsl_match
-    where matchOrientedId = #{matchOrientedId} and matchState != 0
-    order by matchCreateTime
-  </select>
-
-  <select id="getNumByMatchRankId" parameterType="java.lang.String" resultType="java.lang.Integer">
-    select count(matchRankId)
-    from xsl_match
-    where matchRankId = #{matchRankId} and matchState != 0
-  </select>
-  <select id="getNumByOrientedId" parameterType="java.lang.String" resultType="java.lang.Integer">
-    select count(matchOrientedId)
-    from xsl_match
-    where matchOrientedId = #{orientedId} and matchState != 0
-  </select>
-
-    <select id="selectAllByMatchTypeId" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
-        from xsl_match
-        where matchTypeId = #{matchTypeId} and matchState != 0
-    </select>
-
+  <update id="updateByExample" parameterType="map" >
+    update xsl_match
+    set Id = #{record.id,jdbcType=INTEGER},
+      matchId = #{record.matchid,jdbcType=VARCHAR},
+      matchName = #{record.matchname,jdbcType=VARCHAR},
+      matchRankId = #{record.matchrankid,jdbcType=VARCHAR},
+      matchWebsite = #{record.matchwebsite,jdbcType=VARCHAR},
+      matchOrientedId = #{record.matchorientedid,jdbcType=VARCHAR},
+      matchStartTime = #{record.matchstarttime,jdbcType=TIMESTAMP},
+      matchEndTime = #{record.matchendtime,jdbcType=TIMESTAMP},
+      matchState = #{record.matchstate,jdbcType=INTEGER},
+      matchSignUpEndTime = #{record.matchsignupendtime,jdbcType=TIMESTAMP},
+      matchAddress = #{record.matchaddress,jdbcType=VARCHAR},
+      matchSignUpMaxNum = #{record.matchsignupmaxnum,jdbcType=INTEGER},
+      matchForm = #{record.matchform,jdbcType=INTEGER},
+      matchTeamNum = #{record.matchteamnum,jdbcType=INTEGER},
+      matchSignUpStartTime = #{record.matchsignupstarttime,jdbcType=TIMESTAMP},
+      matchCreateTime = #{record.matchcreatetime,jdbcType=TIMESTAMP},
+      matchPosterUrl = #{record.matchposterurl,jdbcType=VARCHAR},
+      matchTypeId = #{record.matchtypeid,jdbcType=VARCHAR},
+      matchInfo = #{record.matchinfo,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslMatch" >
+    update xsl_match
+    <set >
+      <if test="matchid != null" >
+        matchId = #{matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchname != null" >
+        matchName = #{matchname,jdbcType=VARCHAR},
+      </if>
+      <if test="matchrankid != null" >
+        matchRankId = #{matchrankid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchwebsite != null" >
+        matchWebsite = #{matchwebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="matchorientedid != null" >
+        matchOrientedId = #{matchorientedid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchstarttime != null" >
+        matchStartTime = #{matchstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchendtime != null" >
+        matchEndTime = #{matchendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchstate != null" >
+        matchState = #{matchstate,jdbcType=INTEGER},
+      </if>
+      <if test="matchsignupendtime != null" >
+        matchSignUpEndTime = #{matchsignupendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchaddress != null" >
+        matchAddress = #{matchaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="matchsignupmaxnum != null" >
+        matchSignUpMaxNum = #{matchsignupmaxnum,jdbcType=INTEGER},
+      </if>
+      <if test="matchform != null" >
+        matchForm = #{matchform,jdbcType=INTEGER},
+      </if>
+      <if test="matchteamnum != null" >
+        matchTeamNum = #{matchteamnum,jdbcType=INTEGER},
+      </if>
+      <if test="matchsignupstarttime != null" >
+        matchSignUpStartTime = #{matchsignupstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchcreatetime != null" >
+        matchCreateTime = #{matchcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchposterurl != null" >
+        matchPosterUrl = #{matchposterurl,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtypeid != null" >
+        matchTypeId = #{matchtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchinfo != null" >
+        matchInfo = #{matchinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslMatch" >
+    update xsl_match
+    set matchId = #{matchid,jdbcType=VARCHAR},
+      matchName = #{matchname,jdbcType=VARCHAR},
+      matchRankId = #{matchrankid,jdbcType=VARCHAR},
+      matchWebsite = #{matchwebsite,jdbcType=VARCHAR},
+      matchOrientedId = #{matchorientedid,jdbcType=VARCHAR},
+      matchStartTime = #{matchstarttime,jdbcType=TIMESTAMP},
+      matchEndTime = #{matchendtime,jdbcType=TIMESTAMP},
+      matchState = #{matchstate,jdbcType=INTEGER},
+      matchSignUpEndTime = #{matchsignupendtime,jdbcType=TIMESTAMP},
+      matchAddress = #{matchaddress,jdbcType=VARCHAR},
+      matchSignUpMaxNum = #{matchsignupmaxnum,jdbcType=INTEGER},
+      matchForm = #{matchform,jdbcType=INTEGER},
+      matchTeamNum = #{matchteamnum,jdbcType=INTEGER},
+      matchSignUpStartTime = #{matchsignupstarttime,jdbcType=TIMESTAMP},
+      matchCreateTime = #{matchcreatetime,jdbcType=TIMESTAMP},
+      matchPosterUrl = #{matchposterurl,jdbcType=VARCHAR},
+      matchTypeId = #{matchtypeid,jdbcType=VARCHAR},
+      matchInfo = #{matchinfo,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

@@ -1,32 +1,30 @@
 package xsl.match.mapper;
 
-
 import com.xsl.pojo.XslMatch;
-
+import com.xsl.pojo.XslMatchExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface XslMatchMapper {
-    /** 根据比赛ID查询数据 */
-    XslMatch selectByMatchId(String matchId);
-    /** 根据 非比赛ID的字段 查询数据 */
-    /** 查询所有数据 根据指定属性排序 默认为matchCreateTime*/
-    List<XslMatch> selectAll(String orderBy);
-    /** 根据比赛ID删除数据 */
-    int deleteByMatchId(String matchId);
-    /** 根据比赛ID更新数据 */
-    int updateByMatchId(XslMatch xslMatch);
-    /** 添加一条数据 */
-    int insert(XslMatch xslMatch);
-    /** 更新比赛状态 */
-    int updateMatchState(XslMatch xslMatch);
-    /** 根据比赛类类获取比赛 */
-    List<XslMatch> selectAllByMatchTypeId(String matchTypeId);
+    int countByExample(XslMatchExample example);
 
-    List<XslMatch> selectAllByMatchRankId(String matchRankId);
+    int deleteByExample(XslMatchExample example);
 
-    List<XslMatch> selectAllByOrientedId(String orientedId);
+    int deleteByPrimaryKey(Integer id);
 
-    int getNumByMatchRankId(String matchRankId);
+    int insert(XslMatch record);
 
-    int getNumByOrientedId(String orientedId);
+    int insertSelective(XslMatch record);
+
+    List<XslMatch> selectByExample(XslMatchExample example);
+
+    XslMatch selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") XslMatch record, @Param("example") XslMatchExample example);
+
+    int updateByExample(@Param("record") XslMatch record, @Param("example") XslMatchExample example);
+
+    int updateByPrimaryKeySelective(XslMatch record);
+
+    int updateByPrimaryKey(XslMatch record);
 }

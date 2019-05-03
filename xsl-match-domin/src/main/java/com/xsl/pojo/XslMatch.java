@@ -5,48 +5,41 @@ import java.util.Date;
 public class XslMatch {
     private Integer id;
 
-    private String matchId;
+    private String matchid;
 
-    private String matchName;
+    private String matchname;
 
-    private String matchRankId;
+    private String matchrankid;
 
-    private String matchWebsite;
+    private String matchwebsite;
 
-    private String matchOrientedId;
+    private String matchorientedid;
 
-    private Date matchStartTime;
+    private Date matchstarttime;
 
-    private Date matchEndTime;
+    private Date matchendtime;
 
-    private Integer matchState;
+    private Integer matchstate;
 
-    private Date matchSignUpEndTime;
+    private Date matchsignupendtime;
 
-    private String matchAddress;
+    private String matchaddress;
 
-    private Integer matchSignUpMaxNum;
+    private Integer matchsignupmaxnum;
 
-    private Integer matchForm;
+    private Integer matchform;
 
-    private Integer matchTeamNum;
+    private Integer matchteamnum;
 
-    private Date matchSignUpStartTime;
+    private Date matchsignupstarttime;
 
-    private Date matchCreateTime;
+    private Date matchcreatetime;
 
-    private String matchPosterUrl;
+    private String matchposterurl;
 
-    private String matchTypeId;
+    private String matchtypeid;
 
-
-    public String getMatchTypeId() {
-        return matchTypeId;
-    }
-
-    public void setMatchTypeId(String matchTypeId) {
-        this.matchTypeId = matchTypeId;
-    }
+    private String matchinfo;
 
     public Integer getId() {
         return id;
@@ -56,132 +49,147 @@ public class XslMatch {
         this.id = id;
     }
 
-    public String getMatchId() {
-        return matchId;
+    public String getMatchid() {
+        return matchid;
     }
 
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
+    public void setMatchid(String matchid) {
+        this.matchid = matchid == null ? null : matchid.trim();
     }
 
-    public String getMatchName() {
-        return matchName;
+    public String getMatchname() {
+        return matchname;
     }
 
-    public void setMatchName(String matchName) {
-        this.matchName = matchName;
+    public void setMatchname(String matchname) {
+        this.matchname = matchname == null ? null : matchname.trim();
     }
 
-    public String getMatchRankId() {
-        return matchRankId;
+    public String getMatchrankid() {
+        return matchrankid;
     }
 
-    public void setMatchRankId(String matchRankId) {
-        this.matchRankId = matchRankId;
+    public void setMatchrankid(String matchrankid) {
+        this.matchrankid = matchrankid == null ? null : matchrankid.trim();
     }
 
-    public String getMatchWebsite() {
-        return matchWebsite;
+    public String getMatchwebsite() {
+        return matchwebsite;
     }
 
-    public void setMatchWebsite(String matchWebsite) {
-        this.matchWebsite = matchWebsite;
+    public void setMatchwebsite(String matchwebsite) {
+        this.matchwebsite = matchwebsite == null ? null : matchwebsite.trim();
     }
 
-    public String getMatchOrientedId() {
-        return matchOrientedId;
+    public String getMatchorientedid() {
+        return matchorientedid;
     }
 
-    public void setMatchOrientedId(String matchOrientedId) {
-        this.matchOrientedId = matchOrientedId;
+    public void setMatchorientedid(String matchorientedid) {
+        this.matchorientedid = matchorientedid == null ? null : matchorientedid.trim();
     }
 
-    public Date getMatchStartTime() {
-        return matchStartTime;
+    public Date getMatchstarttime() {
+        return matchstarttime;
     }
 
-    public void setMatchStartTime(Date matchStartTime) {
-        this.matchStartTime = matchStartTime;
+    public void setMatchstarttime(Date matchstarttime) {
+        this.matchstarttime = matchstarttime;
     }
 
-    public Date getMatchEndTime() {
-        return matchEndTime;
+    public Date getMatchendtime() {
+        return matchendtime;
     }
 
-    public void setMatchEndTime(Date matchEndTime) {
-        this.matchEndTime = matchEndTime;
+    public void setMatchendtime(Date matchendtime) {
+        this.matchendtime = matchendtime;
     }
 
-    public Integer getMatchState() {
-        return matchState;
+    public Integer getMatchstate() {
+        return matchstate;
     }
 
-    public void setMatchState(Integer matchState) {
-        this.matchState = matchState;
+    public void setMatchstate(Integer matchstate) {
+        this.matchstate = matchstate;
     }
 
-    public Date getMatchSignUpEndTime() {
-        return matchSignUpEndTime;
+    public Date getMatchsignupendtime() {
+        return matchsignupendtime;
     }
 
-    public void setMatchSignUpEndTime(Date matchSignUpEndTime) {
-        this.matchSignUpEndTime = matchSignUpEndTime;
+    public void setMatchsignupendtime(Date matchsignupendtime) {
+        this.matchsignupendtime = matchsignupendtime;
     }
 
-    public String getMatchAddress() {
-        return matchAddress;
+    public String getMatchaddress() {
+        return matchaddress;
     }
 
-    public void setMatchAddress(String matchAddress) {
-        this.matchAddress = matchAddress;
+    public void setMatchaddress(String matchaddress) {
+        this.matchaddress = matchaddress == null ? null : matchaddress.trim();
     }
 
-    public Integer getMatchSignUpMaxNum() {
-        return matchSignUpMaxNum;
+    public Integer getMatchsignupmaxnum() {
+        return matchsignupmaxnum;
     }
 
-    public void setMatchSignUpMaxNum(Integer matchSignUpMaxNum) {
-        this.matchSignUpMaxNum = matchSignUpMaxNum;
+    public void setMatchsignupmaxnum(Integer matchsignupmaxnum) {
+        this.matchsignupmaxnum = matchsignupmaxnum;
     }
 
-    public Integer getMatchForm() {
-        return matchForm;
+    public Integer getMatchform() {
+        return matchform;
     }
 
-    public void setMatchForm(Integer matchForm) {
-        this.matchForm = matchForm;
+    public void setMatchform(Integer matchform) {
+        this.matchform = matchform;
     }
 
-    public Integer getMatchTeamNum() {
-        return matchTeamNum;
+    public Integer getMatchteamnum() {
+        return matchteamnum;
     }
 
-    public void setMatchTeamNum(Integer matchTeamNum) {
-        this.matchTeamNum = matchTeamNum;
+    public void setMatchteamnum(Integer matchteamnum) {
+        this.matchteamnum = matchteamnum;
     }
 
-    public Date getMatchSignUpStartTime() {
-        return matchSignUpStartTime;
+    public Date getMatchsignupstarttime() {
+        return matchsignupstarttime;
     }
 
-    public void setMatchSignUpStartTime(Date matchSignUpStartTime) {
-        this.matchSignUpStartTime = matchSignUpStartTime;
+    public void setMatchsignupstarttime(Date matchsignupstarttime) {
+        this.matchsignupstarttime = matchsignupstarttime;
     }
 
-    public Date getMatchCreateTime() {
-        return matchCreateTime;
+    public Date getMatchcreatetime() {
+        return matchcreatetime;
     }
 
-    public void setMatchCreateTime(Date matchCreateTime) {
-        this.matchCreateTime = matchCreateTime;
+    public void setMatchcreatetime(Date matchcreatetime) {
+        this.matchcreatetime = matchcreatetime;
     }
 
-
-    public String getMatchPosterUrl() {
-        return matchPosterUrl;
+    public String getMatchposterurl() {
+        return matchposterurl;
     }
 
-    public void setMatchPosterUrl(String matchPosterUrl) {
-        this.matchPosterUrl = matchPosterUrl;
+    public void setMatchposterurl(String matchposterurl) {
+        this.matchposterurl = matchposterurl == null ? null : matchposterurl.trim();
+    }
+
+    public String getMatchtypeid() {
+        return matchtypeid;
+    }
+
+    public void setMatchtypeid(String matchtypeid) {
+        this.matchtypeid = matchtypeid == null ? null : matchtypeid.trim();
+    }
+
+    public String getMatchinfo() {
+        return matchinfo;
+    }
+
+    public void setMatchinfo(String matchinfo) {
+        this.matchinfo = matchinfo == null ? null : matchinfo.trim();
     }
 }

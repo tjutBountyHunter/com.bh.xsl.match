@@ -3,13 +3,13 @@ package com.xsl.pojo;
 public class XslMatchRank {
     private Integer id;
 
-    private String matchRankId;
+    private String matchrankid;
 
-    private String rankName;
+    private String rankname;
 
-    private String rankInfo;
+    private String rankinfo;
 
-    private Integer rankState;
+    private Integer rankstate;
 
     public Integer getId() {
         return id;
@@ -19,35 +19,35 @@ public class XslMatchRank {
         this.id = id;
     }
 
-    public String getMatchRankId() {
-        return matchRankId;
+    public String getMatchrankid() {
+        return matchrankid;
     }
 
-    public void setMatchRankId(String matchRankId) {
-        this.matchRankId = matchRankId;
+    public void setMatchrankid(String matchrankid) {
+        this.matchrankid = matchrankid == null ? null : matchrankid.trim();
     }
 
-    public String getRankName() {
-        return rankName;
+    public String getRankname() {
+        return rankname;
     }
 
-    public void setRankName(String rankName) {
-        this.rankName = rankName;
+    public void setRankname(String rankname) {
+        this.rankname = rankname == null ? null : rankname.trim();
     }
 
-    public String getRankInfo() {
-        return rankInfo;
+    public String getRankinfo() {
+        return rankinfo;
     }
 
-    public void setRankInfo(String rankInfo) {
-        this.rankInfo = rankInfo;
+    public void setRankinfo(String rankinfo) {
+        this.rankinfo = rankinfo == null ? null : rankinfo.trim();
     }
 
-    public Integer getRankState() {
-        return rankState;
+    public Integer getRankstate() {
+        return rankstate;
     }
 
-    public void setRankState(Integer rankState) {
-        this.rankState = rankState;
+    public void setRankstate(Integer rankstate) {
+        this.rankstate = rankstate;
     }
 }
