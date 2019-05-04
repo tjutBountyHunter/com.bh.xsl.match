@@ -1,75 +1,306 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="xsl.match.mapper.XslMatchTeamMapper" >
-  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchTeam" >
-    <id column="Id" property="id" jdbcType="INTEGER" />
-    <result column="teamId" property="teamId" jdbcType="VARCHAR" />
-    <result column="matchId" property="matchId" jdbcType="VARCHAR" />
-    <result column="teamName" property="teamName" jdbcType="VARCHAR" />
-    <result column="teamSynopsis" property="teamSynopsis" jdbcType="VARCHAR" />
-    <result column="teamCreatorId" property="teamCreatorId" jdbcType="VARCHAR" />
-    <result column="teamCreateTime" property="teamCreateTime" jdbcType="TIMESTAMP" />
-    <result column="teamState" property="teamState" jdbcType="INTEGER" />
-    <result column="teamSlogan" property="teamSlogan" jdbcType="VARCHAR" />
-    <result column="teamLogoUrl" property="teamLogoUrl" jdbcType="VARCHAR"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xsl.match.mapper.XslMatchTeamMapper">
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchTeam">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="teamId" jdbcType="VARCHAR" property="teamid" />
+    <result column="matchId" jdbcType="VARCHAR" property="matchid" />
+    <result column="teamName" jdbcType="VARCHAR" property="teamname" />
+    <result column="teamSynopsis" jdbcType="VARCHAR" property="teamsynopsis" />
+    <result column="teamCreatorId" jdbcType="VARCHAR" property="teamcreatorid" />
+    <result column="teamCreateTime" jdbcType="TIMESTAMP" property="teamcreatetime" />
+    <result column="teamState" jdbcType="INTEGER" property="teamstate" />
+    <result column="teamSlogan" jdbcType="VARCHAR" property="teamslogan" />
+    <result column="teamLogoUrl" jdbcType="VARCHAR" property="teamlogourl" />
+    <result column="isEdit" jdbcType="BIT" property="isedit" />
   </resultMap>
-
-  <sql id="Base_Column_List" >
-    teamId, matchId, teamName, teamSynopsis, teamCreatorId, teamCreateTime, teamState,
-    teamSlogan,teamLogoUrl
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
-
-  <select id="selectByTeamId" parameterType="java.lang.String" resultType="com.xsl.pojo.XslMatchTeam">
-    select <include refid="Base_Column_List"/>
-    from xsl_match_team
-    where teamId = #{teamId} and teamState != 0
-  </select>
-
-  <select id="selectAll" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
-    from xsl_match_team
-    where teamState != 0
-    order by
-    <if test="orderBy != null">
-      #{orderBy}
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, teamId, matchId, teamName, teamSynopsis, teamCreatorId, teamCreateTime, teamState, 
+    teamSlogan, teamLogoUrl, isEdit
+  </sql>
+  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslMatchTeamExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
     </if>
-    <if test="orderBy == null">
-      teamCreateTime
+    <include refid="Base_Column_List" />
+    from xsl_match_team
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
     </if>
   </select>
-
-  <select id="selectAllByMatchId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
     from xsl_match_team
-    where matchId = #{matchId} and teamState != 0
+    where Id = #{id,jdbcType=INTEGER}
   </select>
-
-  <delete id="deleteByTeamId" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from xsl_match_team
-    where teamId = #{teamId}
+    where Id = #{id,jdbcType=INTEGER}
   </delete>
-
-  <update id="updateByTeamId" parameterType="com.xsl.pojo.XslMatchTeam">
-    update xsl_match_team
-    set matchId = #{matchId},
-    teamName = #{teamName},
-    teamSynopsis = #{teamSynopsis},
-    teamCreatorId = #{teamCreatorId},
-    teamState = #{teamState},
-    teamSlogan = #{teamSlogan},
-    teamLogoUrl = #{teamLogoUrl}
-    where teamId = #{teamId}
-  </update>
-
-  <update id="updateTeamState" parameterType="com.xsl.pojo.XslMatchTeam">
-    update xsl_match_team
-    set teamState = #{teamState}
-    where teamId = #{teamId}
-  </update>
-
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslMatchTeamExample">
+    delete from xsl_match_team
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
   <insert id="insert" parameterType="com.xsl.pojo.XslMatchTeam">
-    insert into xsl_match_team(teamId, matchId, teamName, teamSynopsis, teamCreatorId, teamState,teamSlogan,teamLogoUrl)
-    values (#{teamId},#{matchId},#{teamName},#{teamSynopsis},#{teamCreatorId},#{teamState},#{teamSlogan},#{teamLogoUrl})
+    insert into xsl_match_team (Id, teamId, matchId, 
+      teamName, teamSynopsis, teamCreatorId, 
+      teamCreateTime, teamState, teamSlogan, 
+      teamLogoUrl, isEdit)
+    values (#{id,jdbcType=INTEGER}, #{teamid,jdbcType=VARCHAR}, #{matchid,jdbcType=VARCHAR}, 
+      #{teamname,jdbcType=VARCHAR}, #{teamsynopsis,jdbcType=VARCHAR}, #{teamcreatorid,jdbcType=VARCHAR}, 
+      #{teamcreatetime,jdbcType=TIMESTAMP}, #{teamstate,jdbcType=INTEGER}, #{teamslogan,jdbcType=VARCHAR}, 
+      #{teamlogourl,jdbcType=VARCHAR}, #{isedit,jdbcType=BIT})
   </insert>
-
+  <insert id="insertSelective" parameterType="com.xsl.pojo.XslMatchTeam">
+    insert into xsl_match_team
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="teamid != null">
+        teamId,
+      </if>
+      <if test="matchid != null">
+        matchId,
+      </if>
+      <if test="teamname != null">
+        teamName,
+      </if>
+      <if test="teamsynopsis != null">
+        teamSynopsis,
+      </if>
+      <if test="teamcreatorid != null">
+        teamCreatorId,
+      </if>
+      <if test="teamcreatetime != null">
+        teamCreateTime,
+      </if>
+      <if test="teamstate != null">
+        teamState,
+      </if>
+      <if test="teamslogan != null">
+        teamSlogan,
+      </if>
+      <if test="teamlogourl != null">
+        teamLogoUrl,
+      </if>
+      <if test="isedit != null">
+        isEdit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="teamid != null">
+        #{teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchid != null">
+        #{matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamname != null">
+        #{teamname,jdbcType=VARCHAR},
+      </if>
+      <if test="teamsynopsis != null">
+        #{teamsynopsis,jdbcType=VARCHAR},
+      </if>
+      <if test="teamcreatorid != null">
+        #{teamcreatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamcreatetime != null">
+        #{teamcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teamstate != null">
+        #{teamstate,jdbcType=INTEGER},
+      </if>
+      <if test="teamslogan != null">
+        #{teamslogan,jdbcType=VARCHAR},
+      </if>
+      <if test="teamlogourl != null">
+        #{teamlogourl,jdbcType=VARCHAR},
+      </if>
+      <if test="isedit != null">
+        #{isedit,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslMatchTeamExample" resultType="java.lang.Long">
+    select count(*) from xsl_match_team
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xsl_match_team
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.teamid != null">
+        teamId = #{record.teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchid != null">
+        matchId = #{record.matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamname != null">
+        teamName = #{record.teamname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamsynopsis != null">
+        teamSynopsis = #{record.teamsynopsis,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamcreatorid != null">
+        teamCreatorId = #{record.teamcreatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamcreatetime != null">
+        teamCreateTime = #{record.teamcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.teamstate != null">
+        teamState = #{record.teamstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.teamslogan != null">
+        teamSlogan = #{record.teamslogan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamlogourl != null">
+        teamLogoUrl = #{record.teamlogourl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isedit != null">
+        isEdit = #{record.isedit,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xsl_match_team
+    set Id = #{record.id,jdbcType=INTEGER},
+      teamId = #{record.teamid,jdbcType=VARCHAR},
+      matchId = #{record.matchid,jdbcType=VARCHAR},
+      teamName = #{record.teamname,jdbcType=VARCHAR},
+      teamSynopsis = #{record.teamsynopsis,jdbcType=VARCHAR},
+      teamCreatorId = #{record.teamcreatorid,jdbcType=VARCHAR},
+      teamCreateTime = #{record.teamcreatetime,jdbcType=TIMESTAMP},
+      teamState = #{record.teamstate,jdbcType=INTEGER},
+      teamSlogan = #{record.teamslogan,jdbcType=VARCHAR},
+      teamLogoUrl = #{record.teamlogourl,jdbcType=VARCHAR},
+      isEdit = #{record.isedit,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslMatchTeam">
+    update xsl_match_team
+    <set>
+      <if test="teamid != null">
+        teamId = #{teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchid != null">
+        matchId = #{matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamname != null">
+        teamName = #{teamname,jdbcType=VARCHAR},
+      </if>
+      <if test="teamsynopsis != null">
+        teamSynopsis = #{teamsynopsis,jdbcType=VARCHAR},
+      </if>
+      <if test="teamcreatorid != null">
+        teamCreatorId = #{teamcreatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamcreatetime != null">
+        teamCreateTime = #{teamcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teamstate != null">
+        teamState = #{teamstate,jdbcType=INTEGER},
+      </if>
+      <if test="teamslogan != null">
+        teamSlogan = #{teamslogan,jdbcType=VARCHAR},
+      </if>
+      <if test="teamlogourl != null">
+        teamLogoUrl = #{teamlogourl,jdbcType=VARCHAR},
+      </if>
+      <if test="isedit != null">
+        isEdit = #{isedit,jdbcType=BIT},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslMatchTeam">
+    update xsl_match_team
+    set teamId = #{teamid,jdbcType=VARCHAR},
+      matchId = #{matchid,jdbcType=VARCHAR},
+      teamName = #{teamname,jdbcType=VARCHAR},
+      teamSynopsis = #{teamsynopsis,jdbcType=VARCHAR},
+      teamCreatorId = #{teamcreatorid,jdbcType=VARCHAR},
+      teamCreateTime = #{teamcreatetime,jdbcType=TIMESTAMP},
+      teamState = #{teamstate,jdbcType=INTEGER},
+      teamSlogan = #{teamslogan,jdbcType=VARCHAR},
+      teamLogoUrl = #{teamlogourl,jdbcType=VARCHAR},
+      isEdit = #{isedit,jdbcType=BIT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

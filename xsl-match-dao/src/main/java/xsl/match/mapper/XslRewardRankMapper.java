@@ -1,20 +1,31 @@
 package xsl.match.mapper;
 
-
+import com.xsl.pojo.Example.XslRewardRankExample;
 import com.xsl.pojo.XslRewardRank;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface XslRewardRankMapper {
-    List<XslRewardRank> selectAllRewardRank();
+    long countByExample(XslRewardRankExample example);
 
-    XslRewardRank selectRewardRankByRewardRankId(String rewardRankId);
+    int deleteByExample(XslRewardRankExample example);
 
-    int insert(XslRewardRank xslReward);
+    int deleteByPrimaryKey(Integer id);
 
-    int updateByRewardRankId(XslRewardRank xslReward);
+    int insert(XslRewardRank record);
 
-    int deleteByRewardRankId(String rewardRankId);
+    int insertSelective(XslRewardRank record);
 
-    int updateRewardRankStateByRewardRankId(XslRewardRank xslReward);
+    List<XslRewardRank> selectByExample(XslRewardRankExample example);
+
+    XslRewardRank selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") XslRewardRank record, @Param("example") XslRewardRankExample example);
+
+    int updateByExample(@Param("record") XslRewardRank record, @Param("example") XslRewardRankExample example);
+
+    int updateByPrimaryKeySelective(XslRewardRank record);
+
+    int updateByPrimaryKey(XslRewardRank record);
 }

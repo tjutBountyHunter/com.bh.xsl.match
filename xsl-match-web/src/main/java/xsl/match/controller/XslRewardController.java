@@ -1,8 +1,9 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.MYStringUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.ResultCode;
-import com.xsl.pojo.ReqVo.XslMatchRewardReqVo;
+import com.xsl.pojo.Vo.XslMatchRewardReqVo;
 import com.xsl.pojo.XslMatchReward;
 import com.xsl.pojo.XslReward;
 import com.xsl.result.EasyUIDataGridResult;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xsl.match.service.XslMatchRewardService;
 import xsl.match.service.XslRewardService;
+
+import java.util.List;
 
 /**
  * 说明：
@@ -73,7 +76,7 @@ public class XslRewardController {
         if (!result.getCode().equals(ResultCode.SUCCESS.getCode())){
             return ResultUtils.isError();
         }
-        xslMatchReward.setRewardId(result.getData().toString());
+        xslMatchReward.setRewardid(result.getData().toString());
         XslResult result_1 = xslMatchRewardService.addRewardToMatch(xslMatchReward);
         if (!result_1.getCode().equals(ResultCode.SUCCESS.getCode())){
             return ResultUtils.isError();
@@ -103,7 +106,8 @@ public class XslRewardController {
     @RequestMapping("/delete")
     @ResponseBody
     public XslResult removeMatchReward(@Param("rewardIds") String rewardIds,@Param("matchId") String matchId){
-        XslResult result = xslMatchRewardService.deleteByRewardIdAndMatchId(rewardIds, matchId);
+        List<String> stringList = MYStringUtils.getStringList(rewardIds, ",");
+        XslResult result = xslMatchRewardService.deleteByRewardIdAndMatchId(stringList, matchId);
         return result;
     }
 }

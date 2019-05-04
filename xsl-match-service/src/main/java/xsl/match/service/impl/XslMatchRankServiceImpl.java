@@ -5,9 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.DataStates;
-import com.xsl.enums.MatchForm;
 import com.xsl.pojo.XslMatchRank;
-import com.xsl.pojo.XslMatchRankExample;
+import com.xsl.pojo.Example.XslMatchRankExample;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
@@ -17,10 +16,7 @@ import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslMatchRankMapper;
 import xsl.match.service.XslMatchRankService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 说明：

@@ -3,6 +3,8 @@ package xsl.match.service;
 import com.xsl.pojo.XslReward;
 import com.xsl.result.XslResult;
 
+import java.util.List;
+
 /**
  * 说明：比赛奖励相关操作
  *
@@ -22,7 +24,7 @@ public interface XslRewardService {
     XslResult updateReward(XslReward xslReward)throws RuntimeException;
 
     /** 逻辑删除一条奖励 */
-    XslResult deleteReward(String rewardIds)throws RuntimeException;
+    XslResult deleteReward(List<String> rewardIds)throws RuntimeException;
 
     /** 获取所有奖励 */
     XslResult getAllReward(Integer page,Integer rows)throws RuntimeException;

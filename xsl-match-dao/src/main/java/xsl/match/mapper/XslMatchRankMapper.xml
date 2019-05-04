@@ -69,7 +69,7 @@
   <sql id="Base_Column_List">
     Id, matchRankId, rankName, rankInfo, rankState
   </sql>
-  <select id="selectByExample" parameterType="com.xsl.pojo.XslMatchRankExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslMatchRankExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -93,7 +93,7 @@
     delete from xsl_match_rank
     where Id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.xsl.pojo.XslMatchRankExample">
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslMatchRankExample">
     delete from xsl_match_rank
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -142,7 +142,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xsl.pojo.XslMatchRankExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslMatchRankExample" resultType="java.lang.Long">
     select count(*) from xsl_match_rank
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

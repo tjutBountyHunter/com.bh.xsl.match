@@ -1,19 +1,259 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="xsl.match.mapper.XslTeamPositionMapper" >
-  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslTeamPosition" >
-    <id column="Id" property="id" jdbcType="INTEGER" />
-    <result column="positionId" property="positionId" jdbcType="VARCHAR" />
-    <result column="positionName" property="positionName" jdbcType="VARCHAR" />
-    <result column="positionInfo" property="positionInfo" jdbcType="VARCHAR" />
-    <result column="positionRequirements" property="positionRequirements" jdbcType="VARCHAR" />
-    <result column="positionState" property="positionState" jdbcType="INTEGER" />
-    <result column="positionCreateTime" property="positionCreateTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xsl.match.mapper.XslTeamPositionMapper">
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslTeamPosition">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="positionId" jdbcType="VARCHAR" property="positionid" />
+    <result column="teamId" jdbcType="VARCHAR" property="teamid" />
+    <result column="positionName" jdbcType="VARCHAR" property="positionname" />
+    <result column="positionInfo" jdbcType="VARCHAR" property="positioninfo" />
+    <result column="positionRequirements" jdbcType="VARCHAR" property="positionrequirements" />
+    <result column="positionState" jdbcType="INTEGER" property="positionstate" />
+    <result column="positionCreateTime" jdbcType="TIMESTAMP" property="positioncreatetime" />
   </resultMap>
-
-  <sql id="Base_Column_List" >
-    Id, positionId, positionName, positionInfo, positionQuirements, quirementsState, 
-    positionCreatTime
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
-
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, positionId, teamId, positionName, positionInfo, positionRequirements, positionState, 
+    positionCreateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslTeamPositionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xsl_team_position
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xsl_team_position
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xsl_team_position
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslTeamPositionExample">
+    delete from xsl_team_position
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xsl.pojo.XslTeamPosition">
+    insert into xsl_team_position (Id, positionId, teamId, 
+      positionName, positionInfo, positionRequirements, 
+      positionState, positionCreateTime)
+    values (#{id,jdbcType=INTEGER}, #{positionid,jdbcType=VARCHAR}, #{teamid,jdbcType=VARCHAR}, 
+      #{positionname,jdbcType=VARCHAR}, #{positioninfo,jdbcType=VARCHAR}, #{positionrequirements,jdbcType=VARCHAR}, 
+      #{positionstate,jdbcType=INTEGER}, #{positioncreatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xsl.pojo.XslTeamPosition">
+    insert into xsl_team_position
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="positionid != null">
+        positionId,
+      </if>
+      <if test="teamid != null">
+        teamId,
+      </if>
+      <if test="positionname != null">
+        positionName,
+      </if>
+      <if test="positioninfo != null">
+        positionInfo,
+      </if>
+      <if test="positionrequirements != null">
+        positionRequirements,
+      </if>
+      <if test="positionstate != null">
+        positionState,
+      </if>
+      <if test="positioncreatetime != null">
+        positionCreateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="positionid != null">
+        #{positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamid != null">
+        #{teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="positionname != null">
+        #{positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="positioninfo != null">
+        #{positioninfo,jdbcType=VARCHAR},
+      </if>
+      <if test="positionrequirements != null">
+        #{positionrequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="positionstate != null">
+        #{positionstate,jdbcType=INTEGER},
+      </if>
+      <if test="positioncreatetime != null">
+        #{positioncreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslTeamPositionExample" resultType="java.lang.Long">
+    select count(*) from xsl_team_position
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xsl_team_position
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.positionid != null">
+        positionId = #{record.positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamid != null">
+        teamId = #{record.teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionname != null">
+        positionName = #{record.positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positioninfo != null">
+        positionInfo = #{record.positioninfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionrequirements != null">
+        positionRequirements = #{record.positionrequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionstate != null">
+        positionState = #{record.positionstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.positioncreatetime != null">
+        positionCreateTime = #{record.positioncreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xsl_team_position
+    set Id = #{record.id,jdbcType=INTEGER},
+      positionId = #{record.positionid,jdbcType=VARCHAR},
+      teamId = #{record.teamid,jdbcType=VARCHAR},
+      positionName = #{record.positionname,jdbcType=VARCHAR},
+      positionInfo = #{record.positioninfo,jdbcType=VARCHAR},
+      positionRequirements = #{record.positionrequirements,jdbcType=VARCHAR},
+      positionState = #{record.positionstate,jdbcType=INTEGER},
+      positionCreateTime = #{record.positioncreatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslTeamPosition">
+    update xsl_team_position
+    <set>
+      <if test="positionid != null">
+        positionId = #{positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamid != null">
+        teamId = #{teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="positionname != null">
+        positionName = #{positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="positioninfo != null">
+        positionInfo = #{positioninfo,jdbcType=VARCHAR},
+      </if>
+      <if test="positionrequirements != null">
+        positionRequirements = #{positionrequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="positionstate != null">
+        positionState = #{positionstate,jdbcType=INTEGER},
+      </if>
+      <if test="positioncreatetime != null">
+        positionCreateTime = #{positioncreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslTeamPosition">
+    update xsl_team_position
+    set positionId = #{positionid,jdbcType=VARCHAR},
+      teamId = #{teamid,jdbcType=VARCHAR},
+      positionName = #{positionname,jdbcType=VARCHAR},
+      positionInfo = #{positioninfo,jdbcType=VARCHAR},
+      positionRequirements = #{positionrequirements,jdbcType=VARCHAR},
+      positionState = #{positionstate,jdbcType=INTEGER},
+      positionCreateTime = #{positioncreatetime,jdbcType=TIMESTAMP}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

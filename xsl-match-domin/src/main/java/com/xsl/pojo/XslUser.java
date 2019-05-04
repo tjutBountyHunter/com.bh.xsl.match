@@ -5,13 +5,13 @@ import java.util.Date;
 public class XslUser {
     private Integer id;
 
-    private String userId;
+    private String userid;
 
-    private String hunterId;
+    private String hunterid;
 
-    private String masterId;
+    private String masterid;
 
-    private String schoolInfo;
+    private String schoolinfo;
 
     private String name;
 
@@ -27,9 +27,9 @@ public class XslUser {
 
     private String signature;
 
-    private Date createDate;
+    private Date createdate;
 
-    private Date updateDate;
+    private Date updatedate;
 
     public Integer getId() {
         return id;
@@ -39,36 +39,36 @@ public class XslUser {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
     }
 
-    public String getHunterId() {
-        return hunterId;
+    public String getHunterid() {
+        return hunterid;
     }
 
-    public void setHunterId(String hunterId) {
-        this.hunterId = hunterId;
+    public void setHunterid(String hunterid) {
+        this.hunterid = hunterid == null ? null : hunterid.trim();
     }
 
-    public String getMasterId() {
-        return masterId;
+    public String getMasterid() {
+        return masterid;
     }
 
-    public void setMasterId(String masterId) {
-        this.masterId = masterId;
+    public void setMasterid(String masterid) {
+        this.masterid = masterid == null ? null : masterid.trim();
     }
 
-    public String getSchoolInfo() {
-        return schoolInfo;
+    public String getSchoolinfo() {
+        return schoolinfo;
     }
 
-    public void setSchoolInfo(String schoolInfo) {
-        this.schoolInfo = schoolInfo;
+    public void setSchoolinfo(String schoolinfo) {
+        this.schoolinfo = schoolinfo == null ? null : schoolinfo.trim();
     }
 
     public String getName() {
@@ -76,7 +76,7 @@ public class XslUser {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getPassword() {
@@ -84,7 +84,7 @@ public class XslUser {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     public String getSex() {
@@ -92,7 +92,7 @@ public class XslUser {
     }
 
     public void setSex(String sex) {
-        this.sex = sex;
+        this.sex = sex == null ? null : sex.trim();
     }
 
     public String getPhone() {
@@ -100,7 +100,7 @@ public class XslUser {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getEmail() {
@@ -108,7 +108,7 @@ public class XslUser {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim();
     }
 
     public Byte getState() {
@@ -124,22 +124,22 @@ public class XslUser {
     }
 
     public void setSignature(String signature) {
-        this.signature = signature;
+        this.signature = signature == null ? null : signature.trim();
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedate() {
+        return createdate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public Date getUpdatedate() {
+        return updatedate;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setUpdatedate(Date updatedate) {
+        this.updatedate = updatedate;
     }
 }

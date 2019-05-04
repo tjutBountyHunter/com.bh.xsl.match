@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.DataStates;
+import com.xsl.pojo.Example.XslRewardExample;
 import com.xsl.pojo.XslReward;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -47,8 +48,14 @@ public class XslRewardServiceImpl implements XslRewardService {
                 LOGGER.error("selectRewardInfoByRewardId 参数为null");
                 return ResultUtils.isParameterError("参数为null");
             }
-            XslReward xslReward = xslRewardMapper.selectRewardByRewardId(rewardId);
-            return ResultUtils.isOk(xslReward);
+            XslRewardExample xslRewardExample = new XslRewardExample();
+            XslRewardExample.Criteria criteria = xslRewardExample.createCriteria();
+            criteria.andRewardidEqualTo(rewardId);
+            List<XslReward> xslRewards = xslRewardMapper.selectByExample(xslRewardExample);
+            if (xslRewards == null || xslRewards.size() == 0){
+                return ResultUtils.isParameterError();
+            }
+            return ResultUtils.isOk(xslRewards.get(0));
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
@@ -66,9 +73,9 @@ public class XslRewardServiceImpl implements XslRewardService {
          */
         try {
             String uuid = IdUtils.getUuid("R");
-            xslReward.setRewardId(uuid);
-            xslReward.setRewardState(DataStates.NORMAL.getCode());
-            int insert = xslRewardMapper.insert(xslReward);
+            xslReward.setRewardid(uuid);
+            xslReward.setRewardstate(DataStates.NORMAL.getCode());
+            int insert = xslRewardMapper.insertSelective(xslReward);
             if (insert <= 0){
                 LOGGER.error("addReward 添加奖励失败");
                 return ResultUtils.isError();
@@ -90,7 +97,11 @@ public class XslRewardServiceImpl implements XslRewardService {
          * @date: 2019/4/26 11:28
          */
         try {
-            int i = xslRewardMapper.updateByRewardId(xslReward);
+            XslRewardExample xslRewardExample = new XslRewardExample();
+            XslRewardExample.Criteria criteria = xslRewardExample.createCriteria();
+            criteria.andRewardidEqualTo(xslReward.getRewardid());
+
+            int i = xslRewardMapper.updateByExampleSelective(xslReward,xslRewardExample);
             if (i <= 0){
                 LOGGER.error("updateReward 修改奖励失败");
                 return ResultUtils.isError();
@@ -101,10 +112,10 @@ public class XslRewardServiceImpl implements XslRewardService {
         }
     }
     @Override
-    public XslResult deleteReward(String rewardIds) throws RuntimeException {
+    public XslResult deleteReward(List<String> rewardIds) throws RuntimeException {
         /**
          *
-         * 功能描述: 逻辑删除一条奖励
+         * 功能描述: 逻辑删除一条或多条奖励
          *
          * @param: [rewardIds]
          * @return: com.xsl.result.XslResult
@@ -115,27 +126,23 @@ public class XslRewardServiceImpl implements XslRewardService {
             LOGGER.info("删除数据为null");
             return ResultUtils.isParameterError();
         }
-        //拆分多个id
-        String[] split = rewardIds.split(",");
-        if (split.length == 0){
-            return ResultUtils.isParameterError();
-        }
         try {
             XslReward xslReward = new XslReward();
-            for (String rewardId : split){
-                xslReward.setRewardId(rewardId);
-                xslReward.setRewardState(DataStates.DELETE.getCode());
-                int i = xslRewardMapper.updateRewardStateByRewardId(xslReward);
-                if (i <= 0){
-                    LOGGER.error("deleteReward 删除奖励失败");
-                    return ResultUtils.isError();
-                }
+            XslRewardExample xslRewardExample = new XslRewardExample();
+            XslRewardExample.Criteria criteria = xslRewardExample.createCriteria();
+            criteria.andRewardidIn(rewardIds);
+            xslReward.setRewardstate(DataStates.DELETE.getCode());
+
+            int i = xslRewardMapper.updateByExampleSelective(xslReward,xslRewardExample);
+            if (i < rewardIds.size() - 1){
+                LOGGER.error("deleteReward 删除奖励部分失败");
             }
             return ResultUtils.isOk();
         } catch (Exception e) {
            throw new RuntimeException(e.getMessage());
         }
     }
+
     @Override
     public XslResult getAllReward(Integer page,Integer rows) throws RuntimeException {
         /**
@@ -148,7 +155,9 @@ public class XslRewardServiceImpl implements XslRewardService {
          * @date: 2019/4/26 18:47
          */
         try {
-            List<XslReward> xslRewards = xslRewardMapper.selectAllReward();
+            XslRewardExample xslRewardExample = new XslRewardExample();
+            XslRewardExample.Criteria criteria = xslRewardExample.createCriteria();
+            List<XslReward> xslRewards = xslRewardMapper.selectByExample(xslRewardExample);
             PageHelper.startPage(page,rows);
             PageInfo<XslReward> xslRewardPageInfo = new PageInfo<XslReward>(xslRewards);
             EasyUIDataGridResult result = new EasyUIDataGridResult();

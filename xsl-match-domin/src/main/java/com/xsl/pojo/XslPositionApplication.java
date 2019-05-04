@@ -5,25 +5,15 @@ import java.util.Date;
 public class XslPositionApplication {
     private Integer id;
 
-    private String userId;
+    private String userid;
 
-    private String teamId;
+    private String teamid;
 
-    private String positionId;
+    private String positionid;
 
-    private String applicationState;
+    private Integer applicationstate;
 
-    private Date applicationTime;
-
-    private Integer positionState;
-
-    public Integer getPositionState() {
-        return positionState;
-    }
-
-    public void setPositionState(Integer positionState) {
-        this.positionState = positionState;
-    }
+    private Date applicationtime;
 
     public Integer getId() {
         return id;
@@ -33,43 +23,43 @@ public class XslPositionApplication {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
     }
 
-    public String getTeamId() {
-        return teamId;
+    public String getTeamid() {
+        return teamid;
     }
 
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
+    public void setTeamid(String teamid) {
+        this.teamid = teamid == null ? null : teamid.trim();
     }
 
-    public String getPositionId() {
-        return positionId;
+    public String getPositionid() {
+        return positionid;
     }
 
-    public void setPositionId(String positionId) {
-        this.positionId = positionId;
+    public void setPositionid(String positionid) {
+        this.positionid = positionid == null ? null : positionid.trim();
     }
 
-    public String getApplicationState() {
-        return applicationState;
+    public Integer getApplicationstate() {
+        return applicationstate;
     }
 
-    public void setApplicationState(String applicationState) {
-        this.applicationState = applicationState;
+    public void setApplicationstate(Integer applicationstate) {
+        this.applicationstate = applicationstate;
     }
 
-    public Date getApplicationTime() {
-        return applicationTime;
+    public Date getApplicationtime() {
+        return applicationtime;
     }
 
-    public void setApplicationTime(Date applicationTime) {
-        this.applicationTime = applicationTime;
+    public void setApplicationtime(Date applicationtime) {
+        this.applicationtime = applicationtime;
     }
 }

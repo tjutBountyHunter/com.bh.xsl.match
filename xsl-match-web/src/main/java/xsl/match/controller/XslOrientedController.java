@@ -1,5 +1,6 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.MYStringUtils;
 import com.xsl.pojo.XslOriented;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -98,8 +99,9 @@ public class XslOrientedController {
      * @auther: 11432_000
      * @date: 2019/4/21 14:29
      */
-    public XslResult editOriented(String OrientedIds){
-        return xslOrientedService.deleteOrienteds(OrientedIds);
+    public XslResult editOriented(String orientedIds){
+        List<String> stringList = MYStringUtils.getStringList(orientedIds,",");
+        return xslOrientedService.deleteOrienteds(stringList);
     }
 
 }

@@ -3,21 +3,13 @@ package com.xsl.pojo;
 public class XslOriented {
     private Integer id;
 
-    private String orientedId;
+    private String orientedid;
 
-    private String orientedName;
+    private String orientedname;
 
-    private String orientedInfo;
+    private String orientedinfo;
 
-    private Integer orientedState;
-
-    public Integer getOrientedState() {
-        return orientedState;
-    }
-
-    public void setOrientedState(Integer orientedState) {
-        this.orientedState = orientedState;
-    }
+    private Integer orientedstate;
 
     public Integer getId() {
         return id;
@@ -27,27 +19,35 @@ public class XslOriented {
         this.id = id;
     }
 
-    public String getOrientedId() {
-        return orientedId;
+    public String getOrientedid() {
+        return orientedid;
     }
 
-    public void setOrientedId(String orientedId) {
-        this.orientedId = orientedId;
+    public void setOrientedid(String orientedid) {
+        this.orientedid = orientedid == null ? null : orientedid.trim();
     }
 
-    public String getOrientedName() {
-        return orientedName;
+    public String getOrientedname() {
+        return orientedname;
     }
 
-    public void setOrientedName(String orientedName) {
-        this.orientedName = orientedName;
+    public void setOrientedname(String orientedname) {
+        this.orientedname = orientedname == null ? null : orientedname.trim();
     }
 
-    public String getOrientedInfo() {
-        return orientedInfo;
+    public String getOrientedinfo() {
+        return orientedinfo;
     }
 
-    public void setOrientedInfo(String orientedInfo) {
-        this.orientedInfo = orientedInfo;
+    public void setOrientedinfo(String orientedinfo) {
+        this.orientedinfo = orientedinfo == null ? null : orientedinfo.trim();
+    }
+
+    public Integer getOrientedstate() {
+        return orientedstate;
+    }
+
+    public void setOrientedstate(Integer orientedstate) {
+        this.orientedstate = orientedstate;
     }
 }

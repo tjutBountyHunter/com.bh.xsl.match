@@ -33,10 +33,10 @@ public interface XslMatchService {
     List<HashMap<String,String>> getAllState()throws RuntimeException;
 
     /** 根据 MatchId 逻辑删除多条记录 */
-    XslResult deleteMatchInfoByIds(String matchIds)throws RuntimeException;
+    XslResult deleteMatchInfoByIds(List<String> matchIds)throws RuntimeException;
 
     /** 变更比赛状态 */
-    XslResult updateMatchState(String matchId,Integer state)throws RuntimeException;
+    XslResult updateMatchState(List<String> matchId,Integer state)throws RuntimeException;
 
     /** 获取某一类型的所有比赛 */
     XslResult selectAllMatchByMatchType(String matchTypeId)throws RuntimeException;

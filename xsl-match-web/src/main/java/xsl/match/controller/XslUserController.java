@@ -1,5 +1,7 @@
 package xsl.match.controller;
 
+import com.xsl.pojo.Vo.UserReqVo;
+import com.xsl.pojo.Vo.XslUserRegister;
 import com.xsl.pojo.XslUser;
 import com.xsl.result.XslResult;
 import org.apache.ibatis.annotations.Param;
@@ -36,4 +38,20 @@ public class XslUserController {
         XslResult userByPhone = xslUserService.getUserByPhone(phone);
         return userByPhone;
     }
+
+    @RequestMapping("/login")
+    @ResponseBody
+    public XslResult login(UserReqVo userReqVo){
+        XslResult userByPhone = xslUserService.userLogin(userReqVo);
+        return userByPhone;
+    }
+
+
+    @RequestMapping("/quick/register")
+    @ResponseBody
+    public XslResult quickRegister(XslUserRegister xslUserRegister){
+        XslResult userByPhone = xslUserService.quickCreateUser(xslUserRegister);
+        return userByPhone;
+    }
+
 }

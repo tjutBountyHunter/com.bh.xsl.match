@@ -5,15 +5,15 @@ import java.util.Date;
 public class XslMatchType {
     private Integer id;
 
-    private String matchTypeId;
+    private String matchtypeid;
 
-    private String matchTypeName;
+    private String matchtypename;
 
-    private Integer matchTypeState;
+    private Integer matchtypestate;
 
-    private String matchTypeInfo;
+    private String matchtypeinfo;
 
-    private Date matchTypeCreateTime;
+    private Date matchtypecreatetime;
 
     public Integer getId() {
         return id;
@@ -23,43 +23,43 @@ public class XslMatchType {
         this.id = id;
     }
 
-    public String getMatchTypeId() {
-        return matchTypeId;
+    public String getMatchtypeid() {
+        return matchtypeid;
     }
 
-    public void setMatchTypeId(String matchTypeId) {
-        this.matchTypeId = matchTypeId;
+    public void setMatchtypeid(String matchtypeid) {
+        this.matchtypeid = matchtypeid == null ? null : matchtypeid.trim();
     }
 
-    public String getMatchTypeName() {
-        return matchTypeName;
+    public String getMatchtypename() {
+        return matchtypename;
     }
 
-    public void setMatchTypeName(String matchTypeName) {
-        this.matchTypeName = matchTypeName;
+    public void setMatchtypename(String matchtypename) {
+        this.matchtypename = matchtypename == null ? null : matchtypename.trim();
     }
 
-    public Integer getMatchTypeState() {
-        return matchTypeState;
+    public Integer getMatchtypestate() {
+        return matchtypestate;
     }
 
-    public void setMatchTypeState(Integer matchTypeState) {
-        this.matchTypeState = matchTypeState;
+    public void setMatchtypestate(Integer matchtypestate) {
+        this.matchtypestate = matchtypestate;
     }
 
-    public String getMatchTypeInfo() {
-        return matchTypeInfo;
+    public String getMatchtypeinfo() {
+        return matchtypeinfo;
     }
 
-    public void setMatchTypeInfo(String matchTypeInfo) {
-        this.matchTypeInfo = matchTypeInfo;
+    public void setMatchtypeinfo(String matchtypeinfo) {
+        this.matchtypeinfo = matchtypeinfo == null ? null : matchtypeinfo.trim();
     }
 
-    public Date getMatchTypeCreateTime() {
-        return matchTypeCreateTime;
+    public Date getMatchtypecreatetime() {
+        return matchtypecreatetime;
     }
 
-    public void setMatchTypeCreateTime(Date matchTypeCreateTime) {
-        this.matchTypeCreateTime = matchTypeCreateTime;
+    public void setMatchtypecreatetime(Date matchtypecreatetime) {
+        this.matchtypecreatetime = matchtypecreatetime;
     }
 }

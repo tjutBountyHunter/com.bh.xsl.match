@@ -1,5 +1,7 @@
 package xsl.match.service;
 
+import com.xsl.pojo.Vo.UserReqVo;
+import com.xsl.pojo.Vo.XslUserRegister;
 import com.xsl.result.XslResult;
 
 /**
@@ -14,4 +16,21 @@ public interface XslUserService {
     XslResult getUserByEmail(String email)throws RuntimeException;
     /** 根据手机号获取用户信息 */
     XslResult getUserByPhone(String phone)throws RuntimeException;
+
+    /**
+     * 快速注册
+     * @param xslUserRegister
+     * @return
+     * @throws Exception
+     */
+    XslResult quickCreateUser(XslUserRegister xslUserRegister);
+
+    /**
+     * 登录
+     *
+     * @param userReqVo
+     * @return
+     */
+    XslResult userLogin(UserReqVo userReqVo);
+
 }

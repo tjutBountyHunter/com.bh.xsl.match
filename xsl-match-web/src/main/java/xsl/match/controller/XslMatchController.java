@@ -1,5 +1,6 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.MYStringUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.MatchState;
 import com.xsl.pojo.XslMatch;
@@ -139,7 +140,8 @@ public class XslMatchController {
      * @date: 2019/4/23 15:48
      */
     public XslResult deleteSomeMatch(@Param("matchIds") String matchIds){
-        return xslMatchService.deleteMatchInfoByIds(matchIds);
+        List<String> stringList = MYStringUtils.getStringList(matchIds, ",");
+        return xslMatchService.deleteMatchInfoByIds(stringList);
     }
 
     @RequestMapping("/update/disableMatch")
@@ -154,7 +156,8 @@ public class XslMatchController {
      * @date: 2019/4/23 16:44
      */
     public XslResult disableMatch(@Param("matchIds") String matchIds){
-        return xslMatchService.updateMatchState(matchIds, MatchState.DELETE.getKey());
+        List<String> stringList = MYStringUtils.getStringList(matchIds, ",");
+        return xslMatchService.updateMatchState(stringList, MatchState.DELETE.getKey());
     }
 
 

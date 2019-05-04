@@ -5,23 +5,25 @@ import java.util.Date;
 public class XslMatchTeam {
     private Integer id;
 
-    private String teamId;
+    private String teamid;
 
-    private String matchId;
+    private String matchid;
 
-    private String teamName;
+    private String teamname;
 
-    private String teamSynopsis;
+    private String teamsynopsis;
 
-    private String teamCreatorId;
+    private String teamcreatorid;
 
-    private Date teamCreateTime;
+    private Date teamcreatetime;
 
-    private Integer teamState;
+    private Integer teamstate;
 
-    private String teamSlogan;
+    private String teamslogan;
 
-    private String teamLogoUrl;
+    private String teamlogourl;
+
+    private Boolean isedit;
 
     public Integer getId() {
         return id;
@@ -31,75 +33,83 @@ public class XslMatchTeam {
         this.id = id;
     }
 
-    public String getTeamId() {
-        return teamId;
+    public String getTeamid() {
+        return teamid;
     }
 
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
+    public void setTeamid(String teamid) {
+        this.teamid = teamid == null ? null : teamid.trim();
     }
 
-    public String getMatchId() {
-        return matchId;
+    public String getMatchid() {
+        return matchid;
     }
 
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
+    public void setMatchid(String matchid) {
+        this.matchid = matchid == null ? null : matchid.trim();
     }
 
-    public String getTeamName() {
-        return teamName;
+    public String getTeamname() {
+        return teamname;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setTeamname(String teamname) {
+        this.teamname = teamname == null ? null : teamname.trim();
     }
 
-    public String getTeamSynopsis() {
-        return teamSynopsis;
+    public String getTeamsynopsis() {
+        return teamsynopsis;
     }
 
-    public void setTeamSynopsis(String teamSynopsis) {
-        this.teamSynopsis = teamSynopsis;
+    public void setTeamsynopsis(String teamsynopsis) {
+        this.teamsynopsis = teamsynopsis == null ? null : teamsynopsis.trim();
     }
 
-    public String getTeamCreatorId() {
-        return teamCreatorId;
+    public String getTeamcreatorid() {
+        return teamcreatorid;
     }
 
-    public void setTeamCreatorId(String teamCreatorId) {
-        this.teamCreatorId = teamCreatorId;
+    public void setTeamcreatorid(String teamcreatorid) {
+        this.teamcreatorid = teamcreatorid == null ? null : teamcreatorid.trim();
     }
 
-    public Date getTeamCreateTime() {
-        return teamCreateTime;
+    public Date getTeamcreatetime() {
+        return teamcreatetime;
     }
 
-    public void setTeamCreateTime(Date teamCreateTime) {
-        this.teamCreateTime = teamCreateTime;
+    public void setTeamcreatetime(Date teamcreatetime) {
+        this.teamcreatetime = teamcreatetime;
     }
 
-    public Integer getTeamState() {
-        return teamState;
+    public Integer getTeamstate() {
+        return teamstate;
     }
 
-    public void setTeamState(Integer teamState) {
-        this.teamState = teamState;
+    public void setTeamstate(Integer teamstate) {
+        this.teamstate = teamstate;
     }
 
-    public String getTeamSlogan() {
-        return teamSlogan;
+    public String getTeamslogan() {
+        return teamslogan;
     }
 
-    public void setTeamSlogan(String teamSlogan) {
-        this.teamSlogan = teamSlogan;
+    public void setTeamslogan(String teamslogan) {
+        this.teamslogan = teamslogan == null ? null : teamslogan.trim();
     }
 
-    public String getTeamLogoUrl() {
-        return teamLogoUrl;
+    public String getTeamlogourl() {
+        return teamlogourl;
     }
 
-    public void setTeamLogoUrl(String teamLogoUrl) {
-        this.teamLogoUrl = teamLogoUrl;
+    public void setTeamlogourl(String teamlogourl) {
+        this.teamlogourl = teamlogourl == null ? null : teamlogourl.trim();
+    }
+
+    public Boolean getIsedit() {
+        return isedit;
+    }
+
+    public void setIsedit(Boolean isedit) {
+        this.isedit = isedit;
     }
 }

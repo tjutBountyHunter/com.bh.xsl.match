@@ -1,4 +1,4 @@
-package com.xsl.pojo.ReqVo;
+package com.xsl.pojo.Vo;
 
 import java.util.Date;
 

@@ -1,7 +1,7 @@
 package xsl.match.mapper;
 
 import com.xsl.pojo.XslHunterTag;
-import com.xsl.pojo.XslHunterTagExample;
+import com.xsl.pojo.Example.XslHunterTagExample;
 import org.apache.ibatis.annotations.Param;
 
 

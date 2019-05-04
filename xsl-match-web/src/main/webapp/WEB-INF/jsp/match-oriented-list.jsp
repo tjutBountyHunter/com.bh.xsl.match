@@ -73,7 +73,7 @@
         	}
         	$.messager.confirm('确认','确定删除 : ['+ names +'] 吗？',function(r){
         	    if (r){
-        	    	var params = {"OrientedIds":ids};
+        	    	var params = {"orientedIds":ids};
                 	$.ajax({
                         method : 'get',
                         data : params,

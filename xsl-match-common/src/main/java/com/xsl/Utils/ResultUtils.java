@@ -1,5 +1,6 @@
 package com.xsl.Utils;
 
+import com.xsl.enums.DataStates;
 import com.xsl.enums.ResultCode;
 import com.xsl.result.XslResult;
 
@@ -35,5 +36,13 @@ public class ResultUtils {
     }
     public static XslResult isParameterError(){
         return isParameterError(ResultCode.PARAMETER_ERROR.getMsg());
+    }
+
+    /** 校验请求是否成功 */
+    public static Boolean isSuccess(XslResult xslResult){
+        return ResultCode.SUCCESS.getCode().equals(xslResult.getCode());
+    }
+    public static Boolean isSuccess(Integer xslResult){
+        return ResultCode.SUCCESS.getCode().equals(xslResult);
     }
 }

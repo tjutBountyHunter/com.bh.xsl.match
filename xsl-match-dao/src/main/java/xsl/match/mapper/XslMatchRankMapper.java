@@ -1,7 +1,7 @@
 package xsl.match.mapper;
 
 import com.xsl.pojo.XslMatchRank;
-import com.xsl.pojo.XslMatchRankExample;
+import com.xsl.pojo.Example.XslMatchRankExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

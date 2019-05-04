@@ -1,18 +1,18 @@
-package com.xsl.pojo;
+package com.xsl.pojo.Example;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class XslTaskTagExample {
+public class XslHunterTagExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public XslTaskTagExample() {
+    public XslHunterTagExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -192,63 +192,63 @@ public class XslTaskTagExample {
             return (Criteria) this;
         }
 
-        public Criteria andTaskidIsNull() {
-            addCriterion("taskId is null");
+        public Criteria andHunteridIsNull() {
+            addCriterion("hunterId is null");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidIsNotNull() {
-            addCriterion("taskId is not null");
+        public Criteria andHunteridIsNotNull() {
+            addCriterion("hunterId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidEqualTo(Integer value) {
-            addCriterion("taskId =", value, "taskid");
+        public Criteria andHunteridEqualTo(Integer value) {
+            addCriterion("hunterId =", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidNotEqualTo(Integer value) {
-            addCriterion("taskId <>", value, "taskid");
+        public Criteria andHunteridNotEqualTo(Integer value) {
+            addCriterion("hunterId <>", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidGreaterThan(Integer value) {
-            addCriterion("taskId >", value, "taskid");
+        public Criteria andHunteridGreaterThan(Integer value) {
+            addCriterion("hunterId >", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("taskId >=", value, "taskid");
+        public Criteria andHunteridGreaterThanOrEqualTo(Integer value) {
+            addCriterion("hunterId >=", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidLessThan(Integer value) {
-            addCriterion("taskId <", value, "taskid");
+        public Criteria andHunteridLessThan(Integer value) {
+            addCriterion("hunterId <", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidLessThanOrEqualTo(Integer value) {
-            addCriterion("taskId <=", value, "taskid");
+        public Criteria andHunteridLessThanOrEqualTo(Integer value) {
+            addCriterion("hunterId <=", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidIn(List<Integer> values) {
-            addCriterion("taskId in", values, "taskid");
+        public Criteria andHunteridIn(List<Integer> values) {
+            addCriterion("hunterId in", values, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidNotIn(List<Integer> values) {
-            addCriterion("taskId not in", values, "taskid");
+        public Criteria andHunteridNotIn(List<Integer> values) {
+            addCriterion("hunterId not in", values, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidBetween(Integer value1, Integer value2) {
-            addCriterion("taskId between", value1, value2, "taskid");
+        public Criteria andHunteridBetween(Integer value1, Integer value2) {
+            addCriterion("hunterId between", value1, value2, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidNotBetween(Integer value1, Integer value2) {
-            addCriterion("taskId not between", value1, value2, "taskid");
+        public Criteria andHunteridNotBetween(Integer value1, Integer value2) {
+            addCriterion("hunterId not between", value1, value2, "hunterid");
             return (Criteria) this;
         }
 

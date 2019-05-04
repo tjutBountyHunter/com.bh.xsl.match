@@ -1,19 +1,31 @@
 package xsl.match.mapper;
 
+import com.xsl.pojo.Example.XslMatchTypeExample;
 import com.xsl.pojo.XslMatchType;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface XslMatchTypeMapper {
-    List<XslMatchType> selectAllMatchType();
+    long countByExample(XslMatchTypeExample example);
 
-    XslMatchType selectMatchTypeByMatchTypeId(String matchTypeId);
+    int deleteByExample(XslMatchTypeExample example);
 
-    int insert(XslMatchType xslMatchType);
+    int deleteByPrimaryKey(Integer id);
 
-    int updateByMatchTypeId(XslMatchType xslMatchType);
+    int insert(XslMatchType record);
 
-    int deleteByMatchTypeId(String matchTypeId);
+    int insertSelective(XslMatchType record);
 
-    int updateTypeStateByMatchTypeId(XslMatchType xslMatchType);
+    List<XslMatchType> selectByExample(XslMatchTypeExample example);
+
+    XslMatchType selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") XslMatchType record, @Param("example") XslMatchTypeExample example);
+
+    int updateByExample(@Param("record") XslMatchType record, @Param("example") XslMatchTypeExample example);
+
+    int updateByPrimaryKeySelective(XslMatchType record);
+
+    int updateByPrimaryKey(XslMatchType record);
 }

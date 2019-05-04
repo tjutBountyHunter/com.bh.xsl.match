@@ -86,7 +86,7 @@
     matchTeamNum, matchSignUpStartTime, matchCreateTime, matchPosterUrl, matchTypeId, 
     matchInfo
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xsl.pojo.XslMatchExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xsl.pojo.Example.XslMatchExample" >
     select
     <if test="distinct" >
       distinct
@@ -110,7 +110,7 @@
     delete from xsl_match
     where Id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.xsl.pojo.XslMatchExample" >
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslMatchExample" >
     delete from xsl_match
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -253,7 +253,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xsl.pojo.XslMatchExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslMatchExample" resultType="java.lang.Integer" >
     select count(*) from xsl_match
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />

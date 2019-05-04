@@ -3,8 +3,10 @@ package xsl.match.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.ResultUtils;
+import com.xsl.enums.DataStates;
 import com.xsl.enums.ResultCode;
 import com.xsl.enums.TeamStates;
+import com.xsl.pojo.Example.XslMatchTeamExample;
 import com.xsl.pojo.XslMatchTeam;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -47,10 +49,10 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
         //生成比赛ID
         String uuid = UUID.randomUUID().toString();
         String teamId = "T" + uuid;
-        xslMatchTeam.setTeamId(teamId);
-        xslMatchTeam.setTeamState(TeamStates.CREATE_SUCCESS.getCode());
+        xslMatchTeam.setTeamid(teamId);
+        xslMatchTeam.setTeamstate(TeamStates.CREATE_SUCCESS.getCode());
         try{
-            int insert = xslMatchTeamMapper.insert(xslMatchTeam);
+            int insert = xslMatchTeamMapper.insertSelective(xslMatchTeam);
             if (insert <= 0){
                 LOGGER.error("addATeam() 添加数据失败");
                 return ResultUtils.isError("插入失败");
@@ -60,6 +62,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             throw new RuntimeException("添加比赛信息异常:"+ e.getMessage());
         }
     }
+
     @Override
     public XslResult getTeamList() throws RuntimeException {
         /**
@@ -72,7 +75,11 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
          * @date: 2019/4/27 17:42
          */
         try {
-            List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectAll(null);
+            XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
+            XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
+            criteria.andTeamstateNotEqualTo(DataStates.DELETE.getCode());
+
+            List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
             return ResultUtils.isOk(xslMatchTeams);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -90,13 +97,17 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
          * @date: 2019/4/27 17:41
          */
         try {
-            List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectAll(null);
-            EasyUIDataGridResult result =  new EasyUIDataGridResult();
-            result.setRows(xslMatchTeams);
-            PageHelper.startPage(page,rows);
-            PageInfo<XslMatchTeam> xslMatchTeamPageInfo = new PageInfo<XslMatchTeam>(xslMatchTeams);
-            result.setTotal(xslMatchTeamPageInfo.getTotal());
-            return ResultUtils.isOk(result);
+            XslResult xslResult = getTeamList();
+            if (ResultUtils.isSuccess(xslResult)){
+                List<XslMatchTeam> xslMatchTeams =(List<XslMatchTeam>) xslResult.getData();
+                EasyUIDataGridResult result =  new EasyUIDataGridResult();
+                result.setRows(xslMatchTeams);
+                PageHelper.startPage(page,rows);
+                PageInfo<XslMatchTeam> xslMatchTeamPageInfo = new PageInfo<XslMatchTeam>(xslMatchTeams);
+                result.setTotal(xslMatchTeamPageInfo.getTotal());
+                return ResultUtils.isOk(result);
+            }
+            return xslResult;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -113,7 +124,14 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
          * @date: 2019/4/27 17:45
          */
         try{
-            int i = xslMatchTeamMapper.updateByTeamId(xslMatchTeam);
+            XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
+            XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
+            criteria.andTeamidEqualTo(xslMatchTeam.getTeamid());
+            //如果比赛已锁定，者不容许更改比赛
+            if (!xslMatchTeam.getIsedit()){
+                xslMatchTeam.setMatchid(null);
+            }
+            int i = xslMatchTeamMapper.updateByExampleSelective(xslMatchTeam,xslMatchTeamExample);
             if (i <= 0){
                 LOGGER.error("updateATeamInfo 更新数据失败");
                 return ResultUtils.isParameterError();
@@ -124,7 +142,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
         }
     }
     @Override
-    public XslResult deleteTeamInfoByIds(String teamIds) throws RuntimeException {
+    public XslResult deleteTeamInfoByIds(List<String> teamIds) throws RuntimeException {
         /**
          *
          * 功能描述: 根据 Id 逻辑删除一个或多个队伍
@@ -138,15 +156,10 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             LOGGER.info("更新队伍状态 teamIds 为null");
             return ResultUtils.isParameterError();
         }
-        //拆分多个id
-        String[] split = teamIds.split(",");
-        if (split.length == 0){
-            return ResultUtils.isParameterError();
-        }
         try {
-            for (String teamId : split){
+            for (String teamId : teamIds){
                 XslResult result = updateTeamState(teamId, TeamStates.DELETE.getCode());
-                if (!result.getCode().equals(ResultCode.SUCCESS.getCode())){
+                if (!ResultUtils.isSuccess(result)){
                     LOGGER.error("deleteTeamInfoByIds删除数据失败 " + teamId );
                 }
             }
@@ -167,10 +180,13 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
          * @date: 2019/4/27 17:50
          */
         XslMatchTeam xslMatchTeam = new XslMatchTeam();
-        xslMatchTeam.setTeamId(teamId);
-        xslMatchTeam.setTeamState(state);
+        XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
+        XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
+        criteria.andTeamidEqualTo(teamId);
+
+        xslMatchTeam.setTeamstate(state);
         try {
-            int i = xslMatchTeamMapper.updateTeamState(xslMatchTeam);
+            int i = xslMatchTeamMapper.updateByExampleSelective(xslMatchTeam,xslMatchTeamExample);
             if (i <= 0){
                 LOGGER.error("updateTeamState 失败");
                 return ResultUtils.isError();
@@ -192,7 +208,10 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
          * @date: 2019/4/27 18:06
          */
         try {
-            List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectAllByMatchId(matchId);
+            XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
+            XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
+            criteria.andMatchidEqualTo(matchId);
+            List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
             return ResultUtils.isOk(xslMatchTeams);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

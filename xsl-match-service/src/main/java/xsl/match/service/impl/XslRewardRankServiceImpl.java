@@ -6,6 +6,7 @@ import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.DataStates;
 import com.xsl.enums.ResultCode;
+import com.xsl.pojo.Example.XslRewardRankExample;
 import com.xsl.pojo.XslMatch;
 import com.xsl.pojo.XslRewardRank;
 import com.xsl.result.EasyUIDataGridResult;
@@ -46,7 +47,11 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
          * @date: 2019/4/25 15:01
          */
         try {
-            List<XslRewardRank> xslRewardRanks = xslRewardRankMapper.selectAllRewardRank();
+            XslRewardRankExample xslRewardRankExample = new XslRewardRankExample();
+            XslRewardRankExample.Criteria criteria = xslRewardRankExample.createCriteria();
+            criteria.andRewardrankstateNotEqualTo(DataStates.DELETE.getCode());
+            List<XslRewardRank> xslRewardRanks = xslRewardRankMapper.selectByExample(xslRewardRankExample);
+
             if (page == null || rows == null){
                 return ResultUtils.isOk(xslRewardRanks);
             }
@@ -61,6 +66,7 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
     @Override
     public XslResult getRewardRankByRewardRankId(String rewardRankId) throws RuntimeException {
         /**
@@ -73,14 +79,20 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
          * @date: 2019/4/25 18:32
          */
         try {
-            XslRewardRank xslRewardRank = xslRewardRankMapper.selectRewardRankByRewardRankId(rewardRankId);
-            return ResultUtils.isOk(xslRewardRank);
+            XslRewardRankExample xslRewardRankExample = new XslRewardRankExample();
+            XslRewardRankExample.Criteria criteria = xslRewardRankExample.createCriteria();
+            criteria.andRewardrankidEqualTo(rewardRankId);
+            List<XslRewardRank> xslRewardRanks = xslRewardRankMapper.selectByExample(xslRewardRankExample);
+            if (xslRewardRanks == null || xslRewardRanks.size() == 0){
+                return ResultUtils.isParameterError();
+            }
+            return ResultUtils.isOk(xslRewardRanks.get(0));
         } catch (Exception e) {
             throw new RuntimeException();
         }
     }
     @Override
-    public XslResult deleteByRewardRankIds(String ids) throws RuntimeException {
+    public XslResult deleteByRewardRankIds(List<String> ids) throws RuntimeException {
         /**
          *
          * 功能描述: 逻辑删除一或多条级别
@@ -94,17 +106,15 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
             LOGGER.info("删除数据为null");
             return ResultUtils.isParameterError();
         }
-        //拆分多个id
-        String[] split = ids.split(",");
-        if (split.length == 0){
-            return ResultUtils.isParameterError();
-        }
+        XslRewardRankExample xslRewardRankExample = new XslRewardRankExample();
+        XslRewardRankExample.Criteria criteria = xslRewardRankExample.createCriteria();
         try {
             XslRewardRank xslRewardRank = new XslRewardRank();
-            for (String rewardRankId : split){
-                xslRewardRank.setRewardRankId(rewardRankId);
-                xslRewardRank.setRewardRankState(DataStates.DELETE.getCode());
-                int i = xslRewardRankMapper.updateRewardRankStateByRewardRankId(xslRewardRank);
+            for (String rewardRankId : ids){
+                xslRewardRankExample.clear();
+                criteria.andRewardrankidEqualTo(rewardRankId);
+                xslRewardRank.setRewardrankstate(DataStates.DELETE.getCode());
+                int i = xslRewardRankMapper.updateByExampleSelective(xslRewardRank,xslRewardRankExample);
                 if (i <= 0){
                     LOGGER.error("deleteByRewardRankIds 删除奖励等级失败");
                     return ResultUtils.isError();
@@ -118,10 +128,10 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
     @Override
     public XslResult addRewardRank(XslRewardRank xslRewardRank) throws RuntimeException {
         String uuid = IdUtils.getUuid("RR");
-        xslRewardRank.setRewardRankId(uuid);
-        xslRewardRank.setRewardRankState(DataStates.NORMAL.getCode());
+        xslRewardRank.setRewardrankid(uuid);
+        xslRewardRank.setRewardrankstate(DataStates.NORMAL.getCode());
         try {
-            int insert = xslRewardRankMapper.insert(xslRewardRank);
+            int insert = xslRewardRankMapper.insertSelective(xslRewardRank);
             if (insert <= 0){
                 LOGGER.error("addRewardRank 添加数据失败");
                 return ResultUtils.isError();

@@ -5,25 +5,17 @@ import java.util.Date;
 public class XslReward {
     private Integer id;
 
-    private String rewardId;
+    private String rewardid;
 
-    private String rewardRankId;
+    private String rewardrankid;
 
-    private String rewardContent;
+    private String rewardcontent;
 
-    private Integer contentQuota;
+    private Integer contentquota;
 
-    private Date rewardCreateTime;
+    private Date rewardcreatetime;
 
-    private Integer rewardState;
-
-    public Integer getRewardState() {
-        return rewardState;
-    }
-
-    public void setRewardState(Integer rewardState) {
-        this.rewardState = rewardState;
-    }
+    private Integer rewardstate;
 
     public Integer getId() {
         return id;
@@ -33,43 +25,51 @@ public class XslReward {
         this.id = id;
     }
 
-    public String getRewardId() {
-        return rewardId;
+    public String getRewardid() {
+        return rewardid;
     }
 
-    public void setRewardId(String rewardId) {
-        this.rewardId = rewardId;
+    public void setRewardid(String rewardid) {
+        this.rewardid = rewardid == null ? null : rewardid.trim();
     }
 
-    public String getRewardRankId() {
-        return rewardRankId;
+    public String getRewardrankid() {
+        return rewardrankid;
     }
 
-    public void setRewardRankId(String rewardRankId) {
-        this.rewardRankId = rewardRankId;
+    public void setRewardrankid(String rewardrankid) {
+        this.rewardrankid = rewardrankid == null ? null : rewardrankid.trim();
     }
 
-    public String getRewardContent() {
-        return rewardContent;
+    public String getRewardcontent() {
+        return rewardcontent;
     }
 
-    public void setRewardContent(String rewardContent) {
-        this.rewardContent = rewardContent;
+    public void setRewardcontent(String rewardcontent) {
+        this.rewardcontent = rewardcontent == null ? null : rewardcontent.trim();
     }
 
-    public Integer getContentQuota() {
-        return contentQuota;
+    public Integer getContentquota() {
+        return contentquota;
     }
 
-    public void setContentQuota(Integer contentQuota) {
-        this.contentQuota = contentQuota;
+    public void setContentquota(Integer contentquota) {
+        this.contentquota = contentquota;
     }
 
-    public Date getRewardCreateTime() {
-        return rewardCreateTime;
+    public Date getRewardcreatetime() {
+        return rewardcreatetime;
     }
 
-    public void setRewardCreateTime(Date rewardCreateTime) {
-        this.rewardCreateTime = rewardCreateTime;
+    public void setRewardcreatetime(Date rewardcreatetime) {
+        this.rewardcreatetime = rewardcreatetime;
+    }
+
+    public Integer getRewardstate() {
+        return rewardstate;
+    }
+
+    public void setRewardstate(Integer rewardstate) {
+        this.rewardstate = rewardstate;
     }
 }

@@ -6,14 +6,13 @@ import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.annotation.DeleteMatch;
-import com.xsl.annotation.SelectMatch;
 import com.xsl.annotation.UpdateMatch;
 import com.xsl.enums.DataStates;
 import com.xsl.enums.MatchForm;
 import com.xsl.enums.MatchState;
 import com.xsl.enums.ResultCode;
 import com.xsl.pojo.XslMatch;
-import com.xsl.pojo.XslMatchExample;
+import com.xsl.pojo.Example.XslMatchExample;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
@@ -216,10 +215,10 @@ public class XslMatchServiceImpl implements XslMatchService {
      */
     @Override
     @DeleteMatch
-    public XslResult deleteMatchInfoByIds(String matchIds) throws RuntimeException{
+    public XslResult deleteMatchInfoByIds(List<String> matchIds) throws RuntimeException{
         try{
             XslResult result = updateMatchState(matchIds, DataStates.DELETE.getCode());
-            if (result.getCode().equals(ResultCode.SUCCESS.getCode())){
+            if (ResultUtils.isSuccess(result)){
                 LOGGER.info("删除数据 matchId = [" +  matchIds + "] 成功");
                 return ResultUtils.isOk(matchIds);
             }
@@ -240,29 +239,21 @@ public class XslMatchServiceImpl implements XslMatchService {
      */
     @Override
     @UpdateMatch
-    public XslResult updateMatchState(String matchIds,Integer state)throws RuntimeException {
+    public XslResult updateMatchState(List<String> matchIds,Integer state)throws RuntimeException {
         if (matchIds == null){
             LOGGER.info("更新比赛状态 matchId 为null");
-            return ResultUtils.isParameterError();
-        }
-        //拆分多个id
-        String[] split = matchIds.split(",");
-        if (split.length == 0){
             return ResultUtils.isParameterError();
         }
         try{
             XslMatch xslMatch = new XslMatch();
             XslMatchExample xslMatchExample = new XslMatchExample();
             XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
-            for (String matchId : split){
-                xslMatchExample.clear();
-                criteria.andMatchidEqualTo(xslMatch.getMatchid());
-                xslMatch.setMatchstate(state);
-                int i = xslMatchMapper.updateByExampleSelective(xslMatch,xslMatchExample);
-                if (i <= 0){
-                    LOGGER.error("updateMatchState 更新比赛状态 matchId =" +  matchId + " 失败");
-                    return ResultUtils.isError();
-                }
+            criteria.andMatchidIn(matchIds);
+
+            xslMatch.setMatchstate(state);
+            int i = xslMatchMapper.updateByExampleSelective(xslMatch,xslMatchExample);
+            if (i <= 0){
+                LOGGER.error("updateMatchState 更新比赛状态部分失败");
             }
             LOGGER.info("更新比赛状态 matchId = [" +  matchIds + "] 成功");
             return ResultUtils.isOk(matchIds);

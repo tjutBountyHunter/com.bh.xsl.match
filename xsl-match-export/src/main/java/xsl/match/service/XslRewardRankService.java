@@ -3,6 +3,8 @@ package xsl.match.service;
 import com.xsl.pojo.XslRewardRank;
 import com.xsl.result.XslResult;
 
+import java.util.List;
+
 /**
  * 说明：
  *
@@ -18,7 +20,7 @@ public interface XslRewardRankService {
     XslResult getRewardRankByRewardRankId(String rewardRankId)throws RuntimeException;
 
     /** 根据Ids 逻辑删除一或多条奖励等级 */
-    XslResult deleteByRewardRankIds(String ids)throws RuntimeException;
+    XslResult deleteByRewardRankIds(List<String> ids)throws RuntimeException;
 
     /** 添加一条奖励级别  */
     XslResult addRewardRank(XslRewardRank xslRewardRank)throws RuntimeException;

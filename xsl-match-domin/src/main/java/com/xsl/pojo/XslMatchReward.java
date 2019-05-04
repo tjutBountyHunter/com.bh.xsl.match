@@ -5,13 +5,13 @@ import java.util.Date;
 public class XslMatchReward {
     private Integer id;
 
-    private String matchId;
+    private String matchid;
 
-    private String rewardId;
+    private String rewardid;
 
-    private Date rewardAddTime;
+    private Date rewardaddtime;
 
-    private Integer matchRewardState;
+    private Integer matchrewardstate;
 
     public Integer getId() {
         return id;
@@ -21,35 +21,35 @@ public class XslMatchReward {
         this.id = id;
     }
 
-    public String getMatchId() {
-        return matchId;
+    public String getMatchid() {
+        return matchid;
     }
 
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
+    public void setMatchid(String matchid) {
+        this.matchid = matchid == null ? null : matchid.trim();
     }
 
-    public String getRewardId() {
-        return rewardId;
+    public String getRewardid() {
+        return rewardid;
     }
 
-    public void setRewardId(String rewardId) {
-        this.rewardId = rewardId;
+    public void setRewardid(String rewardid) {
+        this.rewardid = rewardid == null ? null : rewardid.trim();
     }
 
-    public Date getRewardAddTime() {
-        return rewardAddTime;
+    public Date getRewardaddtime() {
+        return rewardaddtime;
     }
 
-    public void setRewardAddTime(Date rewardAddTime) {
-        this.rewardAddTime = rewardAddTime;
+    public void setRewardaddtime(Date rewardaddtime) {
+        this.rewardaddtime = rewardaddtime;
     }
 
-    public Integer getMatchRewardState() {
-        return matchRewardState;
+    public Integer getMatchrewardstate() {
+        return matchrewardstate;
     }
 
-    public void setMatchRewardState(Integer matchRewardState) {
-        this.matchRewardState = matchRewardState;
+    public void setMatchrewardstate(Integer matchrewardstate) {
+        this.matchrewardstate = matchrewardstate;
     }
 }

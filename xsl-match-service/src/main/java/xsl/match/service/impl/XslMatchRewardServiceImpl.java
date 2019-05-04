@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.DataStates;
 import com.xsl.enums.ResultCode;
+import com.xsl.pojo.Example.XslMatchRewardExample;
 import com.xsl.pojo.XslMatchReward;
 import com.xsl.pojo.XslReward;
 import com.xsl.result.EasyUIDataGridResult;
@@ -54,14 +55,17 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
         }
         List<XslMatchReward> xslMatchRewards;
         try{
+            XslMatchRewardExample xslMatchRewardExample = new XslMatchRewardExample();
+            XslMatchRewardExample.Criteria criteria = xslMatchRewardExample.createCriteria();
+            if (matchId != null){
+                criteria.andMatchidEqualTo(matchId);
+            }
+            criteria.andMatchrewardstateNotEqualTo(DataStates.DELETE.getCode());
             //获取该比赛的所有奖励Id
-            XslMatchReward xslMatchReward = new XslMatchReward();
-            xslMatchReward.setMatchId(matchId);
-            xslMatchReward.setMatchRewardState(DataStates.NORMAL.getCode());
-            xslMatchRewards = xslMatchRewardMapper.selectRewardListByMatchId(xslMatchReward);
+            xslMatchRewards = xslMatchRewardMapper.selectByExample(xslMatchRewardExample);
             ArrayList<XslReward> xslRewards = new ArrayList<XslReward>();
             for (XslMatchReward reward : xslMatchRewards){
-                XslResult xslResult = xslRewardService.selectRewardInfoByRewardId(reward.getRewardId());
+                XslResult xslResult = xslRewardService.selectRewardInfoByRewardId(reward.getRewardid());
                 if (!xslResult.getCode().equals(ResultCode.SUCCESS.getCode())){
                     LOGGER.error("getRewardId 查询失败 ");
                     return ResultUtils.isError();
@@ -95,8 +99,8 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
          * @date: 2019/4/25 14:50
          */
         try {
-            xslMatchReward.setMatchRewardState(DataStates.NORMAL.getCode());
-            int insert = xslMatchRewardMapper.insert(xslMatchReward);
+            xslMatchReward.setMatchrewardstate(DataStates.NORMAL.getCode());
+            int insert = xslMatchRewardMapper.insertSelective(xslMatchReward);
             if (insert <= 0){
                 LOGGER.error("addRewardToMatch 添加数据失败 ");
                 return ResultUtils.isError();
@@ -107,7 +111,7 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
         }
     }
     @Override
-    public XslResult deleteByRewardIdAndMatchId(String rewardIds,String matchId) throws RuntimeException {
+    public XslResult deleteByRewardIdAndMatchId(List<String> rewardIds,String matchId) throws RuntimeException {
         /**
          *
          * 功能描述: 逻辑删除比赛的一或多条奖励
@@ -121,30 +125,24 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
             LOGGER.info("删除数据为null");
             return ResultUtils.isParameterError();
         }
-        //拆分多个id
-        String[] split = rewardIds.split(",");
-        if (split.length == 0){
-            return ResultUtils.isParameterError();
-        }
         try {
             XslMatchReward xslMatchReward = new XslMatchReward();
-            for (String rewardId : split){
-                xslMatchReward.setMatchId(matchId);
-                xslMatchReward.setRewardId(rewardId);
-                xslMatchReward.setMatchRewardState(DataStates.DELETE.getCode());
-                int i = xslMatchRewardMapper.updateByRewardIdAndMatchId(xslMatchReward);
-                if (i <= 0){
-                    LOGGER.error("deleteByRewardIdAndMatchId 删除数据失败 ");
-                    return ResultUtils.isError();
-                }
-            }
+            XslMatchRewardExample xslMatchRewardExample = new XslMatchRewardExample();
+            XslMatchRewardExample.Criteria criteria = xslMatchRewardExample.createCriteria();
+            criteria.andMatchidEqualTo(matchId).andRewardidIn(rewardIds);
+            xslMatchReward.setMatchrewardstate(DataStates.DELETE.getCode());
+            //逻辑删除关联数据
+            int i = xslMatchRewardMapper.updateByExampleSelective(xslMatchReward, xslMatchRewardExample);
+            //逻辑删除奖励数据
             XslResult result = xslRewardService.deleteReward(rewardIds);
-            if (result.getCode().equals(ResultCode.SUCCESS.getCode())){
-                return ResultUtils.isOk();
+            if (!ResultUtils.isSuccess(result) || i < rewardIds.size() - 1){
+                return ResultUtils.isParameterError();
             }
-            return result;
+            return ResultUtils.isOk();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
 }

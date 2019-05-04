@@ -1,13 +1,31 @@
 package xsl.match.mapper;
 
-
+import com.xsl.pojo.Example.XslUserExample;
 import com.xsl.pojo.XslUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface XslUserMapper {
-    /** 根据用户名查询用户 */
-    XslUser selectAllUserByEmail(String email);
-    /** 根据手机号查询用户 */
-    XslUser selectUserByPhone(String phone);
+    long countByExample(XslUserExample example);
+
+    int deleteByExample(XslUserExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(XslUser record);
+
+    int insertSelective(XslUser record);
+
+    List<XslUser> selectByExample(XslUserExample example);
+
+    XslUser selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") XslUser record, @Param("example") XslUserExample example);
+
+    int updateByExample(@Param("record") XslUser record, @Param("example") XslUserExample example);
+
+    int updateByPrimaryKeySelective(XslUser record);
+
+    int updateByPrimaryKey(XslUser record);
 }

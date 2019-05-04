@@ -22,5 +22,5 @@ public interface XslOrientedService {
     /** 添加一条人群 */
     XslResult addOriented(XslOriented xslOriented)throws RuntimeException;
     /** 逻辑删除一条或多条人群 */
-    XslResult deleteOrienteds(String matchOrientedIds)throws RuntimeException;
+    XslResult deleteOrienteds(List<String> xslOrientedIds)throws RuntimeException;
 }

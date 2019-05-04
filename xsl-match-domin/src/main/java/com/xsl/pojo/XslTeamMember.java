@@ -5,15 +5,15 @@ import java.util.Date;
 public class XslTeamMember {
     private Integer id;
 
-    private String memberId;
+    private String memberid;
 
-    private String teamId;
+    private String hunterid;
 
-    private String positionId;
+    private String positionid;
 
-    private Integer memberState;
+    private Integer memberstate;
 
-    private Date memberJoinTime;
+    private Date memberjointime;
 
     public Integer getId() {
         return id;
@@ -23,43 +23,43 @@ public class XslTeamMember {
         this.id = id;
     }
 
-    public String getMemberId() {
-        return memberId;
+    public String getMemberid() {
+        return memberid;
     }
 
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
+    public void setMemberid(String memberid) {
+        this.memberid = memberid == null ? null : memberid.trim();
     }
 
-    public String getTeamId() {
-        return teamId;
+    public String getHunterid() {
+        return hunterid;
     }
 
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
+    public void setHunterid(String hunterid) {
+        this.hunterid = hunterid == null ? null : hunterid.trim();
     }
 
-    public String getPositionId() {
-        return positionId;
+    public String getPositionid() {
+        return positionid;
     }
 
-    public void setPositionId(String positionId) {
-        this.positionId = positionId;
+    public void setPositionid(String positionid) {
+        this.positionid = positionid == null ? null : positionid.trim();
     }
 
-    public Integer getMemberState() {
-        return memberState;
+    public Integer getMemberstate() {
+        return memberstate;
     }
 
-    public void setMemberState(Integer memberState) {
-        this.memberState = memberState;
+    public void setMemberstate(Integer memberstate) {
+        this.memberstate = memberstate;
     }
 
-    public Date getMemberJoinTime() {
-        return memberJoinTime;
+    public Date getMemberjointime() {
+        return memberjointime;
     }
 
-    public void setMemberJoinTime(Date memberJoinTime) {
-        this.memberJoinTime = memberJoinTime;
+    public void setMemberjointime(Date memberjointime) {
+        this.memberjointime = memberjointime;
     }
 }

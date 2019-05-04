@@ -3,6 +3,8 @@ package xsl.match.service;
 import com.xsl.pojo.XslMatchTeam;
 import com.xsl.result.XslResult;
 
+import java.util.List;
+
 /**
  * 说明：
  *
@@ -25,7 +27,7 @@ public interface XslMatchTeamService {
     XslResult updateATeamInfo(XslMatchTeam xslMatchTeam)throws RuntimeException;
 
     /** 根据 Id 逻辑删除一个或多个队伍 */
-    XslResult deleteTeamInfoByIds(String teamIds)throws RuntimeException;
+    XslResult deleteTeamInfoByIds(List<String> teamIds)throws RuntimeException;
 
     /** 变更比赛状态 */
     XslResult updateTeamState(String teamId,Integer state)throws RuntimeException;

@@ -4,6 +4,8 @@ import com.xsl.pojo.XslMatchType;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 
+import java.util.List;
+
 /**
  * 说明：
  *
@@ -22,5 +24,5 @@ public interface XslMatchTypeService {
     /** 添加一条比赛类型 */
     XslResult addMatchType(XslMatchType xslMatchType)throws RuntimeException;
     /** 逻辑删除一条或多条比赛类型 */
-    XslResult deleteMatchTypes(String matchTypeIds)throws RuntimeException;
+    XslResult deleteMatchTypes(List<String> matchTypeIds)throws RuntimeException;
 }

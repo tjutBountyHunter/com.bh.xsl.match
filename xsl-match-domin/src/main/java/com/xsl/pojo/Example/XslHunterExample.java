@@ -1,4 +1,4 @@
-package com.xsl.pojo;
+package com.xsl.pojo.Example;
 
 import java.util.ArrayList;
 import java.util.Date;

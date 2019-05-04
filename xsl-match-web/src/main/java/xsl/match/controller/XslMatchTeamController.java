@@ -1,5 +1,6 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.MYStringUtils;
 import com.xsl.pojo.XslMatchTeam;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xsl.match.service.XslMatchTeamService;
+
+import java.util.List;
 
 /**
  * 说明：
@@ -35,7 +38,8 @@ public class XslMatchTeamController {
     @RequestMapping("/delete")
     @ResponseBody
     XslResult removeMtachTeam(@Param("teamIds") String teamIds){
-        XslResult result = xslMatchTeamService.deleteTeamInfoByIds(teamIds);
+        List<String> stringList = MYStringUtils.getStringList(teamIds, ",");
+        XslResult result = xslMatchTeamService.deleteTeamInfoByIds(stringList);
         return result;
     }
 

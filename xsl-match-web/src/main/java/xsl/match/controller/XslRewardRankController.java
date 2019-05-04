@@ -1,5 +1,6 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.MYStringUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.pojo.XslRewardRank;
 import com.xsl.result.EasyUIDataGridResult;
@@ -52,7 +53,8 @@ public class XslRewardRankController {
     @RequestMapping("/delete")
     @ResponseBody
     public XslResult removeRewardRank(@Param("rewardRankIds") String rewardRankIds){
-        return xslRewardRankService.deleteByRewardRankIds(rewardRankIds);
+        List<String> stringList = MYStringUtils.getStringList(rewardRankIds, ",");
+        return xslRewardRankService.deleteByRewardRankIds(stringList);
     }
 
     @RequestMapping("/add")

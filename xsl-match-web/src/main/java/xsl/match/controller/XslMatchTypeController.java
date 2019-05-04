@@ -1,5 +1,6 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.MYStringUtils;
 import com.xsl.pojo.XslMatchType;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -71,7 +72,8 @@ public class XslMatchTypeController {
     @ResponseBody
     /** 逻辑删除一条比赛类型 */
     public XslResult addMatchType(@Param("matchTypeIds") String matchTypeIds){
-        XslResult result = xslMatchTypeService.deleteMatchTypes(matchTypeIds);
+        List<String> stringList = MYStringUtils.getStringList(matchTypeIds, ",");
+        XslResult result = xslMatchTypeService.deleteMatchTypes(stringList);
         return result;
     }
 

@@ -1,16 +1,17 @@
-package com.xsl.pojo;
+package com.xsl.pojo.Example;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class XslMatchRankExample {
+public class XslTeamMemberExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public XslMatchRankExample() {
+    public XslTeamMemberExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -164,273 +165,333 @@ public class XslMatchRankExample {
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidIsNull() {
-            addCriterion("matchRankId is null");
+        public Criteria andMemberidIsNull() {
+            addCriterion("memberId is null");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidIsNotNull() {
-            addCriterion("matchRankId is not null");
+        public Criteria andMemberidIsNotNull() {
+            addCriterion("memberId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidEqualTo(String value) {
-            addCriterion("matchRankId =", value, "matchrankid");
+        public Criteria andMemberidEqualTo(String value) {
+            addCriterion("memberId =", value, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidNotEqualTo(String value) {
-            addCriterion("matchRankId <>", value, "matchrankid");
+        public Criteria andMemberidNotEqualTo(String value) {
+            addCriterion("memberId <>", value, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidGreaterThan(String value) {
-            addCriterion("matchRankId >", value, "matchrankid");
+        public Criteria andMemberidGreaterThan(String value) {
+            addCriterion("memberId >", value, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidGreaterThanOrEqualTo(String value) {
-            addCriterion("matchRankId >=", value, "matchrankid");
+        public Criteria andMemberidGreaterThanOrEqualTo(String value) {
+            addCriterion("memberId >=", value, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidLessThan(String value) {
-            addCriterion("matchRankId <", value, "matchrankid");
+        public Criteria andMemberidLessThan(String value) {
+            addCriterion("memberId <", value, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidLessThanOrEqualTo(String value) {
-            addCriterion("matchRankId <=", value, "matchrankid");
+        public Criteria andMemberidLessThanOrEqualTo(String value) {
+            addCriterion("memberId <=", value, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidLike(String value) {
-            addCriterion("matchRankId like", value, "matchrankid");
+        public Criteria andMemberidLike(String value) {
+            addCriterion("memberId like", value, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidNotLike(String value) {
-            addCriterion("matchRankId not like", value, "matchrankid");
+        public Criteria andMemberidNotLike(String value) {
+            addCriterion("memberId not like", value, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidIn(List<String> values) {
-            addCriterion("matchRankId in", values, "matchrankid");
+        public Criteria andMemberidIn(List<String> values) {
+            addCriterion("memberId in", values, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidNotIn(List<String> values) {
-            addCriterion("matchRankId not in", values, "matchrankid");
+        public Criteria andMemberidNotIn(List<String> values) {
+            addCriterion("memberId not in", values, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidBetween(String value1, String value2) {
-            addCriterion("matchRankId between", value1, value2, "matchrankid");
+        public Criteria andMemberidBetween(String value1, String value2) {
+            addCriterion("memberId between", value1, value2, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andMatchrankidNotBetween(String value1, String value2) {
-            addCriterion("matchRankId not between", value1, value2, "matchrankid");
+        public Criteria andMemberidNotBetween(String value1, String value2) {
+            addCriterion("memberId not between", value1, value2, "memberid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameIsNull() {
-            addCriterion("rankName is null");
+        public Criteria andHunteridIsNull() {
+            addCriterion("hunterId is null");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameIsNotNull() {
-            addCriterion("rankName is not null");
+        public Criteria andHunteridIsNotNull() {
+            addCriterion("hunterId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameEqualTo(String value) {
-            addCriterion("rankName =", value, "rankname");
+        public Criteria andHunteridEqualTo(String value) {
+            addCriterion("hunterId =", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameNotEqualTo(String value) {
-            addCriterion("rankName <>", value, "rankname");
+        public Criteria andHunteridNotEqualTo(String value) {
+            addCriterion("hunterId <>", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameGreaterThan(String value) {
-            addCriterion("rankName >", value, "rankname");
+        public Criteria andHunteridGreaterThan(String value) {
+            addCriterion("hunterId >", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameGreaterThanOrEqualTo(String value) {
-            addCriterion("rankName >=", value, "rankname");
+        public Criteria andHunteridGreaterThanOrEqualTo(String value) {
+            addCriterion("hunterId >=", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameLessThan(String value) {
-            addCriterion("rankName <", value, "rankname");
+        public Criteria andHunteridLessThan(String value) {
+            addCriterion("hunterId <", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameLessThanOrEqualTo(String value) {
-            addCriterion("rankName <=", value, "rankname");
+        public Criteria andHunteridLessThanOrEqualTo(String value) {
+            addCriterion("hunterId <=", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameLike(String value) {
-            addCriterion("rankName like", value, "rankname");
+        public Criteria andHunteridLike(String value) {
+            addCriterion("hunterId like", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameNotLike(String value) {
-            addCriterion("rankName not like", value, "rankname");
+        public Criteria andHunteridNotLike(String value) {
+            addCriterion("hunterId not like", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameIn(List<String> values) {
-            addCriterion("rankName in", values, "rankname");
+        public Criteria andHunteridIn(List<String> values) {
+            addCriterion("hunterId in", values, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameNotIn(List<String> values) {
-            addCriterion("rankName not in", values, "rankname");
+        public Criteria andHunteridNotIn(List<String> values) {
+            addCriterion("hunterId not in", values, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameBetween(String value1, String value2) {
-            addCriterion("rankName between", value1, value2, "rankname");
+        public Criteria andHunteridBetween(String value1, String value2) {
+            addCriterion("hunterId between", value1, value2, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRanknameNotBetween(String value1, String value2) {
-            addCriterion("rankName not between", value1, value2, "rankname");
+        public Criteria andHunteridNotBetween(String value1, String value2) {
+            addCriterion("hunterId not between", value1, value2, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoIsNull() {
-            addCriterion("rankInfo is null");
+        public Criteria andPositionidIsNull() {
+            addCriterion("positionId is null");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoIsNotNull() {
-            addCriterion("rankInfo is not null");
+        public Criteria andPositionidIsNotNull() {
+            addCriterion("positionId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoEqualTo(String value) {
-            addCriterion("rankInfo =", value, "rankinfo");
+        public Criteria andPositionidEqualTo(String value) {
+            addCriterion("positionId =", value, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoNotEqualTo(String value) {
-            addCriterion("rankInfo <>", value, "rankinfo");
+        public Criteria andPositionidNotEqualTo(String value) {
+            addCriterion("positionId <>", value, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoGreaterThan(String value) {
-            addCriterion("rankInfo >", value, "rankinfo");
+        public Criteria andPositionidGreaterThan(String value) {
+            addCriterion("positionId >", value, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoGreaterThanOrEqualTo(String value) {
-            addCriterion("rankInfo >=", value, "rankinfo");
+        public Criteria andPositionidGreaterThanOrEqualTo(String value) {
+            addCriterion("positionId >=", value, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoLessThan(String value) {
-            addCriterion("rankInfo <", value, "rankinfo");
+        public Criteria andPositionidLessThan(String value) {
+            addCriterion("positionId <", value, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoLessThanOrEqualTo(String value) {
-            addCriterion("rankInfo <=", value, "rankinfo");
+        public Criteria andPositionidLessThanOrEqualTo(String value) {
+            addCriterion("positionId <=", value, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoLike(String value) {
-            addCriterion("rankInfo like", value, "rankinfo");
+        public Criteria andPositionidLike(String value) {
+            addCriterion("positionId like", value, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoNotLike(String value) {
-            addCriterion("rankInfo not like", value, "rankinfo");
+        public Criteria andPositionidNotLike(String value) {
+            addCriterion("positionId not like", value, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoIn(List<String> values) {
-            addCriterion("rankInfo in", values, "rankinfo");
+        public Criteria andPositionidIn(List<String> values) {
+            addCriterion("positionId in", values, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoNotIn(List<String> values) {
-            addCriterion("rankInfo not in", values, "rankinfo");
+        public Criteria andPositionidNotIn(List<String> values) {
+            addCriterion("positionId not in", values, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoBetween(String value1, String value2) {
-            addCriterion("rankInfo between", value1, value2, "rankinfo");
+        public Criteria andPositionidBetween(String value1, String value2) {
+            addCriterion("positionId between", value1, value2, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankinfoNotBetween(String value1, String value2) {
-            addCriterion("rankInfo not between", value1, value2, "rankinfo");
+        public Criteria andPositionidNotBetween(String value1, String value2) {
+            addCriterion("positionId not between", value1, value2, "positionid");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateIsNull() {
-            addCriterion("rankState is null");
+        public Criteria andMemberstateIsNull() {
+            addCriterion("memberState is null");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateIsNotNull() {
-            addCriterion("rankState is not null");
+        public Criteria andMemberstateIsNotNull() {
+            addCriterion("memberState is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateEqualTo(Integer value) {
-            addCriterion("rankState =", value, "rankstate");
+        public Criteria andMemberstateEqualTo(Integer value) {
+            addCriterion("memberState =", value, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateNotEqualTo(Integer value) {
-            addCriterion("rankState <>", value, "rankstate");
+        public Criteria andMemberstateNotEqualTo(Integer value) {
+            addCriterion("memberState <>", value, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateGreaterThan(Integer value) {
-            addCriterion("rankState >", value, "rankstate");
+        public Criteria andMemberstateGreaterThan(Integer value) {
+            addCriterion("memberState >", value, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateGreaterThanOrEqualTo(Integer value) {
-            addCriterion("rankState >=", value, "rankstate");
+        public Criteria andMemberstateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("memberState >=", value, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateLessThan(Integer value) {
-            addCriterion("rankState <", value, "rankstate");
+        public Criteria andMemberstateLessThan(Integer value) {
+            addCriterion("memberState <", value, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateLessThanOrEqualTo(Integer value) {
-            addCriterion("rankState <=", value, "rankstate");
+        public Criteria andMemberstateLessThanOrEqualTo(Integer value) {
+            addCriterion("memberState <=", value, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateIn(List<Integer> values) {
-            addCriterion("rankState in", values, "rankstate");
+        public Criteria andMemberstateIn(List<Integer> values) {
+            addCriterion("memberState in", values, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateNotIn(List<Integer> values) {
-            addCriterion("rankState not in", values, "rankstate");
+        public Criteria andMemberstateNotIn(List<Integer> values) {
+            addCriterion("memberState not in", values, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateBetween(Integer value1, Integer value2) {
-            addCriterion("rankState between", value1, value2, "rankstate");
+        public Criteria andMemberstateBetween(Integer value1, Integer value2) {
+            addCriterion("memberState between", value1, value2, "memberstate");
             return (Criteria) this;
         }
 
-        public Criteria andRankstateNotBetween(Integer value1, Integer value2) {
-            addCriterion("rankState not between", value1, value2, "rankstate");
+        public Criteria andMemberstateNotBetween(Integer value1, Integer value2) {
+            addCriterion("memberState not between", value1, value2, "memberstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeIsNull() {
+            addCriterion("memberJoinTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeIsNotNull() {
+            addCriterion("memberJoinTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeEqualTo(Date value) {
+            addCriterion("memberJoinTime =", value, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeNotEqualTo(Date value) {
+            addCriterion("memberJoinTime <>", value, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeGreaterThan(Date value) {
+            addCriterion("memberJoinTime >", value, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("memberJoinTime >=", value, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeLessThan(Date value) {
+            addCriterion("memberJoinTime <", value, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeLessThanOrEqualTo(Date value) {
+            addCriterion("memberJoinTime <=", value, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeIn(List<Date> values) {
+            addCriterion("memberJoinTime in", values, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeNotIn(List<Date> values) {
+            addCriterion("memberJoinTime not in", values, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeBetween(Date value1, Date value2) {
+            addCriterion("memberJoinTime between", value1, value2, "memberjointime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberjointimeNotBetween(Date value1, Date value2) {
+            addCriterion("memberJoinTime not between", value1, value2, "memberjointime");
             return (Criteria) this;
         }
     }

@@ -3,21 +3,13 @@ package com.xsl.pojo;
 public class XslRewardRank {
     private Integer id;
 
-    private String rewardRankId;
+    private String rewardrankid;
 
-    private String rewardRankName;
+    private String rewardrankname;
 
-    private String rewardRankInfo;
+    private String rewardrankinfo;
 
-    private Integer rewardRankState;
-
-    public Integer getRewardRankState() {
-        return rewardRankState;
-    }
-
-    public void setRewardRankState(Integer rewardRankState) {
-        this.rewardRankState = rewardRankState;
-    }
+    private Integer rewardrankstate;
 
     public Integer getId() {
         return id;
@@ -27,27 +19,35 @@ public class XslRewardRank {
         this.id = id;
     }
 
-    public String getRewardRankId() {
-        return rewardRankId;
+    public String getRewardrankid() {
+        return rewardrankid;
     }
 
-    public void setRewardRankId(String rewardRankId) {
-        this.rewardRankId = rewardRankId;
+    public void setRewardrankid(String rewardrankid) {
+        this.rewardrankid = rewardrankid == null ? null : rewardrankid.trim();
     }
 
-    public String getRewardRankName() {
-        return rewardRankName;
+    public String getRewardrankname() {
+        return rewardrankname;
     }
 
-    public void setRewardRankName(String rewardRankName) {
-        this.rewardRankName = rewardRankName;
+    public void setRewardrankname(String rewardrankname) {
+        this.rewardrankname = rewardrankname == null ? null : rewardrankname.trim();
     }
 
-    public String getRewardRankInfo() {
-        return rewardRankInfo;
+    public String getRewardrankinfo() {
+        return rewardrankinfo;
     }
 
-    public void setRewardRankInfo(String rewardRankInfo) {
-        this.rewardRankInfo = rewardRankInfo;
+    public void setRewardrankinfo(String rewardrankinfo) {
+        this.rewardrankinfo = rewardrankinfo == null ? null : rewardrankinfo.trim();
+    }
+
+    public Integer getRewardrankstate() {
+        return rewardrankstate;
+    }
+
+    public void setRewardrankstate(Integer rewardrankstate) {
+        this.rewardrankstate = rewardrankstate;
     }
 }

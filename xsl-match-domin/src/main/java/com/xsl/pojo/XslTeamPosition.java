@@ -5,17 +5,19 @@ import java.util.Date;
 public class XslTeamPosition {
     private Integer id;
 
-    private String positionId;
+    private String positionid;
 
-    private String positionName;
+    private String teamid;
 
-    private String positionInfo;
+    private String positionname;
 
-    private String positionRequirements;
+    private String positioninfo;
 
-    private Integer positionState;
+    private String positionrequirements;
 
-    private Date positionCreateTime;
+    private Integer positionstate;
+
+    private Date positioncreatetime;
 
     public Integer getId() {
         return id;
@@ -25,51 +27,59 @@ public class XslTeamPosition {
         this.id = id;
     }
 
-    public String getPositionId() {
-        return positionId;
+    public String getPositionid() {
+        return positionid;
     }
 
-    public void setPositionId(String positionId) {
-        this.positionId = positionId;
+    public void setPositionid(String positionid) {
+        this.positionid = positionid == null ? null : positionid.trim();
     }
 
-    public String getPositionName() {
-        return positionName;
+    public String getTeamid() {
+        return teamid;
     }
 
-    public void setPositionName(String positionName) {
-        this.positionName = positionName;
+    public void setTeamid(String teamid) {
+        this.teamid = teamid == null ? null : teamid.trim();
     }
 
-    public String getPositionInfo() {
-        return positionInfo;
+    public String getPositionname() {
+        return positionname;
     }
 
-    public void setPositionInfo(String positionInfo) {
-        this.positionInfo = positionInfo;
+    public void setPositionname(String positionname) {
+        this.positionname = positionname == null ? null : positionname.trim();
     }
 
-    public String getPositionRequirements() {
-        return positionRequirements;
+    public String getPositioninfo() {
+        return positioninfo;
     }
 
-    public void setPositionRequirements(String positionRequirements) {
-        this.positionRequirements = positionRequirements;
+    public void setPositioninfo(String positioninfo) {
+        this.positioninfo = positioninfo == null ? null : positioninfo.trim();
     }
 
-    public Integer getPositionState() {
-        return positionState;
+    public String getPositionrequirements() {
+        return positionrequirements;
     }
 
-    public void setPositionState(Integer positionState) {
-        this.positionState = positionState;
+    public void setPositionrequirements(String positionrequirements) {
+        this.positionrequirements = positionrequirements == null ? null : positionrequirements.trim();
     }
 
-    public Date getPositionCreateTime() {
-        return positionCreateTime;
+    public Integer getPositionstate() {
+        return positionstate;
     }
 
-    public void setPositionCreateTime(Date positionCreateTime) {
-        this.positionCreateTime = positionCreateTime;
+    public void setPositionstate(Integer positionstate) {
+        this.positionstate = positionstate;
+    }
+
+    public Date getPositioncreatetime() {
+        return positioncreatetime;
+    }
+
+    public void setPositioncreatetime(Date positioncreatetime) {
+        this.positioncreatetime = positioncreatetime;
     }
 }

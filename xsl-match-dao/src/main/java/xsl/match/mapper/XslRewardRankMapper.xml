@@ -1,53 +1,211 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="xsl.match.mapper.XslRewardRankMapper" >
-  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslRewardRank" >
-    <id column="Id" property="id" jdbcType="INTEGER" />
-    <result column="rewardRankId" property="rewardRankId" jdbcType="VARCHAR" />
-    <result column="rewardRankName" property="rewardRankName" jdbcType="VARCHAR" />
-    <result column="rewardRankInfo" property="rewardRankInfo" jdbcType="VARCHAR" />
-    <result column="rewardRankState" property="rewardRankState" jdbcType="INTEGER"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xsl.match.mapper.XslRewardRankMapper">
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslRewardRank">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="rewardRankId" jdbcType="VARCHAR" property="rewardrankid" />
+    <result column="rewardRankName" jdbcType="VARCHAR" property="rewardrankname" />
+    <result column="rewardRankInfo" jdbcType="VARCHAR" property="rewardrankinfo" />
+    <result column="rewardRankState" jdbcType="INTEGER" property="rewardrankstate" />
   </resultMap>
-
-  <sql id="Base_Column_List" >
-    rewardRankId, rewardRankName, rewardRankInfo,rewardRankState
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
-
-  <select id="selectAllRewardRank" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, rewardRankId, rewardRankName, rewardRankInfo, rewardRankState
+  </sql>
+  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslRewardRankExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
     from xsl_reward_rank
-    where rewardRankState != 0
-    order by Id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
-
-  <select id="selectRewardRankByRewardRankId" resultType="com.xsl.pojo.XslRewardRank">
-    select <include refid="Base_Column_List"/>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
     from xsl_reward_rank
-    where rewardRankId = #{rewardRankId} and rewardRankState != 0
+    where Id = #{id,jdbcType=INTEGER}
   </select>
-
-  <insert id="insert" parameterType="com.xsl.pojo.XslRewardRank">
-    insert into xsl_reward_rank(rewardRankId, rewardRankName, rewardRankInfo,rewardRankState)
-    values (#{rewardRankId},#{rewardRankName},#{rewardRankInfo},#{rewardRankState})
-  </insert>
-
-  <update id="updateByRewardRankId" parameterType="com.xsl.pojo.XslRewardRank">
-    update xsl_reward_rank
-    set rewardRankName = #{rewardRankName},
-    rewardRankInfo = #{rewardRankInfo},
-    rewardRankState = #{rewardRankState}
-    where rewardRankId = #{rewardRankId}
-  </update>
-
-  <delete id="deleteByRewardRankId" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from xsl_reward_rank
-    where rewardRankId = #{rewardRankId}
+    where Id = #{id,jdbcType=INTEGER}
   </delete>
-
-  <update id="updateRewardRankStateByRewardRankId" parameterType="com.xsl.pojo.XslRewardRank">
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslRewardRankExample">
+    delete from xsl_reward_rank
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xsl.pojo.XslRewardRank">
+    insert into xsl_reward_rank (Id, rewardRankId, rewardRankName, 
+      rewardRankInfo, rewardRankState)
+    values (#{id,jdbcType=INTEGER}, #{rewardrankid,jdbcType=VARCHAR}, #{rewardrankname,jdbcType=VARCHAR}, 
+      #{rewardrankinfo,jdbcType=VARCHAR}, #{rewardrankstate,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xsl.pojo.XslRewardRank">
+    insert into xsl_reward_rank
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="rewardrankid != null">
+        rewardRankId,
+      </if>
+      <if test="rewardrankname != null">
+        rewardRankName,
+      </if>
+      <if test="rewardrankinfo != null">
+        rewardRankInfo,
+      </if>
+      <if test="rewardrankstate != null">
+        rewardRankState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rewardrankid != null">
+        #{rewardrankid,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardrankname != null">
+        #{rewardrankname,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardrankinfo != null">
+        #{rewardrankinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardrankstate != null">
+        #{rewardrankstate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslRewardRankExample" resultType="java.lang.Long">
+    select count(*) from xsl_reward_rank
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
     update xsl_reward_rank
-    set rewardRankState = #{rewardRankState}
-    where rewardRankId = #{rewardRankId}
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.rewardrankid != null">
+        rewardRankId = #{record.rewardrankid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rewardrankname != null">
+        rewardRankName = #{record.rewardrankname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rewardrankinfo != null">
+        rewardRankInfo = #{record.rewardrankinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rewardrankstate != null">
+        rewardRankState = #{record.rewardrankstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
   </update>
-
+  <update id="updateByExample" parameterType="map">
+    update xsl_reward_rank
+    set Id = #{record.id,jdbcType=INTEGER},
+      rewardRankId = #{record.rewardrankid,jdbcType=VARCHAR},
+      rewardRankName = #{record.rewardrankname,jdbcType=VARCHAR},
+      rewardRankInfo = #{record.rewardrankinfo,jdbcType=VARCHAR},
+      rewardRankState = #{record.rewardrankstate,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslRewardRank">
+    update xsl_reward_rank
+    <set>
+      <if test="rewardrankid != null">
+        rewardRankId = #{rewardrankid,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardrankname != null">
+        rewardRankName = #{rewardrankname,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardrankinfo != null">
+        rewardRankInfo = #{rewardrankinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardrankstate != null">
+        rewardRankState = #{rewardrankstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslRewardRank">
+    update xsl_reward_rank
+    set rewardRankId = #{rewardrankid,jdbcType=VARCHAR},
+      rewardRankName = #{rewardrankname,jdbcType=VARCHAR},
+      rewardRankInfo = #{rewardrankinfo,jdbcType=VARCHAR},
+      rewardRankState = #{rewardrankstate,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

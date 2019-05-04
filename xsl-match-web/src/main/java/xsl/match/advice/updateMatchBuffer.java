@@ -4,20 +4,17 @@ import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.enums.ResultCode;
 import com.xsl.pojo.XslMatch;
-import com.xsl.pojo.XslMatchExample;
+import com.xsl.pojo.Example.XslMatchExample;
 import com.xsl.result.XslResult;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import xsl.match.mapper.XslMatchMapper;
-
-import java.util.List;
 
 /**
  * 说明：更新比赛数据的切面

@@ -1,54 +1,228 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="xsl.match.mapper.XslMatchTypeMapper" >
-  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchType" >
-    <id column="Id" property="id" jdbcType="INTEGER" />
-    <result column="matchTypeId" property="matchTypeId" jdbcType="VARCHAR" />
-    <result column="matchTypeName" property="matchTypeName" jdbcType="VARCHAR" />
-    <result column="matchTypeState" property="matchTypeState" jdbcType="INTEGER" />
-    <result column="matchTypeInfo" property="matchTypeInfo" jdbcType="VARCHAR" />
-    <result column="matchTypeCreateTime" property="matchTypeCreateTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xsl.match.mapper.XslMatchTypeMapper">
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchType">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="matchTypeId" jdbcType="VARCHAR" property="matchtypeid" />
+    <result column="matchTypeName" jdbcType="VARCHAR" property="matchtypename" />
+    <result column="matchTypeState" jdbcType="INTEGER" property="matchtypestate" />
+    <result column="matchTypeInfo" jdbcType="VARCHAR" property="matchtypeinfo" />
+    <result column="matchTypeCreateTime" jdbcType="TIMESTAMP" property="matchtypecreatetime" />
   </resultMap>
-
-  <sql id="Base_Column_List" >
-     matchTypeId, matchTypeName, matchTypeState, matchTypeInfo, matchTypeCreateTime
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
-
-  <select id="selectAllMatchType" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, matchTypeId, matchTypeName, matchTypeState, matchTypeInfo, matchTypeCreateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslMatchTypeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
     from xsl_match_type
-    where matchTypeState != 0
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
-
-  <select id="selectMatchTypeByMatchTypeId" parameterType="java.lang.String">
-    select <include refid="Base_Column_List"/>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
     from xsl_match_type
-    where matchTypeState != 0 and matchTypeId = #{matchTypeId}
+    where Id = #{id,jdbcType=INTEGER}
   </select>
-
-  <insert id="insert" parameterType="com.xsl.pojo.XslMatchType">
-    insert into xsl_match_type (matchTypeId, matchTypeName, matchTypeState, matchTypeInfo)
-    values (#{matchTypeId},#{matchTypeName},#{matchTypeState},#{matchTypeInfo});
-  </insert>
-
-  <update id="updateByMatchTypeId" parameterType="com.xsl.pojo.XslMatchType">
-    update xsl_match_type
-    set matchTypeName = #{matchTypeName},
-    matchTypeState = #{matchTypeState},
-    matchTypeInfo = #{matchTypeInfo}
-    where matchTypeId = #{matchTypeId}
-  </update>
-
-  <delete id="deleteByMatchTypeId" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from xsl_match_type
-    where matchTypeId = #{matchTypeId}
+    where Id = #{id,jdbcType=INTEGER}
   </delete>
-
-  <update id="updateTypeStateByMatchTypeId" parameterType="com.xsl.pojo.XslMatchType">
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslMatchTypeExample">
+    delete from xsl_match_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatchType">
+    insert into xsl_match_type (Id, matchTypeId, matchTypeName, 
+      matchTypeState, matchTypeInfo, matchTypeCreateTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{matchtypeid,jdbcType=VARCHAR}, #{matchtypename,jdbcType=VARCHAR}, 
+      #{matchtypestate,jdbcType=INTEGER}, #{matchtypeinfo,jdbcType=VARCHAR}, #{matchtypecreatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xsl.pojo.XslMatchType">
+    insert into xsl_match_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="matchtypeid != null">
+        matchTypeId,
+      </if>
+      <if test="matchtypename != null">
+        matchTypeName,
+      </if>
+      <if test="matchtypestate != null">
+        matchTypeState,
+      </if>
+      <if test="matchtypeinfo != null">
+        matchTypeInfo,
+      </if>
+      <if test="matchtypecreatetime != null">
+        matchTypeCreateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="matchtypeid != null">
+        #{matchtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtypename != null">
+        #{matchtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtypestate != null">
+        #{matchtypestate,jdbcType=INTEGER},
+      </if>
+      <if test="matchtypeinfo != null">
+        #{matchtypeinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtypecreatetime != null">
+        #{matchtypecreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslMatchTypeExample" resultType="java.lang.Long">
+    select count(*) from xsl_match_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
     update xsl_match_type
-    set matchTypeState = #{matchTypeState}
-    where matchTypeId = #{matchTypeId}
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchtypeid != null">
+        matchTypeId = #{record.matchtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchtypename != null">
+        matchTypeName = #{record.matchtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchtypestate != null">
+        matchTypeState = #{record.matchtypestate,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchtypeinfo != null">
+        matchTypeInfo = #{record.matchtypeinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchtypecreatetime != null">
+        matchTypeCreateTime = #{record.matchtypecreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
   </update>
-
-
+  <update id="updateByExample" parameterType="map">
+    update xsl_match_type
+    set Id = #{record.id,jdbcType=INTEGER},
+      matchTypeId = #{record.matchtypeid,jdbcType=VARCHAR},
+      matchTypeName = #{record.matchtypename,jdbcType=VARCHAR},
+      matchTypeState = #{record.matchtypestate,jdbcType=INTEGER},
+      matchTypeInfo = #{record.matchtypeinfo,jdbcType=VARCHAR},
+      matchTypeCreateTime = #{record.matchtypecreatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslMatchType">
+    update xsl_match_type
+    <set>
+      <if test="matchtypeid != null">
+        matchTypeId = #{matchtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtypename != null">
+        matchTypeName = #{matchtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtypestate != null">
+        matchTypeState = #{matchtypestate,jdbcType=INTEGER},
+      </if>
+      <if test="matchtypeinfo != null">
+        matchTypeInfo = #{matchtypeinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtypecreatetime != null">
+        matchTypeCreateTime = #{matchtypecreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslMatchType">
+    update xsl_match_type
+    set matchTypeId = #{matchtypeid,jdbcType=VARCHAR},
+      matchTypeName = #{matchtypename,jdbcType=VARCHAR},
+      matchTypeState = #{matchtypestate,jdbcType=INTEGER},
+      matchTypeInfo = #{matchtypeinfo,jdbcType=VARCHAR},
+      matchTypeCreateTime = #{matchtypecreatetime,jdbcType=TIMESTAMP}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

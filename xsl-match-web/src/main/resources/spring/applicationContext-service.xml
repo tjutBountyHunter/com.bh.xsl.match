@@ -10,8 +10,6 @@
 	<!-- 配置包扫描器 -->
 	<context:component-scan base-package="xsl.match.*"/>
 
-	<!-- 加载配置文件 -->
-	<context:property-placeholder location="classpath:conf/buffer.properties" />
 
 	<!-- 自动扫描切面 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>

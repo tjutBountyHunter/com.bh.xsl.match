@@ -1,46 +1,211 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="xsl.match.mapper.XslMatchRewardMapper" >
-  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchReward" >
-    <id column="Id" property="id" jdbcType="INTEGER" />
-    <result column="matchId" property="matchId" jdbcType="VARCHAR" />
-    <result column="rewardId" property="rewardId" jdbcType="VARCHAR" />
-    <result column="rewardAddTime" property="rewardAddTime" jdbcType="TIMESTAMP" />
-    <result column="matchRewardState" property="matchRewardState" jdbcType="INTEGER"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xsl.match.mapper.XslMatchRewardMapper">
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchReward">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="matchId" jdbcType="VARCHAR" property="matchid" />
+    <result column="rewardId" jdbcType="VARCHAR" property="rewardid" />
+    <result column="rewardAddTime" jdbcType="TIMESTAMP" property="rewardaddtime" />
+    <result column="matchRewardState" jdbcType="INTEGER" property="matchrewardstate" />
   </resultMap>
-
-  <sql id="Base_Column_List" >
-      matchId, rewardId, rewardAddTime,matchRewardState
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
-
-  <select id="selectRewardListByMatchId" parameterType="com.xsl.pojo.XslMatchReward" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, matchId, rewardId, rewardAddTime, matchRewardState
+  </sql>
+  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslMatchRewardExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
     from xsl_match_reward
-    where matchId = #{matchId} and matchRewardState = #{matchRewardState}
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
-
-  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
     from xsl_match_reward
-    where matchRewardState = #{matchRewardState}
-    order by <if test="orderBy == null">rewardAddTime</if>
-    <if test="orderBy != null">#{orderBy}</if>
+    where Id = #{id,jdbcType=INTEGER}
   </select>
-
-  <insert id="insert" parameterType="com.xsl.pojo.XslMatchReward">
-    insert into xsl_match_reward( matchId, rewardId,matchRewardState)
-    values (#{matchId},#{rewardId},#{matchRewardState})
-  </insert>
-
-  <delete id="deleteByRewardIdAndMatchId" parameterType="com.xsl.pojo.XslMatchReward">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from xsl_match_reward
-    where matchId = #{matchId} and rewardId = #{rewardId}
+    where Id = #{id,jdbcType=INTEGER}
   </delete>
-
-  <update id="updateByRewardIdAndMatchId" parameterType="com.xsl.pojo.XslMatchReward">
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslMatchRewardExample">
+    delete from xsl_match_reward
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatchReward">
+    insert into xsl_match_reward (Id, matchId, rewardId, 
+      rewardAddTime, matchRewardState)
+    values (#{id,jdbcType=INTEGER}, #{matchid,jdbcType=VARCHAR}, #{rewardid,jdbcType=VARCHAR}, 
+      #{rewardaddtime,jdbcType=TIMESTAMP}, #{matchrewardstate,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xsl.pojo.XslMatchReward">
+    insert into xsl_match_reward
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="matchid != null">
+        matchId,
+      </if>
+      <if test="rewardid != null">
+        rewardId,
+      </if>
+      <if test="rewardaddtime != null">
+        rewardAddTime,
+      </if>
+      <if test="matchrewardstate != null">
+        matchRewardState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="matchid != null">
+        #{matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardid != null">
+        #{rewardid,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardaddtime != null">
+        #{rewardaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchrewardstate != null">
+        #{matchrewardstate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslMatchRewardExample" resultType="java.lang.Long">
+    select count(*) from xsl_match_reward
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
     update xsl_match_reward
-    set matchRewardState = #{matchRewardState}
-    where matchId = #{matchId} and rewardId = #{rewardId}
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchid != null">
+        matchId = #{record.matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rewardid != null">
+        rewardId = #{record.rewardid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rewardaddtime != null">
+        rewardAddTime = #{record.rewardaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matchrewardstate != null">
+        matchRewardState = #{record.matchrewardstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
   </update>
-
+  <update id="updateByExample" parameterType="map">
+    update xsl_match_reward
+    set Id = #{record.id,jdbcType=INTEGER},
+      matchId = #{record.matchid,jdbcType=VARCHAR},
+      rewardId = #{record.rewardid,jdbcType=VARCHAR},
+      rewardAddTime = #{record.rewardaddtime,jdbcType=TIMESTAMP},
+      matchRewardState = #{record.matchrewardstate,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslMatchReward">
+    update xsl_match_reward
+    <set>
+      <if test="matchid != null">
+        matchId = #{matchid,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardid != null">
+        rewardId = #{rewardid,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardaddtime != null">
+        rewardAddTime = #{rewardaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchrewardstate != null">
+        matchRewardState = #{matchrewardstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslMatchReward">
+    update xsl_match_reward
+    set matchId = #{matchid,jdbcType=VARCHAR},
+      rewardId = #{rewardid,jdbcType=VARCHAR},
+      rewardAddTime = #{rewardaddtime,jdbcType=TIMESTAMP},
+      matchRewardState = #{matchrewardstate,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>
