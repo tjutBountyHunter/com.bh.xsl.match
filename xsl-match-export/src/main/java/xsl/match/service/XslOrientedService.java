@@ -16,7 +16,6 @@ import java.util.List;
 public interface XslOrientedService {
     /** 获取所有面向人群 */
     EasyUIDataGridResult getAllOrienteds(Integer page , Integer rows) throws RuntimeException;
-
     /** 更新人群信息 */
     XslResult updateOriented(XslOriented xslOriented)throws RuntimeException;
     /** 添加一条人群 */

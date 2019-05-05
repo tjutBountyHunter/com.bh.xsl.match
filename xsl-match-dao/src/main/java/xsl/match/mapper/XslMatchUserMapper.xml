@@ -303,4 +303,23 @@
       credit = #{credit,jdbcType=SMALLINT}
     where Id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectMaxLevel" resultType="java.lang.Integer" >
+    select
+     max(`level`)
+    from xsl_match_user
+  </select>
+
+  <select id="selectMaxTaskAccNum" resultType="java.lang.Integer" >
+    select
+     max(`taskAccNum`)
+    from xsl_match_user
+  </select>
+
+  <select id="selectHunterByHunterId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from xsl_match_user
+    where hunterId = #{hunterId,jdbcType=VARCHAR}
+  </select>
 </mapper>

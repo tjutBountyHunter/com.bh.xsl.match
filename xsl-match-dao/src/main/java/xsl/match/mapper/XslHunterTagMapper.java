@@ -1,9 +1,8 @@
 package xsl.match.mapper;
 
-import com.xsl.pojo.XslHunterTag;
 import com.xsl.pojo.Example.XslHunterTagExample;
+import com.xsl.pojo.XslHunterTag;
 import org.apache.ibatis.annotations.Param;
-
 
 import java.util.List;
 
@@ -30,8 +29,8 @@ public interface XslHunterTagMapper {
 
     int updateByPrimaryKey(XslHunterTag record);
 
-    List<XslHunterTag> getHuntersByTag(Integer task_id);
+//    重写
+    List<XslHunterTag> getHuntersByTagId(String taskTag);
 
-    List<XslHunterTag> getTagsByHunter(Integer hunter_id);
-
+    List<XslHunterTag> getTagsByHunterId(String hunterId);
 }

@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.DataStates;
-import com.xsl.enums.ResultCode;
 import com.xsl.enums.TeamStates;
 import com.xsl.pojo.Example.XslMatchTeamExample;
 import com.xsl.pojo.XslMatchTeam;
@@ -89,25 +88,23 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
     public XslResult getTeamPage(Integer page, Integer rows) throws RuntimeException {
         /**
          *
-         * 功能描述: 获取比赛列表(分页)
+         * 功能描述: 获取队伍列表(分页)
          *
          * @param: [page, rows]
          * @return: com.xsl.result.XslResult
          * @auther: 11432_000
          * @date: 2019/4/27 17:41
          */
+        PageHelper.startPage(page,rows);
         try {
-            XslResult xslResult = getTeamList();
-            if (ResultUtils.isSuccess(xslResult)){
-                List<XslMatchTeam> xslMatchTeams =(List<XslMatchTeam>) xslResult.getData();
-                EasyUIDataGridResult result =  new EasyUIDataGridResult();
-                result.setRows(xslMatchTeams);
-                PageHelper.startPage(page,rows);
-                PageInfo<XslMatchTeam> xslMatchTeamPageInfo = new PageInfo<XslMatchTeam>(xslMatchTeams);
-                result.setTotal(xslMatchTeamPageInfo.getTotal());
-                return ResultUtils.isOk(result);
-            }
-            return xslResult;
+            XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
+            xslMatchTeamExample.createCriteria().andTeamstateNotEqualTo(DataStates.DELETE.getCode());
+            List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
+            EasyUIDataGridResult result =  new EasyUIDataGridResult();
+            result.setRows(xslMatchTeams);
+            PageInfo<XslMatchTeam> xslMatchTeamPageInfo = new PageInfo<>(xslMatchTeams);
+            result.setTotal(xslMatchTeamPageInfo.getTotal());
+            return ResultUtils.isOk(result);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -213,6 +210,32 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             criteria.andMatchidEqualTo(matchId);
             List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
             return ResultUtils.isOk(xslMatchTeams);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public XslResult selectTeamByTeamId(String teamId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 根据队伍Id 获取队伍信息
+         *
+         * @param: [teamId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/4 9:12
+         */
+        try {
+            XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
+            XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
+            criteria.andTeamidEqualTo(teamId);
+
+            List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
+            if (xslMatchTeams == null || xslMatchTeams.size() == 0){
+                return ResultUtils.isParameterError();
+            }
+            return ResultUtils.isOk(xslMatchTeams.get(0));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

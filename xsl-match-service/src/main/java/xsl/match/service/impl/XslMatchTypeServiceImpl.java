@@ -44,6 +44,8 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
          * @auther: 11432_000
          * @date: 2019/4/26 21:12
          */
+        //设置分页信息
+        PageHelper.startPage(page,rows);
         try {
             XslMatchTypeExample xslMatchTypeExample = new XslMatchTypeExample();
             XslMatchTypeExample.Criteria criteria = xslMatchTypeExample.createCriteria();
@@ -54,8 +56,6 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             }
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslMatchTypes);
-            //设置分页信息
-            PageHelper.startPage(page,rows);
             //获取分页结果
             PageInfo<XslMatchType> xslMatchTypePageInfo = new PageInfo<XslMatchType>(xslMatchTypes);
             result.setTotal(xslMatchTypePageInfo.getTotal());

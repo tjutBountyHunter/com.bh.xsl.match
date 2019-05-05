@@ -1,0 +1,106 @@
+package xsl.match.service.impl;
+
+import com.xsl.Utils.IdUtils;
+import com.xsl.enums.ResultUtils;
+import com.xsl.pojo.Example.XslTeamMemberExample;
+import com.xsl.pojo.Vo.MemberInfoResVo;
+import com.xsl.pojo.XslMatch;
+import com.xsl.pojo.XslMatchUser;
+import com.xsl.pojo.XslTeamMember;
+import com.xsl.pojo.XslTeamPosition;
+import com.xsl.result.XslResult;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import xsl.match.mapper.XslTeamMemberMapper;
+import xsl.match.service.XslMemberService;
+import xsl.match.service.XslPositionService;
+import xsl.match.service.XslUserService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 说明：
+ *
+ * @Auther: 11432_000
+ * @Date: 2019/5/4 09:07
+ * @Description:
+ */
+public class XslMemberServiceImpl implements XslMemberService {
+
+    @Autowired
+    XslTeamMemberMapper xslTeamMemberMapper;
+    @Autowired
+    XslPositionService xslPositionService;
+    @Autowired
+    XslUserService xslUserService;
+
+    @Override
+    public XslResult getAllMemberByTeamId(String teamId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取队伍的职位及成员信息
+         *
+         * @param: [teamId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/4 15:21
+         */
+        try {
+            //获取所有职位
+            XslResult allPositionByTeamId = xslPositionService.getAllPositionByTeamId(teamId);
+            if (!ResultUtils.isSuccess(allPositionByTeamId)){
+                return allPositionByTeamId;
+            }
+            List<XslTeamPosition> data = (List<XslTeamPosition>) allPositionByTeamId.getData();
+            if (data.size() == 0){
+                return ResultUtils.isOk(new ArrayList<XslTeamMember>());
+            }
+            List<MemberInfoResVo> memberInfos = new ArrayList<>();
+            MemberInfoResVo memberInfo;
+            //添加查询条件，获取所有有关成员
+            XslTeamMemberExample xslTeamMemberExample = new XslTeamMemberExample();
+            XslTeamMemberExample.Criteria criteria = xslTeamMemberExample.createCriteria();
+            for (XslTeamPosition xslTeamPosition : data){
+                xslTeamMemberExample.clear();
+                //添加职位信息
+                memberInfo = new MemberInfoResVo();
+                BeanUtils.copyProperties(xslTeamPosition,memberInfo);
+                //添加成员信息
+                criteria.andPositionidEqualTo(xslTeamPosition.getPositionid());
+                List<XslTeamMember> xslTeamMembers = xslTeamMemberMapper.selectByExample(xslTeamMemberExample);
+                if (xslTeamMembers == null || xslTeamMembers.size() == 0){
+                    continue;
+                }
+                BeanUtils.copyProperties(memberInfo,xslTeamMembers.get(0));
+                //添加用户信息
+                XslResult userByHunterId = xslUserService.getUserByHunterId(xslTeamMembers.get(0).getHunterid());
+                if (ResultUtils.isSuccess(userByHunterId)){
+                    XslMatch user = (XslMatch) userByHunterId.getData();
+                    BeanUtils.copyProperties(memberInfo,user);
+                }
+                memberInfos.add(memberInfo);
+            }
+            return ResultUtils.isOk(memberInfos);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getCause());
+        }
+    }
+
+    @Override
+    public XslResult addMemberByTeamId(XslTeamMember xslTeamMember) throws RuntimeException {
+        String uuid = IdUtils.getUuid("MM:");
+        xslTeamMember.setMemberid(uuid);
+        return null;
+    }
+
+    @Override
+    public XslResult addMemberByTeamId(String teamId) throws RuntimeException {
+        return null;
+    }
+
+    @Override
+    public XslResult changeMemberState(String memberId, Integer state) throws RuntimeException {
+        return null;
+    }
+}

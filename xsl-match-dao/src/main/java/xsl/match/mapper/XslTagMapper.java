@@ -1,7 +1,7 @@
 package xsl.match.mapper;
 
-import com.xsl.pojo.XslTag;
 import com.xsl.pojo.Example.XslTagExample;
+import com.xsl.pojo.XslTag;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -19,6 +19,8 @@ public interface XslTagMapper {
 
     List<XslTag> selectByExample(XslTagExample example);
 
+    List<XslTag> selectByExampleLimit(@Param("example") XslTagExample example, @Param("limit") Integer limit);
+
     XslTag selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") XslTag record, @Param("example") XslTagExample example);
@@ -28,4 +30,6 @@ public interface XslTagMapper {
     int updateByPrimaryKeySelective(XslTag record);
 
     int updateByPrimaryKey(XslTag record);
+
+    int updateUseNumByExample(XslTagExample example);
 }

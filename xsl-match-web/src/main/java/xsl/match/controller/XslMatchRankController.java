@@ -41,8 +41,9 @@ public class XslMatchRankController {
      * @date: 2019/4/21 14:26
      */
     public EasyUIDataGridResult getAllRankPage(Integer page,Integer rows){
-        EasyUIDataGridResult allRank = xslMatchRankService.getAllRank(page,rows);
-        return allRank;
+        XslResult allRank = xslMatchRankService.getAllRank(page, rows);
+        EasyUIDataGridResult data = (EasyUIDataGridResult) allRank.getData();
+        return data;
     }
 
     @RequestMapping("/selectAll/list")
@@ -57,8 +58,8 @@ public class XslMatchRankController {
      * @date: 2019/4/21 14:26
      */
     public List<XslMatchRank> getAllRankList(){
-        EasyUIDataGridResult allRank = xslMatchRankService.getAllRank(null,null);
-        return allRank.getRows();
+        XslResult allRank = xslMatchRankService.getAllRank();
+        return (List<XslMatchRank>) allRank.getData();
     }
 
 

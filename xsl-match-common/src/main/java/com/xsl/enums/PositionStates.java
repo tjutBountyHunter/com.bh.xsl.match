@@ -8,7 +8,7 @@ package com.xsl.enums;
  * @Description:
  */
 public enum PositionStates {
-    NORMAL(1,"正常"),DELETE(0,"已删除"),RECRUITMENT(3,"招募中"),RECRUITMENT_STOP(4,"招募停止"),NON_EDITABLE(5,"队伍已停用");
+    NORMAL(1,"正常"),DELETE(0,"已删除"),RECRUITMENT(3,"招募中"),RECRUITMENT_STOP(4,"招募停止"),NON_EDITABLE(5,"队伍已解散");
 
     private Integer code;
     private String msg;

@@ -118,12 +118,12 @@ public class XslMatchServiceImpl implements XslMatchService {
     @Override
     public XslResult getMatchPage(Integer page, Integer rows)throws RuntimeException {
         //查询所有比赛信息
+        //设置分页数和每页记录数
+        PageHelper.startPage(page,rows);
         try {
-            List<XslMatch> xslMatches = getAllMatch();
+            List<XslMatch> xslMatches = xslMatchMapper.selectByExample(new XslMatchExample());
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslMatches);
-            //设置分页数和每页记录数
-            PageHelper.startPage(page,rows);
             //获取分页结果
             PageInfo<XslMatch> pageInfo = new PageInfo(xslMatches);
             //获取记录数

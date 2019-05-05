@@ -46,6 +46,8 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
          * @auther: 11432_000
          * @date: 2019/4/25 15:01
          */
+        //设置分页
+        PageHelper.startPage(page,rows);
         try {
             XslRewardRankExample xslRewardRankExample = new XslRewardRankExample();
             XslRewardRankExample.Criteria criteria = xslRewardRankExample.createCriteria();
@@ -57,8 +59,6 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
             }
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslRewardRanks);
-            //设置分页
-            PageHelper.startPage(page,rows);
             PageInfo<XslRewardRank> xslRewardRankPageInfo = new PageInfo<XslRewardRank>(xslRewardRanks);
             result.setTotal(xslRewardRankPageInfo.getTotal());
             return ResultUtils.isOk(result);

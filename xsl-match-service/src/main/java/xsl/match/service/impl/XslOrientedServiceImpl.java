@@ -43,6 +43,8 @@ public class XslOrientedServiceImpl implements XslOrientedService {
      */
     @Override
     public EasyUIDataGridResult getAllOrienteds(Integer page ,Integer rows)throws RuntimeException {
+        //配置分页信息
+        PageHelper.startPage(page,rows);
         try{
             XslOrientedExample xslOrientedExample = new XslOrientedExample();
             XslOrientedExample.Criteria criteria = xslOrientedExample.createCriteria();
@@ -54,8 +56,6 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             if (page == null || rows == null){
                 return result;
             }
-            //配置分页信息
-            PageHelper.startPage(page,rows);
             //获取分页结果
             PageInfo<XslOriented> xslOrientedPageInfo = new PageInfo<XslOriented>(xslOrienteds);
             result.setTotal(xslOrientedPageInfo.getTotal());

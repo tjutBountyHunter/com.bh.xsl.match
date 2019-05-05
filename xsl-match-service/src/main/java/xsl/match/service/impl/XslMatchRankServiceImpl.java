@@ -33,17 +33,19 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
     @Autowired
     XslMatchRankMapper xslMatchRankMapper;
 
-    /**
-     *
-     * 功能描述: 获取所有比赛等级
-     *
-     * @param: []
-     * @return: java.util.List<com.xsl.pojo.XslMatchRank>
-     * @auther: 11432_000
-     * @date: 2019/4/21 14:24
-     */
     @Override
-    public EasyUIDataGridResult getAllRank(Integer page,Integer rows) throws RuntimeException{
+    public XslResult getAllRank(Integer page,Integer rows) throws RuntimeException{
+        /**
+         *
+         * 功能描述: 获取所有比赛等级 分页
+         *
+         * @param: [page, rows]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/4 15:59
+         */
+        //设置分页信息
+        PageHelper.startPage(page,rows);
         try {
             XslMatchRankExample xslMatchRankExample = new XslMatchRankExample();
             XslMatchRankExample.Criteria criteria = xslMatchRankExample.createCriteria();
@@ -51,15 +53,31 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
             List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByExample(xslMatchRankExample);
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslMatchRanks);
-            if (page == null || rows == null){
-                return result;
-            }
-            //设置分页信息
-            PageHelper.startPage(page,rows);
             //获取分页结果
             PageInfo<XslMatchRank> xslMatchRankPageInfo = new PageInfo<XslMatchRank>(xslMatchRanks);
             result.setTotal(xslMatchRankPageInfo.getTotal());
-            return result;
+            return ResultUtils.isOk(result);
+        }catch (Exception e){
+            throw new RuntimeException("获取比赛信息异常:" + e.getMessage());
+        }
+    }
+
+    @Override
+    public XslResult getAllRank() throws RuntimeException{
+        /**
+         *
+         * 功能描述: 获取所有比赛等级 不分页
+         *
+         * @param: []
+         * @return: java.util.List<com.xsl.pojo.XslMatchRank>
+         * @auther: 11432_000
+         * @date: 2019/4/21 14:24
+         */
+        try {
+            XslMatchRankExample xslMatchRankExample = new XslMatchRankExample();
+            xslMatchRankExample.createCriteria().andRankstateEqualTo(DataStates.NORMAL.getCode());
+            List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByExample(xslMatchRankExample);
+            return ResultUtils.isOk(xslMatchRanks);
         }catch (Exception e){
             throw new RuntimeException("获取比赛信息异常:" + e.getMessage());
         }

@@ -94,6 +94,24 @@ public class XslMatchController {
         return (EasyUIDataGridResult) matchList.getData();
     }
 
+
+    @RequestMapping("/app/page")
+    @ResponseBody
+    /**
+     *
+     * 功能描述: 获取比赛列表(APP)
+     *
+     * @param: [page, rows]
+     * @return: com.xsl.result.EasyUIDataGridResult
+     * @auther: 11432_000
+     * @date: 2019/4/22 19:28
+     */
+    public XslResult getMatchListForApp(Integer page,Integer rows){
+        XslResult matchList = xslMatchService.getMatchPage(page, rows);
+        matchList.setData(((EasyUIDataGridResult)(matchList.getData())).getRows());
+        return  matchList;
+    }
+
     @RequestMapping("/selectAll/list")
     @ResponseBody
     /**

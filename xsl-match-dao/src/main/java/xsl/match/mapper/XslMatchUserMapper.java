@@ -28,4 +28,11 @@ public interface XslMatchUserMapper {
     int updateByPrimaryKeySelective(XslMatchUser record);
 
     int updateByPrimaryKey(XslMatchUser record);
+
+    /* 自定义 */
+    int selectMaxLevel();
+
+    int selectMaxTaskAccNum();
+
+    XslMatchUser selectHunterByHunterId(String hunterId);
 }

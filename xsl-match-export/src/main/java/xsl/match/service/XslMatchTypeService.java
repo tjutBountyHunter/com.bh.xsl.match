@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface XslMatchTypeService {
 
-    /** 获取所有比赛类型 */
+    /** 获取所有比赛类型 分页*/
     XslResult getAllType(Integer page, Integer rows) throws RuntimeException;
     /** 根据id 获取类型信息 */
     XslResult getType(String xslMatchType)throws RuntimeException;

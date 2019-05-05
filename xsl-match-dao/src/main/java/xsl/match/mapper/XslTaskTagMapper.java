@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface XslTaskTagMapper {
-    int countByExample(XslTaskTagExample example);
+    long countByExample(XslTaskTagExample example);
 
     int deleteByExample(XslTaskTagExample example);
 
@@ -29,7 +29,8 @@ public interface XslTaskTagMapper {
 
     int updateByPrimaryKey(XslTaskTag record);
 
-    List<XslTaskTag> getTagsByTaskId(Integer task_id);
+    /** 自定义 */
+    List<XslTaskTag> getTagsByTaskId(String taskId);
 
-    List<XslTaskTag> getTasksByTag(Integer tag_id);
+    List<XslTaskTag> getTasksByTagId(String taskTag);
 }

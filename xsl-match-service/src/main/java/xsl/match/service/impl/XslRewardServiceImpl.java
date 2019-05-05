@@ -154,11 +154,10 @@ public class XslRewardServiceImpl implements XslRewardService {
          * @auther: 11432_000
          * @date: 2019/4/26 18:47
          */
+        PageHelper.startPage(page,rows);
         try {
             XslRewardExample xslRewardExample = new XslRewardExample();
-            XslRewardExample.Criteria criteria = xslRewardExample.createCriteria();
             List<XslReward> xslRewards = xslRewardMapper.selectByExample(xslRewardExample);
-            PageHelper.startPage(page,rows);
             PageInfo<XslReward> xslRewardPageInfo = new PageInfo<XslReward>(xslRewards);
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslRewards);
