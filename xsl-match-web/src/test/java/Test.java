@@ -1,5 +1,6 @@
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
+import com.xsl.Utils.MatchArrayUtils;
 import com.xsl.pojo.XslMatch;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
@@ -9,8 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import xsl.match.service.impl.XslMatchServiceImpl;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 说明：
@@ -87,11 +87,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 
 //    @org.junit.Test
 //    public void test02(){
-//        String str = " {\"code\":200,\"msg\":\"成功\",\"data\":[{\"id\":13,\"matchid\":\"Md9850f5e-48b2-476c-a2d0-300cd63536e8\",\"matchname\":\"666\",\"matchrankid\":\"MR9a716137-9441-4547-bcb8-c95761e5e1af\",\"matchwebsite\":\"\",\"matchorientedid\":\"MOa236bf3c-d0b3-4c67-b7f4-c1fac76bbe45\",\"matchstarttime\":1554422400000,\"matchendtime\":1554422400000,\"matchstate\":7,\"matchsignupendtime\":1554422400000,\"matchaddress\":\"是是是\",\"matchsignupmaxnum\":null,\"matchform\":1,\"matchteamnum\":null,\"matchsignupstarttime\":1554336000000,\"matchcreatetime\":1556024477000,\"matchposterurl\":\"\",\"matchtypeid\":\"1\",\"matchinfo\":null},{\"id\":14,\"matchid\":\"M3026756a-c790-432f-b058-240990f5e353\",\"matchname\":\"测试1\",\"matchrankid\":\"MR0fedc424-298f-46ca-898e-922d01b6cb3d\",\"matchwebsite\":\"\",\"matchorientedid\":\"MOa236bf3c-d0b3-4c67-b7f4-c1fac76bbe45\",\"matchstarttime\":1556496000000,\"matchendtime\":1556582400000,\"matchstate\":7,\"matchsignupendtime\":1556323200000,\"matchaddress\":\"不知道\",\"matchsignupmaxnum\":null,\"matchform\":2,\"matchteamnum\":4,\"matchsignupstarttime\":1556236800000,\"matchcreatetime\":1556267119000,\"matchposterurl\":\"\",\"matchtypeid\":\"1\",\"matchinfo\":null}]}\n";
-//        XslResult xslResult = JsonUtils.jsonToPojo(str, XslResult.class);
-//        List<XslMatch> data = (List<XslMatch>) xslResult.getData();
-//        XslMatch xslMatch = data.get(0);
-//        System.out.println();
+//        ArrayList<String> list1 = new ArrayList<>();
+//        ArrayList<String> list2 = new ArrayList<>();
+//        list1.add("1");
+//        list2.add("2");
+//        list1.add("2");
+//        list2.add("3");
+//        List<String> intersection = MatchArrayUtils.getIntersection(list1, list2);
+//        System.out.println(intersection.size() + "xxxval = " + intersection.get(0));
 //    }
 
 }

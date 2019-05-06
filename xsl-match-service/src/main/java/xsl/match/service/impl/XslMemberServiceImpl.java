@@ -1,11 +1,10 @@
 package xsl.match.service.impl;
 
 import com.xsl.Utils.IdUtils;
-import com.xsl.enums.ResultUtils;
+import com.xsl.Utils.ResultUtils;
 import com.xsl.pojo.Example.XslTeamMemberExample;
 import com.xsl.pojo.Vo.MemberInfoResVo;
 import com.xsl.pojo.XslMatch;
-import com.xsl.pojo.XslMatchUser;
 import com.xsl.pojo.XslTeamMember;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.XslResult;

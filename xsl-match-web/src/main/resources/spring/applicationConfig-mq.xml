@@ -22,12 +22,22 @@
         <!--<property name="connectionFactory" ref="connectionFactory"/>-->
     <!--</bean>-->
 
-    <!--这个是队列目的地，点对点的 增加任务-->
-    <!--<bean id="addQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--&lt;!&ndash;这个是队列目的地，点对点的 增加任务&ndash;&gt;-->
+    <!--<bean id="recommendDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
         <!--<constructor-arg>-->
-            <!--<value>addTaskMQ</value>-->
+            <!--<value>Recommend</value>-->
         <!--</constructor-arg>-->
     <!--</bean>-->
 
+    <!--&lt;!&ndash; 配置监听者 &ndash;&gt;-->
+    <!--<bean id="recommendListener" class="xsl.match.Listener.RecommendMqListener"></bean>-->
 
+    <!--<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">-->
+        <!--&lt;!&ndash; 连接mq的工厂&ndash;&gt;-->
+        <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+        <!--&lt;!&ndash; 监听的消息的队列 &ndash;&gt;-->
+        <!--<property name="destination" ref="recommendDestination"/>-->
+        <!--&lt;!&ndash; 指定监听器 &ndash;&gt;-->
+        <!--<property name="messageListener" ref="recommendListener"/>-->
+    <!--</bean>-->
 </beans>

@@ -202,7 +202,7 @@ public class XslMatch implements Serializable {
         if (obj == this){
             return true;
         }
-        if (obj instanceof XslMatch){
+        if (!(obj instanceof XslMatch)){
             return false;
         }
         XslMatch xslMatch = (XslMatch) obj;
@@ -210,5 +210,10 @@ public class XslMatch implements Serializable {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getMatchid().hashCode();
     }
 }

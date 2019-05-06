@@ -1,8 +1,9 @@
 package com.xsl.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class XslTaskTag {
+public class XslTaskTag implements Serializable {
     private Integer id;
 
     private String taskid;

@@ -6,13 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 说明：对比赛进行查询时的注解
+ * 说明：更新职位标签的注解
  *
  * @Auther: 11432_000
- * @Date: 2019/4/28 13:38
+ * @Date: 2019/4/28 09:52
  * @Description:
  */
+
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface SelectMatch {
+@Target({ElementType.METHOD,ElementType.TYPE})
+public @interface UpdatePositionTag {
 }

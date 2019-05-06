@@ -2,7 +2,6 @@ package com.xsl.pojo.Example;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class XslHunterTagExample {
@@ -106,32 +105,6 @@ public class XslHunterTagExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
-        }
-
         public Criteria andIdIsNull() {
             addCriterion("id is null");
             return (Criteria) this;
@@ -202,52 +175,62 @@ public class XslHunterTagExample {
             return (Criteria) this;
         }
 
-        public Criteria andHunteridEqualTo(Integer value) {
+        public Criteria andHunteridEqualTo(String value) {
             addCriterion("hunterId =", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridNotEqualTo(Integer value) {
+        public Criteria andHunteridNotEqualTo(String value) {
             addCriterion("hunterId <>", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridGreaterThan(Integer value) {
+        public Criteria andHunteridGreaterThan(String value) {
             addCriterion("hunterId >", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridGreaterThanOrEqualTo(Integer value) {
+        public Criteria andHunteridGreaterThanOrEqualTo(String value) {
             addCriterion("hunterId >=", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridLessThan(Integer value) {
+        public Criteria andHunteridLessThan(String value) {
             addCriterion("hunterId <", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridLessThanOrEqualTo(Integer value) {
+        public Criteria andHunteridLessThanOrEqualTo(String value) {
             addCriterion("hunterId <=", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridIn(List<Integer> values) {
+        public Criteria andHunteridLike(String value) {
+            addCriterion("hunterId like", value, "hunterid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHunteridNotLike(String value) {
+            addCriterion("hunterId not like", value, "hunterid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHunteridIn(List<String> values) {
             addCriterion("hunterId in", values, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridNotIn(List<Integer> values) {
+        public Criteria andHunteridNotIn(List<String> values) {
             addCriterion("hunterId not in", values, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridBetween(Integer value1, Integer value2) {
+        public Criteria andHunteridBetween(String value1, String value2) {
             addCriterion("hunterId between", value1, value2, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andHunteridNotBetween(Integer value1, Integer value2) {
+        public Criteria andHunteridNotBetween(String value1, String value2) {
             addCriterion("hunterId not between", value1, value2, "hunterid");
             return (Criteria) this;
         }
@@ -262,52 +245,62 @@ public class XslHunterTagExample {
             return (Criteria) this;
         }
 
-        public Criteria andTagidEqualTo(Integer value) {
+        public Criteria andTagidEqualTo(String value) {
             addCriterion("tagId =", value, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidNotEqualTo(Integer value) {
+        public Criteria andTagidNotEqualTo(String value) {
             addCriterion("tagId <>", value, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidGreaterThan(Integer value) {
+        public Criteria andTagidGreaterThan(String value) {
             addCriterion("tagId >", value, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andTagidGreaterThanOrEqualTo(String value) {
             addCriterion("tagId >=", value, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidLessThan(Integer value) {
+        public Criteria andTagidLessThan(String value) {
             addCriterion("tagId <", value, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidLessThanOrEqualTo(Integer value) {
+        public Criteria andTagidLessThanOrEqualTo(String value) {
             addCriterion("tagId <=", value, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidIn(List<Integer> values) {
+        public Criteria andTagidLike(String value) {
+            addCriterion("tagId like", value, "tagid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagidNotLike(String value) {
+            addCriterion("tagId not like", value, "tagid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagidIn(List<String> values) {
             addCriterion("tagId in", values, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidNotIn(List<Integer> values) {
+        public Criteria andTagidNotIn(List<String> values) {
             addCriterion("tagId not in", values, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidBetween(Integer value1, Integer value2) {
+        public Criteria andTagidBetween(String value1, String value2) {
             addCriterion("tagId between", value1, value2, "tagid");
             return (Criteria) this;
         }
 
-        public Criteria andTagidNotBetween(Integer value1, Integer value2) {
+        public Criteria andTagidNotBetween(String value1, String value2) {
             addCriterion("tagId not between", value1, value2, "tagid");
             return (Criteria) this;
         }
@@ -323,52 +316,112 @@ public class XslHunterTagExample {
         }
 
         public Criteria andCreatedateEqualTo(Date value) {
-            addCriterionForJDBCDate("createDate =", value, "createdate");
+            addCriterion("createDate =", value, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("createDate <>", value, "createdate");
+            addCriterion("createDate <>", value, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateGreaterThan(Date value) {
-            addCriterionForJDBCDate("createDate >", value, "createdate");
+            addCriterion("createDate >", value, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("createDate >=", value, "createdate");
+            addCriterion("createDate >=", value, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateLessThan(Date value) {
-            addCriterionForJDBCDate("createDate <", value, "createdate");
+            addCriterion("createDate <", value, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("createDate <=", value, "createdate");
+            addCriterion("createDate <=", value, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateIn(List<Date> values) {
-            addCriterionForJDBCDate("createDate in", values, "createdate");
+            addCriterion("createDate in", values, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("createDate not in", values, "createdate");
+            addCriterion("createDate not in", values, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("createDate between", value1, value2, "createdate");
+            addCriterion("createDate between", value1, value2, "createdate");
             return (Criteria) this;
         }
 
         public Criteria andCreatedateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("createDate not between", value1, value2, "createdate");
+            addCriterion("createDate not between", value1, value2, "createdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNull() {
+            addCriterion("state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNotNull() {
+            addCriterion("state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateEqualTo(Boolean value) {
+            addCriterion("state =", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotEqualTo(Boolean value) {
+            addCriterion("state <>", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThan(Boolean value) {
+            addCriterion("state >", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("state >=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThan(Boolean value) {
+            addCriterion("state <", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThanOrEqualTo(Boolean value) {
+            addCriterion("state <=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIn(List<Boolean> values) {
+            addCriterion("state in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotIn(List<Boolean> values) {
+            addCriterion("state not in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateBetween(Boolean value1, Boolean value2) {
+            addCriterion("state between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("state not between", value1, value2, "state");
             return (Criteria) this;
         }
     }

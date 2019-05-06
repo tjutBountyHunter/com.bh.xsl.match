@@ -44,6 +44,14 @@ public class XslMatchTypeController {
         return (List<XslMatchType>)allType.getData();
     }
 
+    @RequestMapping("/selectAll/list/app")
+    @ResponseBody
+    /** 不分页的获取所有比赛类型 */
+    public XslResult getListOfMatchTypeAPP(){
+        XslResult allType = xslMatchTypeService.getAllType();
+        return allType;
+    }
+
     @RequestMapping("/select")
     @ResponseBody
     /** 根据Id获取比赛类型 */

@@ -34,7 +34,7 @@ public class XslHunterTag {
     }
 
     public void setTagid(String tagid) {
-        this.tagid = tagid;
+        this.tagid = tagid == null ? null : tagid.trim();
     }
 
     public Date getCreatedate() {

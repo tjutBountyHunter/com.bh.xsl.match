@@ -1,7 +1,7 @@
 package xsl.match.service.impl;
 
+import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.DataStates;
-import com.xsl.enums.ResultUtils;
 import com.xsl.pojo.Example.XslTeamPositionExample;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.XslResult;

@@ -14,15 +14,19 @@ import java.util.Set;
  */
 public class MatchArrayUtils {
 
-    /** 获取两个数组的交集 需要重写equals()方法*/
+    /** 获取两个数组的交集 需要重写hashCode()和equals()方法*/
     public static <T> List<T> getIntersection(List<T> list1, List<T> list2){
         List<T> result = new ArrayList<T>();
+        Set<T> set = new HashSet<T>();
+        //去重
         for (T t1 : list1){
-            for (T t2 : list2){
-                if (t1.equals(t2)){
-                    result.add(t1);
-                    break;
-                }
+            set.add(t1);
+        }
+        //提取交集
+        for (T t2 : list2){
+            if (set.contains(t2)){
+                result.add(t2);
+                set.remove(t2);
             }
         }
         return result;
