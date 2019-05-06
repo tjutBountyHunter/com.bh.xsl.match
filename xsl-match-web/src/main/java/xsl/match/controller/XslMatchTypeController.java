@@ -40,7 +40,7 @@ public class XslMatchTypeController {
     @ResponseBody
     /** 不分页的获取所有比赛类型 */
     public List<XslMatchType> getListOfMatchType(){
-        XslResult allType = xslMatchTypeService.getAllType(null,null);
+        XslResult allType = xslMatchTypeService.getAllType();
         return (List<XslMatchType>)allType.getData();
     }
 

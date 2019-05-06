@@ -43,4 +43,12 @@ public interface XslMatchService {
 
     /** 根据比赛id 获取比赛信息 */
     XslResult selectMatchInfoByMatchId(String matchId)throws RuntimeException;
+
+    /** 获取某一状态的所有比赛 */
+    XslResult selectAllMatchByState(Integer state)throws RuntimeException;
+    /** 获取某一等级的所有比赛 */
+    XslResult selectAllMatchByRank(String rankId)throws RuntimeException;
+
+    /** 获取指定分类的比赛 */
+    XslResult selectAllMatchByCondition(String rankId,String typeId,Integer state)throws RuntimeException;
 }

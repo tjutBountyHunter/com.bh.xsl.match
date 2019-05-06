@@ -1,14 +1,19 @@
 package xsl.match.service.impl;
 
-import com.xsl.pojo.XslHunterTag;
-import com.xsl.pojo.XslMatchUser;
-import com.xsl.pojo.XslTaskTag;
+import com.xsl.Utils.ResultUtils;
+import com.xsl.pojo.*;
+import com.xsl.pojo.Example.XslMatchUserExample;
+import com.xsl.pojo.Example.XslTaskTagExample;
+import com.xsl.result.XslResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslHunterTagMapper;
 import xsl.match.mapper.XslMatchUserMapper;
 import xsl.match.mapper.XslTaskTagMapper;
 import xsl.match.service.HunterRecommend;
+import xsl.match.service.XslMatchService;
+import xsl.match.service.XslMatchTeamService;
+import xsl.match.service.XslPositionService;
 
 import java.util.*;
 
@@ -23,6 +28,15 @@ public class HunterRecommendImpl implements HunterRecommend {
 
     @Autowired
     XslMatchUserMapper xslMatchUserMapper;
+
+    @Autowired
+    XslPositionService xslPositionService;
+
+    @Autowired
+    XslMatchTeamService xslMatchTeamService;
+
+    @Autowired
+    XslMatchService xslMatchService;
 
     private String taskId;
 
@@ -67,12 +81,23 @@ public class HunterRecommendImpl implements HunterRecommend {
         countSimilarity();
         countAttribute();
         getTopN();
+        Map<Integer, List<String>> screen = screen();
 
-        List<String> res = new ArrayList<>(recommendNum);
-        for (int i = 0; ( i< res.size() ) && (topMap.size() >0 ); i++) {
-            res.add(topMap.pollLastEntry().getValue());
+        ArrayList<String> strings = new ArrayList<>();
+        List<String> list = screen.get(1);
+        List<String> list1 = screen.get(2);
+        int x,y;
+        x = 0; y= 0;
+        for (int i = 0; i < recommendNum; i++) {
+            if (i % 5 != 0 && x < list.size()){
+                strings.add(list.get(x));
+                x ++;
+            }else if (y < list1.size()){
+                strings.add(list1.get(y));
+                y ++;
+            }
         }
-        return res;
+        return strings;
     }
 
     //    获取任务带有的所有标签
@@ -204,5 +229,66 @@ public class HunterRecommendImpl implements HunterRecommend {
             res += attributeMap.get(hunterId)/attributeCount;
             topMap.put(res,hunterId);
         }
+    }
+
+    /** 区分有偏和无偏好 并筛除无被推荐意向的人 */
+    public Map<Integer,List<String>> screen(){
+
+        XslMatchUserExample xslMatchUserExample = new XslMatchUserExample();
+        XslMatchUserExample.Criteria criteria = xslMatchUserExample.createCriteria();
+        List<String> identical = new ArrayList<>(topMap.size());
+        List<String> different = new ArrayList<>(topMap.size());
+        XslMatch match = getMatch();
+
+        //筛选有参赛意向的且偏好为同一类型的人
+        for (int i = 0; topMap.size() >0 ; i++) {
+            String hunterId = topMap.pollLastEntry().getValue();
+            xslMatchUserExample.clear();
+            criteria.andHunteridEqualTo(hunterId);
+            List<XslMatchUser> xslMatchUsers = xslMatchUserMapper.selectByExample(xslMatchUserExample);
+            if (xslMatchUsers.size() == 0){
+                continue;
+            }
+            XslMatchUser xslMatchUser = xslMatchUsers.get(0);
+            if (xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid()) && xslMatchUser.getIsrecommend()){
+                identical.add(hunterId);
+            }else if (xslMatchUser.getIsrecommend()){
+                different.add(hunterId);
+            }
+        }
+        HashMap<Integer,List<String>> map = new HashMap<>();
+        map.put(1,identical);
+        map.put(2,different);
+        return map;
+    }
+
+    /** 获取比赛信息 */
+    public XslMatch getMatch(){
+        XslResult positionByPositionId = xslPositionService.getPositionByPositionId(this.taskId);
+        if (!ResultUtils.isSuccess(positionByPositionId)){
+            return new XslMatch();
+        }
+        XslTeamPosition data = (XslTeamPosition) positionByPositionId.getData();
+        XslResult xslResult = xslMatchTeamService.selectTeamByTeamId(data.getTeamid());
+        if (!ResultUtils.isSuccess(xslResult)){
+            return new XslMatch();
+        }
+        XslMatchTeam data1 = (XslMatchTeam) xslResult.getData();
+        XslResult matchInfoByMatchId = xslMatchService.selectMatchInfoByMatchId(data1.getMatchid());
+        if (!ResultUtils.isSuccess(matchInfoByMatchId)){
+            return new XslMatch();
+        }
+        return (XslMatch) matchInfoByMatchId.getData();
+    }
+
+    /** ----------------------------------------------------------- 推荐算法2 -------------------------------------------------------- */
+    @Override
+    public List<String> recommend2(String taskId, Integer recommendNum) {
+        //获取所有 职位 标签
+        XslTaskTagExample xslTaskTagExample = new XslTaskTagExample();
+        xslTaskTagExample.createCriteria().andTaskidEqualTo(taskId);
+        List<XslTaskTag> xslTaskTags = xslTaskTagMapper.selectByExample(xslTaskTagExample);
+
+        return null;
     }
 }

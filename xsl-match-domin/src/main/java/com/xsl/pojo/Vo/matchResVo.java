@@ -1,10 +1,16 @@
-package com.xsl.pojo;
+package com.xsl.pojo.Vo;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class XslMatch implements Serializable {
-    private Integer id;
+/**
+ * 说明：
+ *
+ * @Auther: 11432_000
+ * @Date: 2019/5/5 14:00
+ * @Description:
+ */
+public class matchResVo implements Serializable {
 
     private String matchid;
 
@@ -42,20 +48,16 @@ public class XslMatch implements Serializable {
 
     private String matchinfo;
 
-    public Integer getId() {
-        return id;
-    }
+    private String rankname;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String rankinfo;
 
     public String getMatchid() {
         return matchid;
     }
 
     public void setMatchid(String matchid) {
-        this.matchid = matchid == null ? null : matchid.trim();
+        this.matchid = matchid;
     }
 
     public String getMatchname() {
@@ -63,7 +65,7 @@ public class XslMatch implements Serializable {
     }
 
     public void setMatchname(String matchname) {
-        this.matchname = matchname == null ? null : matchname.trim();
+        this.matchname = matchname;
     }
 
     public String getMatchrankid() {
@@ -71,7 +73,7 @@ public class XslMatch implements Serializable {
     }
 
     public void setMatchrankid(String matchrankid) {
-        this.matchrankid = matchrankid == null ? null : matchrankid.trim();
+        this.matchrankid = matchrankid;
     }
 
     public String getMatchwebsite() {
@@ -79,7 +81,7 @@ public class XslMatch implements Serializable {
     }
 
     public void setMatchwebsite(String matchwebsite) {
-        this.matchwebsite = matchwebsite == null ? null : matchwebsite.trim();
+        this.matchwebsite = matchwebsite;
     }
 
     public String getMatchorientedid() {
@@ -87,7 +89,7 @@ public class XslMatch implements Serializable {
     }
 
     public void setMatchorientedid(String matchorientedid) {
-        this.matchorientedid = matchorientedid == null ? null : matchorientedid.trim();
+        this.matchorientedid = matchorientedid;
     }
 
     public Date getMatchstarttime() {
@@ -127,7 +129,7 @@ public class XslMatch implements Serializable {
     }
 
     public void setMatchaddress(String matchaddress) {
-        this.matchaddress = matchaddress == null ? null : matchaddress.trim();
+        this.matchaddress = matchaddress;
     }
 
     public Integer getMatchsignupmaxnum() {
@@ -175,7 +177,7 @@ public class XslMatch implements Serializable {
     }
 
     public void setMatchposterurl(String matchposterurl) {
-        this.matchposterurl = matchposterurl == null ? null : matchposterurl.trim();
+        this.matchposterurl = matchposterurl;
     }
 
     public String getMatchtypeid() {
@@ -183,7 +185,7 @@ public class XslMatch implements Serializable {
     }
 
     public void setMatchtypeid(String matchtypeid) {
-        this.matchtypeid = matchtypeid == null ? null : matchtypeid.trim();
+        this.matchtypeid = matchtypeid;
     }
 
     public String getMatchinfo() {
@@ -191,24 +193,22 @@ public class XslMatch implements Serializable {
     }
 
     public void setMatchinfo(String matchinfo) {
-        this.matchinfo = matchinfo == null ? null : matchinfo.trim();
+        this.matchinfo = matchinfo;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null){
-            return false;
-        }
-        if (obj == this){
-            return true;
-        }
-        if (obj instanceof XslMatch){
-            return false;
-        }
-        XslMatch xslMatch = (XslMatch) obj;
-        if (this.getMatchid().equals(xslMatch.getMatchid())){
-            return true;
-        }
-        return false;
+    public String getRankname() {
+        return rankname;
+    }
+
+    public void setRankname(String rankname) {
+        this.rankname = rankname;
+    }
+
+    public String getRankinfo() {
+        return rankinfo;
+    }
+
+    public void setRankinfo(String rankinfo) {
+        this.rankinfo = rankinfo;
     }
 }

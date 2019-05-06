@@ -181,7 +181,7 @@ public class XslMatchController {
 
     @RequestMapping("/select/matchType")
     @ResponseBody
-    public List<XslMatch> getAllMatchByMatchType(@Param("matchTypeId") String matchTypeId){
+    public List<XslMatch> getAllMatchByMatchType(@Param("matchtypeid") String matchtypeid){
         /**
          *
          * 功能描述: 获取某一类型的所有比赛
@@ -191,13 +191,13 @@ public class XslMatchController {
          * @auther: 11432_000
          * @date: 2019/4/27 14:00
          */
-        XslResult result = xslMatchService.selectAllMatchByMatchType(matchTypeId);
+        XslResult result = xslMatchService.selectAllMatchByMatchType(matchtypeid);
         return (List<XslMatch>) result.getData();
     }
 
     @RequestMapping("/select/one")
     @ResponseBody
-    public XslMatch getMatchByMatchId(@Param("matchId") String matchId){
+    public XslMatch getMatchByMatchId(@Param("matchid") String matchid){
         /**
          *
          * 功能描述: 获取指定的比赛
@@ -207,8 +207,56 @@ public class XslMatchController {
          * @auther: 11432_000
          * @date: 2019/4/28 20:51
          */
-        XslResult result = xslMatchService.selectMatchInfoByMatchId(matchId);
+        XslResult result = xslMatchService.selectMatchInfoByMatchId(matchid);
         return (XslMatch) result.getData();
+    }
+
+    @RequestMapping("/select/byRank")
+    @ResponseBody
+    public List<XslMatch> getAllMatchByRank(@Param("matchrankid") String matchrankid){
+        /**
+         *
+         * 功能描述: 获取某一等级的所有比赛
+         *
+         * @param: [matchTypeId]
+         * @return: java.util.List<com.xsl.pojo.XslMatch>
+         * @auther: 11432_000
+         * @date: 2019/4/27 14:00
+         */
+        XslResult result = xslMatchService.selectAllMatchByRank(matchrankid);
+        return (List<XslMatch>) result.getData();
+    }
+
+    @RequestMapping("/select/byState")
+    @ResponseBody
+    public List<XslMatch> getAllMatchByState(@Param("matchstate") Integer matchstate){
+        /**
+         *
+         * 功能描述: 获取某一状态的所有比赛
+         *
+         * @param: [matchTypeId]
+         * @return: java.util.List<com.xsl.pojo.XslMatch>
+         * @auther: 11432_000
+         * @date: 2019/4/27 14:00
+         */
+        XslResult result = xslMatchService.selectAllMatchByState(matchstate);
+        return (List<XslMatch>) result.getData();
+    }
+
+    @RequestMapping("/select/byCondition")
+    @ResponseBody
+    public List<XslMatch> getAllMatchByCondition(@Param("matchrankid") String matchrankid,@Param("matchtypeid") String matchtypeid,@Param("matchstate") Integer matchstate){
+        /**
+         *
+         * 功能描述: 获取某一状态的所有比赛
+         *
+         * @param: [matchTypeId]
+         * @return: java.util.List<com.xsl.pojo.XslMatch>
+         * @auther: 11432_000
+         * @date: 2019/4/27 14:00
+         */
+        XslResult result = xslMatchService.selectAllMatchByCondition(matchrankid,matchtypeid,matchstate);
+        return (List<XslMatch>) result.getData();
     }
 
 }

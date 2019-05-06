@@ -37,7 +37,7 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
     public XslResult getAllType(Integer page, Integer rows) throws RuntimeException {
         /**
          *
-         * 功能描述: 获取所有比赛类型
+         * 功能描述: 获取所有比赛类型 分页
          *
          * @param: [page, rows]
          * @return: com.xsl.result.XslResult
@@ -64,6 +64,29 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             throw new RuntimeException("获取比赛类型异常:" + e.getMessage());
         }
     }
+
+    @Override
+    public XslResult getAllType() throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取所有比赛类型 不分页
+         *
+         * @param: []
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/5 13:48
+         */
+        try {
+            XslMatchTypeExample xslMatchTypeExample = new XslMatchTypeExample();
+            XslMatchTypeExample.Criteria criteria = xslMatchTypeExample.createCriteria();
+            criteria.andMatchtypestateNotEqualTo(DataStates.DELETE.getCode());
+            List<XslMatchType> xslMatchTypes = xslMatchTypeMapper.selectByExample(xslMatchTypeExample);
+            return ResultUtils.isOk(xslMatchTypes);
+        }catch (Exception e){
+            throw new RuntimeException("获取比赛类型异常:" + e.getMessage());
+        }
+    }
+
     @Override
     public XslResult getType(String xslMatchTypeId) throws RuntimeException {
         /**

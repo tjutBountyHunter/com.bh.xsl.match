@@ -39,15 +39,19 @@ public class InitService {
     XslSchoolMapper xslSchoolMapper;
     @Autowired
     XslSchoolinfoMapper xslSchoolinfoMapper;
+    @Autowired
+    BufferService bufferService;
 
-    @Value("MATCH_BUFFER_PREFIX")
-    private String MATCH_BUFFER_PREFIX;
+    @Value("MATCH_INFO")
+    private String MATCH_INFO;
     @Value("${USER_SCHOOL_LIST}")
     private String USER_SCHOOL_LIST;
     @Value("${USER_SCHOOL_INFO}")
     private String USER_SCHOOL_INFO;
     @Value("${USER_SCHOOL_REGION}")
     private String USER_SCHOOL_REGION;
+    @Value("${MATCH_LIST}")
+    private String MATCH_LIST;
 
     public void init(){
         addMatchToInfo();
@@ -62,9 +66,17 @@ public class InitService {
             XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
             criteria.andMatchstateNotEqualTo(DataStates.DELETE.getCode());
             list = xslMatchMapper.selectByExample(xslMatchExample);
+            //添加单个比赛
             for (XslMatch xslMatch : list){
-                JedisUtils.set(MATCH_BUFFER_PREFIX + ":" + xslMatch.getMatchid(), JsonUtils.objectToJson(xslMatch));
+                JedisUtils.set(MATCH_INFO + ":" + xslMatch.getMatchid(), JsonUtils.objectToJson(xslMatch));
             }
+            bufferService.addMatchRankClassification(list);
+            bufferService.addMatchTypeClassification(list);
+            bufferService.addMatchStateClassification(list);
+            //添加比赛列表缓存
+            String json = JsonUtils.objectToJson(list);
+            JedisUtils.set(MATCH_LIST,json);
+
             LOGGER.info("添加比赛缓存---成功");
         } catch (Exception e) {
             LOGGER.error("添加比赛缓存---失败");

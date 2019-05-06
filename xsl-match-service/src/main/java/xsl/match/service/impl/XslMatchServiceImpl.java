@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
+import com.xsl.Utils.MatchArrayUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.annotation.DeleteMatch;
 import com.xsl.annotation.UpdateMatch;
@@ -15,6 +16,7 @@ import com.xsl.pojo.XslMatch;
 import com.xsl.pojo.Example.XslMatchExample;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,14 @@ public class XslMatchServiceImpl implements XslMatchService {
 
     @Value("MATCH_BUFFER_PREFIX")
     private String MATCH_BUFFER_PREFIX;
+    @Value("${MATCH_LIST}")
+    private String MATCH_LIST;
+    @Value("${MATCH_LIST_BY_TYPE}")
+    private String MATCH_LIST_BY_TYPE;
+    @Value("${MATCH_LIST_BY_RANK}")
+    private String MATCH_LIST_BY_RANK;
+    @Value("${MATCH_LIST_BY_STATE}")
+    private String MATCH_LIST_BY_STATE;
 
 
     /**
@@ -118,16 +128,16 @@ public class XslMatchServiceImpl implements XslMatchService {
     @Override
     public XslResult getMatchPage(Integer page, Integer rows)throws RuntimeException {
         //查询所有比赛信息
-        //设置分页数和每页记录数
-        PageHelper.startPage(page,rows);
         try {
-            List<XslMatch> xslMatches = xslMatchMapper.selectByExample(new XslMatchExample());
+            ArrayList<XslMatch> matchPage = new ArrayList<>();
+            List<XslMatch> allMatch = getAllMatch(MATCH_LIST);
             EasyUIDataGridResult result = new EasyUIDataGridResult();
-            result.setRows(xslMatches);
-            //获取分页结果
-            PageInfo<XslMatch> pageInfo = new PageInfo(xslMatches);
+            for (int i = (page - 1) * rows; i < page * rows && i < allMatch.size(); i++) {
+                matchPage.add(allMatch.get(i));
+            }
+            result.setRows(matchPage);
             //获取记录数
-            result.setTotal(pageInfo.getTotal());
+            result.setTotal(allMatch.size());
             return ResultUtils.isOk(result);
         }catch (Exception e){
             throw new RuntimeException("获取比赛信息列表异常:"  + e.getMessage());
@@ -145,7 +155,7 @@ public class XslMatchServiceImpl implements XslMatchService {
          * @date: 2019/4/28 11:27
          */
         try {
-            List<XslMatch> xslMatches = getAllMatch();
+            List<XslMatch> xslMatches = getAllMatch(MATCH_LIST);
             return ResultUtils.isOk(xslMatches);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -273,11 +283,7 @@ public class XslMatchServiceImpl implements XslMatchService {
          * @date: 2019/4/27 13:54
          */
         try {
-            XslMatchExample xslMatchExample = new XslMatchExample();
-            XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
-            criteria.andMatchtypeidEqualTo(matchTypeId);
-            List<XslMatch> xslMatches = xslMatchMapper.selectByExample(xslMatchExample);
-            return ResultUtils.isOk(xslMatches);
+            return ResultUtils.isOk(getAllMatch(MATCH_LIST_BY_TYPE + ":" + matchTypeId));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -304,7 +310,44 @@ public class XslMatchServiceImpl implements XslMatchService {
         }
     }
 
-    private List<XslMatch> getAllMatch(){
+    @Override
+    public XslResult selectAllMatchByState(Integer state) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取某一状态的所有比赛
+         *
+         * @param: [state]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/5 16:57
+         */
+        try {
+            return ResultUtils.isOk(getAllMatch(MATCH_LIST_BY_STATE + ":" + state));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public XslResult selectAllMatchByRank(String rankId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取某一等级的所有比赛
+         *
+         * @param: [rankId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/5 16:57
+         */
+        try {
+            return ResultUtils.isOk(getAllMatch(MATCH_LIST_BY_RANK + ":" + rankId));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    /** 获取指定比赛列表 */
+    private List<XslMatch> getAllMatch(String key){
         /**
          *
          * 功能描述:从redis 获取所有比赛
@@ -314,11 +357,39 @@ public class XslMatchServiceImpl implements XslMatchService {
          * @auther: 11432_000
          * @date: 2019/4/28 14:22
          */
-        List<XslMatch> xslMatches = new ArrayList<XslMatch>();
-        Set<String> keys = JedisUtils.keys(MATCH_BUFFER_PREFIX);
-        for (String key : keys){
-            xslMatches.add(JsonUtils.jsonToPojo(JedisUtils.get(key),XslMatch.class));
-        }
+        String json = JedisUtils.get(key);
+        List<XslMatch> xslMatches = JsonUtils.jsonToList(json, XslMatch.class);
         return xslMatches;
+    }
+
+    @Override
+    public XslResult selectAllMatchByCondition(String rankId, String typeId, Integer state) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取指定分类的比赛
+         *
+         * @param: [rankId, typeId, state]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/5 20:17
+         */
+        try {
+            List<XslMatch> allMatch = getAllMatch(MATCH_LIST);
+            if (StringUtils.isNotBlank(rankId)){
+                List<XslMatch> rankMatch = getAllMatch(MATCH_LIST_BY_RANK + ":" + rankId);
+                allMatch = MatchArrayUtils.getIntersection(allMatch,rankMatch);
+            }
+            if (StringUtils.isNotBlank(typeId)){
+                List<XslMatch> typeMatch = getAllMatch(MATCH_LIST_BY_TYPE + ":" + typeId);
+                allMatch = MatchArrayUtils.getIntersection(allMatch,typeMatch);
+            }
+            if (state != null){
+                List<XslMatch> stateMatch = getAllMatch(MATCH_LIST_BY_STATE + ":" + state);
+                allMatch = MatchArrayUtils.getIntersection(allMatch,stateMatch);
+            }
+            return ResultUtils.isOk(allMatch);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

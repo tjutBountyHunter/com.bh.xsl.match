@@ -12,4 +12,6 @@ public interface HunterRecommend {
      */
     List<String> recommend(String taskId, Integer recommendNum);
 
+    List<String> recommend2(String taskId, Integer recommendNum);
+
 }

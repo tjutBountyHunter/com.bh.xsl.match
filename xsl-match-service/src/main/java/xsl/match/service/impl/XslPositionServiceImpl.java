@@ -6,6 +6,7 @@ import com.xsl.pojo.Example.XslTeamPositionExample;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.XslResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslTeamPositionMapper;
 import xsl.match.service.XslPositionService;
 
@@ -18,6 +19,7 @@ import java.util.List;
  * @Date: 2019/5/4 09:17
  * @Description:
  */
+@Service
 public class XslPositionServiceImpl implements XslPositionService {
 
     @Autowired
@@ -63,6 +65,25 @@ public class XslPositionServiceImpl implements XslPositionService {
 
     @Override
     public XslResult getPositionByPositionId(String positionId) throws RuntimeException {
-        return null;
+        /**
+         *
+         * 功能描述: 根据职位ID 获取指定职位
+         *
+         * @param: [positionId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/5 18:26
+         */
+        try {
+            XslTeamPositionExample xslTeamPositionExample = new XslTeamPositionExample();
+            xslTeamPositionExample.createCriteria().andPositionidEqualTo(positionId);
+            List<XslTeamPosition> teamPositions = xslTeamPositionMapper.selectByExample(xslTeamPositionExample);
+            if (teamPositions.size() == 0){
+                return ResultUtils.isParameterError();
+            }
+            return ResultUtils.isOk(teamPositions.get(0));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

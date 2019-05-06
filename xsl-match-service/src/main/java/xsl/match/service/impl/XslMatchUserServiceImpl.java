@@ -100,6 +100,9 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
             xslMatchUserExample.createCriteria().andUseridEqualTo(userId);
 
             List<XslMatchUser> xslMatchUsers = xslMatchUserMapper.selectByExample(xslMatchUserExample);
+            if (xslMatchUsers == null || xslMatchUsers.size() == 0){
+                throw new RuntimeException("查询用户信息失败");
+            }
             return ResultUtils.isOk(xslMatchUsers.get(0));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
