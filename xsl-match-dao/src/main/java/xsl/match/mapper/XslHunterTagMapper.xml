@@ -213,7 +213,7 @@
     select
     <include refid="Base_Column_List" />
     from xsl_hunter_tag
-    where tagId = #{taskTag,jdbcType=VARCHAR} and hunterId like 'MTH:%'
+    where tagId = #{taskTag,jdbcType=VARCHAR} and hunterId like 'MTH:%' and state = 1
   </select>
 
   <select id="getTagsByHunterId" resultMap="BaseResultMap" parameterType="java.lang.String" >

@@ -100,7 +100,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
             criteria.andMatchrankidEqualTo(rankId);
             List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByExample(xslMatchRankExample);
             if (xslMatchRanks == null || xslMatchRanks.size() == 0){
-                return ResultUtils.isParameterError();
+                return ResultUtils.isParameterError("等级不存在");
             }
             return ResultUtils.isOk(xslMatchRanks.get(0));
         }catch (Exception e){

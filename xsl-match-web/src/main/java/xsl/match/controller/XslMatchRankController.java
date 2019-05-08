@@ -63,6 +63,17 @@ public class XslMatchRankController {
     }
 
 
+    @RequestMapping("/selectAll/list/app")
+    @ResponseBody
+    /**
+     * 功能描述: 获取所有比赛等级
+     */
+    public XslResult getAllRankListApp(){
+        XslResult allRank = xslMatchRankService.getAllRank();
+        return allRank;
+    }
+
+
     @RequestMapping("/select")
     @ResponseBody
     public XslMatchRank getRank(@Param("rankId") String rankId){

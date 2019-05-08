@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 说明：
+ * 说明：比赛详情 比赛信息 + 等级信息 + 奖励信息
  *
  * @Auther: 11432_000
  * @Date: 2019/5/5 14:00
  * @Description:
  */
-public class matchResVo implements Serializable {
+public class MatchResVo implements Serializable {
 
     private String matchid;
 
@@ -48,9 +48,20 @@ public class matchResVo implements Serializable {
 
     private String matchinfo;
 
+    /** 等级信息 */
     private String rankname;
 
     private String rankinfo;
+
+    /** 人群信息 */
+    private String orientedname;
+
+    private String orientedinfo;
+
+    /** 类型信息 */
+    private String matchtypename;
+
+    private String matchtypeinfo;
 
     public String getMatchid() {
         return matchid;
@@ -210,5 +221,37 @@ public class matchResVo implements Serializable {
 
     public void setRankinfo(String rankinfo) {
         this.rankinfo = rankinfo;
+    }
+
+    public String getOrientedname() {
+        return orientedname;
+    }
+
+    public void setOrientedname(String orientedname) {
+        this.orientedname = orientedname;
+    }
+
+    public String getOrientedinfo() {
+        return orientedinfo;
+    }
+
+    public void setOrientedinfo(String orientedinfo) {
+        this.orientedinfo = orientedinfo;
+    }
+
+    public String getMatchtypename() {
+        return matchtypename;
+    }
+
+    public void setMatchtypename(String matchtypename) {
+        this.matchtypename = matchtypename;
+    }
+
+    public String getMatchtypeinfo() {
+        return matchtypeinfo;
+    }
+
+    public void setMatchtypeinfo(String matchtypeinfo) {
+        this.matchtypeinfo = matchtypeinfo;
     }
 }

@@ -32,4 +32,15 @@ public class MatchArrayUtils {
         return result;
     }
 
+    /** 分页 */
+    public static <T> List<T> pageHelper(List<T> list, Integer page,Integer rows){
+        int start = (page - 1) * rows;
+        int end = start + rows;
+        ArrayList<T> ts = new ArrayList<T>();
+        for (int i = start; i < end && i < list.size(); i++) {
+            ts.add(list.get(i));
+        }
+        return ts;
+    }
+
 }

@@ -12,18 +12,26 @@ import com.xsl.enums.DataStates;
 import com.xsl.enums.MatchForm;
 import com.xsl.enums.MatchState;
 import com.xsl.enums.ResultCode;
+import com.xsl.pojo.Vo.MatchResVo;
 import com.xsl.pojo.XslMatch;
 import com.xsl.pojo.Example.XslMatchExample;
+import com.xsl.pojo.XslMatchRank;
+import com.xsl.pojo.XslMatchType;
+import com.xsl.pojo.XslOriented;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslMatchMapper;
+import xsl.match.service.XslMatchRankService;
 import xsl.match.service.XslMatchService;
+import xsl.match.service.XslMatchTypeService;
+import xsl.match.service.XslOrientedService;
 
 import java.util.*;
 
@@ -47,9 +55,15 @@ public class XslMatchServiceImpl implements XslMatchService {
 
     @Autowired
     XslMatchMapper xslMatchMapper;
+    @Autowired
+    XslMatchTypeService xslMatchTypeService;
+    @Autowired
+    XslMatchRankService xslMatchRankService;
+    @Autowired
+    XslOrientedService xslOrientedService;
 
-    @Value("MATCH_BUFFER_PREFIX")
-    private String MATCH_BUFFER_PREFIX;
+    @Value("${MATCH_INFO}")
+    private String MATCH_INFO;
     @Value("${MATCH_LIST}")
     private String MATCH_LIST;
     @Value("${MATCH_LIST_BY_TYPE}")
@@ -173,7 +187,7 @@ public class XslMatchServiceImpl implements XslMatchService {
      */
     @Override
     @UpdateMatch
-    public XslResult updateMatchInfo(XslMatch xslMatch) throws RuntimeException{
+    public XslResult updateMatch(XslMatch xslMatch) throws RuntimeException{
         try{
             XslMatchExample xslMatchExample = new XslMatchExample();
             XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
@@ -225,7 +239,7 @@ public class XslMatchServiceImpl implements XslMatchService {
      */
     @Override
     @DeleteMatch
-    public XslResult deleteMatchInfoByIds(List<String> matchIds) throws RuntimeException{
+    public XslResult deleteMatchByIds(List<String> matchIds) throws RuntimeException{
         try{
             XslResult result = updateMatchState(matchIds, DataStates.DELETE.getCode());
             if (ResultUtils.isSuccess(result)){
@@ -271,26 +285,9 @@ public class XslMatchServiceImpl implements XslMatchService {
             throw new RuntimeException("更新比赛状态异常:" + e.getMessage());
         }
     }
-    @Override
-    public XslResult selectAllMatchByMatchType(String matchTypeId) throws RuntimeException {
-        /**
-         *
-         * 功能描述: 获取某一类型的所有比赛
-         *
-         * @param: [matchTypeId]
-         * @return: com.xsl.result.XslResult
-         * @auther: 11432_000
-         * @date: 2019/4/27 13:54
-         */
-        try {
-            return ResultUtils.isOk(getAllMatch(MATCH_LIST_BY_TYPE + ":" + matchTypeId));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
 
     @Override
-    public XslResult selectMatchInfoByMatchId(String matchId) throws RuntimeException {
+    public XslResult selectMatchByMatchId(String matchId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据比赛id 获取比赛信息
@@ -302,7 +299,10 @@ public class XslMatchServiceImpl implements XslMatchService {
          */
         String json = null;
         try {
-            json = JedisUtils.get(MATCH_BUFFER_PREFIX + ":" + matchId);
+            json = JedisUtils.get(MATCH_INFO + ":" + matchId);
+            if (StringUtils.isBlank(json)){
+                return ResultUtils.isParameterError("比赛不存在");
+            }
             XslMatch xslMatch = JsonUtils.jsonToPojo(json,XslMatch.class);
             return ResultUtils.isOk(xslMatch);
         } catch (Exception e) {
@@ -310,41 +310,7 @@ public class XslMatchServiceImpl implements XslMatchService {
         }
     }
 
-    @Override
-    public XslResult selectAllMatchByState(Integer state) throws RuntimeException {
-        /**
-         *
-         * 功能描述: 获取某一状态的所有比赛
-         *
-         * @param: [state]
-         * @return: com.xsl.result.XslResult
-         * @auther: 11432_000
-         * @date: 2019/5/5 16:57
-         */
-        try {
-            return ResultUtils.isOk(getAllMatch(MATCH_LIST_BY_STATE + ":" + state));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
 
-    @Override
-    public XslResult selectAllMatchByRank(String rankId) throws RuntimeException {
-        /**
-         *
-         * 功能描述: 获取某一等级的所有比赛
-         *
-         * @param: [rankId]
-         * @return: com.xsl.result.XslResult
-         * @auther: 11432_000
-         * @date: 2019/5/5 16:57
-         */
-        try {
-            return ResultUtils.isOk(getAllMatch(MATCH_LIST_BY_RANK + ":" + rankId));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
 
     /** 获取指定比赛列表 */
     private List<XslMatch> getAllMatch(String key){
@@ -363,7 +329,7 @@ public class XslMatchServiceImpl implements XslMatchService {
     }
 
     @Override
-    public XslResult selectAllMatchByCondition(String rankId, String typeId, Integer state) throws RuntimeException {
+    public XslResult selectAllMatchByCondition(String rankId,String typeId,Integer state,Integer page,Integer rows) throws RuntimeException {
         /**
          *
          * 功能描述: 获取指定分类的比赛
@@ -387,9 +353,45 @@ public class XslMatchServiceImpl implements XslMatchService {
                 List<XslMatch> stateMatch = getAllMatch(MATCH_LIST_BY_STATE + ":" + state);
                 allMatch = MatchArrayUtils.getIntersection(allMatch,stateMatch);
             }
-            return ResultUtils.isOk(allMatch);
+            //low比的分页处理
+            List<XslMatch> xslMatches = MatchArrayUtils.pageHelper(allMatch, page, rows);
+            return ResultUtils.isOk(xslMatches);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    @Override
+    public XslResult getMatchAllInfoByMatchId(String matchId) throws RuntimeException {
+        MatchResVo matchResVo = new MatchResVo();
+        //获取比赛信息
+        XslResult match = selectMatchByMatchId(matchId);
+        if (!ResultUtils.isSuccess(match)){
+            return match;
+        }
+        XslMatch xslMatch = (XslMatch) match.getData();
+        BeanUtils.copyProperties(xslMatch,matchResVo);
+        //获取等级信息
+        XslResult rank = xslMatchRankService.getRank(xslMatch.getMatchrankid());
+        if (!ResultUtils.isSuccess(rank)){
+            return rank;
+        }
+        XslMatchRank xslMatchRank = (XslMatchRank) rank.getData();
+        BeanUtils.copyProperties(xslMatchRank,matchResVo);
+        //获取人群信息
+        XslResult oriented = xslOrientedService.getOrientedById(xslMatch.getMatchorientedid());
+        if (!ResultUtils.isSuccess(oriented)){
+            return oriented;
+        }
+        XslOriented xslOriented = (XslOriented) oriented.getData();
+        BeanUtils.copyProperties(xslOriented,matchResVo);
+        //获取类型信息
+        XslResult type = xslMatchTypeService.getType(xslMatch.getMatchtypeid());
+        if (!ResultUtils.isSuccess(type)){
+            return type;
+        }
+        XslMatchType xslMatchType = (XslMatchType) type.getData();
+        BeanUtils.copyProperties(xslMatchType,matchResVo);
+        return ResultUtils.isOk(matchResVo);
     }
 }

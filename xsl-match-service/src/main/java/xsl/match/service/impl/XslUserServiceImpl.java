@@ -395,6 +395,9 @@ public class XslUserServiceImpl implements XslUserService {
          * @auther: 11432_000
          * @date: 2019/5/4 10:12
          */
+        if (userInfo == null){
+            return ResultUtils.isParameterError("参数为空");
+        }
         try {
             XslUserExample xslUserExample = new XslUserExample();
             XslUserExample.Criteria criteria = xslUserExample.createCriteria();

@@ -139,4 +139,28 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             throw new RuntimeException("删除人群异常:" + e.getMessage());
         }
     }
+
+    @Override
+    public XslResult getOrientedById(String orientedId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 根据id获取人群信息
+         *
+         * @param: [orientedId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/7 16:26
+         */
+        try {
+            XslOrientedExample xslOrientedExample = new XslOrientedExample();
+            xslOrientedExample.createCriteria().andOrientedidEqualTo(orientedId);
+            List<XslOriented> xslOrienteds = xslOrientedMapper.selectByExample(xslOrientedExample);
+            if (xslOrienteds.size() == 0){
+                return ResultUtils.isParameterError("人群不存在");
+            }
+            return ResultUtils.isOk(xslOrienteds.get(0));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

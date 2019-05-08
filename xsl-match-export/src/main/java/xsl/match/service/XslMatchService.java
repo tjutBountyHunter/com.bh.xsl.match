@@ -27,28 +27,23 @@ public interface XslMatchService {
     XslResult getMatchPage(Integer page,Integer rows)throws RuntimeException;
 
     /** 根据 MatchId 修改一条比赛数据 */
-    XslResult updateMatchInfo(XslMatch xslMatch)throws RuntimeException;
+    XslResult updateMatch(XslMatch xslMatch)throws RuntimeException;
 
     /** 获取所有比赛状态 */
     List<HashMap<String,String>> getAllState()throws RuntimeException;
 
     /** 根据 MatchId 逻辑删除多条记录 */
-    XslResult deleteMatchInfoByIds(List<String> matchIds)throws RuntimeException;
+    XslResult deleteMatchByIds(List<String> matchIds)throws RuntimeException;
 
     /** 变更比赛状态 */
     XslResult updateMatchState(List<String> matchId,Integer state)throws RuntimeException;
 
-    /** 获取某一类型的所有比赛 */
-    XslResult selectAllMatchByMatchType(String matchTypeId)throws RuntimeException;
-
     /** 根据比赛id 获取比赛信息 */
-    XslResult selectMatchInfoByMatchId(String matchId)throws RuntimeException;
-
-    /** 获取某一状态的所有比赛 */
-    XslResult selectAllMatchByState(Integer state)throws RuntimeException;
-    /** 获取某一等级的所有比赛 */
-    XslResult selectAllMatchByRank(String rankId)throws RuntimeException;
+    XslResult selectMatchByMatchId(String matchId)throws RuntimeException;
 
     /** 获取指定分类的比赛 */
-    XslResult selectAllMatchByCondition(String rankId,String typeId,Integer state)throws RuntimeException;
+    XslResult selectAllMatchByCondition(String rankId,String typeId,Integer state,Integer page,Integer rows)throws RuntimeException;
+
+    /** 根据matchId 获取比赛全部信息 */
+    XslResult getMatchAllInfoByMatchId(String matchId)throws RuntimeException;
 }

@@ -1,5 +1,6 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.MYStringUtils;
 import com.xsl.pojo.XslMatchType;
 import com.xsl.result.EasyUIDataGridResult;
@@ -22,7 +23,7 @@ import java.util.List;
  * @Description:
  */
 @Controller
-@RequestMapping("/match/type")
+@RequestMapping("match/type")
 public class XslMatchTypeController {
 
     @Autowired

@@ -1,7 +1,11 @@
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.xsl.Utils.GsonSingle;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.MatchArrayUtils;
 import com.xsl.pojo.XslMatch;
+import com.xsl.pojo.XslMatchType;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import xsl.match.service.impl.XslMatchServiceImpl;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -87,14 +92,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 
 //    @org.junit.Test
 //    public void test02(){
-//        ArrayList<String> list1 = new ArrayList<>();
-//        ArrayList<String> list2 = new ArrayList<>();
-//        list1.add("1");
-//        list2.add("2");
-//        list1.add("2");
-//        list2.add("3");
-//        List<String> intersection = MatchArrayUtils.getIntersection(list1, list2);
-//        System.out.println(intersection.size() + "xxxval = " + intersection.get(0));
+//        Gson gson = GsonSingle.getGson();
+//
+//        String str = "[{\"id\":1,\"matchtypeid\":\"1\",\"matchtypename\":\"综合创新1\",\"matchtypestate\":1,\"matchtypeinfo\":\"瞎几把搞\",\"matchtypecreatetime\":1556331942000},{\"id\":2,\"matchtypeid\":\"MTcad8984c-e99a-49f9-91a7-ff1d9fbcea25\",\"matchtypename\":\"思维创新\",\"matchtypestate\":1,\"matchtypeinfo\":\"\",\"matchtypecreatetime\":1556338566000}]";
+//        Type type = new TypeToken<List<XslMatchType>>(){}.getType();
+//        List<XslMatchType> xslResult = gson.fromJson(str,type);
+////        List<XslMatchType> xslMatchTypes = JsonUtils.jsonToList(str, XslMatchType.class);
+//        System.out.println();
 //    }
 
 }

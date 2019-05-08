@@ -2,6 +2,7 @@ package xsl.match.controller;
 
 import com.xsl.annotation.CharSet;
 import com.xsl.pojo.Vo.UserReqVo;
+import com.xsl.pojo.Vo.UserSupplementVo;
 import com.xsl.pojo.Vo.XslUserRegister;
 import com.xsl.pojo.XslUser;
 import com.xsl.result.XslResult;
@@ -71,6 +72,14 @@ public class XslUserController {
     public XslResult getSchoolRegion(){
         XslResult regionList = xslUserService.getRegionList();
         return regionList;
+    }
+
+    @RequestMapping("/edit/user/info")
+    @ResponseBody
+    /** 更新用户信息 */
+    public XslResult editUserInfo(UserSupplementVo userSupplementVo){
+        XslResult xslResult = xslUserService.updateUserInfo(userSupplementVo);
+        return xslResult;
     }
 
 }

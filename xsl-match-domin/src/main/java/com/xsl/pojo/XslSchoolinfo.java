@@ -1,6 +1,8 @@
 package com.xsl.pojo;
 
-public class XslSchoolinfo {
+import java.io.Serializable;
+
+public class XslSchoolinfo implements Serializable {
     private Integer id;
 
     private String schoolid;

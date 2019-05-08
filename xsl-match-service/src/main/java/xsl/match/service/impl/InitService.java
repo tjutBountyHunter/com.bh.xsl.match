@@ -38,7 +38,7 @@ public class InitService {
     @Autowired
     XslHunterTagMapper xslHunterTagMapper;
 
-    @Value("MATCH_INFO")
+    @Value("${MATCH_INFO}")
     private String MATCH_INFO;
     @Value("${USER_SCHOOL_LIST}")
     private String USER_SCHOOL_LIST;

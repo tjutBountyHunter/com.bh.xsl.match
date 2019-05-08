@@ -104,7 +104,7 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             criteria.andMatchtypeidEqualTo(xslMatchTypeId);
             List<XslMatchType> xslMatchTypes = xslMatchTypeMapper.selectByExample(xslMatchTypeExample);
             if (xslMatchTypes == null || xslMatchTypes.size() == 0){
-                return ResultUtils.isError();
+                return ResultUtils.isError("比赛类型不存在");
             }
             return ResultUtils.isOk(xslMatchTypes.get(0));
         }catch (Exception e){
@@ -192,4 +192,5 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             throw new RuntimeException("比赛类型删除异常：" + e.getMessage());
         }
     }
+
 }

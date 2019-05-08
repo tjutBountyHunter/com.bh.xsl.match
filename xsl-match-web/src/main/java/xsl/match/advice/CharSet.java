@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.UnsupportedEncodingException;
 
 /**
- * 说明：
+ * 说明：中文问题
  *
  * @Auther: 11432_000
  * @Date: 2019/5/4 20:53

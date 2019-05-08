@@ -1,9 +1,15 @@
 package xsl.match.service.impl;
 
 import com.xsl.Utils.IdUtils;
+import com.xsl.Utils.JedisUtils;
+import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.ResultUtils;
+import com.xsl.annotation.UpdateHunterTag;
 import com.xsl.enums.DataStates;
+import com.xsl.pojo.Example.XslHunterTagExample;
 import com.xsl.pojo.Example.XslMatchUserExample;
+import com.xsl.pojo.XslHunter;
+import com.xsl.pojo.XslHunterTag;
 import com.xsl.pojo.XslMatchUser;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
@@ -12,10 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import xsl.match.mapper.XslHunterTagMapper;
 import xsl.match.mapper.XslMatchUserMapper;
 import xsl.match.service.XslMatchUserService;
 
 import java.util.List;
+import java.util.jar.JarEntry;
 
 /**
  * 说明：
@@ -31,8 +39,12 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
 
     @Autowired
     XslMatchUserMapper xslMatchUserMapper;
+    @Autowired
+    XslHunterTagMapper xslHunterTagMapper;
     @Value("${MATCH_HUNTER_PREFIX}")
     private String MATCH_HUNTER_PREFIX;
+    @Value("${HUNTER_TAG_BUFFER}")
+    private String HUNTER_TAG_BUFFER;
 
     @Override
     public XslResult updateMatchUserInfo(XslMatchUser xslMatchUser) throws RuntimeException {
@@ -101,7 +113,7 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
 
             List<XslMatchUser> xslMatchUsers = xslMatchUserMapper.selectByExample(xslMatchUserExample);
             if (xslMatchUsers == null || xslMatchUsers.size() == 0){
-                throw new RuntimeException("查询用户信息失败");
+                return ResultUtils.isParameterError("用户不存在");
             }
             return ResultUtils.isOk(xslMatchUsers.get(0));
         } catch (Exception e) {
@@ -139,6 +151,99 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
                 return false;
             }
             return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    @UpdateHunterTag
+    public XslResult addHunterTag(String hunterId, String tagId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 添加一个用户标签
+         *
+         * @param: [hunterId, tagId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/7 14:22
+         */
+        try {
+            XslHunterTag xslHunterTag =  new XslHunterTag();
+            xslHunterTag.setHunterid(hunterId);
+            xslHunterTag.setTagid(tagId);
+            xslHunterTag.setState(true);
+            int i = xslHunterTagMapper.insertSelective(xslHunterTag);
+            if(i <= 0){
+                throw new RuntimeException("添加用户标签失败");
+            }
+            return ResultUtils.isOk();
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    @UpdateHunterTag
+    public XslResult removeHunterTag(String hunterId, String tagId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 删除一个用户标签
+         *
+         * @param: [hunterId, tagId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/7 14:22
+         */
+        try {
+            XslHunterTagExample xslHunterTagExample = new XslHunterTagExample();
+            xslHunterTagExample.createCriteria().andHunteridEqualTo(hunterId).andTagidEqualTo(tagId);
+            XslHunterTag xslHunterTag = new XslHunterTag();
+            xslHunterTag.setState(false);
+            int i = xslHunterTagMapper.updateByExampleSelective(xslHunterTag, xslHunterTagExample);
+            if (i <= 0){
+                return ResultUtils.isError("删除用户标签失败");
+            }
+            return ResultUtils.isOk();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public XslResult getAllTagsByHunterId(String hunterId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 根据hunterId 获取用户标签
+         *
+         * @param: [hunterId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/7 15:08
+         */
+        try {
+            String json = JedisUtils.get(HUNTER_TAG_BUFFER + ":" + hunterId);
+            List<XslHunterTag> xslHunterTags = JsonUtils.jsonToList(json, XslHunterTag.class);
+            return ResultUtils.isOk(xslHunterTags);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public XslResult getAllHuntersByTagId(String tagId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 根据 tagId 获取所有用户
+         *
+         * @param: [tagId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/7 15:21
+         */
+        try {
+            List<XslHunterTag> huntersByTagId = xslHunterTagMapper.getHuntersByTagId(tagId);
+            return ResultUtils.isOk(huntersByTagId);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
