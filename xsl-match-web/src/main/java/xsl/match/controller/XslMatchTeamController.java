@@ -53,8 +53,8 @@ public class XslMatchTeamController {
     @RequestMapping("/selectAll/page")
     @ResponseBody
     EasyUIDataGridResult getAllMtachTeamPage(Integer page, Integer rows){
-        XslResult teamPage = xslMatchTeamService.getTeamPage(page, rows);
-        return (EasyUIDataGridResult) teamPage.getData();
+        EasyUIDataGridResult teamPage = xslMatchTeamService.getTeamPage(page, rows);
+        return teamPage;
     }
 
 

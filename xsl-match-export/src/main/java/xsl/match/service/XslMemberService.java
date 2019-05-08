@@ -1,7 +1,10 @@
 package xsl.match.service;
 
+import com.xsl.pojo.Vo.MemberInfoResVo;
 import com.xsl.pojo.XslTeamMember;
 import com.xsl.result.XslResult;
+
+import java.util.List;
 
 /**
  * 说明：
@@ -12,7 +15,7 @@ import com.xsl.result.XslResult;
  */
 public interface XslMemberService {
     /** 根据队伍ID 获取所有成员信息 */
-    XslResult getAllMemberByTeamId(String teamId)throws RuntimeException;
+    List<MemberInfoResVo> getAllMemberByTeamId(String teamId)throws RuntimeException;
     /** 添加一位新成员 */
     XslResult addMemberByTeamId(XslTeamMember xslTeamMember)throws RuntimeException;
     /** 删除成员 */

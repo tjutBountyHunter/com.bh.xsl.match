@@ -97,7 +97,7 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
     }
 
     @Override
-    public XslResult selectMatchUserInfoByUserId(String userId) throws RuntimeException {
+    public XslMatchUser selectMatchUserInfoByUserId(String userId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据userId查询用户补充信息
@@ -113,22 +113,22 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
 
             List<XslMatchUser> xslMatchUsers = xslMatchUserMapper.selectByExample(xslMatchUserExample);
             if (xslMatchUsers == null || xslMatchUsers.size() == 0){
-                return ResultUtils.isParameterError("用户不存在");
+                throw new RuntimeException("用户不存在");
             }
-            return ResultUtils.isOk(xslMatchUsers.get(0));
+            return xslMatchUsers.get(0);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult selectMatchUserInfoByHunterId(String hunterId) throws RuntimeException {
+    public XslMatchUser selectMatchUserInfoByHunterId(String hunterId) throws RuntimeException {
         try {
             XslMatchUserExample xslMatchUserExample = new XslMatchUserExample();
             xslMatchUserExample.createCriteria().andHunteridEqualTo(hunterId);
 
             List<XslMatchUser> xslMatchUsers = xslMatchUserMapper.selectByExample(xslMatchUserExample);
-            return ResultUtils.isOk(xslMatchUsers.get(0));
+            return xslMatchUsers.get(0);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -211,7 +211,7 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
     }
 
     @Override
-    public XslResult getAllTagsByHunterId(String hunterId) throws RuntimeException {
+    public List<XslHunterTag> getAllTagsByHunterId(String hunterId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据hunterId 获取用户标签
@@ -224,14 +224,14 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
         try {
             String json = JedisUtils.get(HUNTER_TAG_BUFFER + ":" + hunterId);
             List<XslHunterTag> xslHunterTags = JsonUtils.jsonToList(json, XslHunterTag.class);
-            return ResultUtils.isOk(xslHunterTags);
+            return (xslHunterTags);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult getAllHuntersByTagId(String tagId) throws RuntimeException {
+    public List<XslHunterTag> getAllHuntersByTagId(String tagId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据 tagId 获取所有用户
@@ -243,7 +243,7 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
          */
         try {
             List<XslHunterTag> huntersByTagId = xslHunterTagMapper.getHuntersByTagId(tagId);
-            return ResultUtils.isOk(huntersByTagId);
+            return (huntersByTagId);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

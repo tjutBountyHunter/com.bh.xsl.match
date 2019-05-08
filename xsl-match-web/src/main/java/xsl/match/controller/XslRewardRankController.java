@@ -32,22 +32,22 @@ public class XslRewardRankController {
     @RequestMapping("/select")
     @ResponseBody
     public XslRewardRank getRewardRankInfo(@Param("rewardRankId") String rewardRankId){
-        XslResult result = xslRewardRankService.getRewardRankByRewardRankId(rewardRankId);
-        return (XslRewardRank) result.getData();
+        XslRewardRank rewardRankByRewardRankId = xslRewardRankService.getRewardRankByRewardRankId(rewardRankId);
+        return rewardRankByRewardRankId;
     }
 
     @RequestMapping("/selectAll")
     @ResponseBody
     public List<XslRewardRank> getAllRewardRank(){
-        XslResult allRewardRank = xslRewardRankService.getAllRewardRank(null,null);
-        return (List<XslRewardRank>) allRewardRank.getData();
+        List<XslRewardRank> allRewardRank = xslRewardRankService.getAllRewardRank();
+        return allRewardRank;
     }
 
     @RequestMapping("/selectAll/page")
     @ResponseBody
     public EasyUIDataGridResult getAllRewardRank(Integer page,Integer rows){
-        XslResult allRewardRank = xslRewardRankService.getAllRewardRank(page,rows);
-        return ((EasyUIDataGridResult) allRewardRank.getData());
+        EasyUIDataGridResult allRewardRank = xslRewardRankService.getAllRewardRank(page, rows);
+        return allRewardRank;
     }
 
     @RequestMapping("/delete")

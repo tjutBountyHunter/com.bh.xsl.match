@@ -45,6 +45,8 @@ public class XslUserServiceImpl implements XslUserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XslUserServiceImpl.class);
 
+    private static final String DEFAULT_SIGNATURE = "这个人很懒，什么也没留下ヽ(ー_ー)ノ";
+
 
     @Value("${MATCH_HUNTER_PREFIX}")
     private String MATCH_HUNTER_PREFIX;
@@ -59,7 +61,7 @@ public class XslUserServiceImpl implements XslUserService {
 
 
     @Override
-    public XslResult getUserByEmail(String email) throws RuntimeException {
+    public XslUser getUserByEmail(String email) throws RuntimeException {
         /**
          *
          * 功能描述: 根据邮箱获取用户信息
@@ -75,15 +77,15 @@ public class XslUserServiceImpl implements XslUserService {
             criteria.andEmailEqualTo(email);
             List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
             if (xslUsers == null || xslUsers.size() == 0){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("用户不存在");
             }
-            return ResultUtils.isOk(xslUsers.get(0));
+            return (xslUsers.get(0));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
     @Override
-    public XslResult getUserByPhone(String phone) throws RuntimeException {
+    public XslUser getUserByPhone(String phone) throws RuntimeException {
         /**
          *
          * 功能描述: 根据手机号获取用户信息
@@ -99,9 +101,9 @@ public class XslUserServiceImpl implements XslUserService {
             criteria.andPhoneEqualTo(phone);
             List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
             if (xslUsers == null || xslUsers.size() == 0){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("用户不存在");
             }
-            return ResultUtils.isOk(xslUsers.get(0));
+            return (xslUsers.get(0));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -109,7 +111,7 @@ public class XslUserServiceImpl implements XslUserService {
 
 
     @Override
-    public XslResult getUserByUserId(String userId) throws RuntimeException {
+    public XslUser getUserByUserId(String userId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据 userId 获取用户信息
@@ -125,16 +127,16 @@ public class XslUserServiceImpl implements XslUserService {
             criteria.andUseridEqualTo(userId);
             List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
             if (xslUsers == null || xslUsers.size() == 0){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("用户不存在");
             }
-            return ResultUtils.isOk(xslUsers.get(0));
+            return (xslUsers.get(0));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult getUserByHunterId(String hunterId) throws RuntimeException {
+    public XslUser getUserByHunterId(String hunterId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据 hunterId 获取用户信息
@@ -150,19 +152,19 @@ public class XslUserServiceImpl implements XslUserService {
             criteria.andHunteridEqualTo(hunterId);
             List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
             if (xslUsers == null || xslUsers.size() == 0){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("用户不存在");
             }
-            return ResultUtils.isOk(xslUsers.get(0));
+            return (xslUsers.get(0));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult getSchoolLsit(String region) throws RuntimeException {
+    public List<XslSchool> getSchoolList(String region) throws RuntimeException {
         /**
          *
-         * 功能描述: 获取某地区的学校信息
+         * 功能描述: 获取某地区的学校
          *
          * @param: [region]
          * @return: com.xsl.result.XslResult
@@ -171,18 +173,18 @@ public class XslUserServiceImpl implements XslUserService {
          */
         try {
             if (StringUtils.isEmpty(region)){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("地区不存在");
             }
             String json = JedisUtils.get(USER_SCHOOL_LIST + ":" + region);
             List<XslSchool> xslSchoolList = JsonUtils.jsonToList(json,XslSchool.class);
-            return ResultUtils.isOk(xslSchoolList);
+            return (xslSchoolList);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult getRegionList() throws RuntimeException {
+    public List<String> getRegionList() throws RuntimeException {
         /**
          *
          * 功能描述: 获取所有地区
@@ -195,7 +197,7 @@ public class XslUserServiceImpl implements XslUserService {
         try {
             String json = JedisUtils.get(USER_SCHOOL_REGION);
             List<String> list = JsonUtils.jsonToList(json, String.class);
-            return ResultUtils.isOk(list);
+            return (list);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -353,15 +355,15 @@ public class XslUserServiceImpl implements XslUserService {
         }
 
         resVo.setTxUrl(imgUrl);
+        resVo.setSignature(DEFAULT_SIGNATURE);
 
         //6.查询猎人信息
         XslMatchUserExample xslMatchUserExample = new XslMatchUserExample();
         XslMatchUserExample.Criteria criteria1 = xslMatchUserExample.createCriteria();
         criteria1.andUseridEqualTo(userId);
-        XslResult xslResult = xslMatchUserService.selectMatchUserInfoByUserId(userId);
-        XslMatchUser data = (XslMatchUser) xslResult.getData();
-        resVo.setHunterid(MATCH_HUNTER_PREFIX + data.getHunterid());
-        resVo.setHunterlevel(data.getLevel());
+        XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByUserId(userId);
+        resVo.setHunterid(xslMatchUser.getHunterid());
+        resVo.setHunterlevel(xslMatchUser.getLevel());
 
         //7.获取学校信息
         if(!StringUtils.isEmpty(user.getSchoolinfo())){

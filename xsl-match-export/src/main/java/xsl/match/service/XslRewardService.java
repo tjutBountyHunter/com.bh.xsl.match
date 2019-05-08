@@ -1,6 +1,7 @@
 package xsl.match.service;
 
 import com.xsl.pojo.XslReward;
+import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public interface XslRewardService {
 
     /** 根据RewardId 查询奖励信息 */
-    XslResult selectRewardInfoByRewardId(String rewardId)throws RuntimeException;
+    XslReward selectRewardInfoByRewardId(String rewardId)throws RuntimeException;
 
     /** 添加一条奖励 */
     XslResult addReward(XslReward xslReward)throws RuntimeException;
@@ -26,7 +27,9 @@ public interface XslRewardService {
     /** 逻辑删除一条奖励 */
     XslResult deleteReward(List<String> rewardIds)throws RuntimeException;
 
-    /** 获取所有奖励 */
-    XslResult getAllReward(Integer page,Integer rows)throws RuntimeException;
+    /** 获取所有奖励 分页 */
+    EasyUIDataGridResult getAllReward(Integer page, Integer rows)throws RuntimeException;
+    /** 获取所有奖励  不分页 */
+    List<XslReward> getAllReward()throws RuntimeException;
 
 }

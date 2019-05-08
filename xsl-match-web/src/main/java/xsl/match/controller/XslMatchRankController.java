@@ -1,5 +1,6 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.ResultUtils;
 import com.xsl.pojo.XslMatchRank;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -41,9 +42,8 @@ public class XslMatchRankController {
      * @date: 2019/4/21 14:26
      */
     public EasyUIDataGridResult getAllRankPage(Integer page,Integer rows){
-        XslResult allRank = xslMatchRankService.getAllRank(page, rows);
-        EasyUIDataGridResult data = (EasyUIDataGridResult) allRank.getData();
-        return data;
+        EasyUIDataGridResult allRank = xslMatchRankService.getAllRank(page, rows);
+        return allRank;
     }
 
     @RequestMapping("/selectAll/list")
@@ -58,8 +58,8 @@ public class XslMatchRankController {
      * @date: 2019/4/21 14:26
      */
     public List<XslMatchRank> getAllRankList(){
-        XslResult allRank = xslMatchRankService.getAllRank();
-        return (List<XslMatchRank>) allRank.getData();
+        List<XslMatchRank> allRank = xslMatchRankService.getAllRank();
+        return allRank;
     }
 
 
@@ -69,15 +69,15 @@ public class XslMatchRankController {
      * 功能描述: 获取所有比赛等级
      */
     public XslResult getAllRankListApp(){
-        XslResult allRank = xslMatchRankService.getAllRank();
-        return allRank;
+        List<XslMatchRank> allRank = xslMatchRankService.getAllRank();
+        return ResultUtils.isOk(allRank);
     }
 
 
     @RequestMapping("/select")
     @ResponseBody
     public XslMatchRank getRank(@Param("rankId") String rankId){
-        XslMatchRank allRank =(XslMatchRank) xslMatchRankService.getRank(rankId).getData();
+        XslMatchRank allRank =(XslMatchRank) xslMatchRankService.getRank(rankId);
         return allRank;
     }
 

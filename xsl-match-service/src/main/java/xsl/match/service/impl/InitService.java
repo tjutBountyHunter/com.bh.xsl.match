@@ -124,6 +124,7 @@ public class InitService {
             xslTaskTagExample.createCriteria().andStateEqualTo(true);
             List<XslTaskTag> xslTaskTags = xslTaskTagMapper.selectByExample(xslTaskTagExample);
             HashMap<String,ArrayList<XslTaskTag>> map =  new HashMap<>();
+            //按职位Id分组
             for (XslTaskTag xslTaskTag : xslTaskTags){
                 if (map.containsKey(xslTaskTag.getTaskid())){
                     map.get(xslTaskTag.getTaskid()).add(xslTaskTag);

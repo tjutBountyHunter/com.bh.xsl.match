@@ -53,9 +53,6 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             List<XslOriented> xslOrienteds = xslOrientedMapper.selectByExample(xslOrientedExample);
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslOrienteds);
-            if (page == null || rows == null){
-                return result;
-            }
             //获取分页结果
             PageInfo<XslOriented> xslOrientedPageInfo = new PageInfo<XslOriented>(xslOrienteds);
             result.setTotal(xslOrientedPageInfo.getTotal());
@@ -64,6 +61,29 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             throw new RuntimeException("获取面向人群列表异常:"  + e.getMessage());
         }
     }
+
+    @Override
+    public List<XslOriented> getAllOrienteds() throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取所有面向人群 不分页
+         *
+         * @param: []
+         * @return: java.util.List<com.xsl.pojo.XslOriented>
+         * @auther: 11432_000
+         * @date: 2019/5/8 15:03
+         */
+        try {
+            XslOrientedExample xslOrientedExample = new XslOrientedExample();
+            XslOrientedExample.Criteria criteria = xslOrientedExample.createCriteria();
+            criteria.andOrientedstateNotEqualTo(DataStates.DELETE.getCode());
+            List<XslOriented> xslOrienteds = xslOrientedMapper.selectByExample(xslOrientedExample);
+            return xslOrienteds;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     @Override
     public XslResult updateOriented(XslOriented xslOriented) throws RuntimeException {
         /**
@@ -141,7 +161,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
     }
 
     @Override
-    public XslResult getOrientedById(String orientedId) throws RuntimeException {
+    public XslOriented getOrientedById(String orientedId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据id获取人群信息
@@ -156,9 +176,9 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             xslOrientedExample.createCriteria().andOrientedidEqualTo(orientedId);
             List<XslOriented> xslOrienteds = xslOrientedMapper.selectByExample(xslOrientedExample);
             if (xslOrienteds.size() == 0){
-                return ResultUtils.isParameterError("人群不存在");
+                throw new RuntimeException("人群不存在");
             }
-            return ResultUtils.isOk(xslOrienteds.get(0));
+            return (xslOrienteds.get(0));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

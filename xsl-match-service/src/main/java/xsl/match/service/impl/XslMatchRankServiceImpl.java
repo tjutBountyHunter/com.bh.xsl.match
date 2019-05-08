@@ -34,7 +34,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
     XslMatchRankMapper xslMatchRankMapper;
 
     @Override
-    public XslResult getAllRank(Integer page,Integer rows) throws RuntimeException{
+    public EasyUIDataGridResult getAllRank(Integer page,Integer rows) throws RuntimeException{
         /**
          *
          * 功能描述: 获取所有比赛等级 分页
@@ -56,14 +56,14 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
             //获取分页结果
             PageInfo<XslMatchRank> xslMatchRankPageInfo = new PageInfo<XslMatchRank>(xslMatchRanks);
             result.setTotal(xslMatchRankPageInfo.getTotal());
-            return ResultUtils.isOk(result);
+            return result;
         }catch (Exception e){
             throw new RuntimeException("获取比赛信息异常:" + e.getMessage());
         }
     }
 
     @Override
-    public XslResult getAllRank() throws RuntimeException{
+    public List<XslMatchRank> getAllRank() throws RuntimeException{
         /**
          *
          * 功能描述: 获取所有比赛等级 不分页
@@ -77,7 +77,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
             XslMatchRankExample xslMatchRankExample = new XslMatchRankExample();
             xslMatchRankExample.createCriteria().andRankstateEqualTo(DataStates.NORMAL.getCode());
             List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByExample(xslMatchRankExample);
-            return ResultUtils.isOk(xslMatchRanks);
+            return xslMatchRanks;
         }catch (Exception e){
             throw new RuntimeException("获取比赛信息异常:" + e.getMessage());
         }
@@ -93,16 +93,16 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
      * @date: 2019/4/22 14:53
      */
     @Override
-    public XslResult getRank(String rankId)throws RuntimeException {
+    public XslMatchRank getRank(String rankId)throws RuntimeException {
         try{
             XslMatchRankExample xslMatchRankExample = new XslMatchRankExample();
             XslMatchRankExample.Criteria criteria = xslMatchRankExample.createCriteria();
             criteria.andMatchrankidEqualTo(rankId);
             List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByExample(xslMatchRankExample);
             if (xslMatchRanks == null || xslMatchRanks.size() == 0){
-                return ResultUtils.isParameterError("等级不存在");
+                throw new RuntimeException("等级不存在");
             }
-            return ResultUtils.isOk(xslMatchRanks.get(0));
+            return xslMatchRanks.get(0);
         }catch (Exception e){
             throw new RuntimeException("获取比赛信息异常:"+ e.getMessage());
         }

@@ -1,6 +1,8 @@
 package xsl.match.service;
 
+import com.xsl.pojo.Vo.MatchResVo;
 import com.xsl.pojo.XslMatch;
+import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 
 import java.util.HashMap;
@@ -21,10 +23,10 @@ public interface XslMatchService {
     XslResult addMatch(XslMatch xslMatch)throws RuntimeException;
 
     /** 获取比赛列表(不分页) */
-    XslResult getMatchList()throws RuntimeException;
+    List<XslMatch> getMatchList()throws RuntimeException;
 
     /** 获取比赛列表(分页) */
-    XslResult getMatchPage(Integer page,Integer rows)throws RuntimeException;
+    EasyUIDataGridResult getMatchPage(Integer page, Integer rows)throws RuntimeException;
 
     /** 根据 MatchId 修改一条比赛数据 */
     XslResult updateMatch(XslMatch xslMatch)throws RuntimeException;
@@ -39,11 +41,14 @@ public interface XslMatchService {
     XslResult updateMatchState(List<String> matchId,Integer state)throws RuntimeException;
 
     /** 根据比赛id 获取比赛信息 */
-    XslResult selectMatchByMatchId(String matchId)throws RuntimeException;
+    XslMatch selectMatchByMatchId(String matchId)throws RuntimeException;
 
     /** 获取指定分类的比赛 */
-    XslResult selectAllMatchByCondition(String rankId,String typeId,Integer state,Integer page,Integer rows)throws RuntimeException;
+    List<XslMatch> selectAllMatchByCondition(String rankId,String typeId,Integer state,Integer page,Integer rows)throws RuntimeException;
 
-    /** 根据matchId 获取比赛全部信息 */
-    XslResult getMatchAllInfoByMatchId(String matchId)throws RuntimeException;
+    /** 根据matchId 获取比赛全部信息 从缓存*/
+    MatchResVo getMatchDetailsByBuffer(String matchId)throws RuntimeException;
+
+    /** 根据matchId 获取比赛全部信息 从数据库*/
+    MatchResVo getMatchDetails(String matchId)throws RuntimeException;
 }

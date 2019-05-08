@@ -40,7 +40,7 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
     XslRewardService xslRewardService;
 
     @Override
-    public XslResult getReward(String matchId,Integer page,Integer rows) throws RuntimeException {
+    public EasyUIDataGridResult getReward(String matchId,Integer page,Integer rows) throws RuntimeException {
         /**
          *
          * 功能描述: 根据比赛ID 查询所有奖励，若ID为空则查询所有
@@ -52,7 +52,7 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
          */
         if (matchId == null){
             LOGGER.error("getRewardId 参数为null");
-            return ResultUtils.isParameterError("参数为null");
+            throw new RuntimeException("参数为null");
         }
         //设置分页
         PageHelper.startPage(page,rows);
@@ -68,24 +68,22 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
             xslMatchRewards = xslMatchRewardMapper.selectByExample(xslMatchRewardExample);
             ArrayList<XslReward> xslRewards = new ArrayList<XslReward>();
             for (XslMatchReward xslMatchReward : xslMatchRewards){
-                XslResult rewardById = getRewardById(xslMatchReward.getRewardid());
-                if (ResultUtils.isSuccess(rewardById)){
-                    xslRewards.add((XslReward) rewardById.getData());
-                }
+                XslReward rewardById = getRewardById(xslMatchReward.getRewardid());
+                xslRewards.add(rewardById);
             }
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslRewards);
             //若没有分页信息
             PageInfo<XslMatchReward> pageInfo = new PageInfo<XslMatchReward>(xslMatchRewards);
             result.setTotal(pageInfo.getTotal());
-            return ResultUtils.isOk(result);
+            return result;
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult getReward(String matchId) throws RuntimeException {
+    public  List<XslReward> getReward(String matchId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据比赛ID 查询所有奖励，若ID为空则查询所有 不分页
@@ -97,7 +95,7 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
          */
         if (matchId == null){
             LOGGER.error("getRewardId 参数为null");
-            return ResultUtils.isParameterError("参数为null");
+            throw new RuntimeException("参数为null");
         }
         List<XslMatchReward> xslMatchRewards;
         try{
@@ -109,26 +107,20 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
             criteria.andMatchrewardstateNotEqualTo(DataStates.DELETE.getCode());
             //获取该比赛的所有奖励Id
             xslMatchRewards = xslMatchRewardMapper.selectByExample(xslMatchRewardExample);
-            ArrayList<XslReward> xslRewards = new ArrayList<XslReward>();
+            List<XslReward> xslRewards = new ArrayList<XslReward>();
             for (XslMatchReward xslMatchReward : xslMatchRewards){
-                XslResult rewardById = getRewardById(xslMatchReward.getRewardid());
-                if (ResultUtils.isSuccess(rewardById)){
-                    xslRewards.add((XslReward) rewardById.getData());
-                }
+                XslReward rewardById = getRewardById(xslMatchReward.getRewardid());
+                xslRewards.add(rewardById);
             }
-            return ResultUtils.isOk(xslRewards);
+            return xslRewards;
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public XslResult getRewardById(String rewardId)throws RuntimeException{
-        XslResult xslResult = xslRewardService.selectRewardInfoByRewardId(rewardId);
-        if (!ResultUtils.isSuccess(xslResult)){
-            LOGGER.error("getRewardId 查询失败 ");
-            return ResultUtils.isError();
-        }
-        return xslResult;
+    public XslReward getRewardById(String rewardId)throws RuntimeException{
+        XslReward xslReward = xslRewardService.selectRewardInfoByRewardId(rewardId);
+        return xslReward;
     }
     @Override
     public XslResult addRewardToMatch(XslMatchReward xslMatchReward) {

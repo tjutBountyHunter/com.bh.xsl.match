@@ -90,7 +90,7 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
     }
 
     @Override
-    public XslResult getAllTagByPositionId(String positionId) throws RuntimeException {
+    public List<XslTaskTag> getAllTagByPositionId(String positionId) throws RuntimeException {
         /**
          *
          * 功能描述: 查询职位的所有使用中标签
@@ -106,14 +106,14 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
 //            List<XslTaskTag> xslTaskTags = xslTaskTagMapper.selectByExample(xslTaskTagExample);
             String json = JedisUtils.get(POSITION_TAG_BUFFER + ":" + positionId);
             List<XslTaskTag> xslTaskTags = JsonUtils.jsonToList(json, XslTaskTag.class);
-            return ResultUtils.isOk(xslTaskTags);
+            return (xslTaskTags);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult getAllPositionByTagId(String tagId) throws RuntimeException {
+    public List<XslTaskTag> getAllPositionByTagId(String tagId) throws RuntimeException {
         /**
          *
          * 功能描述: 查询所有持有某标签的职位
@@ -127,7 +127,7 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
             XslTaskTagExample xslTaskTagExample = new XslTaskTagExample();
             xslTaskTagExample.createCriteria().andTagidEqualTo(tagId).andStateEqualTo(true);
             List<XslTaskTag> xslTaskTags = xslTaskTagMapper.selectByExample(xslTaskTagExample);
-            return ResultUtils.isOk(xslTaskTags);
+            return (xslTaskTags);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

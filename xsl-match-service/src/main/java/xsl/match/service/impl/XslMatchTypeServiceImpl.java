@@ -34,7 +34,7 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
     @Autowired
     XslMatchTypeMapper xslMatchTypeMapper;
     @Override
-    public XslResult getAllType(Integer page, Integer rows) throws RuntimeException {
+    public EasyUIDataGridResult getAllType(Integer page, Integer rows) throws RuntimeException {
         /**
          *
          * 功能描述: 获取所有比赛类型 分页
@@ -51,22 +51,20 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             XslMatchTypeExample.Criteria criteria = xslMatchTypeExample.createCriteria();
             criteria.andMatchtypestateNotEqualTo(DataStates.DELETE.getCode());
             List<XslMatchType> xslMatchTypes = xslMatchTypeMapper.selectByExample(xslMatchTypeExample);
-            if (page == null || rows == null){
-                return ResultUtils.isOk(xslMatchTypes);
-            }
+
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslMatchTypes);
             //获取分页结果
             PageInfo<XslMatchType> xslMatchTypePageInfo = new PageInfo<XslMatchType>(xslMatchTypes);
             result.setTotal(xslMatchTypePageInfo.getTotal());
-            return ResultUtils.isOk(result);
+            return result;
         }catch (Exception e){
             throw new RuntimeException("获取比赛类型异常:" + e.getMessage());
         }
     }
 
     @Override
-    public XslResult getAllType() throws RuntimeException {
+    public List<XslMatchType> getAllType() throws RuntimeException {
         /**
          *
          * 功能描述: 获取所有比赛类型 不分页
@@ -81,14 +79,14 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             XslMatchTypeExample.Criteria criteria = xslMatchTypeExample.createCriteria();
             criteria.andMatchtypestateNotEqualTo(DataStates.DELETE.getCode());
             List<XslMatchType> xslMatchTypes = xslMatchTypeMapper.selectByExample(xslMatchTypeExample);
-            return ResultUtils.isOk(xslMatchTypes);
+            return xslMatchTypes;
         }catch (Exception e){
             throw new RuntimeException("获取比赛类型异常:" + e.getMessage());
         }
     }
 
     @Override
-    public XslResult getType(String xslMatchTypeId) throws RuntimeException {
+    public XslMatchType getType(String xslMatchTypeId) throws RuntimeException {
         /**
          *
          * 功能描述:  根据id 获取类型信息
@@ -104,9 +102,9 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             criteria.andMatchtypeidEqualTo(xslMatchTypeId);
             List<XslMatchType> xslMatchTypes = xslMatchTypeMapper.selectByExample(xslMatchTypeExample);
             if (xslMatchTypes == null || xslMatchTypes.size() == 0){
-                return ResultUtils.isError("比赛类型不存在");
+                throw new RuntimeException("比赛类型不存在");
             }
-            return ResultUtils.isOk(xslMatchTypes.get(0));
+            return xslMatchTypes.get(0);
         }catch (Exception e){
             throw new RuntimeException("获取比赛类型异常:"+ e.getMessage());
         }

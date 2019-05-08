@@ -7,6 +7,7 @@ import com.xsl.pojo.Vo.MemberInfoResVo;
 import com.xsl.pojo.XslMatch;
 import com.xsl.pojo.XslTeamMember;
 import com.xsl.pojo.XslTeamPosition;
+import com.xsl.pojo.XslUser;
 import com.xsl.result.XslResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class XslMemberServiceImpl implements XslMemberService {
     XslUserService xslUserService;
 
     @Override
-    public XslResult getAllMemberByTeamId(String teamId) throws RuntimeException {
+    public List<MemberInfoResVo> getAllMemberByTeamId(String teamId) throws RuntimeException {
         /**
          *
          * 功能描述: 获取队伍的职位及成员信息
@@ -47,20 +48,16 @@ public class XslMemberServiceImpl implements XslMemberService {
          */
         try {
             //获取所有职位
-            XslResult allPositionByTeamId = xslPositionService.getAllPositionByTeamId(teamId);
-            if (!ResultUtils.isSuccess(allPositionByTeamId)){
-                return allPositionByTeamId;
-            }
-            List<XslTeamPosition> data = (List<XslTeamPosition>) allPositionByTeamId.getData();
-            if (data.size() == 0){
-                return ResultUtils.isOk(new ArrayList<XslTeamMember>());
+            List<XslTeamPosition> allPositionByTeamId = xslPositionService.getAllPositionByTeamId(teamId);
+            if (allPositionByTeamId.size() == 0){
+                return (new ArrayList<MemberInfoResVo>());
             }
             List<MemberInfoResVo> memberInfos = new ArrayList<>();
             MemberInfoResVo memberInfo;
             //添加查询条件，获取所有有关成员
             XslTeamMemberExample xslTeamMemberExample = new XslTeamMemberExample();
             XslTeamMemberExample.Criteria criteria = xslTeamMemberExample.createCriteria();
-            for (XslTeamPosition xslTeamPosition : data){
+            for (XslTeamPosition xslTeamPosition : allPositionByTeamId){
                 xslTeamMemberExample.clear();
                 //添加职位信息
                 memberInfo = new MemberInfoResVo();
@@ -73,14 +70,12 @@ public class XslMemberServiceImpl implements XslMemberService {
                 }
                 BeanUtils.copyProperties(memberInfo,xslTeamMembers.get(0));
                 //添加用户信息
-                XslResult userByHunterId = xslUserService.getUserByHunterId(xslTeamMembers.get(0).getHunterid());
-                if (ResultUtils.isSuccess(userByHunterId)){
-                    XslMatch user = (XslMatch) userByHunterId.getData();
-                    BeanUtils.copyProperties(memberInfo,user);
-                }
+                XslUser userByHunterId = xslUserService.getUserByHunterId(xslTeamMembers.get(0).getHunterid());
+                BeanUtils.copyProperties(memberInfo,userByHunterId);
+
                 memberInfos.add(memberInfo);
             }
-            return ResultUtils.isOk(memberInfos);
+            return (memberInfos);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }

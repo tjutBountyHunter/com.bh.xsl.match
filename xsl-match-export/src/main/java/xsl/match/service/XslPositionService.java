@@ -3,6 +3,8 @@ package xsl.match.service;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.XslResult;
 
+import java.util.List;
+
 /**
  * 说明：
  *
@@ -13,7 +15,7 @@ import com.xsl.result.XslResult;
 public interface XslPositionService {
 
     /** 获取某个队伍的全部职位 */
-    XslResult getAllPositionByTeamId(String teamId)throws RuntimeException;
+    List<XslTeamPosition> getAllPositionByTeamId(String teamId)throws RuntimeException;
     /** 添加职位 */
     XslResult addPositionForTeam(XslTeamPosition xslTeamPosition)throws RuntimeException;
     /** 删除职位 */
@@ -21,5 +23,5 @@ public interface XslPositionService {
     /** 更改职位 */
     XslResult changPosition(XslTeamPosition xslTeamPosition)throws RuntimeException;
     /** 根据职位ID 获取指定职位 */
-    XslResult getPositionByPositionId(String positionId)throws RuntimeException;
+    XslTeamPosition getPositionByPositionId(String positionId)throws RuntimeException;
 }

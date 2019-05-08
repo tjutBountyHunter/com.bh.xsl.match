@@ -33,7 +33,7 @@ public class XslRewardServiceImpl implements XslRewardService {
     @Autowired
     XslRewardMapper xslRewardMapper;
     @Override
-    public XslResult selectRewardInfoByRewardId(String rewardId) throws RuntimeException{
+    public XslReward selectRewardInfoByRewardId(String rewardId) throws RuntimeException{
         /**
          *
          * 功能描述: 根据RewardId 查询奖励信息
@@ -46,16 +46,16 @@ public class XslRewardServiceImpl implements XslRewardService {
         try{
             if (rewardId == null){
                 LOGGER.error("selectRewardInfoByRewardId 参数为null");
-                return ResultUtils.isParameterError("参数为null");
+                throw new RuntimeException("参数为null");
             }
             XslRewardExample xslRewardExample = new XslRewardExample();
             XslRewardExample.Criteria criteria = xslRewardExample.createCriteria();
             criteria.andRewardidEqualTo(rewardId);
             List<XslReward> xslRewards = xslRewardMapper.selectByExample(xslRewardExample);
             if (xslRewards == null || xslRewards.size() == 0){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("奖励不存在");
             }
-            return ResultUtils.isOk(xslRewards.get(0));
+            return (xslRewards.get(0));
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
@@ -144,10 +144,10 @@ public class XslRewardServiceImpl implements XslRewardService {
     }
 
     @Override
-    public XslResult getAllReward(Integer page,Integer rows) throws RuntimeException {
+    public EasyUIDataGridResult getAllReward(Integer page,Integer rows) throws RuntimeException {
         /**
          *
-         * 功能描述: 获取所有奖励
+         * 功能描述: 获取所有奖励  分页
          *
          * @param: []
          * @return: com.xsl.result.XslResult
@@ -157,12 +157,34 @@ public class XslRewardServiceImpl implements XslRewardService {
         PageHelper.startPage(page,rows);
         try {
             XslRewardExample xslRewardExample = new XslRewardExample();
+            xslRewardExample.createCriteria().andRewardstateNotEqualTo(DataStates.DELETE.getCode());
             List<XslReward> xslRewards = xslRewardMapper.selectByExample(xslRewardExample);
             PageInfo<XslReward> xslRewardPageInfo = new PageInfo<XslReward>(xslRewards);
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslRewards);
             result.setTotal(xslRewardPageInfo.getTotal());
-            return ResultUtils.isOk(result);
+            return (result);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<XslReward> getAllReward() throws RuntimeException {
+        /**
+         *
+         * 功能描述: 获取所有奖励  不分页
+         *
+         * @param: []
+         * @return: java.util.List<com.xsl.pojo.XslReward>
+         * @auther: 11432_000
+         * @date: 2019/5/8 14:57
+         */
+        try {
+            XslRewardExample xslRewardExample = new XslRewardExample();
+            xslRewardExample.createCriteria().andRewardstateNotEqualTo(DataStates.DELETE.getCode());
+            List<XslReward> xslRewards = xslRewardMapper.selectByExample(xslRewardExample);
+            return xslRewards;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

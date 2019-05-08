@@ -63,10 +63,10 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
     }
 
     @Override
-    public XslResult getTeamList() throws RuntimeException {
+    public List<XslMatchTeam> getTeamList() throws RuntimeException {
         /**
          *
-         * 功能描述: 获取比赛列表(不分页)
+         * 功能描述: 获取队伍列表(不分页)
          *
          * @param: [page, rows]
          * @return: com.xsl.result.XslResult
@@ -79,13 +79,13 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             criteria.andTeamstateNotEqualTo(DataStates.DELETE.getCode());
 
             List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
-            return ResultUtils.isOk(xslMatchTeams);
+            return xslMatchTeams;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
     @Override
-    public XslResult getTeamPage(Integer page, Integer rows) throws RuntimeException {
+    public EasyUIDataGridResult getTeamPage(Integer page, Integer rows) throws RuntimeException {
         /**
          *
          * 功能描述: 获取队伍列表(分页)
@@ -104,7 +104,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             result.setRows(xslMatchTeams);
             PageInfo<XslMatchTeam> xslMatchTeamPageInfo = new PageInfo<>(xslMatchTeams);
             result.setTotal(xslMatchTeamPageInfo.getTotal());
-            return ResultUtils.isOk(result);
+            return result;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -113,7 +113,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
     public XslResult updateATeamInfo(XslMatchTeam xslMatchTeam) throws RuntimeException {
         /**
          *
-         * 功能描述: 根据 MatchId 修改一条比赛数据
+         * 功能描述: 根据 MatchId 修改一条队伍数据
          *
          * @param: [xslMatchTeam]
          * @return: com.xsl.result.XslResult
@@ -169,7 +169,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
     public XslResult updateTeamState(String teamId, Integer state) throws RuntimeException {
         /**
          *
-         * 功能描述: 变更比赛状态
+         * 功能描述: 变更队伍状态
          *
          * @param: [teamId, state]
          * @return: com.xsl.result.XslResult
@@ -194,7 +194,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
         }
     }
     @Override
-    public XslResult selectAllTeamByMatch(String matchId) throws RuntimeException {
+    public List<XslMatchTeam> selectAllTeamByMatch(String matchId) throws RuntimeException {
         /**
          *
          * 功能描述: 获取某一比赛的所有队伍
@@ -209,14 +209,14 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
             criteria.andMatchidEqualTo(matchId);
             List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
-            return ResultUtils.isOk(xslMatchTeams);
+            return xslMatchTeams;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult selectTeamByTeamId(String teamId) throws RuntimeException {
+    public XslMatchTeam selectTeamByTeamId(String teamId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据队伍Id 获取队伍信息
@@ -233,9 +233,9 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
 
             List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
             if (xslMatchTeams == null || xslMatchTeams.size() == 0){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("队伍不存在");
             }
-            return ResultUtils.isOk(xslMatchTeams.get(0));
+            return xslMatchTeams.get(0);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

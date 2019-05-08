@@ -72,6 +72,8 @@ public class XslMatchServiceImpl implements XslMatchService {
     private String MATCH_LIST_BY_RANK;
     @Value("${MATCH_LIST_BY_STATE}")
     private String MATCH_LIST_BY_STATE;
+    @Value("${MATCH_DETAILS}")
+    private String MATCH_DETAILS;
 
 
     /**
@@ -140,7 +142,7 @@ public class XslMatchServiceImpl implements XslMatchService {
      * @date: 2019/4/22 13:35
      */
     @Override
-    public XslResult getMatchPage(Integer page, Integer rows)throws RuntimeException {
+    public EasyUIDataGridResult getMatchPage(Integer page, Integer rows)throws RuntimeException {
         //查询所有比赛信息
         try {
             ArrayList<XslMatch> matchPage = new ArrayList<>();
@@ -152,13 +154,13 @@ public class XslMatchServiceImpl implements XslMatchService {
             result.setRows(matchPage);
             //获取记录数
             result.setTotal(allMatch.size());
-            return ResultUtils.isOk(result);
+            return result;
         }catch (Exception e){
             throw new RuntimeException("获取比赛信息列表异常:"  + e.getMessage());
         }
     }
     @Override
-    public XslResult getMatchList() throws RuntimeException {
+    public List<XslMatch>  getMatchList() throws RuntimeException {
         /**
          *
          * 功能描述: 获取比赛列表(不分页)
@@ -170,7 +172,7 @@ public class XslMatchServiceImpl implements XslMatchService {
          */
         try {
             List<XslMatch> xslMatches = getAllMatch(MATCH_LIST);
-            return ResultUtils.isOk(xslMatches);
+            return xslMatches;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -287,7 +289,7 @@ public class XslMatchServiceImpl implements XslMatchService {
     }
 
     @Override
-    public XslResult selectMatchByMatchId(String matchId) throws RuntimeException {
+    public XslMatch selectMatchByMatchId(String matchId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据比赛id 获取比赛信息
@@ -301,10 +303,10 @@ public class XslMatchServiceImpl implements XslMatchService {
         try {
             json = JedisUtils.get(MATCH_INFO + ":" + matchId);
             if (StringUtils.isBlank(json)){
-                return ResultUtils.isParameterError("比赛不存在");
+                throw new RuntimeException("比赛不存在");
             }
             XslMatch xslMatch = JsonUtils.jsonToPojo(json,XslMatch.class);
-            return ResultUtils.isOk(xslMatch);
+            return xslMatch;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -329,7 +331,7 @@ public class XslMatchServiceImpl implements XslMatchService {
     }
 
     @Override
-    public XslResult selectAllMatchByCondition(String rankId,String typeId,Integer state,Integer page,Integer rows) throws RuntimeException {
+    public List<XslMatch> selectAllMatchByCondition(String rankId,String typeId,Integer state,Integer page,Integer rows) throws RuntimeException {
         /**
          *
          * 功能描述: 获取指定分类的比赛
@@ -355,43 +357,72 @@ public class XslMatchServiceImpl implements XslMatchService {
             }
             //low比的分页处理
             List<XslMatch> xslMatches = MatchArrayUtils.pageHelper(allMatch, page, rows);
-            return ResultUtils.isOk(xslMatches);
+            return xslMatches;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult getMatchAllInfoByMatchId(String matchId) throws RuntimeException {
-        MatchResVo matchResVo = new MatchResVo();
-        //获取比赛信息
-        XslResult match = selectMatchByMatchId(matchId);
-        if (!ResultUtils.isSuccess(match)){
-            return match;
+    public MatchResVo getMatchDetailsByBuffer(String matchId) throws RuntimeException {
+        /**
+         *
+         * 功能描述: 根据matchId 获取比赛全部信息 从缓存
+         *
+         * @param: [matchId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/8 11:19
+         */
+        try {
+            //取缓存
+            String mathcInfo = JedisUtils.get(MATCH_DETAILS + ":" + matchId);
+            if (StringUtils.isNotBlank(mathcInfo)){
+                MatchResVo matchResVo = JsonUtils.jsonToPojo(mathcInfo, MatchResVo.class);
+                return matchResVo;
+            }
+            /* 如果不存在缓存 */
+            return getMatchDetails(matchId);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
         }
-        XslMatch xslMatch = (XslMatch) match.getData();
-        BeanUtils.copyProperties(xslMatch,matchResVo);
-        //获取等级信息
-        XslResult rank = xslMatchRankService.getRank(xslMatch.getMatchrankid());
-        if (!ResultUtils.isSuccess(rank)){
-            return rank;
+    }
+
+    @Override
+    public MatchResVo getMatchDetails(String matchId)throws RuntimeException{
+        /**
+         *
+         * 功能描述: 根据matchId 获取比赛全部信息 从数据库
+         *
+         * @param: [matchId]
+         * @return: com.xsl.result.XslResult
+         * @auther: 11432_000
+         * @date: 2019/5/8 11:19
+         */
+        try {
+            MatchResVo matchResVo = new MatchResVo();
+            //获取比赛信息
+            XslMatch xslMatch = selectMatchByMatchId(matchId);
+            BeanUtils.copyProperties(xslMatch,matchResVo);
+            //获取等级信息
+
+            XslMatchRank rank = xslMatchRankService.getRank(xslMatch.getMatchrankid());
+            BeanUtils.copyProperties(rank,matchResVo);
+            //获取人群信息
+            XslOriented xslOriented = xslOrientedService.getOrientedById(xslMatch.getMatchorientedid());
+            BeanUtils.copyProperties(xslOriented,matchResVo);
+            //获取类型信息
+            XslMatchType xslMatchType = xslMatchTypeService.getType(xslMatch.getMatchtypeid());
+            BeanUtils.copyProperties(xslMatchType,matchResVo);
+            //补充参赛形式信息和比赛状态信息
+            matchResVo.setMatchFormInfo(MatchForm.getEnumByKey(xslMatch.getMatchform()).getValue());
+            matchResVo.setMatchStateInfo(MatchState.getEnumByKey(xslMatch.getMatchstate()).getMessage());
+            //添加比赛详情缓存
+            String json = JsonUtils.objectToJson(matchResVo);
+            JedisUtils.set(MATCH_DETAILS + ":" + xslMatch.getMatchid(),json);
+            return (matchResVo);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
         }
-        XslMatchRank xslMatchRank = (XslMatchRank) rank.getData();
-        BeanUtils.copyProperties(xslMatchRank,matchResVo);
-        //获取人群信息
-        XslResult oriented = xslOrientedService.getOrientedById(xslMatch.getMatchorientedid());
-        if (!ResultUtils.isSuccess(oriented)){
-            return oriented;
-        }
-        XslOriented xslOriented = (XslOriented) oriented.getData();
-        BeanUtils.copyProperties(xslOriented,matchResVo);
-        //获取类型信息
-        XslResult type = xslMatchTypeService.getType(xslMatch.getMatchtypeid());
-        if (!ResultUtils.isSuccess(type)){
-            return type;
-        }
-        XslMatchType xslMatchType = (XslMatchType) type.getData();
-        BeanUtils.copyProperties(xslMatchType,matchResVo);
-        return ResultUtils.isOk(matchResVo);
     }
 }

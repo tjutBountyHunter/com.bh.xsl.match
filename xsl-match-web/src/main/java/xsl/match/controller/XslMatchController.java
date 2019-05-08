@@ -3,6 +3,7 @@ package xsl.match.controller;
 import com.xsl.Utils.MYStringUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.MatchState;
+import com.xsl.pojo.Vo.MatchResVo;
 import com.xsl.pojo.XslMatch;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -90,8 +91,7 @@ public class XslMatchController {
      * @date: 2019/4/22 19:28
      */
     public EasyUIDataGridResult getMatchList(Integer page,Integer rows){
-        XslResult matchList = xslMatchService.getMatchPage(page, rows);
-        return (EasyUIDataGridResult) matchList.getData();
+        return xslMatchService.getMatchPage(page, rows);
     }
 
 
@@ -107,9 +107,10 @@ public class XslMatchController {
      * @date: 2019/4/22 19:28
      */
     public XslResult getMatchListForApp(Integer page,Integer rows){
-        XslResult matchList = xslMatchService.getMatchPage(page, rows);
-        matchList.setData(((EasyUIDataGridResult)(matchList.getData())).getRows());
-        return  matchList;
+        XslResult xslResult = new XslResult();
+        List<XslMatch> matchList = xslMatchService.getMatchList();
+        xslResult.setData(matchList);
+        return xslResult;
     }
 
     @RequestMapping("/selectAll/list")
@@ -124,8 +125,8 @@ public class XslMatchController {
      * @date: 2019/4/22 19:28
      */
     public List<XslMatch> getMatchList(){
-        XslResult matchList = xslMatchService.getMatchList();
-        return (List<XslMatch>) matchList.getData();
+        List<XslMatch> matchList = xslMatchService.getMatchList();
+        return matchList;
     }
 
 
@@ -191,25 +192,25 @@ public class XslMatchController {
          * @auther: 11432_000
          * @date: 2019/4/28 20:51
          */
-        XslResult result = xslMatchService.selectMatchByMatchId(matchid);
-        return (XslMatch) result.getData();
+        return xslMatchService.selectMatchByMatchId(matchid);
     }
 
     @RequestMapping("/select/byCondition")
     @ResponseBody
-    public List<XslMatch> getAllMatchByCondition(@Param("matchrankid") String matchrankid,@Param("matchtypeid") String matchtypeid,@Param("matchstate") Integer matchstate,
+    public XslResult getAllMatchByCondition(@Param("matchrankid") String matchrankid,@Param("matchtypeid") String matchtypeid,@Param("matchstate") Integer matchstate,
                                                  @Param("page")Integer page, @Param("rows")Integer rows){
         /**
          *
-         * 功能描述: 获取某一状态的所有比赛
+         * 功能描述: 获取某一分类的所有比赛
          *
          * @param: [matchTypeId]
          * @return: java.util.List<com.xsl.pojo.XslMatch>
          * @auther: 11432_000
          * @date: 2019/4/27 14:00
+         *
          */
-        XslResult result = xslMatchService.selectAllMatchByCondition(matchrankid,matchtypeid,matchstate,page,rows);
-        return (List<XslMatch>) result.getData();
+        List<XslMatch> xslMatches = xslMatchService.selectAllMatchByCondition(matchrankid, matchtypeid, matchstate, page, rows);
+        return ResultUtils.isOk(xslMatches);
     }
 
 
@@ -218,15 +219,15 @@ public class XslMatchController {
     public XslResult getAllMatchInfo(@Param("matchid") String matchid){
         /**
          *
-         * 功能描述: 获取某一状态的所有比赛
+         * 功能描述: 获取比赛详情
          *
          * @param: [matchTypeId]
          * @return: java.util.List<com.xsl.pojo.XslMatch>
          * @auther: 11432_000
          * @date: 2019/4/27 14:00
          */
-        XslResult matchAllInfoByMatchId = xslMatchService.getMatchAllInfoByMatchId(matchid);
-        return matchAllInfoByMatchId;
+        MatchResVo matchDetailsByBuffer = xslMatchService.getMatchDetailsByBuffer(matchid);
+        return ResultUtils.isOk(matchDetailsByBuffer);
     }
 
 }

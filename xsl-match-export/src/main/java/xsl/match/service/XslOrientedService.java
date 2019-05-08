@@ -16,6 +16,9 @@ import java.util.List;
 public interface XslOrientedService {
     /** 获取所有面向人群 */
     EasyUIDataGridResult getAllOrienteds(Integer page , Integer rows) throws RuntimeException;
+
+    /** 获取所有面向人群 不分页*/
+    List<XslOriented> getAllOrienteds() throws RuntimeException;
     /** 更新人群信息 */
     XslResult updateOriented(XslOriented xslOriented)throws RuntimeException;
     /** 添加一条人群 */
@@ -23,5 +26,5 @@ public interface XslOrientedService {
     /** 逻辑删除一条或多条人群 */
     XslResult deleteOrienteds(List<String> xslOrientedIds)throws RuntimeException;
     /** 根据id获取人群信息 */
-    XslResult getOrientedById(String orientedId)throws RuntimeException;
+    XslOriented getOrientedById(String orientedId)throws RuntimeException;
 }

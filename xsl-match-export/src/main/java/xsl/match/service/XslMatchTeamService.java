@@ -1,6 +1,7 @@
 package xsl.match.service;
 
 import com.xsl.pojo.XslMatchTeam;
+import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 
 import java.util.List;
@@ -17,24 +18,24 @@ public interface XslMatchTeamService {
     /** 添加一个队伍*/
     XslResult addATeam(XslMatchTeam xslMatchTeam)throws RuntimeException;
 
-    /** 获取比赛列表(分页) */
-    XslResult getTeamPage(Integer page,Integer rows)throws RuntimeException;
+    /** 获取队伍列表(分页) */
+    EasyUIDataGridResult getTeamPage(Integer page, Integer rows)throws RuntimeException;
 
-    /** 获取比赛列表(不分页) */
-    XslResult getTeamList()throws RuntimeException;
+    /** 获取队伍列表(不分页) */
+    List<XslMatchTeam> getTeamList()throws RuntimeException;
 
-    /** 根据 MatchId 修改一条比赛数据 */
+    /** 根据 Id 修改一条队伍数据 */
     XslResult updateATeamInfo(XslMatchTeam xslMatchTeam)throws RuntimeException;
 
     /** 根据 Id 逻辑删除一个或多个队伍 */
     XslResult deleteTeamInfoByIds(List<String> teamIds)throws RuntimeException;
 
-    /** 变更比赛状态 */
+    /** 变更队伍状态 */
     XslResult updateTeamState(String teamId,Integer state)throws RuntimeException;
 
     /** 获取某一比赛的所有队伍 */
-    XslResult selectAllTeamByMatch(String matchId)throws RuntimeException;
+    List<XslMatchTeam> selectAllTeamByMatch(String matchId)throws RuntimeException;
 
     /** 根据队伍Id 获取队伍信息 */
-    XslResult selectTeamByTeamId(String teamId)throws RuntimeException;
+    XslMatchTeam selectTeamByTeamId(String teamId)throws RuntimeException;
 }

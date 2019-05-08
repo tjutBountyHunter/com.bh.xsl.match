@@ -31,6 +31,8 @@ public class UserResVo    implements Serializable{
 
 	private String txUrl;
 
+	private String signature;
+
 	public String getUserid() {
 		return userid;
 	}
@@ -141,5 +143,13 @@ public class UserResVo    implements Serializable{
 
 	public void setTxUrl(String txUrl) {
 		this.txUrl = txUrl;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 }

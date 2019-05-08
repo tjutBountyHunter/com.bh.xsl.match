@@ -36,10 +36,10 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
     @Autowired
     XslRewardRankMapper xslRewardRankMapper;
     @Override
-    public XslResult getAllRewardRank(Integer page,Integer rows) throws RuntimeException {
+    public EasyUIDataGridResult getAllRewardRank(Integer page,Integer rows) throws RuntimeException {
         /**
          *
-         * 功能描述: 获取所有奖励等级
+         * 功能描述: 获取所有奖励等级  分页
          *
          * @param: []
          * @return: com.xsl.result.XslResult
@@ -53,22 +53,39 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
             XslRewardRankExample.Criteria criteria = xslRewardRankExample.createCriteria();
             criteria.andRewardrankstateNotEqualTo(DataStates.DELETE.getCode());
             List<XslRewardRank> xslRewardRanks = xslRewardRankMapper.selectByExample(xslRewardRankExample);
-
-            if (page == null || rows == null){
-                return ResultUtils.isOk(xslRewardRanks);
-            }
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslRewardRanks);
             PageInfo<XslRewardRank> xslRewardRankPageInfo = new PageInfo<XslRewardRank>(xslRewardRanks);
             result.setTotal(xslRewardRankPageInfo.getTotal());
-            return ResultUtils.isOk(result);
+            return result;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult getRewardRankByRewardRankId(String rewardRankId) throws RuntimeException {
+    public List<XslRewardRank> getAllRewardRank() throws RuntimeException {
+        /**
+         *
+         * 功能描述:  获取所有奖励等级  不分页
+         *
+         * @param: []
+         * @return: java.util.List<com.xsl.pojo.XslRewardRank>
+         * @auther: 11432_000
+         * @date: 2019/5/8 14:55
+         */
+        try {
+            XslRewardRankExample xslRewardRankExample = new XslRewardRankExample();
+            xslRewardRankExample.createCriteria().andRewardrankstateNotEqualTo(DataStates.DELETE.getCode());
+            List<XslRewardRank> xslRewardRanks = xslRewardRankMapper.selectByExample(xslRewardRankExample);
+            return xslRewardRanks;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public XslRewardRank getRewardRankByRewardRankId(String rewardRankId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据RankId 获取奖励等级
@@ -84,9 +101,9 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
             criteria.andRewardrankidEqualTo(rewardRankId);
             List<XslRewardRank> xslRewardRanks = xslRewardRankMapper.selectByExample(xslRewardRankExample);
             if (xslRewardRanks == null || xslRewardRanks.size() == 0){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("奖励等级不存在");
             }
-            return ResultUtils.isOk(xslRewardRanks.get(0));
+            return (xslRewardRanks.get(0));
         } catch (Exception e) {
             throw new RuntimeException();
         }

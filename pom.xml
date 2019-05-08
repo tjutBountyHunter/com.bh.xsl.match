@@ -46,9 +46,29 @@
         <zkclient.version>0.1</zkclient.version>
         <activemq.version>5.8.0</activemq.version>
         <Gson.version>2.8.0</Gson.version>
+        <quartz.version>2.3.0</quartz.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!-- quartz 定时任务  -->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz-jobs</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+
+            <!-- 推送依赖 -->
+            <dependency>
+                <groupId>com.bh.xsl.user</groupId>
+                <artifactId>xsl_user_export</artifactId>
+                <version>1.1</version>
+            </dependency>
+
             <!-- 时间操作组件 -->
             <dependency>
                 <groupId>joda-time</groupId>
@@ -258,5 +278,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>xsl_repos</id>
+            <name>xsl_interface_repository</name>
+            <url>http://39.96.195.196:8081/repository/maven-public/</url>
+        </repository>
+    </repositories>
 
 </project>

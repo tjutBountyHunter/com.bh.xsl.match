@@ -1,9 +1,11 @@
 package xsl.match.controller;
 
+import com.xsl.Utils.ResultUtils;
 import com.xsl.annotation.CharSet;
 import com.xsl.pojo.Vo.UserReqVo;
 import com.xsl.pojo.Vo.UserSupplementVo;
 import com.xsl.pojo.Vo.XslUserRegister;
+import com.xsl.pojo.XslSchool;
 import com.xsl.pojo.XslUser;
 import com.xsl.result.XslResult;
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import xsl.match.service.XslUserService;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * 说明：
@@ -32,15 +35,15 @@ public class XslUserController {
     @RequestMapping("/select/email")
     @ResponseBody
     public XslResult getUserByEmail(@Param("email")String email){
-        XslResult userByEmail = xslUserService.getUserByEmail(email);
-        return userByEmail;
+        XslUser userByEmail = xslUserService.getUserByEmail(email);
+        return ResultUtils.isOk(userByEmail);
     }
 
     @RequestMapping("/select/phone")
     @ResponseBody
     public XslResult getUserByPhone(@Param("phone")String phone){
-        XslResult userByPhone = xslUserService.getUserByPhone(phone);
-        return userByPhone;
+        XslUser userByPhone = xslUserService.getUserByPhone(phone);
+        return ResultUtils.isOk(userByPhone);
     }
 
     @RequestMapping("/login")
@@ -62,16 +65,16 @@ public class XslUserController {
     @ResponseBody
     @CharSet
     public XslResult getSchoolList(StringBuilder region){
-        XslResult schoolLsit = xslUserService.getSchoolLsit(region.toString());
-        return schoolLsit;
+        List<XslSchool> schoolList = xslUserService.getSchoolList(region.toString());
+        return ResultUtils.isOk(schoolList);
     }
 
 
     @RequestMapping("/school/region")
     @ResponseBody
     public XslResult getSchoolRegion(){
-        XslResult regionList = xslUserService.getRegionList();
-        return regionList;
+        List<String> regionList = xslUserService.getRegionList();
+        return ResultUtils.isOk(regionList);
     }
 
     @RequestMapping("/edit/user/info")

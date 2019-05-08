@@ -16,11 +16,11 @@ import java.util.List;
  */
 public interface XslMatchRankService {
     /** 获取所有比赛等级 分页 */
-    XslResult getAllRank(Integer page,Integer rows) throws RuntimeException;
+    EasyUIDataGridResult getAllRank(Integer page,Integer rows) throws RuntimeException;
     /** 获取所有比赛等级 不分页 */
-    XslResult getAllRank() throws RuntimeException;
+    List<XslMatchRank> getAllRank() throws RuntimeException;
     /** 根据id 获取等级信息 */
-    XslResult getRank(String rankId)throws RuntimeException;
+    XslMatchRank getRank(String rankId)throws RuntimeException;
     /** 更新比赛等级 */
     XslResult updateMatchRankInfo(XslMatchRank xslMatchRank)throws RuntimeException;
     /** 添加一条比赛记录 */

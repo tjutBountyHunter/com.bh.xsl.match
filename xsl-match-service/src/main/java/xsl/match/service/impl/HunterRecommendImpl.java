@@ -15,7 +15,15 @@ import xsl.match.service.*;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
+/**
+ *
+ * 功能描述: 推荐算法（职位标签最多4个，用户标签最多12个）
+ *
+ * @param:
+ * @return:
+ * @auther: 11432_000
+ * @date: 2019/5/8 13:44
+ */
 @Service
 public class HunterRecommendImpl implements HunterRecommend {
 
@@ -107,7 +115,7 @@ public class HunterRecommendImpl implements HunterRecommend {
 
     //    获取任务带有的所有标签
     private void getAllTaskTag(){
-        List<XslTaskTag> tagsByTaskId = (List<XslTaskTag>) xslPositionTagService.getAllTagByPositionId(taskId).getData();
+        List<XslTaskTag> tagsByTaskId = xslPositionTagService.getAllTagByPositionId(taskId);
         for (XslTaskTag xslTaskTag : tagsByTaskId) {
             taskTags.add(xslTaskTag.getTagid());
         }
@@ -116,11 +124,11 @@ public class HunterRecommendImpl implements HunterRecommend {
     //    通过任务的标签id，获取所有相关的猎人集和任务集
     private void getAllHuntersByTag(){
         for (String taskTag : taskTags) {
-            List<XslHunterTag> huntersByTag = (List<XslHunterTag>) xslMatchUserService.getAllHuntersByTagId(taskTag).getData();
+            List<XslHunterTag> huntersByTag = xslMatchUserService.getAllHuntersByTagId(taskTag);
             for (XslHunterTag xslHunterTag : huntersByTag) {
                 hunters.add(xslHunterTag.getHunterid());
             }
-            List<XslTaskTag> tasksByTag = (List<XslTaskTag>) xslPositionTagService.getAllPositionByTagId(taskTag).getData();
+            List<XslTaskTag> tasksByTag = xslPositionTagService.getAllPositionByTagId(taskTag);
             for (XslTaskTag xslTaskTag : tasksByTag) {
                 tasks.add(xslTaskTag.getTaskid());
             }
@@ -144,8 +152,8 @@ public class HunterRecommendImpl implements HunterRecommend {
 
     //    比较猎人和任务标签
     private boolean compareFrequency(String hunterId,String taskId){
-        List<XslHunterTag> tagsByHunterId = (List<XslHunterTag>) xslMatchUserService.getAllTagsByHunterId(hunterId).getData();
-        List<XslTaskTag> tagsByTaskId = (List<XslTaskTag>) xslPositionTagService.getAllTagByPositionId(taskId).getData();
+        List<XslHunterTag> tagsByHunterId = xslMatchUserService.getAllTagsByHunterId(hunterId);
+        List<XslTaskTag> tagsByTaskId = xslPositionTagService.getAllTagByPositionId(taskId);
         for (XslTaskTag taskTag : tagsByTaskId) {
             String taskTagId = taskTag.getTagid();
             for (XslHunterTag hunterTag : tagsByHunterId) {
@@ -180,11 +188,11 @@ public class HunterRecommendImpl implements HunterRecommend {
             HashSet<String> hun1Set = new HashSet<>();
             HashSet<String> hun2Set = new HashSet<>();
 
-            List<XslHunterTag> tagsByHunter1 = (List<XslHunterTag>) xslMatchUserService.getAllTagsByHunterId(hunter1).getData();
+            List<XslHunterTag> tagsByHunter1 = xslMatchUserService.getAllTagsByHunterId(hunter1);
             for (XslHunterTag xslHunterTag : tagsByHunter1) {
                 hun1Set.add(xslHunterTag.getTagid());
             }
-            List<XslHunterTag> tagsByHunter2 = (List<XslHunterTag>) xslMatchUserService.getAllTagsByHunterId(hunter2).getData();
+            List<XslHunterTag> tagsByHunter2 = xslMatchUserService.getAllTagsByHunterId(hunter2);
             for (XslHunterTag xslHunterTag : tagsByHunter2) {
                 hun2Set.add(xslHunterTag.getTagid());
             }
@@ -247,17 +255,14 @@ public class HunterRecommendImpl implements HunterRecommend {
         //筛选有参赛意向的且偏好为同一类型的人
         for (int i = 0; topMap.size() >0 ; i++) {
             String hunterId = topMap.pollLastEntry().getValue();
-            XslResult xslResult = xslMatchUserService.selectMatchUserInfoByHunterId(hunterId);
-            if (ResultUtils.isSuccess(xslResult)){
-                XslMatchUser xslMatchUser = (XslMatchUser) xslResult.getData();
-                if (!xslMatchUser.getIsrecommend()){
-                    continue;
-                }
-                if (xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid())){
-                    identical.add(hunterId);
-                }else {
-                    different.add(hunterId);
-                }
+            XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(hunterId);
+            if (!xslMatchUser.getIsrecommend()){
+                continue;
+            }
+            if (xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid())){
+                identical.add(hunterId);
+            }else {
+                different.add(hunterId);
             }
         }
         HashMap<Integer,List<String>> map = new HashMap<>();
@@ -268,21 +273,10 @@ public class HunterRecommendImpl implements HunterRecommend {
 
     /** 获取比赛信息 */
     public XslMatch getMatch(String taskId){
-        XslResult positionByPositionId = xslPositionService.getPositionByPositionId(taskId);
-        if (!ResultUtils.isSuccess(positionByPositionId)){
-            return new XslMatch();
-        }
-        XslTeamPosition data = (XslTeamPosition) positionByPositionId.getData();
-        XslResult xslResult = xslMatchTeamService.selectTeamByTeamId(data.getTeamid());
-        if (!ResultUtils.isSuccess(xslResult)){
-            return new XslMatch();
-        }
-        XslMatchTeam data1 = (XslMatchTeam) xslResult.getData();
-        XslResult matchInfoByMatchId = xslMatchService.selectMatchByMatchId(data1.getMatchid());
-        if (!ResultUtils.isSuccess(matchInfoByMatchId)){
-            return new XslMatch();
-        }
-        return (XslMatch) matchInfoByMatchId.getData();
+        XslTeamPosition data = xslPositionService.getPositionByPositionId(taskId);
+        XslMatchTeam xslMatchTeam = xslMatchTeamService.selectTeamByTeamId(data.getTeamid());
+        XslMatch xslMatch = xslMatchService.selectMatchByMatchId(xslMatchTeam.getMatchid());
+        return xslMatch;
     }
 
     /** ----------------------------------------------------------- 推荐算法2 -------------------------------------------------------- */
@@ -290,7 +284,7 @@ public class HunterRecommendImpl implements HunterRecommend {
     public List<String> recommend2(String taskId, Integer recommendNum) {
         ArrayList<String> taglist = new ArrayList<>();
         //获取所有 职位の标签
-        List<XslTaskTag> xslTaskTags = (List<XslTaskTag>) xslPositionTagService.getAllTagByPositionId(taskId).getData();
+        List<XslTaskTag> xslTaskTags = xslPositionTagService.getAllTagByPositionId(taskId);
         for (int i = 0; i < 4 && i < xslTaskTags.size(); i++) {
             taglist.add(xslTaskTags.get(i).getTagid());
         }
@@ -340,19 +334,16 @@ public class HunterRecommendImpl implements HunterRecommend {
         XslMatch match = getMatch(taskId);
         for (Map.Entry<String,Integer> entry : statistics.entrySet()){
             //检查是否有被推荐意向
-            XslResult xslResult = xslMatchUserService.selectMatchUserInfoByHunterId(entry.getKey());
-            if (ResultUtils.isSuccess(xslResult)){
-                XslMatchUser xslMatchUser = (XslMatchUser) xslResult.getData();
-                if (!xslMatchUser.getIsrecommend()){
-                    continue;
-                }
-                //将偏好类型不同的人放在 5 中（至少符合两个标签）
-                if (entry.getValue() < 5){
-                    if (entry.getValue() >= 2 && !xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid())){
-                        top.get(5).add(entry.getKey());
-                    }else {
-                        top.get(entry.getValue()).add(entry.getKey());
-                    }
+            XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(entry.getKey());
+            if (!xslMatchUser.getIsrecommend()){
+                continue;
+            }
+            //将偏好类型不同的人放在 5 中（至少符合两个标签）
+            if (entry.getValue() < 5){
+                if (entry.getValue() >= 2 && !xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid())){
+                    top.get(5).add(entry.getKey());
+                }else {
+                    top.get(entry.getValue()).add(entry.getKey());
                 }
             }
         }

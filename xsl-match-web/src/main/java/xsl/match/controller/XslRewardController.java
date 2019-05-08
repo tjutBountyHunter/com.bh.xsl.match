@@ -49,11 +49,11 @@ public class XslRewardController {
          * @date: 2019/4/26 11:30
          */
         if (matchId == null){
-            XslResult allReward = xslRewardService.getAllReward(page,rows);
-            return (EasyUIDataGridResult) allReward.getData();
+            EasyUIDataGridResult allReward = xslRewardService.getAllReward(page, rows);
+            return allReward;
         }
-        XslResult reward = xslMatchRewardService.getReward(matchId,page,rows);
-        return (EasyUIDataGridResult) reward.getData();
+        EasyUIDataGridResult reward = xslMatchRewardService.getReward(matchId, page, rows);
+        return reward;
     }
 
     @RequestMapping("/add")

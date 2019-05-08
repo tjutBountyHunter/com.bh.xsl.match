@@ -2,6 +2,7 @@ package xsl.match.controller;
 
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.MYStringUtils;
+import com.xsl.Utils.ResultUtils;
 import com.xsl.pojo.XslMatchType;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -33,32 +34,32 @@ public class XslMatchTypeController {
     @ResponseBody
     /** 分页的获取所有比赛类型 */
     public EasyUIDataGridResult getPageOfMatchType(Integer page,Integer rows){
-        XslResult allType = xslMatchTypeService.getAllType(page, rows);
-        return (EasyUIDataGridResult)allType.getData();
+        EasyUIDataGridResult allType = xslMatchTypeService.getAllType(page, rows);
+        return allType;
     }
 
     @RequestMapping("/selectAll/list")
     @ResponseBody
     /** 不分页的获取所有比赛类型 */
     public List<XslMatchType> getListOfMatchType(){
-        XslResult allType = xslMatchTypeService.getAllType();
-        return (List<XslMatchType>)allType.getData();
+        List<XslMatchType> allType = xslMatchTypeService.getAllType();
+        return allType;
     }
 
     @RequestMapping("/selectAll/list/app")
     @ResponseBody
     /** 不分页的获取所有比赛类型 */
     public XslResult getListOfMatchTypeAPP(){
-        XslResult allType = xslMatchTypeService.getAllType();
-        return allType;
+        List<XslMatchType> allType = xslMatchTypeService.getAllType();
+        return ResultUtils.isOk(allType);
     }
 
     @RequestMapping("/select")
     @ResponseBody
     /** 根据Id获取比赛类型 */
     public XslMatchType getTypeById(@Param("matchTypeId") String matchTypeId){
-        XslResult type = xslMatchTypeService.getType(matchTypeId);
-        return (XslMatchType)type.getData();
+        XslMatchType type = xslMatchTypeService.getType(matchTypeId);
+        return type;
     }
 
     @RequestMapping("/add")

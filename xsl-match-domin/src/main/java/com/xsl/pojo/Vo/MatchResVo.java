@@ -27,6 +27,8 @@ public class MatchResVo implements Serializable {
     private Date matchendtime;
 
     private Integer matchstate;
+    /** 状态信息 */
+    private String matchStateInfo;
 
     private Date matchsignupendtime;
 
@@ -35,6 +37,8 @@ public class MatchResVo implements Serializable {
     private Integer matchsignupmaxnum;
 
     private Integer matchform;
+    /** 参赛形式信息 */
+    private String matchFormInfo;
 
     private Integer matchteamnum;
 
@@ -62,6 +66,7 @@ public class MatchResVo implements Serializable {
     private String matchtypename;
 
     private String matchtypeinfo;
+
 
     public String getMatchid() {
         return matchid;
@@ -253,5 +258,21 @@ public class MatchResVo implements Serializable {
 
     public void setMatchtypeinfo(String matchtypeinfo) {
         this.matchtypeinfo = matchtypeinfo;
+    }
+
+    public String getMatchStateInfo() {
+        return matchStateInfo;
+    }
+
+    public void setMatchStateInfo(String matchStateInfo) {
+        this.matchStateInfo = matchStateInfo;
+    }
+
+    public String getMatchFormInfo() {
+        return matchFormInfo;
+    }
+
+    public void setMatchFormInfo(String matchFormInfo) {
+        this.matchFormInfo = matchFormInfo;
     }
 }

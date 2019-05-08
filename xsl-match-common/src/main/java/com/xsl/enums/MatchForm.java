@@ -25,4 +25,15 @@ public enum MatchForm {
     public String getValue() {
         return value;
     }
+
+    /** 根据key获取相应的枚举 */
+    public static MatchForm getEnumByKey(Integer key){
+        MatchForm[] values = MatchForm.values();
+        for (MatchForm matchForm : values){
+            if (matchForm.key.equals(key)){
+                return matchForm;
+            }
+        }
+        throw new RuntimeException("不存在该枚举 key=" + key);
+    }
 }

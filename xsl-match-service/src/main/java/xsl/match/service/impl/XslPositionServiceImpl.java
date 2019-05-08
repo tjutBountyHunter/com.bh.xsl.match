@@ -26,7 +26,7 @@ public class XslPositionServiceImpl implements XslPositionService {
     XslTeamPositionMapper xslTeamPositionMapper;
 
     @Override
-    public XslResult getAllPositionByTeamId(String teamId) throws RuntimeException {
+    public List<XslTeamPosition>  getAllPositionByTeamId(String teamId) throws RuntimeException {
         /**
          *
          * 功能描述: 获取全部未删除职位
@@ -42,7 +42,7 @@ public class XslPositionServiceImpl implements XslPositionService {
             criteria.andTeamidEqualTo(teamId).andPositionstateNotEqualTo(DataStates.DELETE.getCode());
 
             List<XslTeamPosition> teamPositions = xslTeamPositionMapper.selectByExample(xslTeamPositionExample);
-            return ResultUtils.isOk(teamPositions);
+            return (teamPositions);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -64,7 +64,7 @@ public class XslPositionServiceImpl implements XslPositionService {
     }
 
     @Override
-    public XslResult getPositionByPositionId(String positionId) throws RuntimeException {
+    public XslTeamPosition  getPositionByPositionId(String positionId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据职位ID 获取指定职位
@@ -79,9 +79,9 @@ public class XslPositionServiceImpl implements XslPositionService {
             xslTeamPositionExample.createCriteria().andPositionidEqualTo(positionId);
             List<XslTeamPosition> teamPositions = xslTeamPositionMapper.selectByExample(xslTeamPositionExample);
             if (teamPositions.size() == 0){
-                return ResultUtils.isParameterError();
+                throw new RuntimeException("职位不存在");
             }
-            return ResultUtils.isOk(teamPositions.get(0));
+            return (teamPositions.get(0));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
