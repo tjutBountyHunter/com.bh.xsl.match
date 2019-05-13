@@ -23,7 +23,7 @@ import java.util.Map;
 public class FileController {
 
     @Autowired
-    ImageSave imageSave;
+    private ImageSave imageSave;
 
 
     @RequestMapping("/image/upload")

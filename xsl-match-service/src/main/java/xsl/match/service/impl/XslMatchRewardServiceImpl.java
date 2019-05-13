@@ -35,9 +35,9 @@ public class XslMatchRewardServiceImpl implements XslMatchRewardService {
     private static final Logger LOGGER = LoggerFactory.getLogger(XslMatchRewardServiceImpl.class);
 
     @Autowired
-    XslMatchRewardMapper xslMatchRewardMapper;
+    private XslMatchRewardMapper xslMatchRewardMapper;
     @Autowired
-    XslRewardService xslRewardService;
+    private XslRewardService xslRewardService;
 
     @Override
     public EasyUIDataGridResult getReward(String matchId,Integer page,Integer rows) throws RuntimeException {

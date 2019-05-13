@@ -28,7 +28,7 @@ import java.util.List;
 public class XslMatchTypeController {
 
     @Autowired
-    XslMatchTypeService xslMatchTypeService;
+    private XslMatchTypeService xslMatchTypeService;
 
     @RequestMapping("/selectAll/page")
     @ResponseBody

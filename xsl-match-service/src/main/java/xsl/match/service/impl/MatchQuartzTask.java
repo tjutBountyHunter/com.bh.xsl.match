@@ -24,14 +24,14 @@ public class MatchQuartzTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(MatchQuartzTask.class);
 
     @Autowired
-    XslMatchService xslMatchService;
+    private XslMatchService xslMatchService;
     @Autowired
-    ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
 
     public void execut(){
         LOGGER.info("定时任务开始");
-        threadPoolTaskExecutor.execute(()->{updateMatchState();});
+        threadPoolTaskExecutor.execute(() -> { updateMatchState();});
     }
 
     public void updateMatchState(){
@@ -41,7 +41,7 @@ public class MatchQuartzTask {
         //更新所有比赛状态
         for (XslMatch xslMatch : matchList){
             MatchState state = getState(xslMatch, now);
-            if (state != null){
+            if (state != null && !xslMatch.getMatchstate().equals(state.getKey())){
                 newMatch.setMatchid(xslMatch.getMatchid());
                 newMatch.setMatchstate(state.getKey());
                 XslResult xslResult = xslMatchService.updateMatch(newMatch);

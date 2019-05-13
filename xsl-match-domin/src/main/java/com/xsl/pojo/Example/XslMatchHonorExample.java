@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class XslMatchPersonalHonorExample {
+public class XslMatchHonorExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public XslMatchPersonalHonorExample() {
+    public XslMatchHonorExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,73 +165,73 @@ public class XslMatchPersonalHonorExample {
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridIsNull() {
-            addCriterion("personalHonorId is null");
+        public Criteria andHonoridIsNull() {
+            addCriterion("honorId is null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridIsNotNull() {
-            addCriterion("personalHonorId is not null");
+        public Criteria andHonoridIsNotNull() {
+            addCriterion("honorId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridEqualTo(String value) {
-            addCriterion("personalHonorId =", value, "personalhonorid");
+        public Criteria andHonoridEqualTo(String value) {
+            addCriterion("honorId =", value, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridNotEqualTo(String value) {
-            addCriterion("personalHonorId <>", value, "personalhonorid");
+        public Criteria andHonoridNotEqualTo(String value) {
+            addCriterion("honorId <>", value, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridGreaterThan(String value) {
-            addCriterion("personalHonorId >", value, "personalhonorid");
+        public Criteria andHonoridGreaterThan(String value) {
+            addCriterion("honorId >", value, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridGreaterThanOrEqualTo(String value) {
-            addCriterion("personalHonorId >=", value, "personalhonorid");
+        public Criteria andHonoridGreaterThanOrEqualTo(String value) {
+            addCriterion("honorId >=", value, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridLessThan(String value) {
-            addCriterion("personalHonorId <", value, "personalhonorid");
+        public Criteria andHonoridLessThan(String value) {
+            addCriterion("honorId <", value, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridLessThanOrEqualTo(String value) {
-            addCriterion("personalHonorId <=", value, "personalhonorid");
+        public Criteria andHonoridLessThanOrEqualTo(String value) {
+            addCriterion("honorId <=", value, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridLike(String value) {
-            addCriterion("personalHonorId like", value, "personalhonorid");
+        public Criteria andHonoridLike(String value) {
+            addCriterion("honorId like", value, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridNotLike(String value) {
-            addCriterion("personalHonorId not like", value, "personalhonorid");
+        public Criteria andHonoridNotLike(String value) {
+            addCriterion("honorId not like", value, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridIn(List<String> values) {
-            addCriterion("personalHonorId in", values, "personalhonorid");
+        public Criteria andHonoridIn(List<String> values) {
+            addCriterion("honorId in", values, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridNotIn(List<String> values) {
-            addCriterion("personalHonorId not in", values, "personalhonorid");
+        public Criteria andHonoridNotIn(List<String> values) {
+            addCriterion("honorId not in", values, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridBetween(String value1, String value2) {
-            addCriterion("personalHonorId between", value1, value2, "personalhonorid");
+        public Criteria andHonoridBetween(String value1, String value2) {
+            addCriterion("honorId between", value1, value2, "honorid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonoridNotBetween(String value1, String value2) {
-            addCriterion("personalHonorId not between", value1, value2, "personalhonorid");
+        public Criteria andHonoridNotBetween(String value1, String value2) {
+            addCriterion("honorId not between", value1, value2, "honorid");
             return (Criteria) this;
         }
 
@@ -305,273 +305,343 @@ public class XslMatchPersonalHonorExample {
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameIsNull() {
-            addCriterion("personalHonorName is null");
+        public Criteria andTeamidIsNull() {
+            addCriterion("teamId is null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameIsNotNull() {
-            addCriterion("personalHonorName is not null");
+        public Criteria andTeamidIsNotNull() {
+            addCriterion("teamId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameEqualTo(String value) {
-            addCriterion("personalHonorName =", value, "personalhonorname");
+        public Criteria andTeamidEqualTo(String value) {
+            addCriterion("teamId =", value, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameNotEqualTo(String value) {
-            addCriterion("personalHonorName <>", value, "personalhonorname");
+        public Criteria andTeamidNotEqualTo(String value) {
+            addCriterion("teamId <>", value, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameGreaterThan(String value) {
-            addCriterion("personalHonorName >", value, "personalhonorname");
+        public Criteria andTeamidGreaterThan(String value) {
+            addCriterion("teamId >", value, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameGreaterThanOrEqualTo(String value) {
-            addCriterion("personalHonorName >=", value, "personalhonorname");
+        public Criteria andTeamidGreaterThanOrEqualTo(String value) {
+            addCriterion("teamId >=", value, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameLessThan(String value) {
-            addCriterion("personalHonorName <", value, "personalhonorname");
+        public Criteria andTeamidLessThan(String value) {
+            addCriterion("teamId <", value, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameLessThanOrEqualTo(String value) {
-            addCriterion("personalHonorName <=", value, "personalhonorname");
+        public Criteria andTeamidLessThanOrEqualTo(String value) {
+            addCriterion("teamId <=", value, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameLike(String value) {
-            addCriterion("personalHonorName like", value, "personalhonorname");
+        public Criteria andTeamidLike(String value) {
+            addCriterion("teamId like", value, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameNotLike(String value) {
-            addCriterion("personalHonorName not like", value, "personalhonorname");
+        public Criteria andTeamidNotLike(String value) {
+            addCriterion("teamId not like", value, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameIn(List<String> values) {
-            addCriterion("personalHonorName in", values, "personalhonorname");
+        public Criteria andTeamidIn(List<String> values) {
+            addCriterion("teamId in", values, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameNotIn(List<String> values) {
-            addCriterion("personalHonorName not in", values, "personalhonorname");
+        public Criteria andTeamidNotIn(List<String> values) {
+            addCriterion("teamId not in", values, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameBetween(String value1, String value2) {
-            addCriterion("personalHonorName between", value1, value2, "personalhonorname");
+        public Criteria andTeamidBetween(String value1, String value2) {
+            addCriterion("teamId between", value1, value2, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonornameNotBetween(String value1, String value2) {
-            addCriterion("personalHonorName not between", value1, value2, "personalhonorname");
+        public Criteria andTeamidNotBetween(String value1, String value2) {
+            addCriterion("teamId not between", value1, value2, "teamid");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoIsNull() {
-            addCriterion("personalHonorInfo is null");
+        public Criteria andHonornameIsNull() {
+            addCriterion("honorName is null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoIsNotNull() {
-            addCriterion("personalHonorInfo is not null");
+        public Criteria andHonornameIsNotNull() {
+            addCriterion("honorName is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoEqualTo(String value) {
-            addCriterion("personalHonorInfo =", value, "personalhonorinfo");
+        public Criteria andHonornameEqualTo(String value) {
+            addCriterion("honorName =", value, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoNotEqualTo(String value) {
-            addCriterion("personalHonorInfo <>", value, "personalhonorinfo");
+        public Criteria andHonornameNotEqualTo(String value) {
+            addCriterion("honorName <>", value, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoGreaterThan(String value) {
-            addCriterion("personalHonorInfo >", value, "personalhonorinfo");
+        public Criteria andHonornameGreaterThan(String value) {
+            addCriterion("honorName >", value, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoGreaterThanOrEqualTo(String value) {
-            addCriterion("personalHonorInfo >=", value, "personalhonorinfo");
+        public Criteria andHonornameGreaterThanOrEqualTo(String value) {
+            addCriterion("honorName >=", value, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoLessThan(String value) {
-            addCriterion("personalHonorInfo <", value, "personalhonorinfo");
+        public Criteria andHonornameLessThan(String value) {
+            addCriterion("honorName <", value, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoLessThanOrEqualTo(String value) {
-            addCriterion("personalHonorInfo <=", value, "personalhonorinfo");
+        public Criteria andHonornameLessThanOrEqualTo(String value) {
+            addCriterion("honorName <=", value, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoLike(String value) {
-            addCriterion("personalHonorInfo like", value, "personalhonorinfo");
+        public Criteria andHonornameLike(String value) {
+            addCriterion("honorName like", value, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoNotLike(String value) {
-            addCriterion("personalHonorInfo not like", value, "personalhonorinfo");
+        public Criteria andHonornameNotLike(String value) {
+            addCriterion("honorName not like", value, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoIn(List<String> values) {
-            addCriterion("personalHonorInfo in", values, "personalhonorinfo");
+        public Criteria andHonornameIn(List<String> values) {
+            addCriterion("honorName in", values, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoNotIn(List<String> values) {
-            addCriterion("personalHonorInfo not in", values, "personalhonorinfo");
+        public Criteria andHonornameNotIn(List<String> values) {
+            addCriterion("honorName not in", values, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoBetween(String value1, String value2) {
-            addCriterion("personalHonorInfo between", value1, value2, "personalhonorinfo");
+        public Criteria andHonornameBetween(String value1, String value2) {
+            addCriterion("honorName between", value1, value2, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorinfoNotBetween(String value1, String value2) {
-            addCriterion("personalHonorInfo not between", value1, value2, "personalhonorinfo");
+        public Criteria andHonornameNotBetween(String value1, String value2) {
+            addCriterion("honorName not between", value1, value2, "honorname");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherIsNull() {
-            addCriterion("personalHonorVoucher is null");
+        public Criteria andHonorinfoIsNull() {
+            addCriterion("honorInfo is null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherIsNotNull() {
-            addCriterion("personalHonorVoucher is not null");
+        public Criteria andHonorinfoIsNotNull() {
+            addCriterion("honorInfo is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherEqualTo(String value) {
-            addCriterion("personalHonorVoucher =", value, "personalhonorvoucher");
+        public Criteria andHonorinfoEqualTo(String value) {
+            addCriterion("honorInfo =", value, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherNotEqualTo(String value) {
-            addCriterion("personalHonorVoucher <>", value, "personalhonorvoucher");
+        public Criteria andHonorinfoNotEqualTo(String value) {
+            addCriterion("honorInfo <>", value, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherGreaterThan(String value) {
-            addCriterion("personalHonorVoucher >", value, "personalhonorvoucher");
+        public Criteria andHonorinfoGreaterThan(String value) {
+            addCriterion("honorInfo >", value, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherGreaterThanOrEqualTo(String value) {
-            addCriterion("personalHonorVoucher >=", value, "personalhonorvoucher");
+        public Criteria andHonorinfoGreaterThanOrEqualTo(String value) {
+            addCriterion("honorInfo >=", value, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherLessThan(String value) {
-            addCriterion("personalHonorVoucher <", value, "personalhonorvoucher");
+        public Criteria andHonorinfoLessThan(String value) {
+            addCriterion("honorInfo <", value, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherLessThanOrEqualTo(String value) {
-            addCriterion("personalHonorVoucher <=", value, "personalhonorvoucher");
+        public Criteria andHonorinfoLessThanOrEqualTo(String value) {
+            addCriterion("honorInfo <=", value, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherLike(String value) {
-            addCriterion("personalHonorVoucher like", value, "personalhonorvoucher");
+        public Criteria andHonorinfoLike(String value) {
+            addCriterion("honorInfo like", value, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherNotLike(String value) {
-            addCriterion("personalHonorVoucher not like", value, "personalhonorvoucher");
+        public Criteria andHonorinfoNotLike(String value) {
+            addCriterion("honorInfo not like", value, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherIn(List<String> values) {
-            addCriterion("personalHonorVoucher in", values, "personalhonorvoucher");
+        public Criteria andHonorinfoIn(List<String> values) {
+            addCriterion("honorInfo in", values, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherNotIn(List<String> values) {
-            addCriterion("personalHonorVoucher not in", values, "personalhonorvoucher");
+        public Criteria andHonorinfoNotIn(List<String> values) {
+            addCriterion("honorInfo not in", values, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherBetween(String value1, String value2) {
-            addCriterion("personalHonorVoucher between", value1, value2, "personalhonorvoucher");
+        public Criteria andHonorinfoBetween(String value1, String value2) {
+            addCriterion("honorInfo between", value1, value2, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorvoucherNotBetween(String value1, String value2) {
-            addCriterion("personalHonorVoucher not between", value1, value2, "personalhonorvoucher");
+        public Criteria andHonorinfoNotBetween(String value1, String value2) {
+            addCriterion("honorInfo not between", value1, value2, "honorinfo");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeIsNull() {
-            addCriterion("personalHonorTime is null");
+        public Criteria andHonorvoucherIsNull() {
+            addCriterion("honorVoucher is null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeIsNotNull() {
-            addCriterion("personalHonorTime is not null");
+        public Criteria andHonorvoucherIsNotNull() {
+            addCriterion("honorVoucher is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeEqualTo(Date value) {
-            addCriterion("personalHonorTime =", value, "personalhonortime");
+        public Criteria andHonorvoucherEqualTo(String value) {
+            addCriterion("honorVoucher =", value, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeNotEqualTo(Date value) {
-            addCriterion("personalHonorTime <>", value, "personalhonortime");
+        public Criteria andHonorvoucherNotEqualTo(String value) {
+            addCriterion("honorVoucher <>", value, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeGreaterThan(Date value) {
-            addCriterion("personalHonorTime >", value, "personalhonortime");
+        public Criteria andHonorvoucherGreaterThan(String value) {
+            addCriterion("honorVoucher >", value, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("personalHonorTime >=", value, "personalhonortime");
+        public Criteria andHonorvoucherGreaterThanOrEqualTo(String value) {
+            addCriterion("honorVoucher >=", value, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeLessThan(Date value) {
-            addCriterion("personalHonorTime <", value, "personalhonortime");
+        public Criteria andHonorvoucherLessThan(String value) {
+            addCriterion("honorVoucher <", value, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeLessThanOrEqualTo(Date value) {
-            addCriterion("personalHonorTime <=", value, "personalhonortime");
+        public Criteria andHonorvoucherLessThanOrEqualTo(String value) {
+            addCriterion("honorVoucher <=", value, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeIn(List<Date> values) {
-            addCriterion("personalHonorTime in", values, "personalhonortime");
+        public Criteria andHonorvoucherLike(String value) {
+            addCriterion("honorVoucher like", value, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeNotIn(List<Date> values) {
-            addCriterion("personalHonorTime not in", values, "personalhonortime");
+        public Criteria andHonorvoucherNotLike(String value) {
+            addCriterion("honorVoucher not like", value, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeBetween(Date value1, Date value2) {
-            addCriterion("personalHonorTime between", value1, value2, "personalhonortime");
+        public Criteria andHonorvoucherIn(List<String> values) {
+            addCriterion("honorVoucher in", values, "honorvoucher");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonortimeNotBetween(Date value1, Date value2) {
-            addCriterion("personalHonorTime not between", value1, value2, "personalhonortime");
+        public Criteria andHonorvoucherNotIn(List<String> values) {
+            addCriterion("honorVoucher not in", values, "honorvoucher");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonorvoucherBetween(String value1, String value2) {
+            addCriterion("honorVoucher between", value1, value2, "honorvoucher");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonorvoucherNotBetween(String value1, String value2) {
+            addCriterion("honorVoucher not between", value1, value2, "honorvoucher");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeIsNull() {
+            addCriterion("honorTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeIsNotNull() {
+            addCriterion("honorTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeEqualTo(Date value) {
+            addCriterion("honorTime =", value, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeNotEqualTo(Date value) {
+            addCriterion("honorTime <>", value, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeGreaterThan(Date value) {
+            addCriterion("honorTime >", value, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("honorTime >=", value, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeLessThan(Date value) {
+            addCriterion("honorTime <", value, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeLessThanOrEqualTo(Date value) {
+            addCriterion("honorTime <=", value, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeIn(List<Date> values) {
+            addCriterion("honorTime in", values, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeNotIn(List<Date> values) {
+            addCriterion("honorTime not in", values, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeBetween(Date value1, Date value2) {
+            addCriterion("honorTime between", value1, value2, "honortime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHonortimeNotBetween(Date value1, Date value2) {
+            addCriterion("honorTime not between", value1, value2, "honortime");
             return (Criteria) this;
         }
 
@@ -645,63 +715,63 @@ public class XslMatchPersonalHonorExample {
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateIsNull() {
-            addCriterion("personalHonorState is null");
+        public Criteria andHonorstateIsNull() {
+            addCriterion("honorState is null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateIsNotNull() {
-            addCriterion("personalHonorState is not null");
+        public Criteria andHonorstateIsNotNull() {
+            addCriterion("honorState is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateEqualTo(Integer value) {
-            addCriterion("personalHonorState =", value, "personalhonorstate");
+        public Criteria andHonorstateEqualTo(Integer value) {
+            addCriterion("honorState =", value, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateNotEqualTo(Integer value) {
-            addCriterion("personalHonorState <>", value, "personalhonorstate");
+        public Criteria andHonorstateNotEqualTo(Integer value) {
+            addCriterion("honorState <>", value, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateGreaterThan(Integer value) {
-            addCriterion("personalHonorState >", value, "personalhonorstate");
+        public Criteria andHonorstateGreaterThan(Integer value) {
+            addCriterion("honorState >", value, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateGreaterThanOrEqualTo(Integer value) {
-            addCriterion("personalHonorState >=", value, "personalhonorstate");
+        public Criteria andHonorstateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("honorState >=", value, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateLessThan(Integer value) {
-            addCriterion("personalHonorState <", value, "personalhonorstate");
+        public Criteria andHonorstateLessThan(Integer value) {
+            addCriterion("honorState <", value, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateLessThanOrEqualTo(Integer value) {
-            addCriterion("personalHonorState <=", value, "personalhonorstate");
+        public Criteria andHonorstateLessThanOrEqualTo(Integer value) {
+            addCriterion("honorState <=", value, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateIn(List<Integer> values) {
-            addCriterion("personalHonorState in", values, "personalhonorstate");
+        public Criteria andHonorstateIn(List<Integer> values) {
+            addCriterion("honorState in", values, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateNotIn(List<Integer> values) {
-            addCriterion("personalHonorState not in", values, "personalhonorstate");
+        public Criteria andHonorstateNotIn(List<Integer> values) {
+            addCriterion("honorState not in", values, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateBetween(Integer value1, Integer value2) {
-            addCriterion("personalHonorState between", value1, value2, "personalhonorstate");
+        public Criteria andHonorstateBetween(Integer value1, Integer value2) {
+            addCriterion("honorState between", value1, value2, "honorstate");
             return (Criteria) this;
         }
 
-        public Criteria andPersonalhonorstateNotBetween(Integer value1, Integer value2) {
-            addCriterion("personalHonorState not between", value1, value2, "personalhonorstate");
+        public Criteria andHonorstateNotBetween(Integer value1, Integer value2) {
+            addCriterion("honorState not between", value1, value2, "honorstate");
             return (Criteria) this;
         }
     }

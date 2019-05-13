@@ -7,8 +7,6 @@ public class XslPositionApplication {
 
     private String userid;
 
-    private String teamid;
-
     private String positionid;
 
     private Integer applicationstate;
@@ -29,14 +27,6 @@ public class XslPositionApplication {
 
     public void setUserid(String userid) {
         this.userid = userid == null ? null : userid.trim();
-    }
-
-    public String getTeamid() {
-        return teamid;
-    }
-
-    public void setTeamid(String teamid) {
-        this.teamid = teamid == null ? null : teamid.trim();
     }
 
     public String getPositionid() {

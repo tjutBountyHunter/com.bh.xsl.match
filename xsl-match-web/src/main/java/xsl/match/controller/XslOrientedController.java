@@ -25,7 +25,7 @@ import java.util.List;
 public class XslOrientedController {
 
     @Autowired
-    XslOrientedService xslOrientedService;
+    private XslOrientedService xslOrientedService;
 
     @RequestMapping("/selectAll/list")
     @ResponseBody

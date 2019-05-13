@@ -2,7 +2,6 @@ package xsl.match.advice;
 
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
-import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.DataStates;
 import com.xsl.enums.ResultCode;
 import com.xsl.pojo.XslMatch;
@@ -32,11 +31,9 @@ import java.util.*;
  */
 @Aspect
 @Component
-public class updateMatchBuffer {
+public class UpdateMatchBuffer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(updateMatchBuffer.class);
-
-    private boolean isUpdate = true;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateMatchBuffer.class);
 
     @Autowired
     XslMatchMapper xslMatchMapper;

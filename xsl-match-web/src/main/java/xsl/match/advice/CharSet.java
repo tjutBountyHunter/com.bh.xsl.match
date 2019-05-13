@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 @Component
 public class CharSet {
 
-    @Before("@annotation(com.xsl.annotation.CharSet)")
+   /* @Before("@annotation(com.xsl.annotation.CharSet)")
     public void charset(JoinPoint joinPoint){
         Object[] args = joinPoint.getArgs();
         StringBuilder arg = (StringBuilder) args[0];
@@ -30,5 +30,5 @@ public class CharSet {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

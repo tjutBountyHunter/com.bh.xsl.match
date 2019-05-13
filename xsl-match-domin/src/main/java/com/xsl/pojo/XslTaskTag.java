@@ -53,4 +53,29 @@ public class XslTaskTag implements Serializable {
     public void setState(Boolean state) {
         this.state = state;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null){
+            return false;
+        }
+        if (obj == this){
+            return true;
+        }
+        if (!(obj instanceof XslTaskTag)){
+            return false;
+        }
+        XslTaskTag xslTaskTag = (XslTaskTag) obj;
+        if (this.getTagid().equals(xslTaskTag.getTagid()) && this.getTaskid().equals(xslTaskTag.getTaskid())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getTagid().hashCode();
+    }
+
 }

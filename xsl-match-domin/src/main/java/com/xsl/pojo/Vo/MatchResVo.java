@@ -68,6 +68,8 @@ public class MatchResVo implements Serializable {
     private String matchtypeinfo;
 
 
+
+
     public String getMatchid() {
         return matchid;
     }

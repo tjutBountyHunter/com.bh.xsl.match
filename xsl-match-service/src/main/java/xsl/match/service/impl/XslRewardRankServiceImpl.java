@@ -34,7 +34,7 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
     private static final Logger LOGGER = LoggerFactory.getLogger(XslRewardRankServiceImpl.class);
 
     @Autowired
-    XslRewardRankMapper xslRewardRankMapper;
+    private XslRewardRankMapper xslRewardRankMapper;
     @Override
     public EasyUIDataGridResult getAllRewardRank(Integer page,Integer rows) throws RuntimeException {
         /**

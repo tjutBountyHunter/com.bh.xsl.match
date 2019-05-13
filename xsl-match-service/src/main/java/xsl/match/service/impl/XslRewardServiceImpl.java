@@ -31,7 +31,7 @@ public class XslRewardServiceImpl implements XslRewardService {
     private static final Logger LOGGER = LoggerFactory.getLogger(XslRewardServiceImpl.class);
 
     @Autowired
-    XslRewardMapper xslRewardMapper;
+    private XslRewardMapper xslRewardMapper;
     @Override
     public XslReward selectRewardInfoByRewardId(String rewardId) throws RuntimeException{
         /**

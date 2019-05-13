@@ -27,7 +27,7 @@ import java.util.List;
 public class XslRewardRankController {
 
     @Autowired
-    XslRewardRankService xslRewardRankService;
+    private XslRewardRankService xslRewardRankService;
 
     @RequestMapping("/select")
     @ResponseBody

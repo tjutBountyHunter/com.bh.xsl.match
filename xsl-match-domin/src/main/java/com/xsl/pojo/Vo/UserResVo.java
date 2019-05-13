@@ -2,7 +2,7 @@ package com.xsl.pojo.Vo;
 
 import java.io.Serializable;
 
-public class UserResVo    implements Serializable{
+public class UserResVo implements Serializable{
 	private String userid;
 
 	private String hunterid;
@@ -20,6 +20,8 @@ public class UserResVo    implements Serializable{
 	private String email;
 
 	private String school;
+
+	private String schoolinfo;
 
 	private Short hunterlevel;
 
@@ -151,5 +153,13 @@ public class UserResVo    implements Serializable{
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	public String getSchoolinfo() {
+		return schoolinfo;
+	}
+
+	public void setSchoolinfo(String schoolinfo) {
+		this.schoolinfo = schoolinfo;
 	}
 }

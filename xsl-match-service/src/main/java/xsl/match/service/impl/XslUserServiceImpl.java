@@ -1,13 +1,12 @@
 package xsl.match.service.impl;
 
 import com.xsl.Utils.*;
+import com.xsl.annotation.CharSet;
+import com.xsl.enums.HonorStates;
 import com.xsl.enums.UserStateEnum;
 import com.xsl.pojo.*;
 import com.xsl.pojo.Example.*;
-import com.xsl.pojo.Vo.UserReqVo;
-import com.xsl.pojo.Vo.UserResVo;
-import com.xsl.pojo.Vo.UserSupplementVo;
-import com.xsl.pojo.Vo.XslUserRegister;
+import com.xsl.pojo.Vo.*;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import xsl.match.mapper.*;
+import xsl.match.service.XslHonorService;
 import xsl.match.service.XslMatchUserService;
 import xsl.match.service.XslUserService;
-
 import java.util.List;
 
 /**
@@ -33,15 +32,17 @@ import java.util.List;
 public class XslUserServiceImpl implements XslUserService {
 
     @Autowired
-    XslUserMapper xslUserMapper;
+    private XslUserMapper xslUserMapper;
     @Autowired
-    XslUserFileMapper xslUserFileMapper;
+    private XslUserFileMapper xslUserFileMapper;
     @Autowired
-    XslFileMapper xslFileMapper;
+    private XslFileMapper xslFileMapper;
     @Autowired
-    XslSchoolinfoMapper xslSchoolinfoMapper;
+    private XslSchoolinfoMapper xslSchoolinfoMapper;
     @Autowired
-    XslMatchUserService xslMatchUserService;
+    private XslMatchUserService xslMatchUserService;
+    @Autowired
+    private XslHonorService xslHonorService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XslUserServiceImpl.class);
 
@@ -58,7 +59,10 @@ public class XslUserServiceImpl implements XslUserService {
     private String USER_SCHOOL_INFO;
     @Value("${USER_SCHOOL_REGION}")
     private String USER_SCHOOL_REGION;
-
+    @Value("${USER_DETAILED_INFO}")
+    private String USER_DETAILED_INFO;
+    @Value("${USER_INFO_LIFETIME}")
+    private Integer USER_INFO_LIFETIME;
 
     @Override
     public XslUser getUserByEmail(String email) throws RuntimeException {
@@ -161,6 +165,7 @@ public class XslUserServiceImpl implements XslUserService {
     }
 
     @Override
+    @CharSet
     public List<XslSchool> getSchoolList(String region) throws RuntimeException {
         /**
          *
@@ -172,10 +177,12 @@ public class XslUserServiceImpl implements XslUserService {
          * @date: 2019/5/4 20:05
          */
         try {
+            String json;
             if (StringUtils.isEmpty(region)){
-                throw new RuntimeException("地区不存在");
+                json = JedisUtils.get(USER_SCHOOL_LIST);
+            }else {
+                json = JedisUtils.get(USER_SCHOOL_LIST + ":" + region);
             }
-            String json = JedisUtils.get(USER_SCHOOL_LIST + ":" + region);
             List<XslSchool> xslSchoolList = JsonUtils.jsonToList(json,XslSchool.class);
             return (xslSchoolList);
         } catch (Exception e) {
@@ -434,6 +441,40 @@ public class XslUserServiceImpl implements XslUserService {
         }
     }
 
+    @Override
+    public UserDetailedResVo getUserDetailedInfo(String userId) throws RuntimeException {
+        //优先取缓存
+        String json = JedisUtils.get(USER_SCHOOL_INFO + ":" + userId);
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(json)){
+            UserDetailedResVo userDetailedResVo = JsonUtils.jsonToPojo(json, UserDetailedResVo.class);
+            return userDetailedResVo;
+        }
+        XslUserExample xslUserExample = new XslUserExample();
+        xslUserExample.createCriteria().andUseridEqualTo(userId);
+        List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
+        if (xslUsers.size() == 0){
+            throw new RuntimeException("用户信息不存在");
+        }
+        //添加基本信息
+        XslUser xslUser = xslUsers.get(0);
+        String hunterId = MATCH_HUNTER_PREFIX + xslUser.getHunterid();
+        UserDetailedResVo userDetailedResVo = new UserDetailedResVo();
+        BeanUtils.copyProperties(xslUser,userDetailedResVo);
+        //添加补充信息
+        XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByUserId(hunterId);
+        BeanUtils.copyProperties(xslMatchUser,userDetailedResVo);
+        // 添加标签
+        List<HunterTagResVo> allTagsInfoByHunterId = xslMatchUserService.getAllTagsInfoByHunterId(xslUser.getHunterid());
+        userDetailedResVo.setTags(allTagsInfoByHunterId);
+        //添加已审核奖励
+        List<XslMatchHonor> honorByHunterId = xslHonorService.getHonorByHunterId(hunterId, HonorStates.NORMAL.getCode());
+        userDetailedResVo.setHonors(honorByHunterId);
+        //添加缓存
+        String toJson = JsonUtils.objectToJson(userDetailedResVo);
+        JedisUtils.set(USER_DETAILED_INFO + ":" + userId,toJson);
+        JedisUtils.expire(USER_DETAILED_INFO + ":" + userId,USER_INFO_LIFETIME);
+        return userDetailedResVo;
+    }
 
     /** 获取学校信息 */
     public XslSchoolinfo getSchoolInfo(String schoolid){

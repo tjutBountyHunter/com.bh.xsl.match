@@ -29,11 +29,11 @@ import java.util.List;
 public class XslMemberServiceImpl implements XslMemberService {
 
     @Autowired
-    XslTeamMemberMapper xslTeamMemberMapper;
+    private XslTeamMemberMapper xslTeamMemberMapper;
     @Autowired
-    XslPositionService xslPositionService;
+    private XslPositionService xslPositionService;
     @Autowired
-    XslUserService xslUserService;
+    private XslUserService xslUserService;
 
     @Override
     public List<MemberInfoResVo> getAllMemberByTeamId(String teamId) throws RuntimeException {

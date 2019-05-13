@@ -19,6 +19,8 @@ public interface XslTagService {
     XslResult removeTag(String tagId)throws RuntimeException;
     /** 根据 Id 批量获取标签 */
     List<XslTag> getTags(List<String> tagIds)throws RuntimeException;
+    /** 根据 Id 批量获取标签 */
+    List<XslTag> getTags(String... tagIds)throws RuntimeException;
     /** 获取所有Tag */
     List<XslTag> getTags()throws RuntimeException;
 }

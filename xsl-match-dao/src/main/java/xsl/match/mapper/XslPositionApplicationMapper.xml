@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.xsl.pojo.XslPositionApplication">
     <id column="Id" jdbcType="INTEGER" property="id" />
     <result column="userId" jdbcType="VARCHAR" property="userid" />
-    <result column="teamId" jdbcType="VARCHAR" property="teamid" />
     <result column="positionId" jdbcType="VARCHAR" property="positionid" />
     <result column="applicationState" jdbcType="INTEGER" property="applicationstate" />
     <result column="applicationTime" jdbcType="TIMESTAMP" property="applicationtime" />
@@ -68,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Id, userId, teamId, positionId, applicationState, applicationTime
+    Id, userId, positionId, applicationState, applicationTime
   </sql>
   <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslPositionApplicationExample" resultMap="BaseResultMap">
     select
@@ -101,12 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.xsl.pojo.XslPositionApplication">
-    insert into xsl_position_application (Id, userId, teamId, 
-      positionId, applicationState, applicationTime
-      )
-    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{teamid,jdbcType=VARCHAR}, 
-      #{positionid,jdbcType=VARCHAR}, #{applicationstate,jdbcType=INTEGER}, #{applicationtime,jdbcType=TIMESTAMP}
-      )
+    insert into xsl_position_application (Id, userId, positionId, 
+      applicationState, applicationTime)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{positionid,jdbcType=VARCHAR}, 
+      #{applicationstate,jdbcType=INTEGER}, #{applicationtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xsl.pojo.XslPositionApplication">
     insert into xsl_position_application
@@ -116,9 +113,6 @@
       </if>
       <if test="userid != null">
         userId,
-      </if>
-      <if test="teamid != null">
-        teamId,
       </if>
       <if test="positionid != null">
         positionId,
@@ -136,9 +130,6 @@
       </if>
       <if test="userid != null">
         #{userid,jdbcType=VARCHAR},
-      </if>
-      <if test="teamid != null">
-        #{teamid,jdbcType=VARCHAR},
       </if>
       <if test="positionid != null">
         #{positionid,jdbcType=VARCHAR},
@@ -166,9 +157,6 @@
       <if test="record.userid != null">
         userId = #{record.userid,jdbcType=VARCHAR},
       </if>
-      <if test="record.teamid != null">
-        teamId = #{record.teamid,jdbcType=VARCHAR},
-      </if>
       <if test="record.positionid != null">
         positionId = #{record.positionid,jdbcType=VARCHAR},
       </if>
@@ -187,7 +175,6 @@
     update xsl_position_application
     set Id = #{record.id,jdbcType=INTEGER},
       userId = #{record.userid,jdbcType=VARCHAR},
-      teamId = #{record.teamid,jdbcType=VARCHAR},
       positionId = #{record.positionid,jdbcType=VARCHAR},
       applicationState = #{record.applicationstate,jdbcType=INTEGER},
       applicationTime = #{record.applicationtime,jdbcType=TIMESTAMP}
@@ -200,9 +187,6 @@
     <set>
       <if test="userid != null">
         userId = #{userid,jdbcType=VARCHAR},
-      </if>
-      <if test="teamid != null">
-        teamId = #{teamid,jdbcType=VARCHAR},
       </if>
       <if test="positionid != null">
         positionId = #{positionid,jdbcType=VARCHAR},
@@ -219,7 +203,6 @@
   <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslPositionApplication">
     update xsl_position_application
     set userId = #{userid,jdbcType=VARCHAR},
-      teamId = #{teamid,jdbcType=VARCHAR},
       positionId = #{positionid,jdbcType=VARCHAR},
       applicationState = #{applicationstate,jdbcType=INTEGER},
       applicationTime = #{applicationtime,jdbcType=TIMESTAMP}

@@ -1,14 +1,23 @@
-package com.xsl.pojo;
+package com.xsl.pojo.Vo;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class XslTeamPosition {
-
-    private Integer id;
+/**
+ * 说明：职位详情
+ *
+ * @Auther: 11432_000
+ * @Date: 2019/5/10 13:36
+ * @Description:
+ */
+public class PositionDetailsResVo implements Serializable {
 
     private String positionid;
 
     private String teamid;
+
+    private String teamname;
 
     private String positionname;
 
@@ -16,24 +25,16 @@ public class XslTeamPosition {
 
     private String positionrequirements;
 
-    private Integer positionstate;
-
     private Date positioncreatetime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private List<PositionTagResVo> tags;
 
     public String getPositionid() {
         return positionid;
     }
 
     public void setPositionid(String positionid) {
-        this.positionid = positionid == null ? null : positionid.trim();
+        this.positionid = positionid;
     }
 
     public String getTeamid() {
@@ -41,7 +42,7 @@ public class XslTeamPosition {
     }
 
     public void setTeamid(String teamid) {
-        this.teamid = teamid == null ? null : teamid.trim();
+        this.teamid = teamid;
     }
 
     public String getPositionname() {
@@ -49,7 +50,7 @@ public class XslTeamPosition {
     }
 
     public void setPositionname(String positionname) {
-        this.positionname = positionname == null ? null : positionname.trim();
+        this.positionname = positionname;
     }
 
     public String getPositioninfo() {
@@ -57,7 +58,7 @@ public class XslTeamPosition {
     }
 
     public void setPositioninfo(String positioninfo) {
-        this.positioninfo = positioninfo == null ? null : positioninfo.trim();
+        this.positioninfo = positioninfo;
     }
 
     public String getPositionrequirements() {
@@ -65,15 +66,7 @@ public class XslTeamPosition {
     }
 
     public void setPositionrequirements(String positionrequirements) {
-        this.positionrequirements = positionrequirements == null ? null : positionrequirements.trim();
-    }
-
-    public Integer getPositionstate() {
-        return positionstate;
-    }
-
-    public void setPositionstate(Integer positionstate) {
-        this.positionstate = positionstate;
+        this.positionrequirements = positionrequirements;
     }
 
     public Date getPositioncreatetime() {
@@ -82,5 +75,21 @@ public class XslTeamPosition {
 
     public void setPositioncreatetime(Date positioncreatetime) {
         this.positioncreatetime = positioncreatetime;
+    }
+
+    public List<PositionTagResVo> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<PositionTagResVo> tags) {
+        this.tags = tags;
+    }
+
+    public String getTeamname() {
+        return teamname;
+    }
+
+    public void setTeamname(String teamname) {
+        this.teamname = teamname;
     }
 }

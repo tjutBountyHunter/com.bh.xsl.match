@@ -17,7 +17,7 @@
 	<!-- 自动扫描切面 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
-	<bean id="updateMatch" class="xsl.match.advice.updateMatchBuffer"></bean>
+	<bean id="updateMatch" class="xsl.match.advice.UpdateMatchBuffer"></bean>
 
 	<!--配置定时任务-->
 	<bean id="matchQuartzTask" class="xsl.match.service.impl.MatchQuartzTask"></bean>
@@ -29,9 +29,9 @@
 	<!--配置触发器Trigger-->
 	<bean id="matchTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="matchJob"></property>
-		<property name="cronExpression" value="0/5 * * * * ?"></property>
+		<property name="cronExpression" value="0 0/10 * * * ?"></property>
 	</bean>
-	<!--配置调度器（整合多个触发器和Job）-->
+	<!--配置调度器（整合多个触发器）-->
 	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list><ref bean="matchTrigger"/></list>

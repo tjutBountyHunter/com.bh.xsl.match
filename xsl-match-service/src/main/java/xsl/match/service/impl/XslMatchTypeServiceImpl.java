@@ -32,7 +32,7 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(XslMatchTypeServiceImpl.class);
 
     @Autowired
-    XslMatchTypeMapper xslMatchTypeMapper;
+    private XslMatchTypeMapper xslMatchTypeMapper;
     @Override
     public EasyUIDataGridResult getAllType(Integer page, Integer rows) throws RuntimeException {
         /**

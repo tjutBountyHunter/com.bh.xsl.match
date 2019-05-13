@@ -32,7 +32,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
     private static final Logger LOGGER = LoggerFactory.getLogger(XslMatchTeamServiceImpl.class);
 
     @Autowired
-    XslMatchTeamMapper xslMatchTeamMapper;
+    private XslMatchTeamMapper xslMatchTeamMapper;
 
     @Override
     public XslResult addATeam(XslMatchTeam xslMatchTeam) throws RuntimeException {

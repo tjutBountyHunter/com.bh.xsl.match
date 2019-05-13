@@ -32,9 +32,9 @@ import java.util.List;
 public class XslRewardController {
 
     @Autowired
-    XslMatchRewardService xslMatchRewardService;
+    private XslMatchRewardService xslMatchRewardService;
     @Autowired
-    XslRewardService xslRewardService;
+    private XslRewardService xslRewardService;
 
     @RequestMapping("/select/info")
     @ResponseBody

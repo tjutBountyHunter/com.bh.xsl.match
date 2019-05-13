@@ -2,19 +2,23 @@ package xsl.match.controller;
 
 import com.xsl.Utils.ResultUtils;
 import com.xsl.annotation.CharSet;
-import com.xsl.pojo.Vo.UserReqVo;
-import com.xsl.pojo.Vo.UserSupplementVo;
-import com.xsl.pojo.Vo.XslUserRegister;
+import com.xsl.pojo.Vo.*;
 import com.xsl.pojo.XslSchool;
 import com.xsl.pojo.XslUser;
 import com.xsl.result.XslResult;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xsl.match.service.XslUserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -30,10 +34,11 @@ import java.util.List;
 public class XslUserController {
 
     @Autowired
-    XslUserService xslUserService;
+    private XslUserService xslUserService;
 
     @RequestMapping("/select/email")
     @ResponseBody
+    /** 根据邮箱查询用户*/
     public XslResult getUserByEmail(@Param("email")String email){
         XslUser userByEmail = xslUserService.getUserByEmail(email);
         return ResultUtils.isOk(userByEmail);
@@ -41,6 +46,7 @@ public class XslUserController {
 
     @RequestMapping("/select/phone")
     @ResponseBody
+    /** 根据手机号查询用户 */
     public XslResult getUserByPhone(@Param("phone")String phone){
         XslUser userByPhone = xslUserService.getUserByPhone(phone);
         return ResultUtils.isOk(userByPhone);
@@ -48,6 +54,7 @@ public class XslUserController {
 
     @RequestMapping("/login")
     @ResponseBody
+    /** 登录 */
     public XslResult login(UserReqVo userReqVo){
         XslResult userByPhone = xslUserService.userLogin(userReqVo);
         return userByPhone;
@@ -56,15 +63,16 @@ public class XslUserController {
 
     @RequestMapping("/quick/register")
     @ResponseBody
+    /** 快速注册 */
     public XslResult quickRegister(XslUserRegister xslUserRegister){
         XslResult userByPhone = xslUserService.quickCreateUser(xslUserRegister);
         return userByPhone;
     }
 
-    @RequestMapping(value = "/school/list")
+    @RequestMapping("/school/list")
     @ResponseBody
-    @CharSet
-    public XslResult getSchoolList(StringBuilder region){
+    /** 根据地区获取学校列表  */
+    public XslResult getSchoolList(String region){
         List<XslSchool> schoolList = xslUserService.getSchoolList(region.toString());
         return ResultUtils.isOk(schoolList);
     }
@@ -72,6 +80,7 @@ public class XslUserController {
 
     @RequestMapping("/school/region")
     @ResponseBody
+    /** 获取地区 */
     public XslResult getSchoolRegion(){
         List<String> regionList = xslUserService.getRegionList();
         return ResultUtils.isOk(regionList);
@@ -79,10 +88,29 @@ public class XslUserController {
 
     @RequestMapping("/edit/user/info")
     @ResponseBody
-    /** 更新用户信息 */
-    public XslResult editUserInfo(UserSupplementVo userSupplementVo){
+    /** 更改用户信息 */
+    public XslResult editUserInfo(@RequestBody MatchUserEditReqVo xMatchUserEditReqVo){
+        UserSupplementVo userSupplementVo =  new UserSupplementVo();
+        BeanUtils.copyProperties(xMatchUserEditReqVo,userSupplementVo);
         XslResult xslResult = xslUserService.updateUserInfo(userSupplementVo);
         return xslResult;
     }
+
+    @RequestMapping("/authentication")
+    @ResponseBody
+    /** 认证用户信息 */
+    public XslResult authenticationUserInfo(@RequestBody UserSupplementVo userSupplementVo){
+        XslResult xslResult = xslUserService.updateUserInfo(userSupplementVo);
+        return xslResult;
+    }
+
+    @RequestMapping("/detailedInfo")
+    @ResponseBody
+    /** 获取用户详情（其他人查看的） */
+    public XslResult getDetailedInfo(String userid){
+        UserDetailedResVo userDetailedInfo = xslUserService.getUserDetailedInfo(userid);
+        return ResultUtils.isOk(userDetailedInfo);
+    }
+
 
 }

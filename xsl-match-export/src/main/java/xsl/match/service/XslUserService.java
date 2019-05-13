@@ -1,9 +1,6 @@
 package xsl.match.service;
 
-import com.xsl.pojo.Vo.UserReqVo;
-import com.xsl.pojo.Vo.UserResVo;
-import com.xsl.pojo.Vo.UserSupplementVo;
-import com.xsl.pojo.Vo.XslUserRegister;
+import com.xsl.pojo.Vo.*;
 import com.xsl.pojo.XslMatchUser;
 import com.xsl.pojo.XslSchool;
 import com.xsl.pojo.XslSchoolinfo;
@@ -51,7 +48,7 @@ public interface XslUserService {
     /** 更新用户信息 */
     XslResult updateUserInfo(UserSupplementVo userinfo)throws RuntimeException;
 
-//    /**  获取用户信息 */
-//    XslSchoolinfo getUserSchoolInfo(String userId)throws RuntimeException;
+    /**  获取用户详细信息 */
+    UserDetailedResVo getUserDetailedInfo(String userId)throws RuntimeException;
 
 }

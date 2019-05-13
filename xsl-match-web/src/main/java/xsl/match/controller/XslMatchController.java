@@ -30,7 +30,7 @@ import java.util.List;
 public class XslMatchController {
 
     @Autowired
-    XslMatchService xslMatchService;
+    private XslMatchService xslMatchService;
 
     @RequestMapping("/select/form")
     @ResponseBody

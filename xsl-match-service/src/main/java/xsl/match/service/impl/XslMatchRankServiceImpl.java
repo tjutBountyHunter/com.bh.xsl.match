@@ -31,7 +31,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
     private static final Logger LOGGER = LoggerFactory.getLogger(XslMatchRankServiceImpl.class);
 
     @Autowired
-    XslMatchRankMapper xslMatchRankMapper;
+    private XslMatchRankMapper xslMatchRankMapper;
 
     @Override
     public EasyUIDataGridResult getAllRank(Integer page,Integer rows) throws RuntimeException{

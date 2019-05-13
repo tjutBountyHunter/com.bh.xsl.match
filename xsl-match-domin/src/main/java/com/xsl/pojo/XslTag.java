@@ -1,8 +1,9 @@
 package com.xsl.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class XslTag {
+public class XslTag implements Serializable {
     private Integer id;
 
     private String tagid;
@@ -61,5 +62,28 @@ public class XslTag {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null){
+            return false;
+        }
+        if (obj == this){
+            return true;
+        }
+        if (!(obj instanceof XslTag)){
+            return false;
+        }
+        XslTag xslTag = (XslTag) obj;
+        if (this.getTagid().equals(xslTag.getTagid())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getTagid().hashCode();
     }
 }

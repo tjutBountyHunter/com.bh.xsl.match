@@ -4,14 +4,24 @@ import com.xsl.Utils.GsonSingle;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.MatchArrayUtils;
+import com.xsl.pojo.Example.XslTagExample;
+import com.xsl.pojo.Vo.XslMatchUserReqVo;
 import com.xsl.pojo.XslMatch;
 import com.xsl.pojo.XslMatchType;
+import com.xsl.pojo.XslTag;
 import com.xsl.result.XslResult;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+import xsl.match.mapper.XslTagMapper;
 import xsl.match.service.impl.XslMatchServiceImpl;
 
 import java.lang.reflect.Type;
@@ -24,6 +34,8 @@ import java.util.*;
  * @Date: 2019/4/21 20:14
  * @Description:
  */
+//@RunWith(SpringJUnit4ClassRunner.class)//固定写法
+//@ContextConfiguration({"classpath:spring/applicationContext-dao.xml"})
 public class Test {
 
 //    public static void main(String[] args) {
@@ -89,16 +101,31 @@ private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 //        }
 //    }
 
+//    @Autowired
+//    XslTagMapper xslTagMapper;
+//    @Value("${MATCH_TAG_PREFIX}")
+//    String MATCH_TAG_PREFIX;
 
-//    @org.junit.Test
-//    public void test02(){
-//        Gson gson = GsonSingle.getGson();
-//
-//        String str = "[{\"id\":1,\"matchtypeid\":\"1\",\"matchtypename\":\"综合创新1\",\"matchtypestate\":1,\"matchtypeinfo\":\"瞎几把搞\",\"matchtypecreatetime\":1556331942000},{\"id\":2,\"matchtypeid\":\"MTcad8984c-e99a-49f9-91a7-ff1d9fbcea25\",\"matchtypename\":\"思维创新\",\"matchtypestate\":1,\"matchtypeinfo\":\"\",\"matchtypecreatetime\":1556338566000}]";
-//        Type type = new TypeToken<List<XslMatchType>>(){}.getType();
-//        List<XslMatchType> xslResult = gson.fromJson(str,type);
-////        List<XslMatchType> xslMatchTypes = JsonUtils.jsonToList(str, XslMatchType.class);
+    private static JedisPoolConfig jedisPoolConfig;
+
+    static {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+
+    }
+    @org.junit.Test
+    public void test02(){
+//        XslTagExample xslTagExample = new XslTagExample();
+//        xslTagExample.createCriteria().andTagidLike(MATCH_TAG_PREFIX + "%").andStateEqualTo(true);
+//        List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
 //        System.out.println();
-//    }
+//        XslMatchUserReqVo xslMatchUserReqVo = new XslMatchUserReqVo();
+//        xslMatchUserReqVo.setHunterid("MTH:3884e72d-96f1-4424-a758-bdca23ec0f31");
+//        List<String> strings = new ArrayList<>();
+//        strings.add("MTT:1233");
+//        xslMatchUserReqVo.setTags(strings);
+//        String s = JsonUtils.objectToJson(xslMatchUserReqVo);
+//        System.out.println(s);
+
+    }
 
 }

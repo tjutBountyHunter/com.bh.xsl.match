@@ -30,7 +30,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
     private static final Logger LOGGER = LoggerFactory.getLogger(XslOrientedServiceImpl.class);
 
     @Autowired
-    XslOrientedMapper xslOrientedMapper;
+    private XslOrientedMapper xslOrientedMapper;
 
     /**
      *

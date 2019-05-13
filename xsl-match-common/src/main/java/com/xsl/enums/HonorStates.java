@@ -8,7 +8,7 @@ package com.xsl.enums;
  * @Description:
  */
 public enum HonorStates {
-    NORMAL(1,"正常"),DELETE(0,"已删除"),UNAUDITED(2,"未审核"),AUDIT_FAILED(3,"审核为通过");
+    NORMAL(1,"正常"),DELETE(0,"已删除"),UNAUDITED(2,"未审核"),AUDIT_FAILED(3,"审核未通过");
 
     private Integer code;
     private String msg;

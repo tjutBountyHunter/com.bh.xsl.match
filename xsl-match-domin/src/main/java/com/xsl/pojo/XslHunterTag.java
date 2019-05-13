@@ -1,8 +1,9 @@
 package com.xsl.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class XslHunterTag {
+public class XslHunterTag implements Serializable {
     private Integer id;
 
     private String hunterid;
@@ -51,5 +52,28 @@ public class XslHunterTag {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null){
+            return false;
+        }
+        if (obj == this){
+            return true;
+        }
+        if (!(obj instanceof XslHunterTag)){
+            return false;
+        }
+        XslHunterTag xslTaskTag = (XslHunterTag) obj;
+        if (this.getTagid().equals(xslTaskTag.getTagid()) && this.getHunterid().equals(xslTaskTag.getHunterid())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getTagid().hashCode();
     }
 }

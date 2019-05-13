@@ -28,15 +28,17 @@ public class InitService {
     private static final Logger LOGGER = LoggerFactory.getLogger(InitService.class);
 
     @Autowired
-    XslMatchMapper xslMatchMapper;
+    private XslMatchMapper xslMatchMapper;
     @Autowired
-    XslSchoolMapper xslSchoolMapper;
+    private XslSchoolMapper xslSchoolMapper;
     @Autowired
-    BufferService bufferService;
+    private BufferService bufferService;
     @Autowired
-    XslTaskTagMapper xslTaskTagMapper;
+    private XslTaskTagMapper xslTaskTagMapper;
     @Autowired
-    XslHunterTagMapper xslHunterTagMapper;
+    private XslHunterTagMapper xslHunterTagMapper;
+    @Autowired
+    private XslTagMapper xslTagMapper;
 
     @Value("${MATCH_INFO}")
     private String MATCH_INFO;
@@ -52,12 +54,19 @@ public class InitService {
     private String HUNTER_TAG_BUFFER;
     @Value("${POSITION_TAG_BUFFER}")
     private String POSITION_TAG_BUFFER;
+    @Value("${TAG_BUFFER}")
+    private String TAG_BUFFER;
+    @Value("${TAG_BUFFER_LIST}")
+    private String TAG_BUFFER_LIST;
+    @Value("${MATCH_TAG_PREFIX}")
+    private String MATCH_TAG_PREFIX;
 
     public void init(){
         addMatchToInfo();
         addSchoolToBuffer();
         addPositionTag();
         addHunterTag();
+        addTag();
     }
 
     /** 添加比赛信息到缓存 */
@@ -150,6 +159,7 @@ public class InitService {
             xslHunterTagExample.createCriteria().andStateEqualTo(true);
             List<XslHunterTag> xslHunterTags = xslHunterTagMapper.selectByExample(xslHunterTagExample);
             HashMap<String,ArrayList<XslHunterTag>> map =  new HashMap<>();
+            //根据hunterID分组
             for (XslHunterTag xslHunterTag : xslHunterTags){
                 if (map.containsKey(xslHunterTag.getHunterid())){
                     map.get(xslHunterTag.getHunterid()).add(xslHunterTag);
@@ -167,5 +177,18 @@ public class InitService {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+    /** 添加标签缓存 */
+    public void addTag(){
+        XslTagExample xslTagExample = new XslTagExample();
+        xslTagExample.createCriteria().andTagidLike(MATCH_TAG_PREFIX + "%").andStateEqualTo(true);
+        List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
+        String json = JsonUtils.objectToJson(xslTags);
+        JedisUtils.set(TAG_BUFFER_LIST,json);
+        for (XslTag xslTag : xslTags){
+            String str = JsonUtils.objectToJson(xslTag);
+            JedisUtils.set(TAG_BUFFER + ":" + xslTag.getTagid(),str);
+        }
+        LOGGER.info("添加标签缓存成功");
     }
 }

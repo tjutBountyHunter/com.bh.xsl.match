@@ -43,4 +43,12 @@ public class MatchArrayUtils {
         return ts;
     }
 
+    /** 判断list是否为空 */
+    public static boolean isNotEmpty(List list){
+        if (list != null && list.size() != 0){
+            return true;
+        }
+        return false;
+    }
+
 }

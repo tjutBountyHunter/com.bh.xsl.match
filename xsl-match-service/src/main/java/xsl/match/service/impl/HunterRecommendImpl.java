@@ -30,25 +30,25 @@ public class HunterRecommendImpl implements HunterRecommend {
     private static final Logger LOGGER = LoggerFactory.getLogger(HunterRecommendImpl.class);
 
     @Autowired
-    XslPositionTagService xslPositionTagService;
+    private XslPositionTagService xslPositionTagService;
 
     @Autowired
-    XslHunterTagMapper xslHunterTagMapper;
+    private XslHunterTagMapper xslHunterTagMapper;
 
     @Autowired
-    XslMatchUserMapper xslMatchUserMapper;
+    private XslMatchUserMapper xslMatchUserMapper;
 
     @Autowired
-    XslPositionService xslPositionService;
+    private XslPositionService xslPositionService;
 
     @Autowired
-    XslMatchTeamService xslMatchTeamService;
+    private XslMatchTeamService xslMatchTeamService;
 
     @Autowired
-    XslMatchUserService xslMatchUserService;
+    private XslMatchUserService xslMatchUserService;
 
     @Autowired
-    XslMatchService xslMatchService;
+    private XslMatchService xslMatchService;
 
     private String taskId;
 

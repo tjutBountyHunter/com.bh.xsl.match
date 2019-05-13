@@ -16,6 +16,9 @@ public class IdUtils {
     public static String getUuid(String prefix){
         return prefix + UUID.randomUUID().toString();
     }
+    public static String getUuid(){
+        return getUuid("");
+    }
 
     /**
      * 图片名生成

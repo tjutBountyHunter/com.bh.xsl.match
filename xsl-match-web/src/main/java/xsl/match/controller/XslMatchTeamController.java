@@ -26,7 +26,7 @@ import java.util.List;
 public class XslMatchTeamController {
 
     @Autowired
-    XslMatchTeamService xslMatchTeamService;
+    private XslMatchTeamService xslMatchTeamService;
 
     @RequestMapping("/add")
     @ResponseBody

@@ -54,13 +54,13 @@ public class XslMatchServiceImpl implements XslMatchService {
     private static final String MATCH_STATE_INFO = "matchStateInfo";
 
     @Autowired
-    XslMatchMapper xslMatchMapper;
+    private XslMatchMapper xslMatchMapper;
     @Autowired
-    XslMatchTypeService xslMatchTypeService;
+    private XslMatchTypeService xslMatchTypeService;
     @Autowired
-    XslMatchRankService xslMatchRankService;
+    private XslMatchRankService xslMatchRankService;
     @Autowired
-    XslOrientedService xslOrientedService;
+    private XslOrientedService xslOrientedService;
 
     @Value("${MATCH_INFO}")
     private String MATCH_INFO;

@@ -1,5 +1,6 @@
 package xsl.match.service;
 
+import com.xsl.pojo.Vo.PositionTagResVo;
 import com.xsl.pojo.XslTaskTag;
 import com.xsl.result.XslResult;
 
@@ -19,6 +20,8 @@ public interface XslPositionTagService {
     XslResult removePositionTag(String positionId ,String tagId)throws RuntimeException;
     /** 查询职位的所有使用中标签 */
     List<XslTaskTag> getAllTagByPositionId(String positionId)throws RuntimeException;
+    /** 查询职位的所有使用中标签 + 标签名 */
+    List<PositionTagResVo> getAllTagInfoByPositionId(String positionId)throws RuntimeException;
     /** 查询所有持有某标签的职位 */
     List<XslTaskTag> getAllPositionByTagId(String tagId)throws RuntimeException;
 }

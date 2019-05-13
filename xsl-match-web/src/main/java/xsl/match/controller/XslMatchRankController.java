@@ -28,7 +28,7 @@ import java.util.List;
 public class XslMatchRankController {
 
     @Autowired
-    XslMatchRankService xslMatchRankService;
+    private XslMatchRankService xslMatchRankService;
 
     @RequestMapping("/selectAll/page")
     @ResponseBody

@@ -25,9 +25,9 @@ import java.util.List;
  */
 @Aspect
 @Component
-public class updatePositionTagBuffer {
+public class UpdatePositionTagBuffer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(updatePositionTagBuffer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdatePositionTagBuffer.class);
 
     @Autowired
     XslTaskTagMapper xslTaskTagMapper;
