@@ -2,8 +2,10 @@ package xsl.match.advice;
 
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
+import com.xsl.Utils.ResultUtils;
 import com.xsl.pojo.Example.XslHunterTagExample;
 import com.xsl.pojo.XslHunterTag;
+import com.xsl.result.XslResult;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -30,9 +32,12 @@ public class UpdateHunterTagBuffer {
     @Autowired
     private XslHunterTagMapper xslHunterTagMapper;
 
-    @AfterReturning("@annotation(com.xsl.annotation.UpdateHunterTag)")
-    public void updateBuffer(JoinPoint joinPoint){
+    @AfterReturning(pointcut = "@annotation(com.xsl.annotation.UpdateHunterTag)",returning = "xslResult" )
+    public void updateBuffer(JoinPoint joinPoint, XslResult xslResult){
         try {
+            if (!ResultUtils.isSuccess(xslResult)){
+                return;
+            }
             Object[] args = joinPoint.getArgs();
             String hunterId = args[0].toString();
             XslHunterTagExample xslTaskTagExample = new XslHunterTagExample();
