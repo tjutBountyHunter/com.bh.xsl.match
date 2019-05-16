@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Aspect
 @Component
-public class UpdateHunterTagBuffer {
+public class UpdateHunterTagBuffer_1 {
 
     @Value("${HUNTER_TAG_BUFFER}")
     private String HUNTER_TAG_BUFFER;
