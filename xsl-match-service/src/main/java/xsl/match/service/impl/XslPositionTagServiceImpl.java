@@ -3,12 +3,14 @@ package xsl.match.service.impl;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.ResultUtils;
+import com.xsl.annotation.UpdatePosition;
 import com.xsl.annotation.UpdatePositionTag;
 import com.xsl.pojo.Example.XslTaskTagExample;
 import com.xsl.pojo.Vo.PositionTagResVo;
 import com.xsl.pojo.XslTag;
 import com.xsl.pojo.XslTaskTag;
 import com.xsl.result.XslResult;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -44,7 +46,6 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
     private Integer POSITION_TAG_MAX_NUM;
 
     @Override
-    @UpdatePositionTag
     public XslResult addPositionTag(String positionId, String tagId) throws RuntimeException {
         /**
          *
@@ -58,7 +59,7 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
         try {
 //            List<XslTaskTag> allTagByPositionId = getAllTagByPositionId(positionId);
 //            if (allTagByPositionId.size() >= POSITION_TAG_MAX_NUM){
-//                return ResultUtils.isParameterError("已达可添加标签上限");
+//                return ResultUtils.parameterError("已达可添加标签上限");
 //            }
             XslTaskTag xslTaskTag = new XslTaskTag();
             xslTaskTag.setTaskid(positionId);
@@ -66,16 +67,15 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
             xslTaskTag.setState(true);
             int i = xslTaskTagMapper.insertSelective(xslTaskTag);
             if (i <= 0){
-                return ResultUtils.isError("添加职位标签失败");
+                return ResultUtils.error("添加职位标签失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    @UpdatePositionTag
     public XslResult removePositionTag(String positionId, String tagId) throws RuntimeException {
         /**
          *
@@ -93,12 +93,20 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
             xslTaskTag.setState(false);
             int i = xslTaskTagMapper.updateByExampleSelective(xslTaskTag, xslTaskTagExample);
             if (i <= 0){
-                return ResultUtils.isError("删除职位标签失败");
+                return ResultUtils.error("删除职位标签失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    @Override
+    public XslResult addPositionTags(String positionId, List<String> tagIds) throws RuntimeException {
+        for (int j = 0; j < POSITION_TAG_MAX_NUM && j < tagIds.size(); j++) {
+            addPositionTag(positionId, tagIds.get(j));
+        }
+        return ResultUtils.ok();
     }
 
     @Override
@@ -114,6 +122,9 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
          */
         try {
             String json = JedisUtils.get(POSITION_TAG_BUFFER + ":" + positionId);
+            if (StringUtils.isBlank(json)){
+                return new ArrayList<XslTaskTag>();
+            }
             List<XslTaskTag> xslTaskTags = JsonUtils.jsonToList(json, XslTaskTag.class);
             return (xslTaskTags);
         } catch (Exception e) {
@@ -140,6 +151,7 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
                 tagResVo = new PositionTagResVo();
                 BeanUtils.copyProperties(xslTaskTag,tagResVo);
                 String json = JedisUtils.get(TAG_BUFFER + ":" + xslTaskTag.getTagid());
+                if (StringUtils.isBlank(json)){continue;}
                 XslTag xslTag = JsonUtils.jsonToPojo(json, XslTag.class);
                 BeanUtils.copyProperties(xslTag,tagResVo);
                 positionTagResVos.add(tagResVo);
@@ -167,6 +179,47 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
             List<XslTaskTag> xslTaskTags = xslTaskTagMapper.selectByExample(xslTaskTagExample);
             return (xslTaskTags);
         } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    @UpdatePosition
+    @UpdatePositionTag
+    public XslResult updateTags(String positionId, List<String> tagIds) throws RuntimeException {
+        try {
+            tagIds = tagIds.subList(0, tagIds.size() < POSITION_TAG_MAX_NUM ? tagIds.size() : POSITION_TAG_MAX_NUM);
+            ArrayList<XslTaskTag> list = new ArrayList<>();
+            for (String tagId : tagIds){
+                XslTaskTag xslTaskTag = new XslTaskTag();
+                xslTaskTag.setTagid(tagId);
+                xslTaskTag.setTaskid(positionId);
+                list.add(xslTaskTag);
+            }
+            String json = JedisUtils.get(POSITION_TAG_BUFFER + ":" + positionId);
+            //过滤已存在标签
+            List<XslTaskTag> xslTaskTags = null;
+            if (StringUtils.isNotBlank(json)){
+                xslTaskTags = JsonUtils.jsonToList(json, XslTaskTag.class);
+                int size = xslTaskTags.size();
+                for (int x = 0; x < size;x ++){
+                    int i = list.indexOf(xslTaskTags.get(x));
+                    if (i != -1){
+                        list.remove(i);
+                        xslTaskTags.remove(xslTaskTags.get(x));
+                    }
+                }
+                //删除不在使用的标签
+                for (XslTaskTag xslTaskTag : xslTaskTags){
+                    XslResult xslResult = removePositionTag(positionId, xslTaskTag.getTagid());
+                }
+            }
+            //添加增标签
+            for (XslTaskTag xslTaskTag : list){
+                XslResult xslResult = addPositionTag(positionId, xslTaskTag.getTagid());
+            }
+            return ResultUtils.ok();
+        } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }

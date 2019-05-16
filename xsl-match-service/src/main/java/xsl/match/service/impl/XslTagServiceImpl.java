@@ -45,7 +45,7 @@ public class XslTagServiceImpl implements XslTagService {
     public XslResult addTag(String tagName) throws RuntimeException {
         XslTag xslTag = checkTagByName(tagName);
         if (StringUtils.isNotBlank(xslTag.getTagid())){
-            return ResultUtils.isOk(xslTag);
+            return ResultUtils.ok(xslTag);
         }
         String uuid = IdUtils.getUuid(MATCH_TAG_PREFIX);
         xslTag.setTagid(uuid);
@@ -54,9 +54,9 @@ public class XslTagServiceImpl implements XslTagService {
         xslTag.setUsenum((short)1);
         int i = xslTagMapper.insertSelective(xslTag);
         if (i <= 0){
-            return ResultUtils.isError("添加标签失败");
+            return ResultUtils.error("添加标签失败");
         }
-        return ResultUtils.isOk(xslTag);
+        return ResultUtils.ok(xslTag);
     }
 
     @Override
@@ -78,9 +78,9 @@ public class XslTagServiceImpl implements XslTagService {
             xslTag.setState(false);
             int i = xslTagMapper.updateByExampleSelective(xslTag, xslTagExample);
             if(i <= 0){
-                return ResultUtils.isError("删除失败");
+                return ResultUtils.error("删除失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

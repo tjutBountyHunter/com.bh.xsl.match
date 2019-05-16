@@ -6,6 +6,7 @@
     <result column="memberId" jdbcType="VARCHAR" property="memberid" />
     <result column="hunterId" jdbcType="VARCHAR" property="hunterid" />
     <result column="positionId" jdbcType="VARCHAR" property="positionid" />
+    <result column="teamid" jdbcType="VARCHAR" property="teamid" />
     <result column="memberState" jdbcType="INTEGER" property="memberstate" />
     <result column="memberJoinTime" jdbcType="TIMESTAMP" property="memberjointime" />
   </resultMap>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Id, memberId, hunterId, positionId, memberState, memberJoinTime
+    Id, memberId, hunterId, positionId, teamid, memberState, memberJoinTime
   </sql>
   <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslTeamMemberExample" resultMap="BaseResultMap">
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.xsl.pojo.XslTeamMember">
     insert into xsl_team_member (Id, memberId, hunterId, 
-      positionId, memberState, memberJoinTime
-      )
+      positionId, teamid, memberState, 
+      memberJoinTime)
     values (#{id,jdbcType=INTEGER}, #{memberid,jdbcType=VARCHAR}, #{hunterid,jdbcType=VARCHAR}, 
-      #{positionid,jdbcType=VARCHAR}, #{memberstate,jdbcType=INTEGER}, #{memberjointime,jdbcType=TIMESTAMP}
-      )
+      #{positionid,jdbcType=VARCHAR}, #{teamid,jdbcType=VARCHAR}, #{memberstate,jdbcType=INTEGER}, 
+      #{memberjointime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xsl.pojo.XslTeamMember">
     insert into xsl_team_member
@@ -122,6 +123,9 @@
       </if>
       <if test="positionid != null">
         positionId,
+      </if>
+      <if test="teamid != null">
+        teamid,
       </if>
       <if test="memberstate != null">
         memberState,
@@ -142,6 +146,9 @@
       </if>
       <if test="positionid != null">
         #{positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamid != null">
+        #{teamid,jdbcType=VARCHAR},
       </if>
       <if test="memberstate != null">
         #{memberstate,jdbcType=INTEGER},
@@ -172,6 +179,9 @@
       <if test="record.positionid != null">
         positionId = #{record.positionid,jdbcType=VARCHAR},
       </if>
+      <if test="record.teamid != null">
+        teamid = #{record.teamid,jdbcType=VARCHAR},
+      </if>
       <if test="record.memberstate != null">
         memberState = #{record.memberstate,jdbcType=INTEGER},
       </if>
@@ -189,6 +199,7 @@
       memberId = #{record.memberid,jdbcType=VARCHAR},
       hunterId = #{record.hunterid,jdbcType=VARCHAR},
       positionId = #{record.positionid,jdbcType=VARCHAR},
+      teamid = #{record.teamid,jdbcType=VARCHAR},
       memberState = #{record.memberstate,jdbcType=INTEGER},
       memberJoinTime = #{record.memberjointime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -207,6 +218,9 @@
       <if test="positionid != null">
         positionId = #{positionid,jdbcType=VARCHAR},
       </if>
+      <if test="teamid != null">
+        teamid = #{teamid,jdbcType=VARCHAR},
+      </if>
       <if test="memberstate != null">
         memberState = #{memberstate,jdbcType=INTEGER},
       </if>
@@ -221,6 +235,7 @@
     set memberId = #{memberid,jdbcType=VARCHAR},
       hunterId = #{hunterid,jdbcType=VARCHAR},
       positionId = #{positionid,jdbcType=VARCHAR},
+      teamid = #{teamid,jdbcType=VARCHAR},
       memberState = #{memberstate,jdbcType=INTEGER},
       memberJoinTime = #{memberjointime,jdbcType=TIMESTAMP}
     where Id = #{id,jdbcType=INTEGER}

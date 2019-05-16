@@ -17,7 +17,7 @@ import java.util.List;
 public interface XslMatchUserService {
 
     /** 更新用户补充信息 */
-    XslResult updateMatchUserInfo(XslMatchUser xslMatchUser)throws RuntimeException;
+    XslResult updateMatchUserInfo(String hunterId,XslMatchUser xslMatchUser)throws RuntimeException;
     /** 添加用户补充信息 */
     XslResult addMatchUserInfo(XslMatchUser xslMatchUser)throws RuntimeException;
     /** 根据userId查询用户补充信息 */

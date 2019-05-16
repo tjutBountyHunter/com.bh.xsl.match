@@ -35,6 +35,8 @@ public class UserResVo implements Serializable{
 
 	private String signature;
 
+	private String teamId;
+
 	public String getUserid() {
 		return userid;
 	}
@@ -161,5 +163,13 @@ public class UserResVo implements Serializable{
 
 	public void setSchoolinfo(String schoolinfo) {
 		this.schoolinfo = schoolinfo;
+	}
+
+	public String getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(String teamId) {
+		this.teamId = teamId;
 	}
 }

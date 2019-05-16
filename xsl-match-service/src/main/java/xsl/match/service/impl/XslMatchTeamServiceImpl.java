@@ -2,20 +2,30 @@ package xsl.match.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.DataStates;
-import com.xsl.enums.TeamStates;
+import com.xsl.enums.DataStatesEnum;
+import com.xsl.enums.MemberStatesEnum;
+import com.xsl.enums.TeamStatesEnum;
 import com.xsl.pojo.Example.XslMatchTeamExample;
 import com.xsl.pojo.XslMatchTeam;
+import com.xsl.pojo.XslTeamMember;
+import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslMatchTeamMapper;
 import xsl.match.service.XslMatchTeamService;
+import xsl.match.service.XslMemberService;
+import xsl.match.service.XslPositionService;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +43,12 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
 
     @Autowired
     private XslMatchTeamMapper xslMatchTeamMapper;
+    @Autowired
+    private XslMemberService xslMemberService;
+    @Autowired
+    private XslPositionService xslPositionService;
+    @Value("${TEAM_DEFAULT_SYNOPSIS}")
+    private String TEAM_DEFAULT_SYNOPSIS;
 
     @Override
     public XslResult addATeam(XslMatchTeam xslMatchTeam) throws RuntimeException {
@@ -45,23 +61,50 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
          * @auther: 11432_000
          * @date: 2019/4/27 17:41
          */
-        //生成比赛ID
+        XslMatchTeam currentTeamByCreater = getCurrentTeamByCreater(xslMatchTeam.getTeamcreatorid());
+        if (StringUtils.isNotBlank(currentTeamByCreater.getTeamid())){
+            return ResultUtils.repeat(currentTeamByCreater);
+        }
+        //生成ID
         String uuid = UUID.randomUUID().toString();
-        String teamId = "T" + uuid;
+        String teamId = "T:" + uuid;
         xslMatchTeam.setTeamid(teamId);
-        xslMatchTeam.setTeamstate(TeamStates.CREATE_SUCCESS.getCode());
+        xslMatchTeam.setTeamstate(TeamStatesEnum.CREATE_SUCCESS.getCode());
+        if (StringUtils.isBlank(xslMatchTeam.getTeamsynopsis())){
+            xslMatchTeam.setTeamsynopsis(TEAM_DEFAULT_SYNOPSIS);
+        }
         try{
             int insert = xslMatchTeamMapper.insertSelective(xslMatchTeam);
             if (insert <= 0){
                 LOGGER.error("addATeam() 添加数据失败");
-                return ResultUtils.isError("插入失败");
+                return ResultUtils.error("添加失败");
             }
-            return ResultUtils.isOk();
+            //添加队长职位
+            String positionId = addCaptain(teamId);
+            if (StringUtils.isNotBlank(positionId)){
+                addMember(positionId,teamId,xslMatchTeam.getTeamcreatorid());
+            }
+            return ResultUtils.ok(teamId);
         }catch (Exception e){
-            throw new RuntimeException("添加比赛信息异常:"+ e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
+    /** 添加队长职位 返回职位ID */
+    public String addCaptain(String teamId){
+        XslTeamPosition xslTeamPosition = new XslTeamPosition();
+        xslTeamPosition.setPositionname("队长");
+        xslTeamPosition.setTeamid(teamId);
+        XslResult xslResult = xslPositionService.addPosition(xslTeamPosition);
+        if (ResultUtils.isSuccess(xslResult)){
+            return (String) xslResult.getData();
+        }
+        return null;
+    }
+    /** 添加到成员 */
+    public void addMember(String positionId,String teamId,String hunterId){
+        XslResult xslResult = xslMemberService.addMember(positionId, hunterId, teamId);
+    }
     @Override
     public List<XslMatchTeam> getTeamList() throws RuntimeException {
         /**
@@ -76,7 +119,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
         try {
             XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
             XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
-            criteria.andTeamstateNotEqualTo(DataStates.DELETE.getCode());
+            criteria.andTeamstateNotEqualTo(DataStatesEnum.DELETE.getCode());
 
             List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
             return xslMatchTeams;
@@ -98,7 +141,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
         PageHelper.startPage(page,rows);
         try {
             XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
-            xslMatchTeamExample.createCriteria().andTeamstateNotEqualTo(DataStates.DELETE.getCode());
+            xslMatchTeamExample.createCriteria().andTeamstateNotEqualTo(DataStatesEnum.DELETE.getCode());
             List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
             EasyUIDataGridResult result =  new EasyUIDataGridResult();
             result.setRows(xslMatchTeams);
@@ -131,9 +174,9 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             int i = xslMatchTeamMapper.updateByExampleSelective(xslMatchTeam,xslMatchTeamExample);
             if (i <= 0){
                 LOGGER.error("updateATeamInfo 更新数据失败");
-                return ResultUtils.isParameterError();
+                return ResultUtils.parameterError();
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("更新比赛信息异常:"  + e.getMessage());
         }
@@ -151,16 +194,16 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
          */
         if (teamIds == null){
             LOGGER.info("更新队伍状态 teamIds 为null");
-            return ResultUtils.isParameterError();
+            return ResultUtils.parameterError();
         }
         try {
             for (String teamId : teamIds){
-                XslResult result = updateTeamState(teamId, TeamStates.DELETE.getCode());
+                XslResult result = updateTeamState(teamId, TeamStatesEnum.DELETE.getCode());
                 if (!ResultUtils.isSuccess(result)){
                     LOGGER.error("deleteTeamInfoByIds删除数据失败 " + teamId );
                 }
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -186,9 +229,9 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             int i = xslMatchTeamMapper.updateByExampleSelective(xslMatchTeam,xslMatchTeamExample);
             if (i <= 0){
                 LOGGER.error("updateTeamState 失败");
-                return ResultUtils.isError();
+                return ResultUtils.error();
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -216,7 +259,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
     }
 
     @Override
-    public XslMatchTeam selectTeamByTeamId(String teamId) throws RuntimeException {
+    public XslMatchTeam getCurrentTeamByTeamId(String teamId) throws RuntimeException {
         /**
          *
          * 功能描述: 根据队伍Id 获取队伍信息
@@ -226,14 +269,32 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
          * @auther: 11432_000
          * @date: 2019/5/4 9:12
          */
+        return getTeam(null,teamId,TeamStatesEnum.CREATE_SUCCESS.getCode(),TeamStatesEnum.RECRUIT.getCode(),TeamStatesEnum.NOT_RECRUIT.getCode(),
+                TeamStatesEnum.FINISH.getCode());
+    }
+
+    @Override
+    public XslMatchTeam getCurrentTeamByCreater(String hunterId) throws RuntimeException {
+        return getTeam(hunterId,null,TeamStatesEnum.CREATE_SUCCESS.getCode(),TeamStatesEnum.RECRUIT.getCode(),TeamStatesEnum.NOT_RECRUIT.getCode(),
+                TeamStatesEnum.FINISH.getCode());
+    }
+
+    public XslMatchTeam getTeam(String hunterId,String teamId,Integer... state) throws RuntimeException {
         try {
             XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
             XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
-            criteria.andTeamidEqualTo(teamId);
-
+            if (StringUtils.isNotBlank(hunterId)){
+                criteria.andTeamcreatoridEqualTo(hunterId);
+            }
+            if (StringUtils.isNotBlank(teamId)){
+                criteria.andTeamidEqualTo(teamId);
+            }
+            if (state != null && state.length > 0){
+                criteria.andTeamstateIn(Arrays.asList(state));
+            }
             List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
-            if (xslMatchTeams == null || xslMatchTeams.size() == 0){
-                throw new RuntimeException("队伍不存在");
+            if (xslMatchTeams.size() == 0){
+                return new XslMatchTeam();
             }
             return xslMatchTeams.get(0);
         } catch (Exception e) {

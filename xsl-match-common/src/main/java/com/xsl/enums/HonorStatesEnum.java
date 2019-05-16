@@ -7,13 +7,13 @@ package com.xsl.enums;
  * @Date: 2019/5/1 18:07
  * @Description:
  */
-public enum HonorStates {
+public enum HonorStatesEnum {
     NORMAL(1,"正常"),DELETE(0,"已删除"),UNAUDITED(2,"未审核"),AUDIT_FAILED(3,"审核未通过");
 
     private Integer code;
     private String msg;
 
-    HonorStates(Integer code, String msg) {
+    HonorStatesEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

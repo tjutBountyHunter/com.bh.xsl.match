@@ -7,14 +7,14 @@ package com.xsl.enums;
  * @Date: 2019/4/22 11:34
  * @Description:
  */
-public enum  MatchState {
+public enum MatchStateEnum {
     BEFORE_SIGN_UP(1,"报名未开始"),SIGN_UP(2,"报名进行中"),SIGN_UP_END(3,"报名截止"),MATCH_START(4,"比赛进行中"),MATCH_REVIEW(5,"评审进行中"),MATCH_END(6,"比赛结束"),
     DELETE(0,"比赛禁用");
 
     private Integer key;
     private String message;
 
-    MatchState(Integer key, String message) {
+    MatchStateEnum(Integer key, String message) {
         this.key = key;
         this.message = message;
     }
@@ -28,9 +28,9 @@ public enum  MatchState {
     }
 
     /** 根据key获取相应的枚举 */
-    public static MatchState getEnumByKey(Integer key){
-        MatchState[] values = MatchState.values();
-        for (MatchState matchState : values){
+    public static MatchStateEnum getEnumByKey(Integer key){
+        MatchStateEnum[] values = MatchStateEnum.values();
+        for (MatchStateEnum matchState : values){
             if (matchState.key.equals(key)){
                 return matchState;
             }

@@ -4,9 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.DataStates;
+import com.xsl.enums.DataStatesEnum;
 import com.xsl.pojo.Example.XslMatchTypeExample;
-import com.xsl.pojo.XslMatchRank;
 import com.xsl.pojo.XslMatchType;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
@@ -49,7 +48,7 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
         try {
             XslMatchTypeExample xslMatchTypeExample = new XslMatchTypeExample();
             XslMatchTypeExample.Criteria criteria = xslMatchTypeExample.createCriteria();
-            criteria.andMatchtypestateNotEqualTo(DataStates.DELETE.getCode());
+            criteria.andMatchtypestateNotEqualTo(DataStatesEnum.DELETE.getCode());
             List<XslMatchType> xslMatchTypes = xslMatchTypeMapper.selectByExample(xslMatchTypeExample);
 
             EasyUIDataGridResult result = new EasyUIDataGridResult();
@@ -77,7 +76,7 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
         try {
             XslMatchTypeExample xslMatchTypeExample = new XslMatchTypeExample();
             XslMatchTypeExample.Criteria criteria = xslMatchTypeExample.createCriteria();
-            criteria.andMatchtypestateNotEqualTo(DataStates.DELETE.getCode());
+            criteria.andMatchtypestateNotEqualTo(DataStatesEnum.DELETE.getCode());
             List<XslMatchType> xslMatchTypes = xslMatchTypeMapper.selectByExample(xslMatchTypeExample);
             return xslMatchTypes;
         }catch (Exception e){
@@ -127,9 +126,9 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             int i = xslMatchTypeMapper.updateByExampleSelective(xslMatchType,xslMatchTypeExample);
             if (i <= 0){
                 LOGGER.error("updateMatchType 更新比赛类型信息失败");
-                return ResultUtils.isError();
+                return ResultUtils.error();
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("修改比赛类型信息异常:"+ e.getMessage());
         }
@@ -147,14 +146,14 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
          */
         String uuid = IdUtils.getUuid("MT");
         xslMatchType.setMatchtypeid(uuid);
-        xslMatchType.setMatchtypestate(DataStates.NORMAL.getCode());
+        xslMatchType.setMatchtypestate(DataStatesEnum.NORMAL.getCode());
         try{
             int insert = xslMatchTypeMapper.insertSelective(xslMatchType);
             if (insert <= 0){
                 LOGGER.error("addMatchType 添加比赛类型 失败");
-                return ResultUtils.isError("添加比赛类型失败");
+                return ResultUtils.error("添加比赛类型失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("添加比赛类型异常:" + e.getMessage());
         }
@@ -171,7 +170,7 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
          * @date: 2019/4/27 9:51
          */
         if (matchTypeIds == null){
-            return ResultUtils.isParameterError("deleteMatchRanks() 参数为null");
+            return ResultUtils.parameterError("deleteMatchRanks() 参数为null");
         }
         try {
             XslMatchType xslMatchType = new XslMatchType();
@@ -179,13 +178,13 @@ public class XslMatchTypeServiceImpl implements XslMatchTypeService {
             XslMatchTypeExample.Criteria criteria = xslMatchTypeExample.createCriteria();
             criteria.andMatchtypeidIn(matchTypeIds);
 
-            xslMatchType.setMatchtypestate(DataStates.DELETE.getCode());
+            xslMatchType.setMatchtypestate(DataStatesEnum.DELETE.getCode());
             int i = xslMatchTypeMapper.updateByExampleSelective(xslMatchType,xslMatchTypeExample);
             if (i <= 0){
                 LOGGER.error("deleteMatchRanks() 删除数据失败");
-                return ResultUtils.isError("deleteMatchRanks() 删除数据失败");
+                return ResultUtils.error("deleteMatchRanks() 删除数据失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("比赛类型删除异常：" + e.getMessage());
         }

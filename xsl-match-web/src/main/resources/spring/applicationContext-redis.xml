@@ -6,13 +6,6 @@
 	<bean class="com.xsl.Utils.JedisUtils" id="jedisUtils">
 		<property name="jedisPool" ref="jedisPool"/>
 	</bean>
-	<bean id="jedisPool" class="xsl.match.MyJedisPool">
-		<constructor-arg name="host" value="39.108.211.37"></constructor-arg>
-		<constructor-arg name="port" value="8379"></constructor-arg>
-		<constructor-arg name="timeout" value="20000"></constructor-arg>
-		<constructor-arg name="database" value="1"></constructor-arg>
-		<constructor-arg name="jedisPoolConfig" ref="jedisPoolConfig"></constructor-arg>
-	</bean>
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<!-- 最大活动数 -->
 		<property name="maxTotal" value="1000"/>
@@ -32,6 +25,13 @@
 		<property name="numTestsPerEvictionRun" value="50"/>
 		<!--“空闲链接”检测线程，检测的周期，毫秒数。如果为负值，表示不运行“检测线程”。默认为-1. -->
 		<!--<property name="timeBetweenEvictionRunsMillis" value="30000"/>-->
+	</bean>
+	<bean id="jedisPool" class="xsl.match.MyJedisPool">
+		<constructor-arg name="host" value="39.108.211.37"></constructor-arg>
+		<constructor-arg name="port" value="8379"></constructor-arg>
+		<constructor-arg name="timeout" value="20000"></constructor-arg>
+		<constructor-arg name="database" value="1"></constructor-arg>
+		<constructor-arg name="jedisPoolConfig" ref="jedisPoolConfig"></constructor-arg>
 	</bean>
 <!-- 连接redis -->
 	 <!--单机版  需要jedisPool对象-->

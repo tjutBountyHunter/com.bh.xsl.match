@@ -2,7 +2,7 @@ package xsl.match.service.impl;
 
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.HonorStates;
+import com.xsl.enums.HonorStatesEnum;
 import com.xsl.pojo.Example.XslMatchHonorExample;
 import com.xsl.pojo.XslMatchHonor;
 import com.xsl.result.XslResult;
@@ -40,12 +40,12 @@ public class XslHonorServiceImpl implements XslHonorService{
          */
         try {
             xslMatchHonor.setHonorid(IdUtils.getUuid(""));
-            xslMatchHonor.setHonorstate(HonorStates.UNAUDITED.getCode());
+            xslMatchHonor.setHonorstate(HonorStatesEnum.UNAUDITED.getCode());
             int i = xslMatchHonorMapper.insertSelective(xslMatchHonor);
             if (i <= 0){
-                return ResultUtils.isError("添加荣誉失败");
+                return ResultUtils.error("添加荣誉失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -66,12 +66,12 @@ public class XslHonorServiceImpl implements XslHonorService{
             XslMatchHonorExample xslMatchHonorExample = new XslMatchHonorExample();
             xslMatchHonorExample.createCriteria().andHonoridEqualTo(honorId);
             XslMatchHonor xslMatchHonor =  new XslMatchHonor();
-            xslMatchHonor.setHonorstate(HonorStates.DELETE.getCode());
+            xslMatchHonor.setHonorstate(HonorStatesEnum.DELETE.getCode());
             int i = xslMatchHonorMapper.updateByExampleSelective(xslMatchHonor, xslMatchHonorExample);
             if (i <= 0){
-                return ResultUtils.isError("删除荣誉失败");
+                return ResultUtils.error("删除荣誉失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -93,12 +93,12 @@ public class XslHonorServiceImpl implements XslHonorService{
             xslMatchHonorExample.createCriteria().andHonoridEqualTo(xslMatchHonor.getHonorid());
             xslMatchHonor.setHonorid(null);
             xslMatchHonor.setHunterid(null);
-            xslMatchHonor.setHonorstate(HonorStates.UNAUDITED.getCode());
+            xslMatchHonor.setHonorstate(HonorStatesEnum.UNAUDITED.getCode());
             int i = xslMatchHonorMapper.updateByExampleSelective(xslMatchHonor, xslMatchHonorExample);
             if (i <= 0){
-                return ResultUtils.isError("更新荣誉失败");
+                return ResultUtils.error("更新荣誉失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -122,9 +122,9 @@ public class XslHonorServiceImpl implements XslHonorService{
             updateHonor.setHonorstate(xslMatchHonor.getHonorstate());
             int i = xslMatchHonorMapper.updateByExampleSelective(updateHonor, xslMatchHonorExample);
             if (i <= 0){
-                return ResultUtils.isError("更新荣誉失败");
+                return ResultUtils.error("更新荣誉失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -172,7 +172,7 @@ public class XslHonorServiceImpl implements XslHonorService{
             if (state != null){
                 criteria.andHonorstateIn(Arrays.asList(state));
             }
-            criteria.andHonorstateNotEqualTo(HonorStates.DELETE.getCode());
+            criteria.andHonorstateNotEqualTo(HonorStatesEnum.DELETE.getCode());
             List<XslMatchHonor> xslMatchHonors = xslMatchHonorMapper.selectByExample(xslMatchHonorExample);
             return xslMatchHonors;
         } catch (Exception e) {

@@ -4,15 +4,16 @@ import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.DataStates;
-import com.xsl.enums.PositionStates;
-import com.xsl.enums.PositonApplicationStates;
+import com.xsl.annotation.UpdatePosition;
+import com.xsl.enums.DataStatesEnum;
+import com.xsl.enums.PositionStatesEnum;
+import com.xsl.enums.PositionApplicationStatesEnum;
 import com.xsl.pojo.Example.XslTeamPositionExample;
-import com.xsl.pojo.Vo.PositionUpdateReqVo;
 import com.xsl.pojo.Vo.PositionDetailsResVo;
 import com.xsl.pojo.Vo.PositionTagResVo;
 import com.xsl.pojo.XslMatchTeam;
 import com.xsl.pojo.XslTaskTag;
+import com.xsl.pojo.XslTeamMember;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.XslResult;
 import org.apache.commons.lang3.StringUtils;
@@ -21,12 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslTeamPositionMapper;
-import xsl.match.service.XslMatchTeamService;
-import xsl.match.service.XslPositionApplicationService;
-import xsl.match.service.XslPositionService;
-import xsl.match.service.XslPositionTagService;
+import xsl.match.service.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,8 +41,6 @@ public class XslPositionServiceImpl implements XslPositionService {
     @Autowired
     private XslPositionTagService xslPositionTagService;
     @Autowired
-    private XslMatchTeamService xslMatchTeamService;
-    @Autowired
     private XslPositionApplicationService xslPositionApplicationService;
 
     @Value("${POSITION_DETAILED_INFO}")
@@ -54,6 +49,12 @@ public class XslPositionServiceImpl implements XslPositionService {
     private Integer POSITION_TAG_MAX_NUM;
     @Value("${POSITION_TAG_BUFFER}")
     private String POSITION_TAG_BUFFER;
+    @Value("${POSITION_INFO_LIFETIME}")
+    private Integer POSITION_INFO_LIFETIME;
+    @Value("${TEAM_POSITION_NUM}")
+    private String TEAM_POSITION_NUM;
+    @Value("${MAX_POSITION}")
+    private Integer MAX_POSITION;
 
     @Override
     public List<XslTeamPosition>  getAllPositionByTeamId(String teamId) throws RuntimeException {
@@ -69,7 +70,7 @@ public class XslPositionServiceImpl implements XslPositionService {
         try {
             XslTeamPositionExample xslTeamPositionExample = new XslTeamPositionExample();
             XslTeamPositionExample.Criteria criteria = xslTeamPositionExample.createCriteria();
-            criteria.andTeamidEqualTo(teamId).andPositionstateNotEqualTo(DataStates.DELETE.getCode());
+            criteria.andTeamidEqualTo(teamId).andPositionstateNotEqualTo(DataStatesEnum.DELETE.getCode());
 
             List<XslTeamPosition> teamPositions = xslTeamPositionMapper.selectByExample(xslTeamPositionExample);
             return (teamPositions);
@@ -79,7 +80,7 @@ public class XslPositionServiceImpl implements XslPositionService {
     }
 
     @Override
-    public XslResult addPositionForTeam(PositionUpdateReqVo positionDetailsReqVo) throws RuntimeException {
+    public XslResult addPosition(XslTeamPosition xslTeamPosition) throws RuntimeException {
         /**
          *
          * 功能描述: 添加职位
@@ -90,28 +91,33 @@ public class XslPositionServiceImpl implements XslPositionService {
          * @date: 2019/5/10 17:12
          */
         try {
-            XslTeamPosition xslTeamPosition = new XslTeamPosition();
+            String num = JedisUtils.get(TEAM_POSITION_NUM + ":" + xslTeamPosition.getTeamid());
+            Integer positionNum = 0;
+            if(StringUtils.isNotBlank(num)){
+                positionNum = Integer.valueOf(num);
+            }
+            if (positionNum >= MAX_POSITION){
+                return ResultUtils.parameterError("职位到达上限");
+            }
             String uuid = IdUtils.getUuid();
-            BeanUtils.copyProperties(positionDetailsReqVo,xslTeamPosition);
             xslTeamPosition.setPositionid(uuid);
-            xslTeamPosition.setPositionstate(PositionStates.RECRUITMENT.getCode());
+            xslTeamPosition.setPositionstate(PositionStatesEnum.RECRUITMENT.getCode());
             //添加职位
             int i = xslTeamPositionMapper.insertSelective(xslTeamPosition);
             if (i <= 0){
-                return ResultUtils.isError("添加职位失败");
+                return ResultUtils.error("添加职位失败");
             }
-            //添加职位标签
-            List<String> tagIds = positionDetailsReqVo.getTagIds();
-            for (int j = 0; j < POSITION_TAG_MAX_NUM && j < tagIds.size(); j++) {
-                xslPositionTagService.addPositionTag(uuid, tagIds.get(i));
-            }
-            return ResultUtils.isOk();
+            positionNum ++;
+            JedisUtils.set(TEAM_POSITION_NUM +":"+xslTeamPosition.getTeamid(),positionNum.toString());
+            return ResultUtils.ok(uuid);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
+
     @Override
+    @UpdatePosition
     public XslResult deletePosition(String positionId) throws RuntimeException {
         /**
          *
@@ -127,10 +133,10 @@ public class XslPositionServiceImpl implements XslPositionService {
             XslTeamPositionExample xslTeamPositionExample =  new XslTeamPositionExample();
             xslTeamPositionExample.createCriteria().andPositionidEqualTo(positionId);
             XslTeamPosition xslTeamPosition = new XslTeamPosition();
-            xslTeamPosition.setPositionstate(PositionStates.DELETE.getCode());
+            xslTeamPosition.setPositionstate(PositionStatesEnum.DELETE.getCode());
             int i = xslTeamPositionMapper.updateByExample(xslTeamPosition, xslTeamPositionExample);
             if (i <= 0){
-                return ResultUtils.isError("删除职位失败");
+                return ResultUtils.error("删除职位失败");
             }
             String json = JedisUtils.get(POSITION_TAG_BUFFER + ":" + positionId);
             List<XslTaskTag> xslTaskTags = null;
@@ -142,15 +148,21 @@ public class XslPositionServiceImpl implements XslPositionService {
                 }
             }
             //将所有该职位的申请置为不可用
-            xslPositionApplicationService.changeApplyState(positionId,null, PositonApplicationStates.INVALID.getCode());
-            return ResultUtils.isOk();
+            xslPositionApplicationService.changeApplyState(positionId,null, PositionApplicationStatesEnum.INVALID.getCode());
+            //更新缓存
+            String num = JedisUtils.get(TEAM_POSITION_NUM + ":" + xslTeamPosition.getTeamid());
+            Integer positionNum = Integer.valueOf(num);
+            positionNum --;
+            JedisUtils.set(TEAM_POSITION_NUM +":"+xslTeamPosition.getTeamid(),positionNum.toString());
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult changPosition(PositionUpdateReqVo positionUpdateReqVo) throws RuntimeException {
+    @UpdatePosition
+    public XslResult updatePosition(String positionId,XslTeamPosition xslTeamPosition) throws RuntimeException {
         /**
          *
          * 功能描述: 更改职位
@@ -161,56 +173,19 @@ public class XslPositionServiceImpl implements XslPositionService {
          * @date: 2019/5/10 17:09
          */
         try {
-            XslTeamPosition xslTeamPosition = new XslTeamPosition();
-            BeanUtils.copyProperties(positionUpdateReqVo,xslTeamPosition);
             XslTeamPositionExample xslTeamPositionExample = new XslTeamPositionExample();
-            xslTeamPositionExample.createCriteria().andPositionidEqualTo(positionUpdateReqVo.getPositionid());
+            xslTeamPositionExample.createCriteria().andPositionidEqualTo(xslTeamPosition.getPositionid());
             //更改职位
             int i = xslTeamPositionMapper.updateByExampleSelective(xslTeamPosition,xslTeamPositionExample);
             if (i <= 0){
-                return ResultUtils.isError("修改职位失败");
+                return ResultUtils.error("修改职位失败");
             }
-            //更改职位标签
-            List<String> tagIds = positionUpdateReqVo.getTagIds();
-            List<String> list = tagIds.subList(0, tagIds.size() < POSITION_TAG_MAX_NUM ? tagIds.size() : POSITION_TAG_MAX_NUM);
-            updatePositionTag(list,xslTeamPosition.getPositionid());
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    /** 更新职位标签 */
-    public void updatePositionTag(List<String> tagIds,String positionId)throws RuntimeException {
-        ArrayList<XslTaskTag> list = new ArrayList<>();
-        for (String tagId : tagIds){
-            XslTaskTag xslTaskTag = new XslTaskTag();
-            xslTaskTag.setTagid(tagId);
-            xslTaskTag.setTaskid(positionId);
-            list.add(xslTaskTag);
-        }
-        String json = JedisUtils.get(POSITION_TAG_BUFFER + ":" + positionId);
-        //过滤已存在标签
-        List<XslTaskTag> xslTaskTags = null;
-        if (StringUtils.isNotBlank(json)){
-            xslTaskTags = JsonUtils.jsonToList(json, XslTaskTag.class);
-            for (XslTaskTag xslTaskTag : xslTaskTags){
-                int i = list.indexOf(xslTaskTag);
-                if (i != -1){
-                    list.remove(i);
-                    xslTaskTags.remove(xslTaskTag);
-                }
-            }
-            //删除不在使用的标签
-            for (XslTaskTag xslTaskTag : xslTaskTags){
-                xslPositionTagService.removePositionTag(positionId,xslTaskTag.getTagid());
-            }
-        }
-        //添加增标签
-        for (XslTaskTag xslTaskTag : list){
-            xslPositionTagService.addPositionTag(positionId,xslTaskTag.getTagid());
-        }
-    }
 
     @Override
     public XslTeamPosition  getPositionByPositionId(String positionId) throws RuntimeException {
@@ -228,7 +203,7 @@ public class XslPositionServiceImpl implements XslPositionService {
             xslTeamPositionExample.createCriteria().andPositionidEqualTo(positionId);
             List<XslTeamPosition> teamPositions = xslTeamPositionMapper.selectByExample(xslTeamPositionExample);
             if (teamPositions.size() == 0){
-                throw new RuntimeException("职位不存在");
+                return new XslTeamPosition();
             }
             return (teamPositions.get(0));
         } catch (Exception e) {
@@ -251,9 +226,9 @@ public class XslPositionServiceImpl implements XslPositionService {
         String json = JedisUtils.get(POSITION_DETAILED_INFO + ":" + positionId);
         if (StringUtils.isNotBlank(json)){
             PositionDetailsResVo positionDetailsResVo = JsonUtils.jsonToPojo(json, PositionDetailsResVo.class);
+            JedisUtils.expire(POSITION_DETAILED_INFO + ":" + positionId,POSITION_INFO_LIFETIME);
             return positionDetailsResVo;
         }
-
         XslTeamPosition positionByPositionId = getPositionByPositionId(positionId);
         PositionDetailsResVo positionDetailsResVo = new PositionDetailsResVo();
         //添加职位信息
@@ -261,13 +236,10 @@ public class XslPositionServiceImpl implements XslPositionService {
         //添加职位标签
         List<PositionTagResVo> allTagInfoByPositionId = xslPositionTagService.getAllTagInfoByPositionId(positionId);
         positionDetailsResVo.setTags(allTagInfoByPositionId);
-        //添加队伍信息
-        XslMatchTeam xslMatchTeam = xslMatchTeamService.selectTeamByTeamId(positionByPositionId.getTeamid());
-        positionDetailsResVo.setTeamname(xslMatchTeam.getTeamname());
         //添加缓存
         String toJson = JsonUtils.objectToJson(positionDetailsResVo);
         JedisUtils.set(POSITION_DETAILED_INFO + ":" + positionId,toJson);
-
+        JedisUtils.expire(POSITION_DETAILED_INFO + ":" + positionId,POSITION_INFO_LIFETIME);
         return positionDetailsResVo;
     }
 }

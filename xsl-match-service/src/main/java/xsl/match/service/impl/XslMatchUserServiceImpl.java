@@ -5,7 +5,8 @@ import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.annotation.UpdateHunterTag;
-import com.xsl.enums.DataStates;
+import com.xsl.annotation.UpdateUser;
+import com.xsl.enums.DataStatesEnum;
 import com.xsl.pojo.*;
 import com.xsl.pojo.Example.XslHunterTagExample;
 import com.xsl.pojo.Example.XslMatchUserExample;
@@ -16,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import xsl.match.mapper.XslHunterTagMapper;
@@ -25,7 +25,6 @@ import xsl.match.service.XslMatchUserService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarEntry;
 
 /**
  * 说明：
@@ -51,7 +50,9 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
     private String TAG_BUFFER;
 
     @Override
-    public XslResult updateMatchUserInfo(XslMatchUser xslMatchUser) throws RuntimeException {
+    @UpdateUser
+    /** 更新用户补充信息 */
+    public XslResult updateMatchUserInfo(String hunterId,XslMatchUser xslMatchUser) throws RuntimeException {
         try {
             XslMatchUser updateUser = new XslMatchUser();
             updateUser.setHunterid(xslMatchUser.getHunterid());
@@ -67,9 +68,9 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
             }
             boolean b = updateMatchUser(updateUser);
             if(!b){
-                return ResultUtils.isError();
+                return ResultUtils.error();
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException();
         }
@@ -89,14 +90,14 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
         try {
             String uuid = IdUtils.getUuid(MATCH_HUNTER_PREFIX);
             xslMatchUser.setHunterid(uuid);
-            xslMatchUser.setState(DataStates.NORMAL.getCode());
+            xslMatchUser.setState(DataStatesEnum.NORMAL.getCode());
             xslMatchUser.setLevel((short)1);
             xslMatchUser.setCredit((short)100);
             int i = xslMatchUserMapper.insertSelective(xslMatchUser);
             if (i <= 0){
-                return ResultUtils.isError();
+                return ResultUtils.error();
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -128,6 +129,7 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
     }
 
     @Override
+    /** 获取用户补充信息 */
     public XslMatchUser selectMatchUserInfoByHunterId(String hunterId) throws RuntimeException {
         try {
             XslMatchUserExample xslMatchUserExample = new XslMatchUserExample();
@@ -187,9 +189,9 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
             xslHunterTag.setState(true);
             int i = xslHunterTagMapper.insertSelective(xslHunterTag);
             if(i <= 0){
-                return ResultUtils.isError("添加用户标签失败");
+                return ResultUtils.error("添加用户标签失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -214,9 +216,9 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
             xslHunterTag.setState(false);
             int i = xslHunterTagMapper.updateByExampleSelective(xslHunterTag, xslHunterTagExample);
             if (i <= 0){
-                return ResultUtils.isError("删除用户标签失败");
+                return ResultUtils.error("删除用户标签失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -235,6 +237,9 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
          */
         try {
             String json = JedisUtils.get(HUNTER_TAG_BUFFER + ":" + hunterId);
+            if (StringUtils.isEmpty(json)){
+                return (new ArrayList<XslHunterTag>());
+            }
             List<XslHunterTag> xslHunterTags = JsonUtils.jsonToList(json, XslHunterTag.class);
             return (xslHunterTags);
         } catch (Exception e) {
@@ -292,6 +297,7 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
 
     @Override
     @UpdateHunterTag
+    @UpdateUser
     /** 更改用户标签 */
     public XslResult updateHunterTag(String hunterId,List<String> tagIds) throws RuntimeException {
         try {
@@ -304,14 +310,15 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
             }
             String json = JedisUtils.get(HUNTER_TAG_BUFFER + ":" + hunterId);
             //过滤已存在标签
-            List<XslHunterTag> xslHunterTags = null;
+            ArrayList<XslHunterTag> xslHunterTags = null;
             if (org.apache.commons.lang3.StringUtils.isNotBlank(json)){
-                xslHunterTags = JsonUtils.jsonToList(json, XslHunterTag.class);
-                for (XslHunterTag xslHunterTag : xslHunterTags){
-                    int i = list.indexOf(xslHunterTag);
+                xslHunterTags =(ArrayList<XslHunterTag>) JsonUtils.jsonToList(json, XslHunterTag.class);
+                for (int x = 0;x < xslHunterTags.size();x++){
+                    int i = list.indexOf(xslHunterTags.get(x));
                     if (i != -1){
                         list.remove(i);
-                        xslHunterTags.remove(xslHunterTag);
+                        int index = xslHunterTags.indexOf(xslHunterTags.get(x));
+                        xslHunterTags.remove(index);
                     }
                 }
                 //删除不在使用的标签
@@ -323,7 +330,7 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
             for (XslHunterTag xslHunterTag : list){
                 addHunterTag(xslHunterTag.getHunterid(),xslHunterTag.getTagid());
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -1,19 +1,19 @@
 package com.xsl.enums;
 
 /**
- * 说明：申请状态
+ * 说明：比赛奖励状态
  *
  * @Auther: 11432_000
- * @Date: 2019/5/10 18:01
+ * @Date: 2019/4/26 11:53
  * @Description:
  */
-public enum PositonApplicationStates {
-    DELETE(0,"申请撤销"),UNDER_PPLICATION(1,"申请中"),FAIL(2,"申请失败"),SUCCESS(3,"申请成功"),INVALID(4,"申请无效");
+public enum DataStatesEnum {
+    NORMAL(1,"正常"),DELETE(0,"已删除");
 
     private Integer code;
     private String msg;
 
-    PositonApplicationStates(Integer code, String msg) {
+    DataStatesEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

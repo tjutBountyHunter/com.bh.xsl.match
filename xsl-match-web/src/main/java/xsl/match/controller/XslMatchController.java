@@ -2,7 +2,7 @@ package xsl.match.controller;
 
 import com.xsl.Utils.MYStringUtils;
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.MatchState;
+import com.xsl.enums.MatchStateEnum;
 import com.xsl.pojo.Vo.MatchResVo;
 import com.xsl.pojo.XslMatch;
 import com.xsl.result.EasyUIDataGridResult;
@@ -176,7 +176,7 @@ public class XslMatchController {
      */
     public XslResult disableMatch(@Param("matchIds") String matchIds){
         List<String> stringList = MYStringUtils.getStringList(matchIds, ",");
-        return xslMatchService.updateMatchState(stringList, MatchState.DELETE.getKey());
+        return xslMatchService.updateMatchState(stringList, MatchStateEnum.DELETE.getKey());
     }
 
 
@@ -210,7 +210,7 @@ public class XslMatchController {
          *
          */
         List<XslMatch> xslMatches = xslMatchService.selectAllMatchByCondition(matchrankid, matchtypeid, matchstate, page, rows);
-        return ResultUtils.isOk(xslMatches);
+        return ResultUtils.ok(xslMatches);
     }
 
 
@@ -227,7 +227,7 @@ public class XslMatchController {
          * @date: 2019/4/27 14:00
          */
         MatchResVo matchDetailsByBuffer = xslMatchService.getMatchDetailsByBuffer(matchid);
-        return ResultUtils.isOk(matchDetailsByBuffer);
+        return ResultUtils.ok(matchDetailsByBuffer);
     }
 
 }

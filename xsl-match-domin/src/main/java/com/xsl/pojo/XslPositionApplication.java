@@ -5,9 +5,11 @@ import java.util.Date;
 public class XslPositionApplication {
     private Integer id;
 
-    private String userid;
+    private String hunterid;
 
     private String positionid;
+
+    private String teamid;
 
     private Integer applicationstate;
 
@@ -21,12 +23,12 @@ public class XslPositionApplication {
         this.id = id;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getHunterid() {
+        return hunterid;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid == null ? null : userid.trim();
+    public void setHunterid(String hunterid) {
+        this.hunterid = hunterid == null ? null : hunterid.trim();
     }
 
     public String getPositionid() {
@@ -35,6 +37,14 @@ public class XslPositionApplication {
 
     public void setPositionid(String positionid) {
         this.positionid = positionid == null ? null : positionid.trim();
+    }
+
+    public String getTeamid() {
+        return teamid;
+    }
+
+    public void setTeamid(String teamid) {
+        this.teamid = teamid == null ? null : teamid.trim();
     }
 
     public Integer getApplicationstate() {

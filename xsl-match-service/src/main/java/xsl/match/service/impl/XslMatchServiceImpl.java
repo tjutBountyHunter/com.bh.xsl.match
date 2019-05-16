@@ -1,17 +1,14 @@
 package xsl.match.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.MatchArrayUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.annotation.DeleteMatch;
 import com.xsl.annotation.UpdateMatch;
-import com.xsl.enums.DataStates;
-import com.xsl.enums.MatchForm;
-import com.xsl.enums.MatchState;
-import com.xsl.enums.ResultCode;
+import com.xsl.enums.DataStatesEnum;
+import com.xsl.enums.MatchFormEnum;
+import com.xsl.enums.MatchStateEnum;
 import com.xsl.pojo.Vo.MatchResVo;
 import com.xsl.pojo.XslMatch;
 import com.xsl.pojo.Example.XslMatchExample;
@@ -89,7 +86,7 @@ public class XslMatchServiceImpl implements XslMatchService {
     public List<HashMap<String,String>> getAllForm() throws RuntimeException{
         ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map;
-        for (MatchForm matchForm : MatchForm.values()){
+        for (MatchFormEnum matchForm : MatchFormEnum.values()){
             map = new HashMap<String, String>(2);
             map.put(FORM_KEY,"" + matchForm.getKey());
             map.put(FORM_INFO,matchForm.getValue());
@@ -115,18 +112,18 @@ public class XslMatchServiceImpl implements XslMatchService {
         xslMatch.setMatchid(matchId);
         //根据当前时间设置比赛状态
         if (xslMatch.getMatchsignupstarttime().compareTo(new Date()) <= 0){
-            xslMatch.setMatchstate(MatchState.SIGN_UP.getKey());
+            xslMatch.setMatchstate(MatchStateEnum.SIGN_UP.getKey());
         }else {
-            xslMatch.setMatchstate(MatchState.BEFORE_SIGN_UP.getKey());
+            xslMatch.setMatchstate(MatchStateEnum.BEFORE_SIGN_UP.getKey());
         }
         try{
             int insert = xslMatchMapper.insert(xslMatch);
             if (insert <= 0){
                 LOGGER.error("addAMatch() 添加数据失败");
-                return ResultUtils.isError("XslMatch插入失败");
+                return ResultUtils.error("XslMatch插入失败");
             }
             LOGGER.info("添加数据 matchId =" + matchId + " 成功");
-            return ResultUtils.isOk(matchId);
+            return ResultUtils.ok(matchId);
         }catch (Exception e){
             throw new RuntimeException("添加比赛信息异常:"+ e.getMessage());
         }
@@ -198,10 +195,10 @@ public class XslMatchServiceImpl implements XslMatchService {
             int i = xslMatchMapper.updateByExampleSelective(xslMatch,xslMatchExample);
             if (i <= 0){
                 LOGGER.error("updateAMatchInfo 更新数据 matchId =" + xslMatch.getMatchid() + " 失败");
-                return ResultUtils.isError("更新数据失败");
+                return ResultUtils.error("更新数据失败");
             }
             LOGGER.info("更新数据 matchId =" + xslMatch.getMatchid() + " 成功");
-            return ResultUtils.isOk(xslMatch.getMatchid());
+            return ResultUtils.ok(xslMatch.getMatchid());
         }catch (Exception e){
             throw new RuntimeException("更新比赛信息异常:"  + e.getMessage());
         }
@@ -221,7 +218,7 @@ public class XslMatchServiceImpl implements XslMatchService {
     public List<HashMap<String, String>> getAllState()throws RuntimeException {
         ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map;
-        for (MatchState matchState : MatchState.values()){
+        for (MatchStateEnum matchState : MatchStateEnum.values()){
             map = new HashMap<String, String>(2);
             map.put(MATCH_STATE_KEY,matchState.getKey()+ "");
             map.put(MATCH_STATE_INFO,matchState.getMessage());
@@ -243,12 +240,12 @@ public class XslMatchServiceImpl implements XslMatchService {
     @DeleteMatch
     public XslResult deleteMatchByIds(List<String> matchIds) throws RuntimeException{
         try{
-            XslResult result = updateMatchState(matchIds, DataStates.DELETE.getCode());
+            XslResult result = updateMatchState(matchIds, DataStatesEnum.DELETE.getCode());
             if (ResultUtils.isSuccess(result)){
                 LOGGER.info("删除数据 matchId = [" +  matchIds + "] 成功");
-                return ResultUtils.isOk(matchIds);
+                return ResultUtils.ok(matchIds);
             }
-            return ResultUtils.isError();
+            return ResultUtils.error();
         }catch (Exception e){
             throw new RuntimeException("删除比赛信息异常：" + e.getMessage());
         }
@@ -268,7 +265,7 @@ public class XslMatchServiceImpl implements XslMatchService {
     public XslResult updateMatchState(List<String> matchIds,Integer state)throws RuntimeException {
         if (matchIds == null){
             LOGGER.info("更新比赛状态 matchId 为null");
-            return ResultUtils.isParameterError();
+            return ResultUtils.parameterError();
         }
         try{
             XslMatch xslMatch = new XslMatch();
@@ -282,7 +279,7 @@ public class XslMatchServiceImpl implements XslMatchService {
                 LOGGER.error("updateMatchState 更新比赛状态部分失败");
             }
             LOGGER.info("更新比赛状态 matchId = [" +  matchIds + "] 成功");
-            return ResultUtils.isOk(matchIds);
+            return ResultUtils.ok(matchIds);
         }catch (Exception e){
             throw new RuntimeException("更新比赛状态异常:" + e.getMessage());
         }
@@ -415,8 +412,8 @@ public class XslMatchServiceImpl implements XslMatchService {
             XslMatchType xslMatchType = xslMatchTypeService.getType(xslMatch.getMatchtypeid());
             BeanUtils.copyProperties(xslMatchType,matchResVo);
             //补充参赛形式信息和比赛状态信息
-            matchResVo.setMatchFormInfo(MatchForm.getEnumByKey(xslMatch.getMatchform()).getValue());
-            matchResVo.setMatchStateInfo(MatchState.getEnumByKey(xslMatch.getMatchstate()).getMessage());
+            matchResVo.setMatchFormInfo(MatchFormEnum.getEnumByKey(xslMatch.getMatchform()).getValue());
+            matchResVo.setMatchStateInfo(MatchStateEnum.getEnumByKey(xslMatch.getMatchstate()).getMessage());
             //添加比赛详情缓存
             String json = JsonUtils.objectToJson(matchResVo);
             JedisUtils.set(MATCH_DETAILS + ":" + xslMatch.getMatchid(),json);

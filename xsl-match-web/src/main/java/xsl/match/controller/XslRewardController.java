@@ -2,7 +2,7 @@ package xsl.match.controller;
 
 import com.xsl.Utils.MYStringUtils;
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.ResultCode;
+import com.xsl.enums.ResultCodeEnum;
 import com.xsl.pojo.Vo.XslMatchRewardReqVo;
 import com.xsl.pojo.XslMatchReward;
 import com.xsl.pojo.XslReward;
@@ -73,15 +73,15 @@ public class XslRewardController {
         BeanUtils.copyProperties(xslMatchRewardReqVo,xslMatchReward);
         BeanUtils.copyProperties(xslMatchRewardReqVo,xslReward);
         XslResult result = xslRewardService.addReward(xslReward);
-        if (!result.getCode().equals(ResultCode.SUCCESS.getCode())){
-            return ResultUtils.isError();
+        if (!result.getCode().equals(ResultCodeEnum.SUCCESS.getCode())){
+            return ResultUtils.error();
         }
         xslMatchReward.setRewardid(result.getData().toString());
         XslResult result_1 = xslMatchRewardService.addRewardToMatch(xslMatchReward);
-        if (!result_1.getCode().equals(ResultCode.SUCCESS.getCode())){
-            return ResultUtils.isError();
+        if (!result_1.getCode().equals(ResultCodeEnum.SUCCESS.getCode())){
+            return ResultUtils.error();
         }
-        return ResultUtils.isOk();
+        return ResultUtils.ok();
     }
 
 

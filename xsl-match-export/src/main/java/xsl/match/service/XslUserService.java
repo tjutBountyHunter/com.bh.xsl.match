@@ -46,9 +46,12 @@ public interface XslUserService {
     XslResult userLogin(UserReqVo userReqVo);
 
     /** 更新用户信息 */
-    XslResult updateUserInfo(UserSupplementVo userinfo)throws RuntimeException;
+    XslResult updateUserInfo(String hunterId,UserSupplementVo userinfo)throws RuntimeException;
 
     /**  获取用户详细信息 */
     UserDetailedResVo getUserDetailedInfo(String userId)throws RuntimeException;
+
+    /** 获取学校信息 */
+    public XslSchoolinfo getSchoolInfo(String schoolid) throws RuntimeException;
 
 }

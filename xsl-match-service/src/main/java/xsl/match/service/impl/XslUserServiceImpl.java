@@ -2,7 +2,8 @@ package xsl.match.service.impl;
 
 import com.xsl.Utils.*;
 import com.xsl.annotation.CharSet;
-import com.xsl.enums.HonorStates;
+import com.xsl.annotation.UpdateUser;
+import com.xsl.enums.HonorStatesEnum;
 import com.xsl.enums.UserStateEnum;
 import com.xsl.pojo.*;
 import com.xsl.pojo.Example.*;
@@ -13,11 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import xsl.match.mapper.*;
 import xsl.match.service.XslHonorService;
 import xsl.match.service.XslMatchUserService;
+import xsl.match.service.XslMemberService;
 import xsl.match.service.XslUserService;
 import java.util.List;
 
@@ -42,12 +45,11 @@ public class XslUserServiceImpl implements XslUserService {
     @Autowired
     private XslMatchUserService xslMatchUserService;
     @Autowired
-    private XslHonorService xslHonorService;
+    private XslMemberService xslMemberService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XslUserServiceImpl.class);
-
-    private static final String DEFAULT_SIGNATURE = "这个人很懒，什么也没留下ヽ(ー_ー)ノ";
-
+    @Value("${USER_DEFAULT_SIGNATURE}")
+    private String USER_DEFAULT_SIGNATURE;
 
     @Value("${MATCH_HUNTER_PREFIX}")
     private String MATCH_HUNTER_PREFIX;
@@ -224,7 +226,7 @@ public class XslUserServiceImpl implements XslUserService {
         criteria.andPhoneEqualTo(xslUserRegister.getPhone());
         List<XslUser> list = xslUserMapper.selectByExample(example);
         if(list != null && list.size() > 0){
-            return ResultUtils.isParameterError("该手机号已经注册过");
+            return ResultUtils.parameterError("该手机号已经注册过");
         }
 
         XslUser xslUser = new XslUser();
@@ -241,7 +243,7 @@ public class XslUserServiceImpl implements XslUserService {
         userResVo.setHunterlevel(xslMatchUser.getLevel());
         userResVo.setTxUrl("http://47.93.200.190/images/default.png");
 
-        return ResultUtils.isOk(userResVo);
+        return ResultUtils.ok(userResVo);
 
     }
 
@@ -270,7 +272,7 @@ public class XslUserServiceImpl implements XslUserService {
         xslUser.setPassword(Md5Utils.digestMds(xslUserRegister.getPassword()));
         xslUser.setSex("男");
         xslUser.setName("xsl_"+xslUserRegister.getPhone());
-
+        xslUser.setSignature(USER_DEFAULT_SIGNATURE);
         try {
             int result = xslUserMapper.insertSelective(xslUser);
 
@@ -299,11 +301,11 @@ public class XslUserServiceImpl implements XslUserService {
         String token = userReqVo.getToken();
 
         if(StringUtils.isEmpty(phone)){
-            return ResultUtils.isParameterError("手机号码为空");
+            return ResultUtils.parameterError("手机号码为空");
         }
 
         if(StringUtils.isEmpty(password)){
-            return ResultUtils.isParameterError("密码为空");
+            return ResultUtils.parameterError("密码为空");
         }
 
         //1.查询
@@ -314,7 +316,7 @@ public class XslUserServiceImpl implements XslUserService {
 
         //2.判断用户是否存在
         if(list == null || list.size() < 1){
-            return ResultUtils.isParameterError("用户名或密码错误");
+            return ResultUtils.parameterError("用户名或密码错误");
         }
         XslUser user = list.get(0);
         user.setHunterid(MATCH_HUNTER_PREFIX + user.getHunterid());
@@ -326,7 +328,7 @@ public class XslUserServiceImpl implements XslUserService {
         //3.校验密码
         if (!Md5Utils.digestMds(password).equals(user.getPassword())) {
             LOGGER.info("password error");
-            return ResultUtils.isParameterError("用户名或密码错误");
+            return ResultUtils.parameterError("用户名或密码错误");
         }
 
         String userId = user.getUserid();
@@ -336,33 +338,21 @@ public class XslUserServiceImpl implements XslUserService {
 
         if(state == -1){
             LOGGER.info("login check status is {}", user.getState());
-            return ResultUtils.isParameterError("用户被冻结");
+            return ResultUtils.parameterError("用户被冻结");
         }
 
         if(state == -3){
             LOGGER.info("login check status is {}", user.getState());
-            return ResultUtils.isParameterError("用户不存在");
+            return ResultUtils.parameterError("用户不存在");
         }
 
         //5.查询图片信息
-        String imgUrl = "http://47.93.200.190/images/default.png";
-        XslUserFileExample xslUserFileExample = new XslUserFileExample();
-        XslUserFileExample.Criteria criteria2 = xslUserFileExample.createCriteria();
-        criteria2.andUseridEqualTo(userId);
-        criteria2.andTypeEqualTo("TX");
-        List<XslUserFile> xslUserFiles = xslUserFileMapper.selectByExample(xslUserFileExample);
-        if(xslUserFiles != null && xslUserFiles.size() > 0){
-            XslFileExample xslFileExample = new XslFileExample();
-            XslFileExample.Criteria criteria1 = xslFileExample.createCriteria();
-            criteria1.andFileidEqualTo(xslUserFiles.get(0).getFileid());
-            List<XslFile> xslFileList = xslFileMapper.selectByExample(xslFileExample);
-            if (xslFileList != null && xslFileList.size() > 0) {
-                imgUrl = xslFileList.get(0).getUrl();
-            }
-        }
+        String imgUrl = getTx(userId);
 
         resVo.setTxUrl(imgUrl);
-        resVo.setSignature(DEFAULT_SIGNATURE);
+        if (StringUtils.isEmpty(resVo.getSignature())){
+            resVo.setSignature(USER_DEFAULT_SIGNATURE);
+        }
 
         //6.查询猎人信息
         XslMatchUserExample xslMatchUserExample = new XslMatchUserExample();
@@ -380,21 +370,43 @@ public class XslUserServiceImpl implements XslUserService {
             List<XslSchoolinfo> xslSchoolinfos = xslSchoolinfoMapper.selectByExample(xslSchoolinfoExample);
             BeanUtils.copyProperties(xslSchoolinfos.get(0), resVo);
         }
-
+        //检查是否有队伍信息
+        XslTeamMember memberByHunterId = xslMemberService.getMemberByHunterId(xslMatchUser.getHunterid());
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(memberByHunterId.getTeamid())){
+            resVo.setTeamId(memberByHunterId.getTeamid());
+        }
         //将用户信息加入缓存
 //        jedisClient.set(REDIS_USER_SESSION_KEY + ":" + user.getPhone(), token);
-//
 //        Gson gson = GsonSingle.getGson();
 //        String userInfo = gson.toJson(user);
 //        JedisClientUtil.setEx(USER_INFO + ":" + user.getUserid(), userInfo, 300);
-//
 //        logger.info("login return message is {}", JsonUtils.objectToJson(resVo));
+        return ResultUtils.ok(JsonUtils.objectToJson(resVo));
+    }
 
-        return ResultUtils.isOk(JsonUtils.objectToJson(resVo));
+    /** 根据userID 获取头像 */
+    public String getTx(String userId){
+        String imgUrl = "http://47.93.200.190/images/default.png";
+        XslUserFileExample xslUserFileExample = new XslUserFileExample();
+        XslUserFileExample.Criteria criteria2 = xslUserFileExample.createCriteria();
+        criteria2.andUseridEqualTo(userId);
+        criteria2.andTypeEqualTo("TX");
+        List<XslUserFile> xslUserFiles = xslUserFileMapper.selectByExample(xslUserFileExample);
+        if(xslUserFiles != null && xslUserFiles.size() > 0){
+            XslFileExample xslFileExample = new XslFileExample();
+            XslFileExample.Criteria criteria1 = xslFileExample.createCriteria();
+            criteria1.andFileidEqualTo(xslUserFiles.get(0).getFileid());
+            List<XslFile> xslFileList = xslFileMapper.selectByExample(xslFileExample);
+            if (xslFileList != null && xslFileList.size() > 0) {
+                imgUrl = xslFileList.get(0).getUrl();
+            }
+        }
+        return imgUrl;
     }
 
     @Override
-    public XslResult updateUserInfo(UserSupplementVo userInfo) throws RuntimeException {
+    @UpdateUser
+    public XslResult updateUserInfo(String hunterId,UserSupplementVo userInfo) throws RuntimeException {
         /**
          *
          * 功能描述: 更新用户信息 + 学校信息
@@ -405,7 +417,7 @@ public class XslUserServiceImpl implements XslUserService {
          * @date: 2019/5/4 10:12
          */
         if (userInfo == null){
-            return ResultUtils.isParameterError("参数为空");
+            return ResultUtils.parameterError("参数为空");
         }
         try {
             XslUserExample xslUserExample = new XslUserExample();
@@ -415,7 +427,7 @@ public class XslUserServiceImpl implements XslUserService {
             List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
             if (xslUsers == null || xslUsers.size() <= 0){
                 LOGGER.error("用户不存在");
-                return ResultUtils.isParameterError("用户不存在");
+                return ResultUtils.parameterError("用户不存在");
             }
             XslUser xslUser = xslUsers.get(0);
             //清除不可更改属性
@@ -423,34 +435,47 @@ public class XslUserServiceImpl implements XslUserService {
             BeanUtils.copyProperties(userInfo,updateUserInfo);
             XslUser updateUser = getUpdateUser(updateUserInfo);
             //检查是否已存在学校信息
-            XslSchoolinfo schoolInfo = getSchoolInfo(xslUser.getSchoolinfo());
-            if (StringUtils.isEmpty(schoolInfo.getSchoolid())){
-                BeanUtils.copyProperties(userInfo,schoolInfo);
-                XslResult xslResult = addSchoolInfo(schoolInfo);
-                if (ResultUtils.isSuccess(xslResult)){
-                    updateUser.setSchoolinfo(xslResult.getData().toString());
+            if (!StringUtils.isEmpty(xslUser.getSchoolinfo())){
+                XslSchoolinfo schoolInfo = getSchoolInfo(xslUser.getSchoolinfo());
+                if (StringUtils.isEmpty(schoolInfo.getSchoolid())){
+                    BeanUtils.copyProperties(userInfo,schoolInfo);
+                    XslResult xslResult = addSchoolInfo(schoolInfo);
+                    if (ResultUtils.isSuccess(xslResult)){
+                        updateUser.setSchoolinfo(xslResult.getData().toString());
+                    }
                 }
             }
             int i = xslUserMapper.updateByExampleSelective(updateUser, xslUserExample);
             if (i <= 0) {
-                return ResultUtils.isError("");
+                return ResultUtils.error("");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public UserDetailedResVo getUserDetailedInfo(String userId) throws RuntimeException {
+    /** 获取用户详情 */
+    public UserDetailedResVo getUserDetailedInfo(String id) throws RuntimeException {
         //优先取缓存
-        String json = JedisUtils.get(USER_SCHOOL_INFO + ":" + userId);
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(json)){
-            UserDetailedResVo userDetailedResVo = JsonUtils.jsonToPojo(json, UserDetailedResVo.class);
-            return userDetailedResVo;
+        if (id.startsWith(MATCH_HUNTER_PREFIX)){
+            String json = JedisUtils.get(USER_SCHOOL_INFO + ":" + id);
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(json)){
+                UserDetailedResVo userDetailedResVo = JsonUtils.jsonToPojo(json, UserDetailedResVo.class);
+                JedisUtils.expire(USER_DETAILED_INFO + ":" + userDetailedResVo.getHunterid(),USER_INFO_LIFETIME);
+                return userDetailedResVo;
+            }
         }
         XslUserExample xslUserExample = new XslUserExample();
-        xslUserExample.createCriteria().andUseridEqualTo(userId);
+        XslUserExample.Criteria criteria = xslUserExample.createCriteria();
+        //检查是什么Id
+        if (!id.startsWith(MATCH_HUNTER_PREFIX)){
+            criteria.andUseridEqualTo(id);
+        }else {
+            id = id.replaceFirst(MATCH_HUNTER_PREFIX,"");
+            criteria.andHunteridEqualTo(id);
+        }
         List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
         if (xslUsers.size() == 0){
             throw new RuntimeException("用户信息不存在");
@@ -460,24 +485,28 @@ public class XslUserServiceImpl implements XslUserService {
         String hunterId = MATCH_HUNTER_PREFIX + xslUser.getHunterid();
         UserDetailedResVo userDetailedResVo = new UserDetailedResVo();
         BeanUtils.copyProperties(xslUser,userDetailedResVo);
+        //添加头像
+        String tx = getTx(xslUser.getUserid());
+        userDetailedResVo.setTxUrl(tx);
         //添加补充信息
-        XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByUserId(hunterId);
+        XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(hunterId);
         BeanUtils.copyProperties(xslMatchUser,userDetailedResVo);
         // 添加标签
         List<HunterTagResVo> allTagsInfoByHunterId = xslMatchUserService.getAllTagsInfoByHunterId(xslUser.getHunterid());
         userDetailedResVo.setTags(allTagsInfoByHunterId);
-        //添加已审核奖励
-        List<XslMatchHonor> honorByHunterId = xslHonorService.getHonorByHunterId(hunterId, HonorStates.NORMAL.getCode());
-        userDetailedResVo.setHonors(honorByHunterId);
+        //添加学校信息
+        XslSchoolinfo schoolInfo = getSchoolInfo(xslUser.getSchoolinfo());
+        BeanUtils.copyProperties(schoolInfo,userDetailedResVo);
         //添加缓存
         String toJson = JsonUtils.objectToJson(userDetailedResVo);
-        JedisUtils.set(USER_DETAILED_INFO + ":" + userId,toJson);
-        JedisUtils.expire(USER_DETAILED_INFO + ":" + userId,USER_INFO_LIFETIME);
+        JedisUtils.set(USER_DETAILED_INFO + ":" + userDetailedResVo.getHunterid(),toJson);
+        JedisUtils.expire(USER_DETAILED_INFO + ":" + userDetailedResVo.getHunterid(),USER_INFO_LIFETIME);
         return userDetailedResVo;
     }
 
     /** 获取学校信息 */
-    public XslSchoolinfo getSchoolInfo(String schoolid){
+    @Override
+    public XslSchoolinfo getSchoolInfo(String schoolid) throws RuntimeException{
         if (org.apache.commons.lang3.StringUtils.isBlank(schoolid)){
             return new XslSchoolinfo();
         }
@@ -506,9 +535,9 @@ public class XslUserServiceImpl implements XslUserService {
             xslSchoolinfo.setSchoolid(uuid);
             int i = xslSchoolinfoMapper.insertSelective(xslSchoolinfo);
             if (i <= 0) {
-                return ResultUtils.isParameterError("参数错误");
+                return ResultUtils.parameterError("参数错误");
             }
-            return ResultUtils.isOk(uuid);
+            return ResultUtils.ok(uuid);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

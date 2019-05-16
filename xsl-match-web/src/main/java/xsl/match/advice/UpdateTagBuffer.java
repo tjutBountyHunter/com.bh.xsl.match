@@ -86,6 +86,7 @@ public class UpdateTagBuffer {
          * @auther: 11432_000
          * @date: 2019/4/28 14:02
          */
+        //添加单个
         String tagId = (String) joinPoint.getArgs()[0];
         JedisUtils.delete(TAG_BUFFER + ":" + tagId);
 

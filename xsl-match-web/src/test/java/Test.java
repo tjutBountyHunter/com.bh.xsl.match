@@ -4,11 +4,12 @@ import com.xsl.Utils.GsonSingle;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.MatchArrayUtils;
+import com.xsl.enums.PositionApplicationStatesEnum;
+import com.xsl.pojo.*;
 import com.xsl.pojo.Example.XslTagExample;
+import com.xsl.pojo.Vo.MatchUserEditReqVo;
+import com.xsl.pojo.Vo.PositionUpdateReqVo;
 import com.xsl.pojo.Vo.XslMatchUserReqVo;
-import com.xsl.pojo.XslMatch;
-import com.xsl.pojo.XslMatchType;
-import com.xsl.pojo.XslTag;
 import com.xsl.result.XslResult;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import xsl.match.mapper.XslTagMapper;
 import xsl.match.service.impl.XslMatchServiceImpl;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 
@@ -125,7 +127,46 @@ private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 //        xslMatchUserReqVo.setTags(strings);
 //        String s = JsonUtils.objectToJson(xslMatchUserReqVo);
 //        System.out.println(s);
+//        ArrayList<Cat> cats1 = new ArrayList<>();
+//        ArrayList<Animals> animals = new ArrayList<>();
+//        ArrayList<BlackCat> blackCats = new ArrayList<>();
+//        ArrayList<? extends Cat> cats = new ArrayList<>();
+//
+//        cats = cats1;
+//        cats = animals;
+//        cats = blackCats;
 
+//        XslMatchTeam xslMatchTeam = new XslMatchTeam();
+//        xslMatchTeam.setTeamid("503");
+//        xslMatchTeam.setTeamname("503");
+//        xslMatchTeam.setMatchid("M49a30f57-67ce-4361-a4d8-628c6f631ee4");
+//        xslMatchTeam.setTeamsynopsis("大家都很懒，所以什么也没有ヽ(ー_ー)ノ");
+//        xslMatchTeam.setTeamcreatorid("MTH:59152adf-6815-4d2f-b147-c8aaeb642c77");
+//        xslMatchTeam.setTeamstate(1);
+//        String s = JsonUtils.objectToJson(xslMatchTeam);
+//        System.out.println(s);
+
+//        PositionUpdateReqVo positionUpdateReqVo = new PositionUpdateReqVo();
+//        positionUpdateReqVo.setPositionid("777");
+//        positionUpdateReqVo.setPositionname("777");
+//        positionUpdateReqVo.setPositioninfo("77777");
+//        positionUpdateReqVo.setTeamid("Taadc747a-275a-43b9-9350-e337f9e89c5d");
+//        System.out.println(JsonUtils.objectToJson(positionUpdateReqVo));
+
+        XslPositionApplication xslPositionApplication = new XslPositionApplication();
+        xslPositionApplication.setHunterid("MTH:f618bbbe-521a-4c05-baff-edb1b8b687be");
+        xslPositionApplication.setPositionid("e86d0498-410c-4a00-9b6d-75a0da303f4f");
+        xslPositionApplication.setApplicationstate(PositionApplicationStatesEnum.UNDER_PPLICATION.getCode());
+        System.out.println(JsonUtils.objectToJson(xslPositionApplication));
     }
-
+//    public static class Animals{
+//
+//    }
+//    public static class Cat extends Animals{
+//
+//    }
+//    public static class BlackCat extends Cat{
+//
+//    }
 }
+

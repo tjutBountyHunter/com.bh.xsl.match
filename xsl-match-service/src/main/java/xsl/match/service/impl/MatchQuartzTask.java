@@ -1,7 +1,7 @@
 package xsl.match.service.impl;
 
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.MatchState;
+import com.xsl.enums.MatchStateEnum;
 import com.xsl.pojo.XslMatch;
 import com.xsl.result.XslResult;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class MatchQuartzTask {
         XslMatch newMatch = new XslMatch();
         //更新所有比赛状态
         for (XslMatch xslMatch : matchList){
-            MatchState state = getState(xslMatch, now);
+            MatchStateEnum state = getState(xslMatch, now);
             if (state != null && !xslMatch.getMatchstate().equals(state.getKey())){
                 newMatch.setMatchid(xslMatch.getMatchid());
                 newMatch.setMatchstate(state.getKey());
@@ -53,22 +53,22 @@ public class MatchQuartzTask {
     }
 
     /** 获取当前比赛应有的状态 */
-    public MatchState getState(XslMatch xslMatch,Date now){
-        if (xslMatch.getMatchstate().equals(MatchState.DELETE.getKey()) || xslMatch.getMatchstate().equals(MatchState.MATCH_END.getKey())){
+    public MatchStateEnum getState(XslMatch xslMatch, Date now){
+        if (xslMatch.getMatchstate().equals(MatchStateEnum.DELETE.getKey()) || xslMatch.getMatchstate().equals(MatchStateEnum.MATCH_END.getKey())){
             return null;
         }
         if (xslMatch.getMatchsignupstarttime().after(now)){
-            return MatchState.BEFORE_SIGN_UP;
+            return MatchStateEnum.BEFORE_SIGN_UP;
         }
         if (xslMatch.getMatchsignupendtime().after(now)){
-            return MatchState.SIGN_UP;
+            return MatchStateEnum.SIGN_UP;
         }
         if (xslMatch.getMatchstarttime().after(now)){
-            return MatchState.SIGN_UP_END;
+            return MatchStateEnum.SIGN_UP_END;
         }
         if (xslMatch.getMatchendtime().after(now)){
-            return MatchState.MATCH_START;
+            return MatchStateEnum.MATCH_START;
         }
-        return MatchState.MATCH_END;
+        return MatchStateEnum.MATCH_END;
     }
 }

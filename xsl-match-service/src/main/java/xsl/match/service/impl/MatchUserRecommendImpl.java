@@ -51,7 +51,7 @@ public class MatchUserRecommendImpl implements MatchUserRecommend {
          */
         try {
             threadPool.execute(()->{getRecommendedList(positionId,HUNTER_RECOMMEND_NUM);});
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

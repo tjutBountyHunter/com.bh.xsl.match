@@ -1,5 +1,7 @@
 package com.xsl.pojo.Vo;
 
+import com.xsl.pojo.XslTeamMember;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +18,6 @@ public class PositionDetailsResVo implements Serializable {
     private String positionid;
 
     private String teamid;
-
-    private String teamname;
 
     private String positionname;
 
@@ -85,11 +85,4 @@ public class PositionDetailsResVo implements Serializable {
         this.tags = tags;
     }
 
-    public String getTeamname() {
-        return teamname;
-    }
-
-    public void setTeamname(String teamname) {
-        this.teamname = teamname;
-    }
 }

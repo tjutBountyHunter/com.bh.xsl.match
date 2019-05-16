@@ -41,7 +41,7 @@ public class XslTagController {
     /** 获取所有标签 */
     public XslResult getTags(){
         List<XslTag> tags = xslTagService.getTags();
-        return ResultUtils.isOk(tags);
+        return ResultUtils.ok(tags);
     }
 
     @RequestMapping("/get/tag")
@@ -49,7 +49,7 @@ public class XslTagController {
     /** 获取指定标签 */
     public XslResult getTag(String tagId){
         List<XslTag> tags = xslTagService.getTags(tagId);
-        return ResultUtils.isOk(tags.get(0));
+        return ResultUtils.ok(tags.get(0));
     }
 
 

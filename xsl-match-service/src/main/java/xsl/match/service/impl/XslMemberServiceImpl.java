@@ -1,7 +1,9 @@
 package xsl.match.service.impl;
 
 import com.xsl.Utils.IdUtils;
+import com.xsl.Utils.MatchArrayUtils;
 import com.xsl.Utils.ResultUtils;
+import com.xsl.enums.MemberStatesEnum;
 import com.xsl.pojo.Example.XslTeamMemberExample;
 import com.xsl.pojo.Vo.MemberInfoResVo;
 import com.xsl.pojo.XslMatch;
@@ -9,14 +11,17 @@ import com.xsl.pojo.XslTeamMember;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.pojo.XslUser;
 import com.xsl.result.XslResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslTeamMemberMapper;
 import xsl.match.service.XslMemberService;
 import xsl.match.service.XslPositionService;
 import xsl.match.service.XslUserService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,6 +31,7 @@ import java.util.List;
  * @Date: 2019/5/4 09:07
  * @Description:
  */
+@Service
 public class XslMemberServiceImpl implements XslMemberService {
 
     @Autowired
@@ -77,24 +83,76 @@ public class XslMemberServiceImpl implements XslMemberService {
             }
             return (memberInfos);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e.getCause());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public XslResult addMemberByTeamId(XslTeamMember xslTeamMember) throws RuntimeException {
-        String uuid = IdUtils.getUuid("MM:");
-        xslTeamMember.setMemberid(uuid);
-        return null;
+    /** 获取指定职位的成员 */
+    public List<XslTeamMember> getAllMemberByPositionId(String positionId) throws RuntimeException {
+        List<XslTeamMember> members = getMembers(null, null, positionId,
+                MemberStatesEnum.NORMAL.getCode(), MemberStatesEnum.FINISH.getCode());
+        return members;
     }
 
     @Override
-    public XslResult addMemberByTeamId(String teamId) throws RuntimeException {
+    public XslResult addMember(String positionId,String hunterId,String teamId) throws RuntimeException {
+        XslTeamMember xslTeamMember = new XslTeamMember();
+        xslTeamMember.setHunterid(hunterId);
+        xslTeamMember.setPositionid(positionId);
+        xslTeamMember.setTeamid(teamId);
+        String uuid = IdUtils.getUuid();
+        xslTeamMember.setMemberid(uuid);
+        xslTeamMember.setMemberstate(MemberStatesEnum.NORMAL.getCode());
+        int i = xslTeamMemberMapper.insertSelective(xslTeamMember);
+        if (i <= 0){
+            return ResultUtils.error();
+        }
+        return ResultUtils.ok();
+    }
+
+    @Override
+    public XslResult removeMemberByTeamId(String teamId) throws RuntimeException {
         return null;
     }
 
     @Override
     public XslResult changeMemberState(String memberId, Integer state) throws RuntimeException {
         return null;
+    }
+
+    @Override
+    /** 根据hunterId 查询成员 */
+    public XslTeamMember getMemberByHunterId(String hunterId) throws RuntimeException {
+        List<XslTeamMember> member = getMembers(hunterId, null, null, MemberStatesEnum.NORMAL.getCode(),
+                MemberStatesEnum.FINISH.getCode());
+        if (!MatchArrayUtils.isNotEmpty(member)){
+            return new XslTeamMember();
+        }
+        return member.get(0);
+    }
+
+    /** 根据条件查询成员信息 */
+    public List<XslTeamMember> getMembers(String hunterId,String teamId,String positionId,Integer... state) throws RuntimeException {
+        try {
+            XslTeamMemberExample xslTeamMemberExample = new XslTeamMemberExample();
+            XslTeamMemberExample.Criteria criteria = xslTeamMemberExample.createCriteria();
+            if (StringUtils.isNotBlank(hunterId)){
+                criteria.andHunteridEqualTo(hunterId);
+            }
+            if (StringUtils.isNotBlank(teamId)){
+                criteria.andTeamidEqualTo(teamId);
+            }
+            if (StringUtils.isNotBlank(positionId)){
+                criteria.andPositionidEqualTo(positionId);
+            }
+            if (state != null && state.length > 0){
+                criteria.andMemberstateIn(Arrays.asList(state));
+            }
+            List<XslTeamMember> xslTeamMembers = xslTeamMemberMapper.selectByExample(xslTeamMemberExample);
+            return xslTeamMembers;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

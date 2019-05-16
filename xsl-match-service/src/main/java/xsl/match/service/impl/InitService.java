@@ -2,7 +2,7 @@ package xsl.match.service.impl;
 
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
-import com.xsl.enums.DataStates;
+import com.xsl.enums.DataStatesEnum;
 import com.xsl.pojo.*;
 import com.xsl.pojo.Example.*;
 import org.slf4j.Logger;
@@ -75,7 +75,7 @@ public class InitService {
         try {
             XslMatchExample xslMatchExample = new XslMatchExample();
             XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
-            criteria.andMatchstateNotEqualTo(DataStates.DELETE.getCode());
+            criteria.andMatchstateNotEqualTo(DataStatesEnum.DELETE.getCode());
             list = xslMatchMapper.selectByExample(xslMatchExample);
             //添加单个比赛
             for (XslMatch xslMatch : list){

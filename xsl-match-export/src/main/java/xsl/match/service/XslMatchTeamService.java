@@ -37,5 +37,8 @@ public interface XslMatchTeamService {
     List<XslMatchTeam> selectAllTeamByMatch(String matchId)throws RuntimeException;
 
     /** 根据队伍Id 获取队伍信息 */
-    XslMatchTeam selectTeamByTeamId(String teamId)throws RuntimeException;
+    XslMatchTeam getCurrentTeamByTeamId(String teamId)throws RuntimeException;
+
+    /** 根据创见者获取队伍信息 */
+    XslMatchTeam getCurrentTeamByCreater(String hunterId)throws RuntimeException;
 }

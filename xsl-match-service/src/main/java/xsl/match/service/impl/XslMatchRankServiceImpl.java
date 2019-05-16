@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.DataStates;
+import com.xsl.enums.DataStatesEnum;
 import com.xsl.pojo.XslMatchRank;
 import com.xsl.pojo.Example.XslMatchRankExample;
 import com.xsl.result.EasyUIDataGridResult;
@@ -49,7 +49,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
         try {
             XslMatchRankExample xslMatchRankExample = new XslMatchRankExample();
             XslMatchRankExample.Criteria criteria = xslMatchRankExample.createCriteria();
-            criteria.andRankstateEqualTo(DataStates.NORMAL.getCode());
+            criteria.andRankstateEqualTo(DataStatesEnum.NORMAL.getCode());
             List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByExample(xslMatchRankExample);
             EasyUIDataGridResult result = new EasyUIDataGridResult();
             result.setRows(xslMatchRanks);
@@ -75,7 +75,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
          */
         try {
             XslMatchRankExample xslMatchRankExample = new XslMatchRankExample();
-            xslMatchRankExample.createCriteria().andRankstateEqualTo(DataStates.NORMAL.getCode());
+            xslMatchRankExample.createCriteria().andRankstateEqualTo(DataStatesEnum.NORMAL.getCode());
             List<XslMatchRank> xslMatchRanks = xslMatchRankMapper.selectByExample(xslMatchRankExample);
             return xslMatchRanks;
         }catch (Exception e){
@@ -127,9 +127,9 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
             int i = xslMatchRankMapper.updateByExampleSelective(xslMatchRank,xslMatchRankExample);
             if (i <= 0){
                 LOGGER.error("更新比赛等级信息失败");
-                return ResultUtils.isError();
+                return ResultUtils.error();
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("修改比赛等级信息异常:"+ e.getMessage());
         }
@@ -147,14 +147,14 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
          */
         String matchRankId = IdUtils.getUuid("MR");
         xslMatchRank.setMatchrankid(matchRankId);
-        xslMatchRank.setRankstate(DataStates.NORMAL.getCode());
+        xslMatchRank.setRankstate(DataStatesEnum.NORMAL.getCode());
         try{
             int insert = xslMatchRankMapper.insert(xslMatchRank);
             if (insert <= 0){
                 LOGGER.error("addMatchRank 添加比赛 失败");
-                return ResultUtils.isError("添加比赛等级失败");
+                return ResultUtils.error("添加比赛等级失败");
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("添加比赛等级异常:" + e.getMessage());
         }
@@ -172,7 +172,7 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
     @Override
     public XslResult deleteMatchRanks(String matchRankIds) throws RuntimeException {
         if (matchRankIds == null){
-            return ResultUtils.isParameterError("deleteMatchRanks() 参数为null");
+            return ResultUtils.parameterError("deleteMatchRanks() 参数为null");
         }
         //拆分多个id
         String[] split = matchRankIds.split(",");
@@ -183,13 +183,13 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
             for (String str : split){
                 xslMatchRankExample.clear();
                 criteria.andMatchrankidEqualTo(str);
-                xslMatchRank.setRankstate(DataStates.DELETE.getCode());
+                xslMatchRank.setRankstate(DataStatesEnum.DELETE.getCode());
                 int i = xslMatchRankMapper.updateByExampleSelective(xslMatchRank,xslMatchRankExample);
                 if (i <= 0){
-                    return ResultUtils.isParameterError("deleteMatchRanks() 删除数据" + str + "失败");
+                    return ResultUtils.parameterError("deleteMatchRanks() 删除数据" + str + "失败");
                 }
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("比赛等级删除异常：" + e.getMessage());
         }

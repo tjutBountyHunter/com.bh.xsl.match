@@ -1,7 +1,7 @@
 package xsl.match.mapper;
 
-import com.xsl.pojo.Example.XslTeamMemberExample;
 import com.xsl.pojo.XslTeamMember;
+import com.xsl.pojo.Example.XslTeamMemberExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -375,6 +375,76 @@ public class XslTeamMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andTeamidIsNull() {
+            addCriterion("teamid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidIsNotNull() {
+            addCriterion("teamid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidEqualTo(String value) {
+            addCriterion("teamid =", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidNotEqualTo(String value) {
+            addCriterion("teamid <>", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidGreaterThan(String value) {
+            addCriterion("teamid >", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidGreaterThanOrEqualTo(String value) {
+            addCriterion("teamid >=", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidLessThan(String value) {
+            addCriterion("teamid <", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidLessThanOrEqualTo(String value) {
+            addCriterion("teamid <=", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidLike(String value) {
+            addCriterion("teamid like", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidNotLike(String value) {
+            addCriterion("teamid not like", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidIn(List<String> values) {
+            addCriterion("teamid in", values, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidNotIn(List<String> values) {
+            addCriterion("teamid not in", values, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidBetween(String value1, String value2) {
+            addCriterion("teamid between", value1, value2, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidNotBetween(String value1, String value2) {
+            addCriterion("teamid not between", value1, value2, "teamid");
+            return (Criteria) this;
+        }
+
         public Criteria andMemberstateIsNull() {
             addCriterion("memberState is null");
             return (Criteria) this;

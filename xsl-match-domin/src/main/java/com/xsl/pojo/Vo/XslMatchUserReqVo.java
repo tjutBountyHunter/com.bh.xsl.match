@@ -1,5 +1,7 @@
 package com.xsl.pojo.Vo;
 
+import com.xsl.pojo.XslTag;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +29,7 @@ public class XslMatchUserReqVo implements Serializable {
 
     private String selfassessment;
 
-    private List<String> tags;
+    private List<XslTag> tags;
 
     public String getHunterid() {
         return hunterid;
@@ -86,11 +88,11 @@ public class XslMatchUserReqVo implements Serializable {
     }
 
 
-    public List<String> getTags() {
+    public List<XslTag> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(List<XslTag> tags) {
         this.tags = tags;
     }
 }

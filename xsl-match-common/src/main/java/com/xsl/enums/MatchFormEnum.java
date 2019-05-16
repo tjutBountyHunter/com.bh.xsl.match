@@ -7,13 +7,13 @@ package com.xsl.enums;
  * @Date: 2019/4/21 14:05
  * @Description:
  */
-public enum MatchForm {
+public enum MatchFormEnum {
     PERSONAL(1,"个人"),GROUP(2,"团体"),UNLIMITED(3,"不限");
 
     private Integer key;
     private String value;
 
-    MatchForm(Integer key, String value) {
+    MatchFormEnum(Integer key, String value) {
         this.key = key;
         this.value = value;
     }
@@ -27,9 +27,9 @@ public enum MatchForm {
     }
 
     /** 根据key获取相应的枚举 */
-    public static MatchForm getEnumByKey(Integer key){
-        MatchForm[] values = MatchForm.values();
-        for (MatchForm matchForm : values){
+    public static MatchFormEnum getEnumByKey(Integer key){
+        MatchFormEnum[] values = MatchFormEnum.values();
+        for (MatchFormEnum matchForm : values){
             if (matchForm.key.equals(key)){
                 return matchForm;
             }

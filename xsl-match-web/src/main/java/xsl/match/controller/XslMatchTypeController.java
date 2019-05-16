@@ -51,7 +51,7 @@ public class XslMatchTypeController {
     /** 不分页的获取所有比赛类型 */
     public XslResult getListOfMatchTypeAPP(){
         List<XslMatchType> allType = xslMatchTypeService.getAllType();
-        return ResultUtils.isOk(allType);
+        return ResultUtils.ok(allType);
     }
 
     @RequestMapping("/select")

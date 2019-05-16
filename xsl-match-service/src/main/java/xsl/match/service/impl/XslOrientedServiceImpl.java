@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
-import com.xsl.enums.DataStates;
+import com.xsl.enums.DataStatesEnum;
 import com.xsl.pojo.Example.XslOrientedExample;
 import com.xsl.pojo.XslOriented;
 import com.xsl.result.EasyUIDataGridResult;
@@ -48,7 +48,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
         try{
             XslOrientedExample xslOrientedExample = new XslOrientedExample();
             XslOrientedExample.Criteria criteria = xslOrientedExample.createCriteria();
-            criteria.andOrientedstateNotEqualTo(DataStates.DELETE.getCode());
+            criteria.andOrientedstateNotEqualTo(DataStatesEnum.DELETE.getCode());
 
             List<XslOriented> xslOrienteds = xslOrientedMapper.selectByExample(xslOrientedExample);
             EasyUIDataGridResult result = new EasyUIDataGridResult();
@@ -76,7 +76,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
         try {
             XslOrientedExample xslOrientedExample = new XslOrientedExample();
             XslOrientedExample.Criteria criteria = xslOrientedExample.createCriteria();
-            criteria.andOrientedstateNotEqualTo(DataStates.DELETE.getCode());
+            criteria.andOrientedstateNotEqualTo(DataStatesEnum.DELETE.getCode());
             List<XslOriented> xslOrienteds = xslOrientedMapper.selectByExample(xslOrientedExample);
             return xslOrienteds;
         } catch (Exception e) {
@@ -103,9 +103,9 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             int i = xslOrientedMapper.updateByExampleSelective(xslOriented,xslOrientedExample);
             if (i <= 0){
                 LOGGER.error("updateOriented 修改数据 id" + xslOriented.getOrientedid() + "失败");
-                return ResultUtils.isError();
+                return ResultUtils.error();
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("更新人群信息异常" + e.getMessage());
         }
@@ -123,14 +123,14 @@ public class XslOrientedServiceImpl implements XslOrientedService {
          */
         String uuid = IdUtils.getUuid("MO");
         xslOriented.setOrientedid(uuid);
-        xslOriented.setOrientedstate(DataStates.NORMAL.getCode());
+        xslOriented.setOrientedstate(DataStatesEnum.NORMAL.getCode());
         try{
             int insert = xslOrientedMapper.insertSelective(xslOriented);
             if (insert <= 0){
                 LOGGER.error("addOriented 添加人群失败");
-                return ResultUtils.isParameterError();
+                return ResultUtils.parameterError();
             }
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("添加人群异常：" + e.getMessage());
         }
@@ -139,7 +139,7 @@ public class XslOrientedServiceImpl implements XslOrientedService {
     public XslResult deleteOrienteds(List<String> xslOrientedIds) throws RuntimeException {
         if (xslOrientedIds == null){
             LOGGER.info("删除人群 matchOrientedIds 为null");
-            return ResultUtils.isParameterError();
+            return ResultUtils.parameterError();
         }
         try{
             XslOriented xslOriented = new XslOriented();
@@ -151,10 +151,10 @@ public class XslOrientedServiceImpl implements XslOrientedService {
 
             if (i < xslOrientedIds.size() - 1){
                     LOGGER.error("updateMatchState 删除部分失败");
-                    return ResultUtils.isError();
+                    return ResultUtils.error();
                 }
 
-            return ResultUtils.isOk();
+            return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("删除人群异常:" + e.getMessage());
         }

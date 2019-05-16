@@ -2,8 +2,8 @@ package xsl.match.advice;
 
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
-import com.xsl.enums.DataStates;
-import com.xsl.enums.ResultCode;
+import com.xsl.enums.DataStatesEnum;
+import com.xsl.enums.ResultCodeEnum;
 import com.xsl.pojo.XslMatch;
 import com.xsl.pojo.Example.XslMatchExample;
 import com.xsl.result.XslResult;
@@ -63,7 +63,7 @@ public class UpdateMatchBuffer {
          * @date: 2019/4/28 14:01
          */
         threadPoolTaskExecutor.execute(()->{
-            if (!xslResult.getCode().equals(ResultCode.SUCCESS.getCode())){
+            if (!xslResult.getCode().equals(ResultCodeEnum.SUCCESS.getCode())){
                 return;
             }
             if (xslResult.getData() != null){
@@ -99,7 +99,7 @@ public class UpdateMatchBuffer {
          * @date: 2019/4/28 14:02
          */
         threadPoolTaskExecutor.execute(()->{
-            if (!xslResult.getCode().equals(ResultCode.SUCCESS.getCode())){
+            if (!xslResult.getCode().equals(ResultCodeEnum.SUCCESS.getCode())){
                 return;
             }
             String matchIds = (String)joinPoint.getArgs()[0];
@@ -121,7 +121,7 @@ public class UpdateMatchBuffer {
                     LOGGER.info("删除比赛缓存--"+ joinPoint.getArgs()[0].toString() +"成功");
                 }
                 XslMatchExample xslMatchExample = new XslMatchExample();
-                xslMatchExample.createCriteria().andMatchstateNotEqualTo(DataStates.DELETE.getCode());
+                xslMatchExample.createCriteria().andMatchstateNotEqualTo(DataStatesEnum.DELETE.getCode());
                 List<XslMatch> xslMatches = xslMatchMapper.selectByExample(xslMatchExample);
                 for (String rankId : rank){
                     bufferService.updateMatchRankClassification(xslMatches,rankId);
@@ -143,7 +143,7 @@ public class UpdateMatchBuffer {
     public void updateMatch(String typeId,String rankId,Integer state){
         XslMatchExample xslMatchExample = new XslMatchExample();
         XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
-        criteria.andMatchstateNotEqualTo(DataStates.DELETE.getCode());
+        criteria.andMatchstateNotEqualTo(DataStatesEnum.DELETE.getCode());
         List<XslMatch> xslMatches = xslMatchMapper.selectByExample(xslMatchExample);
         bufferService.updateMatchRankClassification(xslMatches,rankId);
         bufferService.updateMatchStateClassification(xslMatches,state);

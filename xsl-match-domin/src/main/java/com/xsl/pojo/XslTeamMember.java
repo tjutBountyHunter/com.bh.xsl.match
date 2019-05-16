@@ -11,6 +11,8 @@ public class XslTeamMember {
 
     private String positionid;
 
+    private String teamid;
+
     private Integer memberstate;
 
     private Date memberjointime;
@@ -45,6 +47,14 @@ public class XslTeamMember {
 
     public void setPositionid(String positionid) {
         this.positionid = positionid == null ? null : positionid.trim();
+    }
+
+    public String getTeamid() {
+        return teamid;
+    }
+
+    public void setTeamid(String teamid) {
+        this.teamid = teamid == null ? null : teamid.trim();
     }
 
     public Integer getMemberstate() {

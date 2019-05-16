@@ -1,19 +1,19 @@
 package com.xsl.enums;
 
 /**
- * 说明：队伍状态
+ * 说明：职位状态
  *
  * @Auther: 11432_000
- * @Date: 2019/4/27 17:16
+ * @Date: 2019/5/2 11:44
  * @Description:
  */
-public enum TeamStates {
-    DELETE(0,"已删除"),CREATE_SUCCESS(1,"创建成功"),RECRUIT(2,"招募中"),NOT_RECRUIT(3,"停止招募"),FINISH(5,"比赛完成"),DISBANDED(6,"队伍解散");
+public enum PositionStatesEnum {
+    NORMAL(1,"正常"),DELETE(0,"已删除"),RECRUITMENT(3,"招募中"),RECRUITMENT_STOP(4,"招募停止"),NON_EDITABLE(5,"队伍已解散");
 
     private Integer code;
     private String msg;
 
-    TeamStates(Integer code, String msg) {
+    PositionStatesEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

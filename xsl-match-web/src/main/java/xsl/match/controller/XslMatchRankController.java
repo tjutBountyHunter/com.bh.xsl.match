@@ -70,7 +70,7 @@ public class XslMatchRankController {
      */
     public XslResult getAllRankListApp(){
         List<XslMatchRank> allRank = xslMatchRankService.getAllRank();
-        return ResultUtils.isOk(allRank);
+        return ResultUtils.ok(allRank);
     }
 
 

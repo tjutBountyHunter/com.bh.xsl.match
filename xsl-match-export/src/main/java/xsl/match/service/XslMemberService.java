@@ -16,10 +16,14 @@ import java.util.List;
 public interface XslMemberService {
     /** 根据队伍ID 获取所有成员信息 */
     List<MemberInfoResVo> getAllMemberByTeamId(String teamId)throws RuntimeException;
+    /** 根据职位ID 获取所有成员 */
+    List<XslTeamMember> getAllMemberByPositionId(String positionId)throws RuntimeException;
     /** 添加一位新成员 */
-    XslResult addMemberByTeamId(XslTeamMember xslTeamMember)throws RuntimeException;
+    XslResult addMember(String positionId,String hunterId,String teamId)throws RuntimeException;
     /** 删除成员 */
-    XslResult addMemberByTeamId(String teamId)throws RuntimeException;
+    XslResult removeMemberByTeamId(String teamId)throws RuntimeException;
     /** 更改成员状态 */
     XslResult changeMemberState(String memberId,Integer state)throws RuntimeException;
+    /** 根据hunterId 查询成员 */
+    XslTeamMember getMemberByHunterId(String hunterId)throws RuntimeException;
 }

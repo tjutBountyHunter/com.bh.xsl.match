@@ -18,10 +18,14 @@ public interface XslPositionTagService {
     XslResult addPositionTag(String positionId ,String tagId)throws RuntimeException;
     /** 为职位删除一个标签 */
     XslResult removePositionTag(String positionId ,String tagId)throws RuntimeException;
+    /** 为职位添加多个标签 */
+    XslResult addPositionTags(String positionId ,List<String> tagIds)throws RuntimeException;
     /** 查询职位的所有使用中标签 */
     List<XslTaskTag> getAllTagByPositionId(String positionId)throws RuntimeException;
     /** 查询职位的所有使用中标签 + 标签名 */
     List<PositionTagResVo> getAllTagInfoByPositionId(String positionId)throws RuntimeException;
     /** 查询所有持有某标签的职位 */
     List<XslTaskTag> getAllPositionByTagId(String tagId)throws RuntimeException;
+    /** 更新用户标签 */
+    XslResult updateTags(String positionId ,List<String> tagIds)throws RuntimeException;
 }

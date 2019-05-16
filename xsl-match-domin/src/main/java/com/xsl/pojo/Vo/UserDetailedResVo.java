@@ -30,6 +30,7 @@ public class UserDetailedResVo {
 
     private String signature;
 
+    /** 补充信息 */
     private String matchtypeid;
 
     private Boolean isrecommend;
@@ -38,10 +39,26 @@ public class UserDetailedResVo {
 
     private String selfassessment;
 
-    private List<XslMatchHonor> honors;
+    /** 头像信息 */
+    private String txUrl;
 
+    /** 学校信息 */
+    private String sno;
+
+    private String major;
+
+    private String college;
+
+    private String school;
+
+    private String startdate;
+
+    private Byte degree;
+
+    private Byte schoolhours;
+
+    /** 标签信息 */
     private List<HunterTagResVo> tags;
-
 
     public String getUserid() {
         return userid;
@@ -139,13 +156,13 @@ public class UserDetailedResVo {
         this.selfassessment = selfassessment;
     }
 
-    public List<XslMatchHonor> getHonors() {
-        return honors;
-    }
-
-    public void setHonors(List<XslMatchHonor> honors) {
-        this.honors = honors;
-    }
+//    public List<XslMatchHonor> getHonors() {
+//        return honors;
+//    }
+//
+//    public void setHonors(List<XslMatchHonor> honors) {
+//        this.honors = honors;
+//    }
 
     public List<HunterTagResVo> getTags() {
         return tags;
@@ -153,5 +170,69 @@ public class UserDetailedResVo {
 
     public void setTags(List<HunterTagResVo> tags) {
         this.tags = tags;
+    }
+
+    public String getTxUrl() {
+        return txUrl;
+    }
+
+    public void setTxUrl(String txUrl) {
+        this.txUrl = txUrl;
+    }
+
+    public String getSno() {
+        return sno;
+    }
+
+    public void setSno(String sno) {
+        this.sno = sno;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
+    }
+
+    public Byte getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Byte degree) {
+        this.degree = degree;
+    }
+
+    public Byte getSchoolhours() {
+        return schoolhours;
+    }
+
+    public void setSchoolhours(Byte schoolhours) {
+        this.schoolhours = schoolhours;
     }
 }

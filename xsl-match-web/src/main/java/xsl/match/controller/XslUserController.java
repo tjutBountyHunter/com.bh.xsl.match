@@ -41,7 +41,7 @@ public class XslUserController {
     /** 根据邮箱查询用户*/
     public XslResult getUserByEmail(@Param("email")String email){
         XslUser userByEmail = xslUserService.getUserByEmail(email);
-        return ResultUtils.isOk(userByEmail);
+        return ResultUtils.ok(userByEmail);
     }
 
     @RequestMapping("/select/phone")
@@ -49,7 +49,7 @@ public class XslUserController {
     /** 根据手机号查询用户 */
     public XslResult getUserByPhone(@Param("phone")String phone){
         XslUser userByPhone = xslUserService.getUserByPhone(phone);
-        return ResultUtils.isOk(userByPhone);
+        return ResultUtils.ok(userByPhone);
     }
 
     @RequestMapping("/login")
@@ -74,7 +74,7 @@ public class XslUserController {
     /** 根据地区获取学校列表  */
     public XslResult getSchoolList(String region){
         List<XslSchool> schoolList = xslUserService.getSchoolList(region.toString());
-        return ResultUtils.isOk(schoolList);
+        return ResultUtils.ok(schoolList);
     }
 
 
@@ -83,7 +83,7 @@ public class XslUserController {
     /** 获取地区 */
     public XslResult getSchoolRegion(){
         List<String> regionList = xslUserService.getRegionList();
-        return ResultUtils.isOk(regionList);
+        return ResultUtils.ok(regionList);
     }
 
     @RequestMapping("/edit/user/info")
@@ -92,7 +92,7 @@ public class XslUserController {
     public XslResult editUserInfo(@RequestBody MatchUserEditReqVo xMatchUserEditReqVo){
         UserSupplementVo userSupplementVo =  new UserSupplementVo();
         BeanUtils.copyProperties(xMatchUserEditReqVo,userSupplementVo);
-        XslResult xslResult = xslUserService.updateUserInfo(userSupplementVo);
+        XslResult xslResult = xslUserService.updateUserInfo(userSupplementVo.getUserid(),userSupplementVo);
         return xslResult;
     }
 
@@ -100,7 +100,7 @@ public class XslUserController {
     @ResponseBody
     /** 认证用户信息 */
     public XslResult authenticationUserInfo(@RequestBody UserSupplementVo userSupplementVo){
-        XslResult xslResult = xslUserService.updateUserInfo(userSupplementVo);
+        XslResult xslResult = xslUserService.updateUserInfo(userSupplementVo.getUserid(),userSupplementVo);
         return xslResult;
     }
 
@@ -109,7 +109,7 @@ public class XslUserController {
     /** 获取用户详情（其他人查看的） */
     public XslResult getDetailedInfo(String userid){
         UserDetailedResVo userDetailedInfo = xslUserService.getUserDetailedInfo(userid);
-        return ResultUtils.isOk(userDetailedInfo);
+        return ResultUtils.ok(userDetailedInfo);
     }
 
 

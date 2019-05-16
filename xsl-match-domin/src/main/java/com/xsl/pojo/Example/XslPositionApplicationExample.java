@@ -165,73 +165,73 @@ public class XslPositionApplicationExample {
             return (Criteria) this;
         }
 
-        public Criteria andUseridIsNull() {
-            addCriterion("userId is null");
+        public Criteria andHunteridIsNull() {
+            addCriterion("hunterId is null");
             return (Criteria) this;
         }
 
-        public Criteria andUseridIsNotNull() {
-            addCriterion("userId is not null");
+        public Criteria andHunteridIsNotNull() {
+            addCriterion("hunterId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUseridEqualTo(String value) {
-            addCriterion("userId =", value, "userid");
+        public Criteria andHunteridEqualTo(String value) {
+            addCriterion("hunterId =", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridNotEqualTo(String value) {
-            addCriterion("userId <>", value, "userid");
+        public Criteria andHunteridNotEqualTo(String value) {
+            addCriterion("hunterId <>", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridGreaterThan(String value) {
-            addCriterion("userId >", value, "userid");
+        public Criteria andHunteridGreaterThan(String value) {
+            addCriterion("hunterId >", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridGreaterThanOrEqualTo(String value) {
-            addCriterion("userId >=", value, "userid");
+        public Criteria andHunteridGreaterThanOrEqualTo(String value) {
+            addCriterion("hunterId >=", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridLessThan(String value) {
-            addCriterion("userId <", value, "userid");
+        public Criteria andHunteridLessThan(String value) {
+            addCriterion("hunterId <", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridLessThanOrEqualTo(String value) {
-            addCriterion("userId <=", value, "userid");
+        public Criteria andHunteridLessThanOrEqualTo(String value) {
+            addCriterion("hunterId <=", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridLike(String value) {
-            addCriterion("userId like", value, "userid");
+        public Criteria andHunteridLike(String value) {
+            addCriterion("hunterId like", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridNotLike(String value) {
-            addCriterion("userId not like", value, "userid");
+        public Criteria andHunteridNotLike(String value) {
+            addCriterion("hunterId not like", value, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridIn(List<String> values) {
-            addCriterion("userId in", values, "userid");
+        public Criteria andHunteridIn(List<String> values) {
+            addCriterion("hunterId in", values, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridNotIn(List<String> values) {
-            addCriterion("userId not in", values, "userid");
+        public Criteria andHunteridNotIn(List<String> values) {
+            addCriterion("hunterId not in", values, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridBetween(String value1, String value2) {
-            addCriterion("userId between", value1, value2, "userid");
+        public Criteria andHunteridBetween(String value1, String value2) {
+            addCriterion("hunterId between", value1, value2, "hunterid");
             return (Criteria) this;
         }
 
-        public Criteria andUseridNotBetween(String value1, String value2) {
-            addCriterion("userId not between", value1, value2, "userid");
+        public Criteria andHunteridNotBetween(String value1, String value2) {
+            addCriterion("hunterId not between", value1, value2, "hunterid");
             return (Criteria) this;
         }
 
@@ -302,6 +302,76 @@ public class XslPositionApplicationExample {
 
         public Criteria andPositionidNotBetween(String value1, String value2) {
             addCriterion("positionId not between", value1, value2, "positionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidIsNull() {
+            addCriterion("teamId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidIsNotNull() {
+            addCriterion("teamId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidEqualTo(String value) {
+            addCriterion("teamId =", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidNotEqualTo(String value) {
+            addCriterion("teamId <>", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidGreaterThan(String value) {
+            addCriterion("teamId >", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidGreaterThanOrEqualTo(String value) {
+            addCriterion("teamId >=", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidLessThan(String value) {
+            addCriterion("teamId <", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidLessThanOrEqualTo(String value) {
+            addCriterion("teamId <=", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidLike(String value) {
+            addCriterion("teamId like", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidNotLike(String value) {
+            addCriterion("teamId not like", value, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidIn(List<String> values) {
+            addCriterion("teamId in", values, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidNotIn(List<String> values) {
+            addCriterion("teamId not in", values, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidBetween(String value1, String value2) {
+            addCriterion("teamId between", value1, value2, "teamid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamidNotBetween(String value1, String value2) {
+            addCriterion("teamId not between", value1, value2, "teamid");
             return (Criteria) this;
         }
 

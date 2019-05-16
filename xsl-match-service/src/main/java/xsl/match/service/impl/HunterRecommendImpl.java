@@ -274,7 +274,7 @@ public class HunterRecommendImpl implements HunterRecommend {
     /** 获取比赛信息 */
     public XslMatch getMatch(String taskId){
         XslTeamPosition data = xslPositionService.getPositionByPositionId(taskId);
-        XslMatchTeam xslMatchTeam = xslMatchTeamService.selectTeamByTeamId(data.getTeamid());
+        XslMatchTeam xslMatchTeam = xslMatchTeamService.getCurrentTeamByTeamId(data.getTeamid());
         XslMatch xslMatch = xslMatchService.selectMatchByMatchId(xslMatchTeam.getMatchid());
         return xslMatch;
     }

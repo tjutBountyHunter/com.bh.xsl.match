@@ -1,7 +1,6 @@
 package com.xsl.Utils;
 
-import com.xsl.enums.DataStates;
-import com.xsl.enums.ResultCode;
+import com.xsl.enums.ResultCodeEnum;
 import com.xsl.result.XslResult;
 
 /**
@@ -14,35 +13,42 @@ import com.xsl.result.XslResult;
 public class ResultUtils {
 
     /** 执行成功 */
-    public static XslResult isOk(Object data){
-        return new XslResult(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(),data);
+    public static XslResult ok(Object data){
+        return new XslResult(ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMsg(),data);
     }
-    public static XslResult isOk(){
-        return isOk(null);
+    public static XslResult ok(){
+        return ok(null);
     }
 
     /** 发生异常 */
-    public static XslResult isError(String msg){
-        return new XslResult(ResultCode.EXCEPTION.getCode(),msg);
+    public static XslResult error(String msg){
+        return new XslResult(ResultCodeEnum.EXCEPTION.getCode(),msg);
     }
-    public static XslResult isError(){
-        return isError(ResultCode.EXCEPTION.getMsg());
+    public static XslResult error(){
+        return error(ResultCodeEnum.EXCEPTION.getMsg());
     }
 
 
     /** 发生参数异常 */
-    public static XslResult isParameterError(String msg){
-        return new XslResult(ResultCode.PARAMETER_ERROR.getCode(),msg);
+    public static XslResult parameterError(String msg){
+        return new XslResult(ResultCodeEnum.PARAMETER_ERROR.getCode(),msg);
     }
-    public static XslResult isParameterError(){
-        return isParameterError(ResultCode.PARAMETER_ERROR.getMsg());
+    public static XslResult parameterError(){
+        return parameterError(ResultCodeEnum.PARAMETER_ERROR.getMsg());
+    }
+    /** 资源重复 */
+    public static XslResult repeat(Object data){
+        return new XslResult(ResultCodeEnum.RESOURCE_DUPLICATION.getCode(),ResultCodeEnum.RESOURCE_DUPLICATION.getMsg(),data);
+    }
+    public static XslResult repeat(){
+        return repeat(null);
     }
 
     /** 校验请求是否成功 */
     public static Boolean isSuccess(XslResult xslResult){
-        return ResultCode.SUCCESS.getCode().equals(xslResult.getCode());
+        return ResultCodeEnum.SUCCESS.getCode().equals(xslResult.getCode());
     }
     public static Boolean isSuccess(Integer xslResult){
-        return ResultCode.SUCCESS.getCode().equals(xslResult);
+        return ResultCodeEnum.SUCCESS.getCode().equals(xslResult);
     }
 }
