@@ -72,16 +72,16 @@ var E3 = {
                     // 动态的为对象添加属性
                     $.each(data,function (index,value) {
                         var rankInfo = {};
-                        eval("rankInfo.matchRankId = '" + value.matchRankId + "'");
-                        eval("rankInfo.rankName = '" + value.rankName + "'");
+                        eval("rankInfo.matchrankid = '" + value.matchrankid + "'");
+                        eval("rankInfo.rankname = '" + value.rankname + "'");
                         rankType.push(rankInfo);
                     })
                 }
             });
         }
         $.each(rankType,function (index,value) {
-            if (value.matchRankId == val) {
-                msg = value.rankName;
+            if (value.matchrankid == val) {
+                msg = value.rankname;
                 return false;
             }
         })
@@ -110,16 +110,16 @@ var E3 = {
                     // 动态的为对象添加属性
                     $.each(data,function (index,value) {
                         var rankInfo = {};
-                        eval("rankInfo.rewardRankId = '" + value.rewardRankId + "'");
-                        eval("rankInfo.rewardRankName = '" + value.rewardRankName + "'");
+                        eval("rankInfo.rewardrankid = '" + value.rewardrankid + "'");
+                        eval("rankInfo.rewardrankname = '" + value.rewardrankname + "'");
                         rewardRankType.push(rankInfo);
                     })
                 }
             });
         }
         $.each(rewardRankType,function (index,value) {
-            if (value.rewardRankId == val) {
-                msg = value.rewardRankName;
+            if (value.rewardrankid == val) {
+                msg = value.rewardrankname;
                 return false;
             }
         })
@@ -136,16 +136,16 @@ var E3 = {
                     // 动态的为对象添加属性
                     $.each(data,function (index,value) {
                         var rankInfo = {};
-                        eval("rankInfo.matchTypeId = '" + value.matchTypeId + "'");
-                        eval("rankInfo.matchTypeName = '" + value.matchTypeName + "'");
+                        eval("rankInfo.matchtypeid = '" + value.matchtypeid + "'");
+                        eval("rankInfo.matchtypename = '" + value.matchtypename + "'");
                         matchType.push(rankInfo);
                     })
                 }
             });
         }
         $.each(matchType,function (index,value) {
-            if (value.matchTypeId == val) {
-                msg = value.matchTypeName;
+            if (value.matchtypeid == val) {
+                msg = value.matchtypename;
                 return false;
             }
         })
@@ -159,7 +159,7 @@ var E3 = {
             data : {'matchId': val},
             async : false,
             success : function (data) {
-               msg = data.matchName;
+               msg = data.matchname;
             }
         });
         return msg + "";

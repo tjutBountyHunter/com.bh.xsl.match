@@ -11,12 +11,15 @@ import com.xsl.enums.PositionApplicationStatesEnum;
 import com.xsl.pojo.Example.XslTeamPositionExample;
 import com.xsl.pojo.Vo.PositionDetailsResVo;
 import com.xsl.pojo.Vo.PositionTagResVo;
+import com.xsl.pojo.Vo.RecommendResVo;
 import com.xsl.pojo.XslMatchTeam;
 import com.xsl.pojo.XslTaskTag;
 import com.xsl.pojo.XslTeamMember;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.XslResult;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslTeamPositionMapper;
 import xsl.match.service.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,12 +40,15 @@ import java.util.List;
 @Service
 public class XslPositionServiceImpl implements XslPositionService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(XslPositionServiceImpl.class);
     @Autowired
     private XslTeamPositionMapper xslTeamPositionMapper;
     @Autowired
     private XslPositionTagService xslPositionTagService;
     @Autowired
     private XslPositionApplicationService xslPositionApplicationService;
+    @Autowired
+	private MatchUserRecommend matchUserRecommend;
 
     @Value("${POSITION_DETAILED_INFO}")
     private String POSITION_DETAILED_INFO;
@@ -55,6 +62,12 @@ public class XslPositionServiceImpl implements XslPositionService {
     private String TEAM_POSITION_NUM;
     @Value("${MAX_POSITION}")
     private Integer MAX_POSITION;
+	@Value("${HUNTER_RECOMMEND_BUFFER}")
+	private String HUNTER_RECOMMEND_BUFFER;
+	@Value("${POSITION_DEFAULT_INFO}")
+    private String POSITION_DEFAULT_INFO;
+	@Value("${POSITION_DEFAULT_REQUIREMENTS}")
+    private String POSITION_DEFAULT_REQUIREMENTS;
 
     @Override
     public List<XslTeamPosition>  getAllPositionByTeamId(String teamId) throws RuntimeException {
@@ -92,7 +105,7 @@ public class XslPositionServiceImpl implements XslPositionService {
          */
         try {
             String num = JedisUtils.get(TEAM_POSITION_NUM + ":" + xslTeamPosition.getTeamid());
-            Integer positionNum = 0;
+            Integer positionNum = xslTeamPositionMapper.getPositionNumByTeam(xslTeamPosition.getTeamid());
             if(StringUtils.isNotBlank(num)){
                 positionNum = Integer.valueOf(num);
             }
@@ -101,6 +114,12 @@ public class XslPositionServiceImpl implements XslPositionService {
             }
             String uuid = IdUtils.getUuid();
             xslTeamPosition.setPositionid(uuid);
+            if (StringUtils.isBlank(xslTeamPosition.getPositioninfo())){
+                xslTeamPosition.setPositioninfo(POSITION_DEFAULT_INFO);
+            }
+            if (StringUtils.isBlank(xslTeamPosition.getPositionrequirements())){
+                xslTeamPosition.setPositionrequirements(POSITION_DEFAULT_REQUIREMENTS);
+            }
             xslTeamPosition.setPositionstate(PositionStatesEnum.RECRUITMENT.getCode());
             //添加职位
             int i = xslTeamPositionMapper.insertSelective(xslTeamPosition);
@@ -242,4 +261,25 @@ public class XslPositionServiceImpl implements XslPositionService {
         JedisUtils.expire(POSITION_DETAILED_INFO + ":" + positionId,POSITION_INFO_LIFETIME);
         return positionDetailsResVo;
     }
+
+	@Override
+	/** 获取推荐列表 */
+	public List<RecommendResVo> getRecommend(String positionId) throws RuntimeException {
+		try {
+			//检查职位是否存在
+			XslTeamPosition positionByPositionId = getPositionByPositionId(positionId);
+			if (StringUtils.isBlank(positionByPositionId.getPositionid())){
+				throw new RuntimeException("职位不存在！");
+			}
+			String json = JedisUtils.get(HUNTER_RECOMMEND_BUFFER + ":" + positionId);
+			if (StringUtils.isBlank(json)){
+				matchUserRecommend.recommended(positionId);
+				return new ArrayList<>();
+			}
+			List<RecommendResVo> recommendResVos = JsonUtils.jsonToList(json, RecommendResVo.class);
+			return recommendResVos;
+		} catch (RuntimeException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
 }

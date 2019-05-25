@@ -2,6 +2,7 @@ package xsl.match.service;
 
 import com.xsl.pojo.Vo.PositionUpdateReqVo;
 import com.xsl.pojo.Vo.PositionDetailsResVo;
+import com.xsl.pojo.Vo.RecommendResVo;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.XslResult;
 
@@ -28,4 +29,6 @@ public interface XslPositionService {
     XslTeamPosition getPositionByPositionId(String positionId)throws RuntimeException;
     /** 获取职位详情 */
     PositionDetailsResVo getPositionDetails(String positionId)throws RuntimeException;
+    /** 获取推荐列表 */
+    List<RecommendResVo> getRecommend(String positionId)throws RuntimeException;
 }

@@ -50,6 +50,36 @@
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.bh.xsl.user</groupId>
+                <artifactId>xsl-user-export</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xsl</groupId>
+                <artifactId>xsl-match-dao</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.xsl</groupId>
+                <artifactId>xsl-match-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xsl</groupId>
+                <artifactId>xsl-match-domin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xsl</groupId>
+                <artifactId>xsl-match-export</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
             <!-- quartz 定时任务  -->
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>

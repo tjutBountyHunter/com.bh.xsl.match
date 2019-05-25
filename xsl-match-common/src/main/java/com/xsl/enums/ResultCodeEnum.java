@@ -10,7 +10,7 @@ package com.xsl.enums;
  */
 public enum ResultCodeEnum {
     SUCCESS(200,"成功"),EXCEPTION(500,"服务器异常"),TIMEOUT(502,"超时"),PARAMETER_ERROR(403,"参数错误"),NON_EDITABLE(401,"权限不足"),
-    RESOURCE_DUPLICATION(70,"重复添加（仅用于服务器）");
+    RESOURCE_DUPLICATION(70,"重复添加（仅用于服务器）"),NOT_HAVE(404,"资源不存在");
 
     private Integer code;
     private String msg;

@@ -7,9 +7,7 @@ import com.xsl.Utils.MatchArrayUtils;
 import com.xsl.enums.PositionApplicationStatesEnum;
 import com.xsl.pojo.*;
 import com.xsl.pojo.Example.XslTagExample;
-import com.xsl.pojo.Vo.MatchUserEditReqVo;
-import com.xsl.pojo.Vo.PositionUpdateReqVo;
-import com.xsl.pojo.Vo.XslMatchUserReqVo;
+import com.xsl.pojo.Vo.*;
 import com.xsl.result.XslResult;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -153,11 +151,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 //        positionUpdateReqVo.setTeamid("Taadc747a-275a-43b9-9350-e337f9e89c5d");
 //        System.out.println(JsonUtils.objectToJson(positionUpdateReqVo));
 
-        XslPositionApplication xslPositionApplication = new XslPositionApplication();
-        xslPositionApplication.setHunterid("MTH:f618bbbe-521a-4c05-baff-edb1b8b687be");
-        xslPositionApplication.setPositionid("e86d0498-410c-4a00-9b6d-75a0da303f4f");
-        xslPositionApplication.setApplicationstate(PositionApplicationStatesEnum.UNDER_PPLICATION.getCode());
-        System.out.println(JsonUtils.objectToJson(xslPositionApplication));
+        XslUserRegister userReqVo = new XslUserRegister();
+        userReqVo.setCode("8766");
+        userReqVo.setPassword("123456");
+        userReqVo.setPhone("15222355001");
+        System.out.println(JsonUtils.objectToJson(userReqVo));
     }
 //    public static class Animals{
 //

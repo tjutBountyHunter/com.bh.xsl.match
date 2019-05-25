@@ -36,7 +36,8 @@ public class XslApplyController {
 	@ResponseBody
 	/** 申请加入职位 */
 	public XslResult addApply(@RequestBody XslPositionApplication xslPositionApplication){
-		XslResult xslResult = xslPositionApplicationService.commitApply(xslPositionApplication.getPositionid(), xslPositionApplication.getHunterid());
+		XslResult xslResult = xslPositionApplicationService.commitApply(xslPositionApplication.getPositionid(), xslPositionApplication.getHunterid(),
+				xslPositionApplication.getTeamid());
 		return xslResult;
 	}
 

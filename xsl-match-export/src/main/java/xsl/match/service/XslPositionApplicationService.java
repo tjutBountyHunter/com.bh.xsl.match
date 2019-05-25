@@ -16,7 +16,7 @@ import java.util.List;
 public interface XslPositionApplicationService {
 
     /** 提交申请 */
-    XslResult commitApply(String positionId,String userId)throws RuntimeException;
+    XslResult commitApply(String positionId,String hunterId,String teamId)throws RuntimeException;
     /** 更改申请状态 */
     XslResult changeApplyState(String positionId,String hunterId,Integer state)throws RuntimeException;
     /** 查询指定职位的所有申请 */

@@ -28,18 +28,16 @@
         <dependency>
             <groupId>com.xsl</groupId>
             <artifactId>xsl-match-dao</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.bh.xsl.user</groupId>
+            <artifactId>xsl-user-export</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.xsl</groupId>
             <artifactId>xsl-match-export</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.bh.xsl.user</groupId>
-            <artifactId>xsl_user_export</artifactId>
         </dependency>
         <!-- quartz 定时任务框架 -->
         <dependency>

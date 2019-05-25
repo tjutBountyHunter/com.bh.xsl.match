@@ -11,7 +11,7 @@ public class UserResVo implements Serializable{
 
 	private String name;
 
-	private String password;
+	private transient String password;
 
 	private String sex;
 

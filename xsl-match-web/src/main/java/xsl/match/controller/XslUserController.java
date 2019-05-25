@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import xsl.match.service.PhoneAuthentication;
 import xsl.match.service.XslUserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,8 @@ public class XslUserController {
 
     @Autowired
     private XslUserService xslUserService;
+    @Autowired
+    private PhoneAuthentication phoneAuthentication;
 
     @RequestMapping("/select/email")
     @ResponseBody
@@ -55,7 +58,7 @@ public class XslUserController {
     @RequestMapping("/login")
     @ResponseBody
     /** 登录 */
-    public XslResult login(UserReqVo userReqVo){
+    public XslResult login(@RequestBody UserReqVo userReqVo){
         XslResult userByPhone = xslUserService.userLogin(userReqVo);
         return userByPhone;
     }
@@ -64,7 +67,7 @@ public class XslUserController {
     @RequestMapping("/quick/register")
     @ResponseBody
     /** 快速注册 */
-    public XslResult quickRegister(XslUserRegister xslUserRegister){
+    public XslResult quickRegister(@RequestBody XslUserRegister xslUserRegister){
         XslResult userByPhone = xslUserService.quickCreateUser(xslUserRegister);
         return userByPhone;
     }
@@ -110,6 +113,14 @@ public class XslUserController {
     public XslResult getDetailedInfo(String userid){
         UserDetailedResVo userDetailedInfo = xslUserService.getUserDetailedInfo(userid);
         return ResultUtils.ok(userDetailedInfo);
+    }
+
+    @RequestMapping("/get/verificationCode")
+    @ResponseBody
+    /** 获取验证码 */
+    public XslResult sendVerificationCode(@Param("phone") String phone){
+        XslResult xslResult = phoneAuthentication.sendVerificationCode(phone);
+        return xslResult;
     }
 
 

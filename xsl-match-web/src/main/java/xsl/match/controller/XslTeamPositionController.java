@@ -4,6 +4,7 @@ import com.xsl.Utils.ResultUtils;
 import com.xsl.pojo.Vo.PositionDetailsResVo;
 import com.xsl.pojo.Vo.PositionTagResVo;
 import com.xsl.pojo.Vo.PositionUpdateReqVo;
+import com.xsl.pojo.Vo.RecommendResVo;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.XslResult;
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import xsl.match.service.MatchUserRecommend;
 import xsl.match.service.XslPositionService;
 import xsl.match.service.XslPositionTagService;
 
@@ -34,6 +36,8 @@ public class XslTeamPositionController {
 	XslPositionService xslPositionService;
 	@Autowired
 	XslPositionTagService xslPositionTagService;
+	@Autowired
+	MatchUserRecommend matchUserRecommend;
 
 	@RequestMapping("get/info")
 	@ResponseBody
@@ -45,6 +49,14 @@ public class XslTeamPositionController {
 		BeanUtils.copyProperties(positionByPositionId,xslResult);
 		xslResult.setTags(allTagInfoByPositionId);
 		return ResultUtils.ok(xslResult);
+	}
+
+	@RequestMapping("get/list")
+	@ResponseBody
+	/** 获取职位信息 */
+	public XslResult getPositionList(@Param("teamId") String teamId){
+		List<XslTeamPosition> allPositionByTeamId = xslPositionService.getAllPositionByTeamId(teamId);
+		return ResultUtils.ok(allPositionByTeamId);
 	}
 
 
@@ -66,6 +78,8 @@ public class XslTeamPositionController {
 		if (!ResultUtils.isSuccess(xslResult1)){
 			return xslResult1;
 		}
+		//重新生成推荐
+		matchUserRecommend.recommended(positionUpdateReqVo.getPositionid());
 		return ResultUtils.ok();
 	}
 
@@ -85,9 +99,24 @@ public class XslTeamPositionController {
 			String positionId = xslResult.getData().toString();
 			XslResult xslResult1 = xslPositionTagService.addPositionTags(positionId, tags);
 			if (!ResultUtils.isSuccess(xslResult1)){
+				//启动推荐
+				matchUserRecommend.recommended(positionId);
 				return xslResult1;
 			}
 		}
 		return ResultUtils.ok();
 	}
+
+	@RequestMapping("get/recommended")
+	@ResponseBody
+	/** 获取推荐 */
+	public XslResult getRecommended(@Param("positionId")String positionId){
+		List<RecommendResVo> recommend = xslPositionService.getRecommend(positionId);
+		if (recommend.size() == 0){
+			return ResultUtils.notHave();
+		}
+		return ResultUtils.ok(recommend);
+	}
+
+
 }

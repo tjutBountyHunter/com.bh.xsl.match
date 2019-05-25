@@ -48,9 +48,9 @@
 	         	</ul>
          	</li>
          	<li>
-         		<span>索引库管理</span>
+         		<span>标签管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'index-item'}">solr索引库维护</li>
+	         		<li data-options="attributes:{'url':'index-item'}">标签管理</li>
 	         	</ul>
          	</li>
          </ul>

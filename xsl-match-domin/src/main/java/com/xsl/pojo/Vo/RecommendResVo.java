@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 说明：用户展示列表
+ * 说明：
  *
  * @Auther: 11432_000
- * @Date: 2019/5/15 15:14
+ * @Date: 2019/5/16 17:03
  * @Description:
  */
-public class XslApplyResVo implements Serializable {
+public class RecommendResVo implements Serializable {
+
 
 	private String userid;
 
@@ -23,12 +24,6 @@ public class XslApplyResVo implements Serializable {
 
 	/** 标签信息 */
 	private List<HunterTagResVo> tags;
-	/** 职位信息 */
-	private String positionid;
-
-	private String teamid;
-
-	private String positionname;
 
 	public String getUserid() {
 		return userid;
@@ -68,29 +63,5 @@ public class XslApplyResVo implements Serializable {
 
 	public void setTags(List<HunterTagResVo> tags) {
 		this.tags = tags;
-	}
-
-	public String getPositionid() {
-		return positionid;
-	}
-
-	public void setPositionid(String positionid) {
-		this.positionid = positionid;
-	}
-
-	public String getTeamid() {
-		return teamid;
-	}
-
-	public void setTeamid(String teamid) {
-		this.teamid = teamid;
-	}
-
-	public String getPositionname() {
-		return positionname;
-	}
-
-	public void setPositionname(String positionname) {
-		this.positionname = positionname;
 	}
 }

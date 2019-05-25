@@ -300,7 +300,7 @@ public class XslMatchServiceImpl implements XslMatchService {
         try {
             json = JedisUtils.get(MATCH_INFO + ":" + matchId);
             if (StringUtils.isBlank(json)){
-                throw new RuntimeException("比赛不存在");
+                return new XslMatch();
             }
             XslMatch xslMatch = JsonUtils.jsonToPojo(json,XslMatch.class);
             return xslMatch;

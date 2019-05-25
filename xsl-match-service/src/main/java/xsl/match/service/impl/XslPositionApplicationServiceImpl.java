@@ -41,7 +41,7 @@ public class XslPositionApplicationServiceImpl implements XslPositionApplication
     private XslPositionService xslPositionService;
 
     @Override
-    public XslResult commitApply(String positionId, String hunterId) throws RuntimeException {
+    public XslResult commitApply(String positionId,String hunterId,String teamId) throws RuntimeException {
         /**
          *
          * 功能描述: 提交申请
@@ -56,6 +56,7 @@ public class XslPositionApplicationServiceImpl implements XslPositionApplication
             xslPositionApplication.setApplicationstate(PositionApplicationStatesEnum.UNDER_PPLICATION.getCode());
             xslPositionApplication.setPositionid(positionId);
             xslPositionApplication.setHunterid(hunterId);
+            xslPositionApplication.setTeamid(teamId);
             int i = xslPositionApplicationMapper.insertSelective(xslPositionApplication);
             if (i <= 0){
                 return ResultUtils.error("提交申请失败");

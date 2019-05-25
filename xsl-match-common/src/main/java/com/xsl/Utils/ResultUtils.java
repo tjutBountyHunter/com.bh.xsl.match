@@ -51,4 +51,12 @@ public class ResultUtils {
     public static Boolean isSuccess(Integer xslResult){
         return ResultCodeEnum.SUCCESS.getCode().equals(xslResult);
     }
+
+    /** 资源不存在 */
+    public static XslResult notHave(Object data){
+        return new XslResult(ResultCodeEnum.NOT_HAVE.getCode(),ResultCodeEnum.NOT_HAVE.getMsg(),data);
+    }
+    public static XslResult notHave(){
+        return notHave(null);
+    }
 }

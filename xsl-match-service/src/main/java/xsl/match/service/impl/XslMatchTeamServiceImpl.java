@@ -82,7 +82,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             //添加队长职位
             String positionId = addCaptain(teamId);
             if (StringUtils.isNotBlank(positionId)){
-                addMember(positionId,teamId,xslMatchTeam.getTeamcreatorid());
+                XslResult xslResult = xslMemberService.addMember(positionId, xslMatchTeam.getTeamcreatorid(), teamId);
             }
             return ResultUtils.ok(teamId);
         }catch (Exception e){
@@ -95,15 +95,13 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
         XslTeamPosition xslTeamPosition = new XslTeamPosition();
         xslTeamPosition.setPositionname("队长");
         xslTeamPosition.setTeamid(teamId);
+        xslTeamPosition.setPositioninfo("我是队长");
+        xslTeamPosition.setPositionrequirements("我就是队长(ノ≧∀≦)ノ");
         XslResult xslResult = xslPositionService.addPosition(xslTeamPosition);
         if (ResultUtils.isSuccess(xslResult)){
             return (String) xslResult.getData();
         }
         return null;
-    }
-    /** 添加到成员 */
-    public void addMember(String positionId,String teamId,String hunterId){
-        XslResult xslResult = xslMemberService.addMember(positionId, hunterId, teamId);
     }
     @Override
     public List<XslMatchTeam> getTeamList() throws RuntimeException {

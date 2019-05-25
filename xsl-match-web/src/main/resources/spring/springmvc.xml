@@ -26,9 +26,9 @@
         <!-- 将路径上的参数映射到方法的传入参数中 -->
     </mvc:annotation-driven>
 
+
     <!-- 项目初始化操作 -->
     <bean id="PoneBlacklistCache" class="xsl.match.service.impl.InitService" scope="singleton" init-method="init"></bean>
-
     <!-- 加载配置文件 -->
     <context:property-placeholder location="classpath:conf/*.properties" />
 

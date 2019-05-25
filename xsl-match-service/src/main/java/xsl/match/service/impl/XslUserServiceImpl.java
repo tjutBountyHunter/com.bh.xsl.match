@@ -18,10 +18,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import xsl.match.mapper.*;
-import xsl.match.service.XslHonorService;
-import xsl.match.service.XslMatchUserService;
-import xsl.match.service.XslMemberService;
-import xsl.match.service.XslUserService;
+import xsl.match.service.*;
+
 import java.util.List;
 
 /**
@@ -46,6 +44,8 @@ public class XslUserServiceImpl implements XslUserService {
     private XslMatchUserService xslMatchUserService;
     @Autowired
     private XslMemberService xslMemberService;
+    @Autowired
+    private PhoneAuthentication phoneAuthentication;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XslUserServiceImpl.class);
     @Value("${USER_DEFAULT_SIGNATURE}")
@@ -225,12 +225,15 @@ public class XslUserServiceImpl implements XslUserService {
         XslUserExample.Criteria criteria = example.createCriteria();
         criteria.andPhoneEqualTo(xslUserRegister.getPhone());
         List<XslUser> list = xslUserMapper.selectByExample(example);
+//        if (ResultUtils.isSuccess(phoneAuthentication.checkVerificationCode(xslUserRegister.getPhone(),xslUserRegister.getCode()))){
+//            return ResultUtils.parameterError("验证码不正确！");
+//        }
         if(list != null && list.size() > 0){
             return ResultUtils.parameterError("该手机号已经注册过");
         }
 
         XslUser xslUser = new XslUser();
-        xslUser.setUserid(IdUtils.getUuid(""));
+        xslUser.setUserid(IdUtils.getUuid("MT:"));
         //初始化猎人信息
         XslMatchUser xslMatchUser = initXslHunter(xslUser);
         //初始化用户信息
@@ -435,16 +438,16 @@ public class XslUserServiceImpl implements XslUserService {
             BeanUtils.copyProperties(userInfo,updateUserInfo);
             XslUser updateUser = getUpdateUser(updateUserInfo);
             //检查是否已存在学校信息
-            if (!StringUtils.isEmpty(xslUser.getSchoolinfo())){
-                XslSchoolinfo schoolInfo = getSchoolInfo(xslUser.getSchoolinfo());
-                if (StringUtils.isEmpty(schoolInfo.getSchoolid())){
-                    BeanUtils.copyProperties(userInfo,schoolInfo);
-                    XslResult xslResult = addSchoolInfo(schoolInfo);
-                    if (ResultUtils.isSuccess(xslResult)){
-                        updateUser.setSchoolinfo(xslResult.getData().toString());
-                    }
+            XslSchoolinfo schoolInfo = getSchoolInfo(xslUser.getSchoolinfo());
+            if (StringUtils.isEmpty(schoolInfo.getSchoolid())){
+                BeanUtils.copyProperties(userInfo,schoolInfo);
+                XslResult xslResult = addSchoolInfo(schoolInfo);
+                if (ResultUtils.isSuccess(xslResult)){
+                    updateUser.setSchoolinfo(xslResult.getData().toString());
                 }
             }
+
+
             int i = xslUserMapper.updateByExampleSelective(updateUser, xslUserExample);
             if (i <= 0) {
                 return ResultUtils.error("");
@@ -492,7 +495,7 @@ public class XslUserServiceImpl implements XslUserService {
         XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(hunterId);
         BeanUtils.copyProperties(xslMatchUser,userDetailedResVo);
         // 添加标签
-        List<HunterTagResVo> allTagsInfoByHunterId = xslMatchUserService.getAllTagsInfoByHunterId(xslUser.getHunterid());
+        List<HunterTagResVo> allTagsInfoByHunterId = xslMatchUserService.getAllTagsInfoByHunterId(xslMatchUser.getHunterid());
         userDetailedResVo.setTags(allTagsInfoByHunterId);
         //添加学校信息
         XslSchoolinfo schoolInfo = getSchoolInfo(xslUser.getSchoolinfo());

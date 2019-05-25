@@ -5,6 +5,7 @@ import com.xsl.pojo.*;
 import com.xsl.pojo.Example.XslHunterTagExample;
 import com.xsl.pojo.Example.XslMatchUserExample;
 import com.xsl.result.XslResult;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,8 @@ public class HunterRecommendImpl implements HunterRecommend {
         int x,y;
         x = 0; y= 0;
         //将类型相同和不相同的按4:1进行推荐
-        for (int i = 1; i <= recommendNum; i++) {
+        int size = list.size() + list1.size();
+        for (int i = 1; i <= recommendNum && i < size; i++) {
             if (i % 4 != 0 && x < list.size()){
                 strings.add(list.get(x));
                 x ++;
@@ -253,16 +255,27 @@ public class HunterRecommendImpl implements HunterRecommend {
         XslMatch match = getMatch(this.taskId);
 
         //筛选有参赛意向的且偏好为同一类型的人
-        for (int i = 0; topMap.size() >0 ; i++) {
-            String hunterId = topMap.pollLastEntry().getValue();
-            XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(hunterId);
-            if (!xslMatchUser.getIsrecommend()){
-                continue;
+        if (StringUtils.isNotBlank(match.getMatchid())){
+            for (int i = 0; topMap.size() >0 ; i++) {
+                String hunterId = topMap.pollLastEntry().getValue();
+                XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(hunterId);
+                if (!xslMatchUser.getIsrecommend()){
+                    continue;
+                }
+                if (xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid())){
+                    identical.add(hunterId);
+                }else {
+                    different.add(hunterId);
+                }
             }
-            if (xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid())){
+        }else {
+            for (int i = 0; topMap.size() >0 ; i++) {
+                String hunterId = topMap.pollLastEntry().getValue();
+                XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(hunterId);
+                if (!xslMatchUser.getIsrecommend()){
+                    continue;
+                }
                 identical.add(hunterId);
-            }else {
-                different.add(hunterId);
             }
         }
         HashMap<Integer,List<String>> map = new HashMap<>();
@@ -297,8 +310,9 @@ public class HunterRecommendImpl implements HunterRecommend {
         List<String> users2 = intersection.get(5);
         int x,y;
         x = 0;y = 0;
+        int size = users.size() + users2.size();
         //将类型相同和不相同的按4:1进行推荐
-        for (int i = 1; i <= recommendNum ; i++) {
+        for (int i = 1; i <= recommendNum && i < size; i++) {
             if (i % 5 != 0 && x < users.size()){
                 recommend.add(users.get(x++));
             }else if (y < users2.size()){
@@ -332,22 +346,62 @@ public class HunterRecommendImpl implements HunterRecommend {
         }
         //获取比赛类型
         XslMatch match = getMatch(taskId);
-        for (Map.Entry<String,Integer> entry : statistics.entrySet()){
-            //检查是否有被推荐意向
-            XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(entry.getKey());
-            if (!xslMatchUser.getIsrecommend()){
-                continue;
-            }
-            //将偏好类型不同的人放在 5 中（至少符合两个标签）
-            if (entry.getValue() < 5){
+        if (StringUtils.isNotBlank(match.getMatchid())){
+            for (Map.Entry<String,Integer> entry : statistics.entrySet()){
+                //检查是否有被推荐意向
+                XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(entry.getKey());
+                if (!xslMatchUser.getIsrecommend()){
+                    continue;
+                }
+                //将偏好类型不同的人放在 5 中（至少符合两个标签）
                 if (entry.getValue() >= 2 && !xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid())){
                     top.get(5).add(entry.getKey());
-                }else {
+                }else if (xslMatchUser.getMatchtypeid().equals(match.getMatchtypeid())){
                     top.get(entry.getValue()).add(entry.getKey());
                 }
             }
+        }else {
+            for (Map.Entry<String,Integer> entry : statistics.entrySet()){
+                //检查是否有被推荐意向
+                XslMatchUser xslMatchUser = xslMatchUserService.selectMatchUserInfoByHunterId(entry.getKey());
+                if (!xslMatchUser.getIsrecommend()){
+                    continue;
+                }
+                top.get(entry.getValue()).add(entry.getKey());
+            }
         }
+
         return top;
     }
 
+    /** 若仍然不够推荐数量--3方案 */
+    @Override
+    public List<String> recommend3(String positionId)throws RuntimeException{
+        XslMatch match = getMatch(positionId);
+        ArrayList<String> strings = new ArrayList<>();
+        if (StringUtils.isNotBlank(match.getMatchid())){
+            String matchMatchtypeid = match.getMatchtypeid();
+            XslMatchUserExample xslMatchUserExample = new XslMatchUserExample();
+            xslMatchUserExample.createCriteria().andMatchtypeidEqualTo(matchMatchtypeid);
+            List<XslMatchUser> xslMatchUsers = xslMatchUserMapper.selectByExample(xslMatchUserExample);
+            for (XslMatchUser xslMatchUser : xslMatchUsers){
+                strings.add(xslMatchUser.getHunterid());
+            }
+        }
+        return strings;
+    }
+
+	@Override
+	/** 最终方案 根据比赛参加数量*/
+	public List<String> finaPlan(String positionId) throws RuntimeException {
+		XslMatchUserExample xslMatchUserExample = new XslMatchUserExample();
+		xslMatchUserExample.createCriteria().andIsrecommendEqualTo(true);
+		xslMatchUserExample.setOrderByClause("taskAccNum desc");
+		List<XslMatchUser> xslMatchUsers = xslMatchUserMapper.selectByExample(xslMatchUserExample);
+		ArrayList<String> strings = new ArrayList<>();
+		for (XslMatchUser xslMatchUser : xslMatchUsers){
+			strings.add(xslMatchUser.getHunterid());
+		}
+		return strings;
+	}
 }

@@ -28,4 +28,7 @@ public interface XslTeamPositionMapper {
     int updateByPrimaryKeySelective(XslTeamPosition record);
 
     int updateByPrimaryKey(XslTeamPosition record);
+
+    /** 自定义 */
+    int getPositionNumByTeam(String teamId);
 }

@@ -3,14 +3,14 @@
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/info/list',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'matchId',checkbox:true"></th>
-            <th data-options="field:'matchName',width:150">比赛名称</th>
-            <th data-options="field:'matchRankId',width:100,align:'center',formatter:E3.formatRank">比赛等级</th>
-            <th data-options="field:'matchTypeId',width:100,align:'center',formatter:E3.formatMatchType">比赛类型</th>
-            <th data-options="field:'matchWebsite',width:350">比赛官网</th>
-            <th data-options="field:'matchForm',width:100,align:'center',formatter:E3.formatForm">参数形式</th>
-            <th data-options="field:'matchState',width:80,align:'center',formatter:E3.formatMatchStatus">状态</th>
-            <th data-options="field:'matchCreateTime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
+        	<th data-options="field:'matchid',checkbox:true"></th>
+            <th data-options="field:'matchname',width:150">比赛名称</th>
+            <th data-options="field:'matchrankid',width:100,align:'center',formatter:E3.formatRank">比赛等级</th>
+            <th data-options="field:'matchtypeid',width:100,align:'center',formatter:E3.formatMatchType">比赛类型</th>
+            <th data-options="field:'matchwebsite',width:350">比赛官网</th>
+            <th data-options="field:'matchform',width:100,align:'center',formatter:E3.formatForm">参数形式</th>
+            <th data-options="field:'matchstate',width:80,align:'center',formatter:E3.formatMatchStatus">状态</th>
+            <th data-options="field:'matchcreatetime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
             <%-- 比赛信息的其余属性 --%>
             <%--<th id="hidden-matchSignUpStartTime" data-options="field:'matchSignUpStartTime',width:10,align:'center',formatter:E3.formatDate"></th>--%>
             <%--<th id="hidden-matchSignUpEndTime" data-options="field:'matchSignUpEndTime',width:10,align:'center',formatter:E3.formatDate"></th>--%>

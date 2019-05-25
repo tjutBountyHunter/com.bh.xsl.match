@@ -41,11 +41,7 @@ public class XslMatchTeamController {
     @ResponseBody
     XslResult addMtachTeam(@RequestBody XslMatchTeam xslMatchTeam){
         XslResult result = xslMatchTeamService.addATeam(xslMatchTeam);
-        if (!ResultUtils.isSuccess(result)){
-            //重复添加，返回添加结果
-            if (ResultCodeEnum.RESOURCE_DUPLICATION.getCode().equals(result.getCode())){
-                return ResultUtils.ok((XslMatchTeam)result.getData());
-            }
+        if (!ResultUtils.isSuccess(result) && ResultCodeEnum.RESOURCE_DUPLICATION.getCode().equals(result.getCode())){
             return result;
         }
         XslMatchTeam currentTeamByTeamId = xslMatchTeamService.getCurrentTeamByTeamId((String) result.getData());

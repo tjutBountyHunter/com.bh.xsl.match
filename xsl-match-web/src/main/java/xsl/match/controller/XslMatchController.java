@@ -109,8 +109,7 @@ public class XslMatchController {
     public XslResult getMatchListForApp(Integer page,Integer rows){
         XslResult xslResult = new XslResult();
         List<XslMatch> matchList = xslMatchService.getMatchList();
-        xslResult.setData(matchList);
-        return xslResult;
+        return ResultUtils.ok(matchList);
     }
 
     @RequestMapping("/selectAll/list")

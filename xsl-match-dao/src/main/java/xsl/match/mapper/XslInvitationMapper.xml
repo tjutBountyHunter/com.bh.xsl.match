@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xsl.match.mapper.XslTeamPositionMapper">
-  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslTeamPosition">
+<mapper namespace="xsl.match.mapper.XslInvitationMapper">
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslInvitation">
     <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="hunterId" jdbcType="VARCHAR" property="hunterid" />
     <result column="positionId" jdbcType="VARCHAR" property="positionid" />
     <result column="teamId" jdbcType="VARCHAR" property="teamid" />
-    <result column="positionName" jdbcType="VARCHAR" property="positionname" />
-    <result column="positionInfo" jdbcType="VARCHAR" property="positioninfo" />
-    <result column="positionRequirements" jdbcType="VARCHAR" property="positionrequirements" />
-    <result column="positionState" jdbcType="INTEGER" property="positionstate" />
-    <result column="positionCreateTime" jdbcType="TIMESTAMP" property="positioncreatetime" />
+    <result column="applicationState" jdbcType="INTEGER" property="applicationstate" />
+    <result column="applicationTime" jdbcType="TIMESTAMP" property="applicationtime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,16 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Id, positionId, teamId, positionName, positionInfo, positionRequirements, positionState, 
-    positionCreateTime
+    Id, hunterId, positionId, teamId, applicationState, applicationTime
   </sql>
-  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslTeamPositionExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslInvitationExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from xsl_team_position
+    from xsl_invitation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,32 +87,35 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from xsl_team_position
+    from xsl_invitation
     where Id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from xsl_team_position
+    delete from xsl_invitation
     where Id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslTeamPositionExample">
-    delete from xsl_team_position
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslInvitationExample">
+    delete from xsl_invitation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xsl.pojo.XslTeamPosition">
-    insert into xsl_team_position (Id, positionId, teamId, 
-      positionName, positionInfo, positionRequirements, 
-      positionState, positionCreateTime)
-    values (#{id,jdbcType=INTEGER}, #{positionid,jdbcType=VARCHAR}, #{teamid,jdbcType=VARCHAR}, 
-      #{positionname,jdbcType=VARCHAR}, #{positioninfo,jdbcType=VARCHAR}, #{positionrequirements,jdbcType=VARCHAR}, 
-      #{positionstate,jdbcType=INTEGER}, #{positioncreatetime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.xsl.pojo.XslInvitation">
+    insert into xsl_invitation (Id, hunterId, positionId, 
+      teamId, applicationState, applicationTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{hunterid,jdbcType=VARCHAR}, #{positionid,jdbcType=VARCHAR}, 
+      #{teamid,jdbcType=VARCHAR}, #{applicationstate,jdbcType=INTEGER}, #{applicationtime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.xsl.pojo.XslTeamPosition">
-    insert into xsl_team_position
+  <insert id="insertSelective" parameterType="com.xsl.pojo.XslInvitation">
+    insert into xsl_invitation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         Id,
+      </if>
+      <if test="hunterid != null">
+        hunterId,
       </if>
       <if test="positionid != null">
         positionId,
@@ -123,25 +123,19 @@
       <if test="teamid != null">
         teamId,
       </if>
-      <if test="positionname != null">
-        positionName,
+      <if test="applicationstate != null">
+        applicationState,
       </if>
-      <if test="positioninfo != null">
-        positionInfo,
-      </if>
-      <if test="positionrequirements != null">
-        positionRequirements,
-      </if>
-      <if test="positionstate != null">
-        positionState,
-      </if>
-      <if test="positioncreatetime != null">
-        positionCreateTime,
+      <if test="applicationtime != null">
+        applicationTime,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="hunterid != null">
+        #{hunterid,jdbcType=VARCHAR},
       </if>
       <if test="positionid != null">
         #{positionid,jdbcType=VARCHAR},
@@ -149,34 +143,28 @@
       <if test="teamid != null">
         #{teamid,jdbcType=VARCHAR},
       </if>
-      <if test="positionname != null">
-        #{positionname,jdbcType=VARCHAR},
+      <if test="applicationstate != null">
+        #{applicationstate,jdbcType=INTEGER},
       </if>
-      <if test="positioninfo != null">
-        #{positioninfo,jdbcType=VARCHAR},
-      </if>
-      <if test="positionrequirements != null">
-        #{positionrequirements,jdbcType=VARCHAR},
-      </if>
-      <if test="positionstate != null">
-        #{positionstate,jdbcType=INTEGER},
-      </if>
-      <if test="positioncreatetime != null">
-        #{positioncreatetime,jdbcType=TIMESTAMP},
+      <if test="applicationtime != null">
+        #{applicationtime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslTeamPositionExample" resultType="java.lang.Long">
-    select count(*) from xsl_team_position
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslInvitationExample" resultType="java.lang.Long">
+    select count(*) from xsl_invitation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update xsl_team_position
+    update xsl_invitation
     <set>
       <if test="record.id != null">
         Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.hunterid != null">
+        hunterId = #{record.hunterid,jdbcType=VARCHAR},
       </if>
       <if test="record.positionid != null">
         positionId = #{record.positionid,jdbcType=VARCHAR},
@@ -184,20 +172,11 @@
       <if test="record.teamid != null">
         teamId = #{record.teamid,jdbcType=VARCHAR},
       </if>
-      <if test="record.positionname != null">
-        positionName = #{record.positionname,jdbcType=VARCHAR},
+      <if test="record.applicationstate != null">
+        applicationState = #{record.applicationstate,jdbcType=INTEGER},
       </if>
-      <if test="record.positioninfo != null">
-        positionInfo = #{record.positioninfo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.positionrequirements != null">
-        positionRequirements = #{record.positionrequirements,jdbcType=VARCHAR},
-      </if>
-      <if test="record.positionstate != null">
-        positionState = #{record.positionstate,jdbcType=INTEGER},
-      </if>
-      <if test="record.positioncreatetime != null">
-        positionCreateTime = #{record.positioncreatetime,jdbcType=TIMESTAMP},
+      <if test="record.applicationtime != null">
+        applicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -205,61 +184,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update xsl_team_position
+    update xsl_invitation
     set Id = #{record.id,jdbcType=INTEGER},
+      hunterId = #{record.hunterid,jdbcType=VARCHAR},
       positionId = #{record.positionid,jdbcType=VARCHAR},
       teamId = #{record.teamid,jdbcType=VARCHAR},
-      positionName = #{record.positionname,jdbcType=VARCHAR},
-      positionInfo = #{record.positioninfo,jdbcType=VARCHAR},
-      positionRequirements = #{record.positionrequirements,jdbcType=VARCHAR},
-      positionState = #{record.positionstate,jdbcType=INTEGER},
-      positionCreateTime = #{record.positioncreatetime,jdbcType=TIMESTAMP}
+      applicationState = #{record.applicationstate,jdbcType=INTEGER},
+      applicationTime = #{record.applicationtime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslTeamPosition">
-    update xsl_team_position
+  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslInvitation">
+    update xsl_invitation
     <set>
+      <if test="hunterid != null">
+        hunterId = #{hunterid,jdbcType=VARCHAR},
+      </if>
       <if test="positionid != null">
         positionId = #{positionid,jdbcType=VARCHAR},
       </if>
       <if test="teamid != null">
         teamId = #{teamid,jdbcType=VARCHAR},
       </if>
-      <if test="positionname != null">
-        positionName = #{positionname,jdbcType=VARCHAR},
+      <if test="applicationstate != null">
+        applicationState = #{applicationstate,jdbcType=INTEGER},
       </if>
-      <if test="positioninfo != null">
-        positionInfo = #{positioninfo,jdbcType=VARCHAR},
-      </if>
-      <if test="positionrequirements != null">
-        positionRequirements = #{positionrequirements,jdbcType=VARCHAR},
-      </if>
-      <if test="positionstate != null">
-        positionState = #{positionstate,jdbcType=INTEGER},
-      </if>
-      <if test="positioncreatetime != null">
-        positionCreateTime = #{positioncreatetime,jdbcType=TIMESTAMP},
+      <if test="applicationtime != null">
+        applicationTime = #{applicationtime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslTeamPosition">
-    update xsl_team_position
-    set positionId = #{positionid,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslInvitation">
+    update xsl_invitation
+    set hunterId = #{hunterid,jdbcType=VARCHAR},
+      positionId = #{positionid,jdbcType=VARCHAR},
       teamId = #{teamid,jdbcType=VARCHAR},
-      positionName = #{positionname,jdbcType=VARCHAR},
-      positionInfo = #{positioninfo,jdbcType=VARCHAR},
-      positionRequirements = #{positionrequirements,jdbcType=VARCHAR},
-      positionState = #{positionstate,jdbcType=INTEGER},
-      positionCreateTime = #{positioncreatetime,jdbcType=TIMESTAMP}
+      applicationState = #{applicationstate,jdbcType=INTEGER},
+      applicationTime = #{applicationtime,jdbcType=TIMESTAMP}
     where Id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="getPositionNumByTeam" parameterType="java.lang.String" resultType="java.lang.Integer">
-    select count(positionId)
-    from xsl_team_position
-    where teamId = #{teamId}
-  </select>
 </mapper>
