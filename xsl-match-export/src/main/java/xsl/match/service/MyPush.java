@@ -1,7 +1,7 @@
 package xsl.match.service;
 
 import com.xsl.result.XslResult;
-import vo.JPushReqVo;
+import com.xsl.user.vo.JPushReqVo;
 
 /**
  * 说明：推送

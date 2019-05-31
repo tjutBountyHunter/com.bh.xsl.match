@@ -50,6 +50,15 @@ public class XslApplyController {
 		return xslResult;
 	}
 
+	@RequestMapping("/refuse")
+	@ResponseBody
+	/** 拒绝申请 */
+	public XslResult refuseApply(@RequestBody XslPositionApplication xslPositionApplication){
+		XslResult xslResult = xslPositionApplicationService.changeApplyState(xslPositionApplication.getPositionid(),xslPositionApplication.getHunterid(),
+				PositionApplicationStatesEnum.FAIL.getCode());
+		return xslResult;
+	}
+
 	@RequestMapping("/agree")
 	@ResponseBody
 	/** 通过申请 */

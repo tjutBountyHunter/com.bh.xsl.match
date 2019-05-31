@@ -21,15 +21,11 @@
             <groupId>com.xsl</groupId>
             <artifactId>xsl-match-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>        <dependency>
-        <groupId>com.xsl</groupId>
-        <artifactId>xsl-match-common</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </dependency>
+        </dependency>
 
         <dependency>
             <groupId>com.bh.xsl.user</groupId>
-            <artifactId>xsl_user_export</artifactId>
+            <artifactId>xsl-user-export</artifactId>
         </dependency>
     </dependencies>
 

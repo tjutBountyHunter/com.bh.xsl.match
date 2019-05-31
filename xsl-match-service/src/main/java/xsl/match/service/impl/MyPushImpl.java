@@ -2,10 +2,9 @@ package xsl.match.service.impl;
 
 import com.xsl.result.XslResult;
 import com.xsl.user.JpushResource;
-import org.springframework.beans.factory.annotation.Autowired;
-import vo.JPushReqVo;
-import vo.ResBaseVo;
+import com.xsl.user.vo.ResBaseVo;
 import xsl.match.service.MyPush;
+import com.xsl.user.vo.JPushReqVo;
 
 import javax.annotation.Resource;
 
