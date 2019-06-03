@@ -20,7 +20,7 @@ public class MatchUpdateListener implements MessageListener {
             if (message instanceof TextMessage){
                 textMessage = (TextMessage) message;
                 String json = textMessage.getText();
-
+                System.out.println("接收到了：" + json);
             }
         } catch (JMSException e) {
             throw new RuntimeException(e.getMessage());

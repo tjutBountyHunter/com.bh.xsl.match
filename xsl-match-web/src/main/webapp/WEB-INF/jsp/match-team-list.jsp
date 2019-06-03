@@ -3,11 +3,11 @@
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/team/selectAll/page',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'teamId',checkbox:true"></th>
-            <th data-options="field:'teamName',width:150">队伍名称</th>
-            <th data-options="field:'matchId',width:150,align:'center',formatter:E3.formatMatch">参加的比赛</th>
-            <th data-options="field:'teamSlogan',width:350">口号</th>
-            <th data-options="field:'teamCreateTime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
+        	<th data-options="field:'teamid',checkbox:true"></th>
+            <th data-options="field:'teamname',width:150">队伍名称</th>
+            <th data-options="field:'matchid',width:150,align:'center',formatter:E3.formatMatch">参加的比赛</th>
+            <th data-options="field:'teamslogan',width:350">口号</th>
+            <th data-options="field:'teamcreatetime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
         </tr>
     </thead>
 </table>
@@ -23,7 +23,7 @@
     	var sels = matchTeamList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].matchTypeId);
+    		ids.push(sels[i].matchtypeid);
     	}
     	ids = ids.join(",");
     	return ids;
@@ -35,7 +35,7 @@
         var sels = matchTeamList.datagrid("getSelections");
         var names = [];
         for(var i in sels){
-            names.push(sels[i].matchTypeName);
+            names.push(sels[i].matchtypename);
         }
         names = names.join(",");
         return names;

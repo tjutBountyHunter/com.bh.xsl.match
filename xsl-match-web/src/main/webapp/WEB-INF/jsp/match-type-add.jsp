@@ -9,15 +9,15 @@
 			<tr>
 				<td>类型名称:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="matchTypeName" data-options="required:true" style="width: 280px;"></input>
+					<input class="easyui-textbox" type="text" name="matchtypename" data-options="required:true" style="width: 280px;"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>类型说明:</td>
-				<td><input class="easyui-textbox" type="text" name="matchTypeInfo" data-options="" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="matchtypeinfo" data-options="" style="width: 280px;"></input></td>
 			</tr>
 			<tr>
-				<td><input type="hidden"  name="matchTypeState"  style="width: 280px;"></input></td>
+				<td><input type="hidden"  name="matchtypestate"  style="width: 280px;"></input></td>
 			</tr>
 		</table>
 	</form>

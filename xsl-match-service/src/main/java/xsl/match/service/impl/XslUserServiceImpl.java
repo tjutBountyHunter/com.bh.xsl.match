@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import xsl.match.mapper.*;
 import xsl.match.service.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -271,7 +272,7 @@ public class XslUserServiceImpl implements XslUserService {
         hunterid = hunterid.replaceFirst(MATCH_HUNTER_PREFIX,"");
         xslUser.setHunterid(hunterid);
         xslUser.setPhone(xslUserRegister.getPhone());
-        xslUser.setState(UserStateEnum.NA.getCode());
+        xslUser.setState(UserStateEnum.NORMAL.getCode());
         xslUser.setPassword(Md5Utils.digestMds(xslUserRegister.getPassword()));
         xslUser.setSex("男");
         xslUser.setName("xsl_"+xslUserRegister.getPhone());
@@ -567,6 +568,16 @@ public class XslUserServiceImpl implements XslUserService {
         return newUser;
     }
 
-
-
+    @Override
+    public List<XslUser> getAllUser() throws RuntimeException {
+        try {
+            XslUserExample xslUserExample = new XslUserExample();
+            xslUserExample.createCriteria().andStateEqualTo((byte)1);
+            List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
+            return xslUsers;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }

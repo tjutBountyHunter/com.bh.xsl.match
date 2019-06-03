@@ -35,7 +35,7 @@
     	var sels = matchList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].matchId);
+    		ids.push(sels[i].matchid);
     	}
     	ids = ids.join(",");
     	return ids;
@@ -47,7 +47,7 @@
         var sels = matchList.datagrid("getSelections");
         var names = [];
         for(var i in sels){
-            names.push(sels[i].matchName);
+            names.push(sels[i].matchname);
         }
         names = names.join(",");
         return names;
@@ -80,10 +80,10 @@
         			// 取出被选中数据
                     var data = $("#matchList").datagrid("getSelections")[0];
         			// 毫秒 转 标准日期
-                    data.matchSignUpStartTime = myformatter(new Date(data.matchSignUpStartTime));
-                    data.matchSignUpEndTime = myformatter(new Date(data.matchSignUpEndTime));
-                    data.matchStartTime = myformatter(new Date(data.matchStartTime));
-                    data.matchEndTime = myformatter(new Date(data.matchEndTime));
+                    data.matchsignupstarttime = myformatter(new Date(data.matchsignupstarttime));
+                    data.matchsignupendtime = myformatter(new Date(data.matchsignupendtime));
+                    data.matchstarttime = myformatter(new Date(data.matchstarttime));
+                    data.matchendtime = myformatter(new Date(data.matchendtime));
                     // 为表单提供数据
         			$("#matchEditForm").form("load",data);
         		}

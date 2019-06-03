@@ -108,7 +108,7 @@ public class XslMatchController {
      */
     public XslResult getMatchListForApp(Integer page,Integer rows){
         XslResult xslResult = new XslResult();
-        List<XslMatch> matchList = xslMatchService.getMatchList();
+        List<XslMatch> matchList = xslMatchService.getMatchPage(page,rows).getRows();
         return ResultUtils.ok(matchList);
     }
 

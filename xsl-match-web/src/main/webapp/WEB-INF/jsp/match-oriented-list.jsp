@@ -3,9 +3,9 @@
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/oriented/selectAll/page',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'orientedId',checkbox:true"></th>
-            <th data-options="field:'orientedName',width:150">人群名称</th>
-            <th data-options="field:'orientedInfo',width:350">人群说明</th>
+        	<th data-options="field:'orientedid',checkbox:true"></th>
+            <th data-options="field:'orientedname',width:150">人群名称</th>
+            <th data-options="field:'orientedinfo',width:350">人群说明</th>
         </tr>
     </thead>
 </table>
@@ -21,7 +21,7 @@
     	var sels = matchOrientedList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].orientedId);
+    		ids.push(sels[i].orientedid);
     	}
     	ids = ids.join(",");
     	return ids;
@@ -33,7 +33,7 @@
         var sels = matchOrientedList.datagrid("getSelections");
         var names = [];
         for(var i in sels){
-            names.push(sels[i].orientedName);
+            names.push(sels[i].orientedname);
         }
         names = names.join(",");
         return names;

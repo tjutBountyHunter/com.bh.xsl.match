@@ -3,9 +3,9 @@
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/rank/selectAll/page',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'matchRankId',checkbox:true"></th>
-            <th data-options="field:'rankName',width:150">等级名称</th>
-            <th data-options="field:'rankInfo',width:350">等级说明</th>
+        	<th data-options="field:'matchrankid',checkbox:true"></th>
+            <th data-options="field:'rankname',width:150">等级名称</th>
+            <th data-options="field:'rankinfo',width:350">等级说明</th>
         </tr>
     </thead>
 </table>
@@ -21,7 +21,7 @@
     	var sels = matchRankList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].matchRankId);
+    		ids.push(sels[i].matchrankid);
     	}
     	ids = ids.join(",");
     	return ids;
@@ -33,7 +33,7 @@
         var sels = matchRankList.datagrid("getSelections");
         var names = [];
         for(var i in sels){
-            names.push(sels[i].rankName);
+            names.push(sels[i].rankname);
         }
         names = names.join(",");
         return names;

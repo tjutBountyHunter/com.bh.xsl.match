@@ -6,7 +6,7 @@
 <div style="padding:10px 10px 10px 10px">
 	<form id="matchRankAddForm" class="itemForm" method="post">
 		<table cellpadding="5">
-			<input type="text" hidden="hidden" name="matchId">
+			<input type="text" hidden="hidden" name="matchid">
 			<%--<tr>--%>
 				<%--<td>ID:</td>--%>
 				<%--<td><input class="easyui-textbox" type="text" name="matchRankId" data-options="readonly:true" style="width: 280px;"></input></td>--%>
@@ -14,12 +14,12 @@
 			<tr>
 				<td>级别名称:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="rankName" data-options="required:true" style="width: 280px;"></input>
+					<input class="easyui-textbox" type="text" name="rankname" data-options="required:true" style="width: 280px;"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>说明:</td>
-				<td><input class="easyui-textbox" type="text" name="rankInfo" data-options="" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="rankinfo" data-options="" style="width: 280px;"></input></td>
 			</tr>
 		</table>
 	</form>

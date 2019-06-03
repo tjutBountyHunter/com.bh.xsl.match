@@ -8,21 +8,23 @@ import com.xsl.enums.DataStatesEnum;
 import com.xsl.enums.MemberStatesEnum;
 import com.xsl.enums.TeamStatesEnum;
 import com.xsl.pojo.Example.XslMatchTeamExample;
+import com.xsl.pojo.XslMatch;
 import com.xsl.pojo.XslMatchTeam;
 import com.xsl.pojo.XslTeamMember;
 import com.xsl.pojo.XslTeamPosition;
 import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
+import com.xsl.search.export.vo.MatchTeamSearchVo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslMatchTeamMapper;
-import xsl.match.service.XslMatchTeamService;
-import xsl.match.service.XslMemberService;
-import xsl.match.service.XslPositionService;
+import xsl.match.service.*;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -47,6 +49,12 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
     private XslMemberService xslMemberService;
     @Autowired
     private XslPositionService xslPositionService;
+    @Autowired
+    private XslMatchService xslMatchService;
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    @Autowired
+    private GxzdESService gxzdESService;
     @Value("${TEAM_DEFAULT_SYNOPSIS}")
     private String TEAM_DEFAULT_SYNOPSIS;
 
@@ -84,6 +92,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             if (StringUtils.isNotBlank(positionId)){
                 XslResult xslResult = xslMemberService.addMember(positionId, xslMatchTeam.getTeamcreatorid(), teamId);
             }
+            addToSearch(teamId);
             return ResultUtils.ok(teamId);
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
@@ -174,6 +183,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
                 LOGGER.error("updateATeamInfo 更新数据失败");
                 return ResultUtils.parameterError();
             }
+            addToSearch(xslMatchTeam.getTeamid());
             return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("更新比赛信息异常:"  + e.getMessage());
@@ -195,12 +205,14 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
             return ResultUtils.parameterError();
         }
         try {
+            MatchTeamSearchVo matchTeamSearchVo = new MatchTeamSearchVo();
             for (String teamId : teamIds){
                 XslResult result = updateTeamState(teamId, TeamStatesEnum.DELETE.getCode());
                 if (!ResultUtils.isSuccess(result)){
                     LOGGER.error("deleteTeamInfoByIds删除数据失败 " + teamId );
                 }
             }
+            removeToSearch(teamIds);
             return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
@@ -298,5 +310,28 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    /** 异步更新搜索库 */
+    public void addToSearch(String teamId) throws RuntimeException {
+        threadPoolTaskExecutor.execute(() -> {
+            XslMatchTeam xslMatchTeam = getCurrentTeamByTeamId(teamId);
+            MatchTeamSearchVo matchTeamSearchVo = new MatchTeamSearchVo();
+            BeanUtils.copyProperties(xslMatchTeam,matchTeamSearchVo);
+            if (StringUtils.isNoneBlank(xslMatchTeam.getMatchid())){
+                XslMatch xslMatch = xslMatchService.selectMatchByMatchId(xslMatchTeam.getMatchid());
+                matchTeamSearchVo.setMatchname(xslMatch.getMatchname());
+            }
+            boolean success = gxzdESService.addTeam(matchTeamSearchVo);
+        });
+    }
+
+    /** 异步删除搜索库 */
+    public void removeToSearch(List<String> ids){
+        threadPoolTaskExecutor.execute(() ->{
+            ids.forEach(teamId -> {
+                boolean b = gxzdESService.removeTeam(teamId);
+            });
+        });
     }
 }

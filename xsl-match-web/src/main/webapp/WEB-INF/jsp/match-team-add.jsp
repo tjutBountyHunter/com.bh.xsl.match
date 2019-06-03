@@ -8,20 +8,20 @@
 	    <table cellpadding="5">
 			<tr>
 				<td>队伍名称:</td>
-				<td><input class="easyui-textbox" type="text" name="teamName" data-options="required:true" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="teamname" data-options="required:true" style="width: 280px;"></input></td>
 			</tr>
 	        <tr>
 	            <td>选择比赛类型:</td>
 				<td>
 					<input type="text" id="matchType"
-						   data-options="valueField:'matchTypeId',textField:'matchTypeName',url:'match/type/selectAll/list',prompt: '请选择比赛类型',required:true,editable:false" />
+						   data-options="valueField:'matchtypeid',textField:'matchtypename',url:'match/type/selectAll/list',prompt: '请选择比赛类型',required:true,editable:false" />
 				</td>
 	        </tr>
 			<tr id="match" >
 				<td>选择比赛:</td>
 				<td>
-					<input type="text" id="chooseMatch" name="matchId"
-						   data-options="valueField:'matchId',textField:'matchName',prompt: '请选择比赛',required:true,editable:false" />
+					<input type="text" id="chooseMatch" name="matchid"
+						   data-options="valueField:'matchid',textField:'matchname',prompt: '请选择比赛',required:true,editable:false" />
 				</td>
 			</tr>
 	        <tr>
@@ -31,21 +31,21 @@
 	        </tr>
 			<%-- 获取teamCreatorId--%>
 			<tr id="xx-sss">
-				<td> <input name="teamCreatorId" id="getTeamCreatorId"></input></td>
+				<td> <input name="teamcreatorid" id="getTeamCreatorId"></input></td>
 			</tr>
 			<tr>
 				<td>队伍简介:</td>
-				<td><input class="easyui-textbox" type="text" name="teamSynopsis" data-options="" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="teamsynopsis" data-options="" style="width: 280px;"></input></td>
 			</tr>
 			<tr>
 				<td>队伍口号:</td>
-				<td><input class="easyui-textbox" type="text" name="teamSlogan" data-options="" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="teamslogan" data-options="" style="width: 280px;"></input></td>
 			</tr>
 			<tr>
 				<td>队伍图标:</td>
 				<td>
 					<input type="button"  id="onePicUpload" class="easyui-linkbutton picFileUpload" value="上传图片"></input>
-					<input type="hidden" name="teamLogoUrl" id="teamLogoUrl"/>
+					<input type="hidden" name="teamlogourl" id="teamLogoUrl"/>
 				</td>
 			</tr>
 	    </table>
@@ -153,7 +153,7 @@
                     if (da.code == 200) {
                         $('#isMatchWebsite').css('color','#00e309')
                         $('#isMatchWebsite').text("正确！用户名:" + da.data.name);
-                        $('#getTeamCreatorId').val(da.data.userId);
+                        $('#getTeamCreatorId').val(da.data.userid);
                         isOk = true;
                     }else {
                         $('#isMatchWebsite').text("用户不存在，请检查输入是否正确");

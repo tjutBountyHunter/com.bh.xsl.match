@@ -10,6 +10,7 @@ import com.xsl.pojo.XslMatchUser;
 import com.xsl.pojo.XslSchoolinfo;
 import com.xsl.pojo.XslUser;
 import com.xsl.result.XslResult;
+import com.xsl.search.export.vo.MatchUserSearchVo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,6 +25,7 @@ import xsl.match.mapper.XslFileMapper;
 import xsl.match.mapper.XslSchoolinfoMapper;
 import xsl.match.mapper.XslUserFileMapper;
 import xsl.match.mapper.XslUserMapper;
+import xsl.match.service.GxzdESService;
 import xsl.match.service.XslMatchUserService;
 import xsl.match.service.XslUserService;
 import xsl.match.service.impl.XslUserServiceImpl;
@@ -48,7 +50,9 @@ public class UpdateUserBuffer {
 	@Autowired
 	private XslUserService xslUserService;
 	@Autowired
-	ThreadPoolTaskExecutor threadPoolTaskExecutor;
+	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+	@Autowired
+	private GxzdESService gxzdESService;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(XslUserServiceImpl.class);
 
@@ -99,6 +103,11 @@ public class UpdateUserBuffer {
 			String toJson = JsonUtils.objectToJson(userDetailedResVo);
 			JedisUtils.set(USER_DETAILED_INFO + ":" + userDetailedResVo.getHunterid(),toJson);
 			JedisUtils.expire(USER_DETAILED_INFO + ":" + userDetailedResVo.getHunterid(),USER_INFO_LIFETIME);
+			//更新搜索库
+			boolean success = false;
+			MatchUserSearchVo matchUserSearchVo = new MatchUserSearchVo();
+			BeanUtils.copyProperties(userDetailedResVo,matchUserSearchVo);
+			success = gxzdESService.addUser(matchUserSearchVo);
 		});
 	}
 }

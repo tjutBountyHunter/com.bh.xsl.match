@@ -6,19 +6,19 @@
 <div style="padding:10px 10px 10px 10px">
 	<form id="matchOrientedEditForm" class="itemForm" method="post">
 		<table cellpadding="5">
-			<input type="text" hidden="hidden" name="orientedId">
+			<input type="text" hidden="hidden" name="orientedid">
 			<tr>
 				<td>人群名称:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="orientedName" data-options="required:true" style="width: 280px;"></input>
+					<input class="easyui-textbox" type="text" name="orientedname" data-options="required:true" style="width: 280px;"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>说明:</td>
-				<td><input class="easyui-textbox" type="text" name="orientedInfo" data-options="" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="orientedinfo" data-options="" style="width: 280px;"></input></td>
 			</tr>
 			<tr>
-				<td><input  type="hidden" name="orientedState"  style="width: 280px;"></input></td>
+				<td><input  type="hidden" name="orientedstate"  style="width: 280px;"></input></td>
 			</tr>
 		</table>
 	</form>

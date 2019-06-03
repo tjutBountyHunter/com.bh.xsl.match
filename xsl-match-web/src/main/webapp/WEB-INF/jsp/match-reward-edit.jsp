@@ -8,27 +8,27 @@
 		<table cellpadding="5">
 			<tr>
 				<td>奖励ID:</td>
-				<td><input id="getRewardMatchId" class="easyui-textbox" type="text" name="rewardId" data-options="readonly:true" style="width: 280px;"></input></td>
+				<td><input id="getRewardMatchId" class="easyui-textbox" type="text" name="rewardid" data-options="readonly:true" style="width: 280px;"></input></td>
 			</tr>
 			<tr>
 				<td>奖励内容:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="rewardContent" data-options="required:true" style="width: 280px;"></input>
+					<input class="easyui-textbox" type="text" name="rewardcontent" data-options="required:true" style="width: 280px;"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>奖励级别:</td>
 				<td>
-					<input type="text" id="className" class="easyui-combobox" name="rewardRankId"
-						   data-options="valueField:'rewardRankId',textField:'rewardRankName',url:'match/reward/rank/selectAll',prompt: '请选择奖励级别',required:true,editable:false" />
+					<input type="text" id="className" class="easyui-combobox" name="rewardrankid"
+						   data-options="valueField:'rewardrankid',textField:'rewardrankname',url:'match/reward/rank/selectAll',prompt: '请选择奖励级别',required:true,editable:false" />
 				</td>
 			</tr>
 			<tr>
 				<td>数量:</td>
-				<td><input class="easyui-textbox" type="text" name="contentQuota" data-options="required:true" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="contentquota" data-options="required:true" style="width: 280px;"></input></td>
 			</tr>
 			<tr>
-				<td><input type="hidden"  name="rewardState"  style="width: 280px;"></input></td>
+				<td><input type="hidden"  name="rewardstate"  style="width: 280px;"></input></td>
 			</tr>
 		</table>
 	</form>

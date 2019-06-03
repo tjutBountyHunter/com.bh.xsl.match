@@ -58,12 +58,16 @@
             </dependency>
 
             <dependency>
+                <groupId>com.bh.xsl.search</groupId>
+                <artifactId>xsl-search-export</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.xsl</groupId>
                 <artifactId>xsl-match-dao</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-
-
             <dependency>
                 <groupId>com.xsl</groupId>
                 <artifactId>xsl-match-common</artifactId>

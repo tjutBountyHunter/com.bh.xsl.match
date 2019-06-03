@@ -3,11 +3,11 @@
        data-options="singleSelect:false,collapsible:true,pagination:true,url : 'match/reward/select/info',method : 'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'rewardId',checkbox:true"></th>
-            <th data-options="field:'rewardContent',width:350">奖励内容</th>
-            <th data-options="field:'rewardRankId',width:100,align:'center',formatter:E3.formatRewardRank">奖励等级</th>
-            <th data-options="field:'contentQuota',width:100">奖励数量</th>
-            <th data-options="field:'rewardCreateTime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
+        	<th data-options="field:'rewardid',checkbox:true"></th>
+            <th data-options="field:'rewardcontent',width:350">奖励内容</th>
+            <th data-options="field:'rewardrankid',width:100,align:'center',formatter:E3.formatRewardRank">奖励等级</th>
+            <th data-options="field:'contentquota',width:100">奖励数量</th>
+            <th data-options="field:'rewardcreatetime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
         </tr>
     </thead>
 </table>
@@ -23,7 +23,7 @@
     	var sels = matchRewardList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].rewardId);
+    		ids.push(sels[i].rewardid);
     	}
     	ids = ids.join(",");
     	return ids;
@@ -35,7 +35,7 @@
         var sels = matchRewardList.datagrid("getSelections");
         var names = [];
         for(var i in sels){
-            names.push(sels[i].rewardContent);
+            names.push(sels[i].rewardcontent);
         }
         names = names.join(",");
         return names;
@@ -58,7 +58,7 @@
         		onLoad :function(){
         			// 取出被选中数据
                     var data = $("#matchRewardList").datagrid("getSelections")[0];
-                    var matchId = $('#getMathcId').val();
+                    var matchId = $('#getMatchId').val();
                     // 动态的为对象添加属性
                     eval("data.matchId = '" + matchId + "'")
                     // 为表单提供数据
@@ -79,7 +79,7 @@
     //     }
     //     $.messager.confirm('确认','确定删除奖励 : ['+ names +'] 吗？',function(r){
     //         if (r){
-    //             var matchId = $('#getMathcId').val();
+    //             var matchId = $('#getMatchId').val();
     //             var params = {"rewardIds":ids,"matchId":matchId};
     //             $.ajax({
     //                 method : 'get',

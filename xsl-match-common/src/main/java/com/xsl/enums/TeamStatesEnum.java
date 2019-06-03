@@ -8,7 +8,8 @@ package com.xsl.enums;
  * @Description:
  */
 public enum TeamStatesEnum {
-    DELETE(0,"已删除"),CREATE_SUCCESS(1,"创建成功"),RECRUIT(2,"招募中"),NOT_RECRUIT(3,"停止招募"),FINISH(5,"比赛完成"),DISBANDED(6,"队伍解散");
+    DELETE(0,"已删除"),CREATE_SUCCESS(1,"创建成功"),RECRUIT(2,"招募中"),
+    NOT_RECRUIT(3,"停止招募,比赛进行中"),FINISH(5,"比赛完成"),DISBANDED(6,"队伍解散");
 
     private Integer code;
     private String msg;

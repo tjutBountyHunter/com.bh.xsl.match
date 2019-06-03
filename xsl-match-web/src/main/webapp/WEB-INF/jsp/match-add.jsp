@@ -68,8 +68,8 @@
 			<tr>
 				<td>选择参赛形式:</td>
 				<td>
-					<input type="text" id="matchForm" class="easyui-combobox" name="matchform"
-						   data-options="valueField:'matchform',textField:'matchformname',url:'match/info/select/form',prompt: '请选择参赛形式',required:true,editable:false" />
+					<input type="text" id="matchForm" class="easyui-combobox" name="matchForm"
+						   data-options="valueField:'matchForm',textField:'matchFormName',url:'match/info/select/form',prompt: '请选择参赛形式',required:true,editable:false" />
 					<nobr hidden="hidden" id="matchTeamNum">
 						&nbsp;&nbsp;团队人数限制:<input class="easyui-textbox" type="text" name="matchteamnum"  data-options="" />
 					</nobr>
@@ -166,7 +166,7 @@
             KindEditor.editor(FILE.kingEditorParams).loadPlugin('image', function() {
                 this.plugin.imageDialog({
 					//是否开启网络图片
-                    showRemote : false,
+                    showRemote : true,
 					//回调函数
                     clickFn : function(url, title, width, height, border, align) {
                         var input = _self.siblings("input");

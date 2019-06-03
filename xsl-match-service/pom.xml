@@ -10,21 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xsl-match-service</artifactId>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
+
+        <dependency>
+            <groupId>com.bh.xsl.search</groupId>
+            <artifactId>xsl-search-export</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.xsl</groupId>
             <artifactId>xsl-match-dao</artifactId>
@@ -79,5 +71,19 @@
             <artifactId>zkclient</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

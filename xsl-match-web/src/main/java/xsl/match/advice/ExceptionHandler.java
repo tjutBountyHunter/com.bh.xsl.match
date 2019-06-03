@@ -31,6 +31,8 @@ public class ExceptionHandler {
 			Object proceed = proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
 			return (XslResult) proceed;
 		} catch (Throwable throwable) {
+			LOGGER.info("进入全局异常处理");
+			throwable.printStackTrace();
 			return ResultUtils.error("参数错误！");
 		}
 	}

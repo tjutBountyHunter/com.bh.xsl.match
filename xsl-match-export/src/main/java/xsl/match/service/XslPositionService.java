@@ -31,4 +31,6 @@ public interface XslPositionService {
     PositionDetailsResVo getPositionDetails(String positionId)throws RuntimeException;
     /** 获取推荐列表 */
     List<RecommendResVo> getRecommend(String positionId)throws RuntimeException;
+    /** 获取指定状态和队伍的职位 */
+    List<XslTeamPosition> getAllPositionByTeamIdAndState(String teamId,Integer state)throws RuntimeException;
 }

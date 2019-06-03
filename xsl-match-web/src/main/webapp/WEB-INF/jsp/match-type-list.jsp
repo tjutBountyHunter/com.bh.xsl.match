@@ -3,10 +3,10 @@
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/type/selectAll/page',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'matchTypeId',checkbox:true"></th>
-            <th data-options="field:'matchTypeName',width:150">类型名称</th>
-            <th data-options="field:'matchTypeInfo',width:350">类型说明</th>
-            <th data-options="field:'matchTypeCreateTime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
+        	<th data-options="field:'matchtypeid',checkbox:true"></th>
+            <th data-options="field:'matchtypename',width:150">类型名称</th>
+            <th data-options="field:'matchtypeinfo',width:350">类型说明</th>
+            <th data-options="field:'matchtypecreatetime',width:150,align:'center',formatter:E3.formatDateTime">创建日期</th>
         </tr>
     </thead>
 </table>
@@ -22,7 +22,7 @@
     	var sels = matchTypeList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].matchTypeId);
+    		ids.push(sels[i].matchtypeid);
     	}
     	ids = ids.join(",");
     	return ids;
@@ -34,7 +34,7 @@
         var sels = matchTypeList.datagrid("getSelections");
         var names = [];
         for(var i in sels){
-            names.push(sels[i].matchTypeName);
+            names.push(sels[i].matchtypename);
         }
         names = names.join(",");
         return names;

@@ -54,4 +54,7 @@ public interface XslUserService {
     /** 获取学校信息 */
     public XslSchoolinfo getSchoolInfo(String schoolid) throws RuntimeException;
 
+    /** 获取用户列表 */
+    List<XslUser> getAllUser()throws RuntimeException;
+
 }

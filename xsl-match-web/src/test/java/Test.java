@@ -9,20 +9,32 @@ import com.xsl.pojo.*;
 import com.xsl.pojo.Example.XslTagExample;
 import com.xsl.pojo.Vo.*;
 import com.xsl.result.XslResult;
+import com.xsl.search.export.vo.MatchSearchVo;
+import com.xsl.search.export.vo.MatchTeamSearchVo;
+import com.xsl.search.export.vo.MatchUserSearchVo;
+import org.apache.activemq.ActiveMQQueueSession;
+import org.apache.activemq.ActiveMQSession;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import xsl.match.mapper.XslTagMapper;
+import xsl.match.service.*;
 import xsl.match.service.impl.XslMatchServiceImpl;
 
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.Session;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -35,16 +47,47 @@ import java.util.*;
  * @Description:
  */
 //@RunWith(SpringJUnit4ClassRunner.class)//固定写法
-//@ContextConfiguration({"classpath:spring/applicationContext-dao.xml"})
+//@ContextConfiguration({"classpath:spring/*.xml"})
 public class Test {
 
-//    public static void main(String[] args) {
-//        String uuid = UUID.randomUUID().toString();
-//        System.out.println(uuid);
-//    }
-private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
+    @Autowired
+    XslMatchService xslMatchService;
+    @Autowired
+    XslMatchTeamService xslMatchTeamService;
+    @Autowired
+    XslUserService xslUserService;
+    @Autowired
+    GxzdESService gxzdESService;
 
 //    @org.junit.Test
+    public void test04(){
+//        List<XslMatch> matchList = xslMatchService.getMatchList();
+//        matchList.forEach(match ->{
+//            MatchSearchVo matchResVo = new MatchSearchVo();
+//            BeanUtils.copyProperties(match,matchResVo);
+//            gxzdESService.addMatch(matchResVo);
+//        });
+//        List<XslMatchTeam> teamList = xslMatchTeamService.getTeamList();
+//        teamList.forEach(team ->{
+//            MatchTeamSearchVo matchResVo = new MatchTeamSearchVo();
+//            BeanUtils.copyProperties(team,matchResVo);
+//            XslMatch xslMatch = xslMatchService.selectMatchByMatchId(team.getMatchid());
+//            matchResVo.setMatchname(xslMatch.getMatchname());
+//            gxzdESService.addTeam(matchResVo);
+//        });
+//        List<XslUser> allUser = xslUserService.getAllUser();
+//        allUser.forEach(user ->{
+//            MatchUserSearchVo matchResVo = new MatchUserSearchVo();
+//            UserDetailedResVo userDetailedInfo = xslUserService.getUserDetailedInfo(user.getUserid());
+//            BeanUtils.copyProperties(userDetailedInfo,matchResVo);
+//            gxzdESService.addUser(matchResVo);
+//        });
+//        List<MatchSearchVo> matchs = gxzdESService.searchMatch("测试", null, 10);
+////        System.out.println();
+//        List<MatchUserSearchVo> matchUserSearchVos = gxzdESService.searchUser("188", null, 10);
+//        System.out.println();
+    }
+    //    @org.junit.Test
 //    public void test(){
 //        String str = "xsl_collecth\n" +
 //                "xsl_collectt\n" +
@@ -106,14 +149,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 //    @Value("${MATCH_TAG_PREFIX}")
 //    String MATCH_TAG_PREFIX;
 
-    private static JedisPoolConfig jedisPoolConfig;
-
-    static {
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-
-    }
-    @org.junit.Test
-    public void test02(){
+//    private static JedisPoolConfig jedisPoolConfig;
+//
+//    static {
+//        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+//    }
+//    @org.junit.Test
+//    public void test02(){
 //        XslTagExample xslTagExample = new XslTagExample();
 //        xslTagExample.createCriteria().andTagidLike(MATCH_TAG_PREFIX + "%").andStateEqualTo(true);
 //        List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
@@ -143,28 +185,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 //        xslMatchTeam.setTeamstate(1);
 //        String s = JsonUtils.objectToJson(xslMatchTeam);
 //        System.out.println(s);
-
-//        PositionUpdateReqVo positionUpdateReqVo = new PositionUpdateReqVo();
+    //        PositionUpdateReqVo positionUpdateReqVo = new PositionUpdateReqVo();
 //        positionUpdateReqVo.setPositionid("777");
 //        positionUpdateReqVo.setPositionname("777");
 //        positionUpdateReqVo.setPositioninfo("77777");
 //        positionUpdateReqVo.setTeamid("Taadc747a-275a-43b9-9350-e337f9e89c5d");
 //        System.out.println(JsonUtils.objectToJson(positionUpdateReqVo));
-
-        XslUserRegister userReqVo = new XslUserRegister();
-        userReqVo.setCode("8766");
-        userReqVo.setPassword("123456");
-        userReqVo.setPhone("15222355001");
-        System.out.println(JsonUtils.objectToJson(userReqVo));
-    }
-//    public static class Animals{
-//
-//    }
-//    public static class Cat extends Animals{
-//
-//    }
-//    public static class BlackCat extends Cat{
-//
 //    }
 }
 

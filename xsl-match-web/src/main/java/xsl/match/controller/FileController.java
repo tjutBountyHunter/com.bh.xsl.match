@@ -29,11 +29,11 @@ public class FileController {
     @RequestMapping("/image/upload")
     @ResponseBody
     /** 单图片上传 成功：url+error:0 失败时 ：Error:1 + message */
-    public Map<String, Object> oneImageUpload(@Param("uploadFile")MultipartFile file){
+    public Map<String, Object> oneImageUpload(@Param("uploadFile")MultipartFile uploadFile){
 //        HashMap<String, Object> map = new HashMap<>();
 //        map.put("url","http://47.93.200.190/images/xslerp.jpg");
 //        map.put("error", 0);
-        Map<String, Object> map = imageSave.uploadPicture(file);
+        Map<String, Object> map = imageSave.uploadPicture(uploadFile);
         return map;
     }
 }

@@ -3,68 +3,64 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- 真正产生Connection的ConnectionFactory，用于连接到到mq -->
-    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="tcp://47.93.230.61:61616"/>
-    </bean>
+<!--    &lt;!&ndash; 真正产生Connection的ConnectionFactory，用于连接到到mq &ndash;&gt;-->
+<!--    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">-->
+<!--        <property name="brokerURL" value="tcp://47.93.230.61:61616"/>-->
+<!--    </bean>-->
 
-    <!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
-    <bean id="connectionFactory"
-          class="org.springframework.jms.connection.SingleConnectionFactory">
-        <!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
-        <property name="targetConnectionFactory" ref="targetConnectionFactory"/>
-    </bean>
+<!--    &lt;!&ndash; Spring用于管理真正的ConnectionFactory的ConnectionFactory &ndash;&gt;-->
+<!--    <bean id="connectionFactory"-->
+<!--          class="org.springframework.jms.connection.SingleConnectionFactory">-->
+<!--        &lt;!&ndash; 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory &ndash;&gt;-->
+<!--        <property name="targetConnectionFactory" ref="targetConnectionFactory"/>-->
+<!--    </bean>-->
 
-    <!-- 配置生产者 -->
-    <!-- Spring提供的JMS工具类，它可以进行消息发送、接收等 -->
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <!--  Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
-        <property name="connectionFactory" ref="connectionFactory"/>
-    </bean>
+<!--    &lt;!&ndash; Spring提供的JMS工具类，它可以进行消息发送、接收等 &ndash;&gt;-->
+<!--    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">-->
+<!--        &lt;!&ndash;  Spring用于管理真正的ConnectionFactory的ConnectionFactory &ndash;&gt;-->
+<!--        <property name="connectionFactory" ref="connectionFactory"/>-->
+<!--    </bean>-->
 
-    <!-- 通知ES更新或添加比赛 -->
-    <bean id="updateESMatch" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="updateMatch"/>
-    </bean>
+<!--    &lt;!&ndash; 通知ES更新或添加比赛 &ndash;&gt;-->
+<!--    <bean id="updateESMatch" class="org.apache.activemq.command.ActiveMQQueue">-->
+<!--        <constructor-arg value="updateMatch"/>-->
+<!--    </bean>-->
 
-    <!-- 通知ES删除比赛 -->
-    <bean id="removeESMatch" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="removeMatch"/>
-    </bean>
+<!--    &lt;!&ndash; 通知ES删除比赛 &ndash;&gt;-->
+<!--    <bean id="removeESMatch" class="org.apache.activemq.command.ActiveMQQueue">-->
+<!--        <constructor-arg value="removeMatch"/>-->
+<!--    </bean>-->
 
-    <!-- 通知ES更新或添加用户 -->
-    <bean id="updateESMatchUser" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="updateMatchUser"/>
-    </bean>
+<!--    &lt;!&ndash; 通知ES更新或添加用户 &ndash;&gt;-->
+<!--    <bean id="updateESMatchUser" class="org.apache.activemq.command.ActiveMQQueue">-->
+<!--        <constructor-arg value="updateMatchUser"/>-->
+<!--    </bean>-->
 
-    <!-- 通知ES删除用户 -->
-    <bean id="removeMatchUser" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="removeMatchUser"/>
-    </bean>
+<!--    &lt;!&ndash; 通知ES删除用户 &ndash;&gt;-->
+<!--    <bean id="removeESMatchUser" class="org.apache.activemq.command.ActiveMQQueue">-->
+<!--        <constructor-arg value="removeMatchUser"/>-->
+<!--    </bean>-->
 
-    <!-- 通知ES更新或添加队伍 -->
-    <bean id="updateESMatchTeam" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="updateMatchTeam"/>
-    </bean>
+<!--    &lt;!&ndash; 通知ES更新或添加队伍 &ndash;&gt;-->
+<!--    <bean id="updateESMatchTeam" class="org.apache.activemq.command.ActiveMQQueue">-->
+<!--        <constructor-arg value="updateMatchTeam"/>-->
+<!--    </bean>-->
 
-    <!-- 通知ES删除队伍 -->
-    <bean id="removeESMatchTeam" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="removeMatchTeam"/>
-    </bean>
+<!--    &lt;!&ndash; 通知ES删除队伍 &ndash;&gt;-->
+<!--    <bean id="removeESMatchTeam" class="org.apache.activemq.command.ActiveMQQueue">-->
+<!--        <constructor-arg value="removeMatchTeam"/>-->
+<!--    </bean>-->
 
-    <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+<!--    &lt;!&ndash; 配置监听者 &ndash;&gt;-->
+<!--    <bean id="matchUpdateListener" class="xsl.match.Listener.MatchUpdateListener"></bean>-->
 
-    </bean>
+<!--    <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">-->
+<!--        &lt;!&ndash; 连接mq的工厂&ndash;&gt;-->
+<!--        <property name="connectionFactory" ref="connectionFactory"/>-->
+<!--        &lt;!&ndash; 监听的消息的队列 &ndash;&gt;-->
+<!--        <property name="destination" ref="updateESMatch"/>-->
+<!--        &lt;!&ndash; 指定监听器 &ndash;&gt;-->
+<!--        <property name="messageListener" ref="matchUpdateListener"/>-->
+<!--    </bean>-->
 
-    <!--&lt;!&ndash; 配置监听者 &ndash;&gt;-->
-    <!--<bean id="recommendListener" class="xsl.match.Listener.RecommendMqListener"></bean>-->
-
-    <!--<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">-->
-        <!--&lt;!&ndash; 连接mq的工厂&ndash;&gt;-->
-        <!--<property name="connectionFactory" ref="connectionFactory"/>-->
-        <!--&lt;!&ndash; 监听的消息的队列 &ndash;&gt;-->
-        <!--<property name="destination" ref="recommendDestination"/>-->
-        <!--&lt;!&ndash; 指定监听器 &ndash;&gt;-->
-        <!--<property name="messageListener" ref="recommendListener"/>-->
-    <!--</bean>-->
 </beans>

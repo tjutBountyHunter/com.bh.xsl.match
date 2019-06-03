@@ -39,6 +39,7 @@ public interface XslMatchTeamService {
     /** 根据队伍Id 获取队伍信息 */
     XslMatchTeam getCurrentTeamByTeamId(String teamId)throws RuntimeException;
 
-    /** 根据创见者获取队伍信息 */
+    /** 根据创建者获取队伍信息 */
     XslMatchTeam getCurrentTeamByCreater(String hunterId)throws RuntimeException;
+
 }

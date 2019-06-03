@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xsl.match.mapper.XslMatchRemarkMapper">
+  <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchRemark">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="CommentatorId" jdbcType="VARCHAR" property="commentatorid" />
+    <result column="targetId" jdbcType="VARCHAR" property="targetid" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="comments" jdbcType="VARCHAR" property="comments" />
+    <result column="teamId" jdbcType="VARCHAR" property="teamid" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, CommentatorId, targetId, score, createTime, comments, teamId, state
+  </sql>
+  <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslMatchRemarkExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xsl_match_remark
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xsl_match_remark
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xsl_match_remark
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xsl.pojo.Example.XslMatchRemarkExample">
+    delete from xsl_match_remark
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xsl.pojo.XslMatchRemark">
+    insert into xsl_match_remark (Id, CommentatorId, targetId, 
+      score, createTime, comments, 
+      teamId, state)
+    values (#{id,jdbcType=INTEGER}, #{commentatorid,jdbcType=VARCHAR}, #{targetid,jdbcType=VARCHAR}, 
+      #{score,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{comments,jdbcType=VARCHAR}, 
+      #{teamid,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xsl.pojo.XslMatchRemark">
+    insert into xsl_match_remark
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="commentatorid != null">
+        CommentatorId,
+      </if>
+      <if test="targetid != null">
+        targetId,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="comments != null">
+        comments,
+      </if>
+      <if test="teamid != null">
+        teamId,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commentatorid != null">
+        #{commentatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetid != null">
+        #{targetid,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comments != null">
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="teamid != null">
+        #{teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xsl.pojo.Example.XslMatchRemarkExample" resultType="java.lang.Long">
+    select count(*) from xsl_match_remark
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xsl_match_remark
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentatorid != null">
+        CommentatorId = #{record.commentatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetid != null">
+        targetId = #{record.targetid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.comments != null">
+        comments = #{record.comments,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamid != null">
+        teamId = #{record.teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xsl_match_remark
+    set Id = #{record.id,jdbcType=INTEGER},
+      CommentatorId = #{record.commentatorid,jdbcType=VARCHAR},
+      targetId = #{record.targetid,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      comments = #{record.comments,jdbcType=VARCHAR},
+      teamId = #{record.teamid,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xsl.pojo.XslMatchRemark">
+    update xsl_match_remark
+    <set>
+      <if test="commentatorid != null">
+        CommentatorId = #{commentatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetid != null">
+        targetId = #{targetid,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comments != null">
+        comments = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="teamid != null">
+        teamId = #{teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslMatchRemark">
+    update xsl_match_remark
+    set CommentatorId = #{commentatorid,jdbcType=VARCHAR},
+      targetId = #{targetid,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      comments = #{comments,jdbcType=VARCHAR},
+      teamId = #{teamid,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -9,12 +9,12 @@
 			<tr>
 				<td>等级名称:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="rewardRankName" data-options="required:true" style="width: 280px;"></input>
+					<input class="easyui-textbox" type="text" name="rewardrankname" data-options="required:true" style="width: 280px;"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>奖励级别说明:</td>
-				<td><input class="easyui-textbox" type="text" name="rewardRankInfo" data-options="" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="rewardrankinfo" data-options="" style="width: 280px;"></input></td>
 			</tr>
 		</table>
 	</form>

@@ -10,12 +10,12 @@
 			<tr>
 				<td>人群名称:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="orientedName" data-options="required:true" style="width: 280px;"></input>
+					<input class="easyui-textbox" type="text" name="orientedname" data-options="required:true" style="width: 280px;"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>说明:</td>
-				<td><input class="easyui-textbox" type="text" name="orientedInfo" data-options="" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="orientedinfo" data-options="" style="width: 280px;"></input></td>
 			</tr>
 		</table>
 	</form>

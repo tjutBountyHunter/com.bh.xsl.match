@@ -9,81 +9,81 @@
 			<input type="text" hidden="hidden" name="matchId">
 			<tr>
 				<td>比赛ID:</td>
-				<td><input class="easyui-textbox" type="text" name="matchId" data-options="readonly:true" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="matchid" data-options="readonly:true" style="width: 280px;"></input></td>
 			</tr>
 			<tr>
 				<td>比赛名称:</td>
-				<td><input class="easyui-textbox" type="text" name="matchName" data-options="required:true" style="width: 280px;"></input></td>
+				<td><input class="easyui-textbox" type="text" name="matchname" data-options="required:true" style="width: 280px;"></input></td>
 			</tr>
 			<tr>
 				<td>比赛级别:</td>
 				<td>
-					<input type="text" id="classNam" class="easyui-combobox" name="matchRankId"
-						   data-options="valueField:'matchRankId',textField:'rankName',url:'match/rank/selectAll/list',prompt: '请选择比赛级别',required:true,editable:false" />
+					<input type="text" id="className" class="easyui-combobox" name="matchrankid"
+						   data-options="valueField:'matchrankid',textField:'rankname',url:'match/rank/selectAll/list',prompt: '请选择比赛级别',required:true,editable:false" />
 				</td>
 			</tr>
 			<tr>
 				<td>比赛类型:</td>
 				<td>
-					<input type="text" id="className" class="easyui-combobox" name="matchTypeId"
-						   data-options="valueField:'matchTypeId',textField:'matchTypeName',url:'match/type/selectAll/list',prompt: '请选择比赛类型',required:true,editable:false" />
+					<input type="text" id="className" class="easyui-combobox" name="matchtypeid"
+						   data-options="valueField:'matchtypeid',textField:'matchtypename',url:'match/type/selectAll/list',prompt: '请选择比赛类型',required:true,editable:false" />
 				</td>
 			</tr>
 			<tr>
 				<td>比赛状态:</td>
 				<td>
-					<input type="text" id="classNam" class="easyui-combobox" name="matchState"
+					<input type="text" id="className" class="easyui-combobox" name="matchstate"
 						   data-options="valueField:'matchState',textField:'matchStateInfo',url:'match/info/select/state',required:true,editable:false" />
 				</td>
 			</tr>
 			<tr>
 				<td>比赛官方网址:</td>
-				<td><input type="text" id="edit-matchWebsite" class="easyui-validatebox textbox" name="matchWebsite" data-options="" style="width: 280px; height: 20px"></input>
+				<td><input type="text" id="edit-matchWebsite" class="easyui-validatebox textbox" name="matchwebsite" data-options="" style="width: 280px; height: 20px"></input>
 					<nobr id="edit-isMatchWebsite" style="color: red"></nobr></td>
 
 			</tr>
 			<tr>
 				<td>面向人群:</td>
-				<td><input class="easyui-combobox" type="text" name="matchOrientedId"  data-options="valueField:'orientedId',
-	             			textField:'orientedName',url:'match/oriented/selectAll/list',prompt: '请选择面向人群',required:true,editable:false" />
+				<td><input class="easyui-combobox" type="text" name="matchorientedid"  data-options="valueField:'orientedid',
+	             			textField:'orientedname',url:'match/oriented/selectAll/list',prompt: '请选择面向人群',required:true,editable:false" />
 
 				</td>
 			</tr>
 			<tr>
 				<td>报名开始时间:</td>
-				<td><input class="easyui-datebox" name="matchSignUpStartTime" data-options="required:true" /></td>
+				<td><input class="easyui-datebox" name="matchsignupstarttime" data-options="required:true" /></td>
 			</tr>
 			<tr>
 				<td>报名截止时间:</td>
-				<td><input class="easyui-datebox" name="matchSignUpEndTime" data-options="required:true" /></td>
+				<td><input class="easyui-datebox" name="matchsignupendtime" data-options="required:true" /></td>
 			</tr>
 			<tr>
 				<td>最大参赛人数/团队数:</td>
 				<td>
-					<input class="easyui-numberbox" type="text" name="matchSignUpMaxNum" data-options="min:1,max:99999999,precision:0" />
+					<input class="easyui-numberbox" type="text" name="matchsignupmaxnum" data-options="min:1,max:99999999,precision:0" />
 				</td>
 			</tr>
 			<tr>
 				<td>比赛开始时间:</td>
-				<td><input class="easyui-datebox" name="matchStartTime" data-options="required:true" /></td>
+				<td><input class="easyui-datebox" name="matchstarttime" data-options="required:true" /></td>
 			</tr>
 			<tr>
 				<td>比赛截止时间:</td>
-				<td><input class="easyui-datebox" name="matchEndTime" data-options="required:true" /></td>
+				<td><input class="easyui-datebox" name="matchendtime" data-options="required:true" /></td>
 			</tr>
 			<tr>
 				<td>比赛地址:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="matchAddress" style="width: 500px" data-options="required:true" />
+					<input class="easyui-textbox" type="text" name="matchaddress" style="width: 500px" data-options="required:true" />
 				</td>
 			</tr>
 			<tr>
 				<td>选择参赛形式:</td>
 				<td>
-					<input type="text" id="edit-matchForm" class="easyui-combobox" name="matchForm"
+					<input type="text" id="edit-matchForm" class="easyui-combobox" name="matchform"
 						   data-options="valueField:'matchForm',textField:'matchFormName',url:'match/info/select/form',prompt: '请选择参赛形式',required:true,editable:false" />
 					<nobr hidden="hidden" id="edit-matchTeamNum">
-						&nbsp;&nbsp;团队人数限制:<input class="easyui-textbox" type="text" name="matchTeamNum"  data-options="" />
+						&nbsp;&nbsp;团队人数限制:<input class="easyui-textbox" type="text" name="matchteamnum"  data-options="" />
 					</nobr>
 				</td>
 
@@ -92,7 +92,7 @@
 				<td>比赛宣传海报:</td>
 				<td>
 					<input type="button"  id="edit-onePicUpload" class="easyui-linkbutton picFileUpload" value="上传图片"></input>
-					<input type="hidden" name="matchPosterUrl" id="edit-matchPosterUrl"/>
+					<input type="hidden" name="matchposterurl" id="edit-matchPosterUrl"/>
 				</td>
 			</tr>
 		</table>

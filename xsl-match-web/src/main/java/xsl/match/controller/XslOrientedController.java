@@ -39,7 +39,7 @@ public class XslOrientedController {
      * @date: 2019/4/21 14:29
      */
     public List<XslOriented> getAllOrientedList(){
-        return xslOrientedService.getAllOrienteds(null,null).getRows();
+        return xslOrientedService.getAllOrienteds();
     }
 
     @RequestMapping("/selectAll/page")

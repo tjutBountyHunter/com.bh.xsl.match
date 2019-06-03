@@ -84,6 +84,14 @@ public class XslMatchServiceImpl implements XslMatchService {
      */
     @Override
     public List<HashMap<String,String>> getAllForm() throws RuntimeException{
+        /**
+         * 说明:
+         * @Author
+         * @Description //TODO
+         * @Date
+         * @Param
+         * @return
+         */
         ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map;
         for (MatchFormEnum matchForm : MatchFormEnum.values()){

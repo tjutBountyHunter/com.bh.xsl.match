@@ -1,6 +1,7 @@
 package xsl.match.controller;
 
 import com.xsl.Utils.ResultUtils;
+import com.xsl.enums.PositionStatesEnum;
 import com.xsl.pojo.Vo.PositionDetailsResVo;
 import com.xsl.pojo.Vo.PositionTagResVo;
 import com.xsl.pojo.Vo.PositionUpdateReqVo;
@@ -76,10 +77,10 @@ public class XslTeamPositionController {
 		}
 		XslResult xslResult1 = xslPositionTagService.updateTags(positionUpdateReqVo.getPositionid(), tags);
 		if (!ResultUtils.isSuccess(xslResult1)){
+			//重新生成推荐
+			matchUserRecommend.recommended(positionUpdateReqVo.getPositionid());
 			return xslResult1;
 		}
-		//重新生成推荐
-		matchUserRecommend.recommended(positionUpdateReqVo.getPositionid());
 		return ResultUtils.ok();
 	}
 
@@ -119,4 +120,12 @@ public class XslTeamPositionController {
 	}
 
 
+
+	@RequestMapping("get/null")
+	@ResponseBody
+	/** 获取空闲职位 */
+	public XslResult getNullPosition(@Param("teamId")String teamId){
+		List<XslTeamPosition> xslTeamPositions = xslPositionService.getAllPositionByTeamIdAndState(teamId, PositionStatesEnum.RECRUITMENT.getCode());
+		return ResultUtils.ok(xslTeamPositions);
+	}
 }

@@ -80,16 +80,7 @@ public class XslPositionServiceImpl implements XslPositionService {
          * @auther: 11432_000
          * @date: 2019/5/4 9:35
          */
-        try {
-            XslTeamPositionExample xslTeamPositionExample = new XslTeamPositionExample();
-            XslTeamPositionExample.Criteria criteria = xslTeamPositionExample.createCriteria();
-            criteria.andTeamidEqualTo(teamId).andPositionstateNotEqualTo(DataStatesEnum.DELETE.getCode());
-
-            List<XslTeamPosition> teamPositions = xslTeamPositionMapper.selectByExample(xslTeamPositionExample);
-            return (teamPositions);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        return getAllPositionByTeamIdAndState(teamId,null);
     }
 
     @Override
@@ -282,4 +273,23 @@ public class XslPositionServiceImpl implements XslPositionService {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+
+    @Override
+    /** 获取指定状态和队伍的职位 */
+    public List<XslTeamPosition> getAllPositionByTeamIdAndState(String teamId, Integer state) throws RuntimeException {
+        try {
+            XslTeamPositionExample xslTeamPositionExample = new XslTeamPositionExample();
+            XslTeamPositionExample.Criteria criteria = xslTeamPositionExample.createCriteria();
+            criteria.andTeamidEqualTo(teamId);
+            if (state != null){
+                criteria.andPositionstateEqualTo(state);
+            }else {
+                criteria.andPositionstateNotEqualTo(DataStatesEnum.DELETE.getCode());
+            }
+            List<XslTeamPosition> teamPositions = xslTeamPositionMapper.selectByExample(xslTeamPositionExample);
+            return (teamPositions);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

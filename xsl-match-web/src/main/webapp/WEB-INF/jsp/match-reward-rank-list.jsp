@@ -3,9 +3,9 @@
        data-options="singleSelect:false,collapsible:true,pagination:true,url : 'match/reward/rank/selectAll/page',method : 'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'rewardRankId',checkbox:true"></th>
-            <th data-options="field:'rewardRankName',width:350">奖励级别</th>
-            <th data-options="field:'rewardRankInfo',width:100">奖励级别说明</th>
+        	<th data-options="field:'rewardrankid',checkbox:true"></th>
+            <th data-options="field:'rewardrankname',width:350">奖励级别</th>
+            <th data-options="field:'rewardrankinfo',width:100">奖励级别说明</th>
         </tr>
     </thead>
 </table>
@@ -19,7 +19,7 @@
     	var sels = matchRewardRankList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].rewardRankId);
+    		ids.push(sels[i].rewardrankid);
     	}
     	ids = ids.join(",");
     	return ids;
@@ -31,7 +31,7 @@
         var sels = matchRewardRankList.datagrid("getSelections");
         var names = [];
         for(var i in sels){
-            names.push(sels[i].rewardRankName);
+            names.push(sels[i].rewardrankname);
         }
         names = names.join(",");
         return names;
