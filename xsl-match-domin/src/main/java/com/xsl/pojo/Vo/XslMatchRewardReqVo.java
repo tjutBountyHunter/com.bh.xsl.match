@@ -11,93 +11,93 @@ import java.util.Date;
  */
 public class XslMatchRewardReqVo {
 
-    private String rewardId;
+    private String rewardid;
 
-    private String rewardRankId;
+    private String rewardrankid;
 
-    private String rewardContent;
+    private String rewardcontent;
 
-    private Integer contentQuota;
+    private Integer contentquota;
 
-    private Date rewardCreateTime;
+    private Date rewardcreatetime;
 
-    private String matchId;
+    private String matchid;
 
-    private Date rewardAddTime;
+    private Date rewardaddtime;
 
-    private Integer rewardState;
+    private Integer rewardstate;
 
-    private Integer matchRewardState;
+    private Integer matchrewardstate;
 
-    public Integer getMatchRewardState() {
-        return matchRewardState;
+    public String getRewardid() {
+        return rewardid;
     }
 
-    public void setMatchRewardState(Integer matchRewardState) {
-        this.matchRewardState = matchRewardState;
+    public void setRewardid(String rewardid) {
+        this.rewardid = rewardid;
     }
 
-    public String getRewardId() {
-        return rewardId;
+    public String getRewardrankid() {
+        return rewardrankid;
     }
 
-    public void setRewardId(String rewardId) {
-        this.rewardId = rewardId;
+    public void setRewardrankid(String rewardrankid) {
+        this.rewardrankid = rewardrankid;
     }
 
-    public String getRewardRankId() {
-        return rewardRankId;
+    public String getRewardcontent() {
+        return rewardcontent;
     }
 
-    public void setRewardRankId(String rewardRankId) {
-        this.rewardRankId = rewardRankId;
+    public void setRewardcontent(String rewardcontent) {
+        this.rewardcontent = rewardcontent;
     }
 
-    public String getRewardContent() {
-        return rewardContent;
+    public Integer getContentquota() {
+        return contentquota;
     }
 
-    public void setRewardContent(String rewardContent) {
-        this.rewardContent = rewardContent;
+    public void setContentquota(Integer contentquota) {
+        this.contentquota = contentquota;
     }
 
-    public Integer getContentQuota() {
-        return contentQuota;
+    public Date getRewardcreatetime() {
+        return rewardcreatetime;
     }
 
-    public void setContentQuota(Integer contentQuota) {
-        this.contentQuota = contentQuota;
+    public void setRewardcreatetime(Date rewardcreatetime) {
+        this.rewardcreatetime = rewardcreatetime;
     }
 
-    public Date getRewardCreateTime() {
-        return rewardCreateTime;
+    public String getMatchid() {
+        return matchid;
     }
 
-    public void setRewardCreateTime(Date rewardCreateTime) {
-        this.rewardCreateTime = rewardCreateTime;
+    public void setMatchid(String matchid) {
+        this.matchid = matchid;
     }
 
-    public String getMatchId() {
-        return matchId;
+    public Date getRewardaddtime() {
+        return rewardaddtime;
     }
 
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
+    public void setRewardaddtime(Date rewardaddtime) {
+        this.rewardaddtime = rewardaddtime;
     }
 
-    public Date getRewardAddTime() {
-        return rewardAddTime;
+    public Integer getRewardstate() {
+        return rewardstate;
     }
 
-    public void setRewardAddTime(Date rewardAddTime) {
-        this.rewardAddTime = rewardAddTime;
+    public void setRewardstate(Integer rewardstate) {
+        this.rewardstate = rewardstate;
     }
 
-    public Integer getRewardState() {
-        return rewardState;
+    public Integer getMatchrewardstate() {
+        return matchrewardstate;
     }
 
-    public void setRewardState(Integer rewardState) {
-        this.rewardState = rewardState;
+    public void setMatchrewardstate(Integer matchrewardstate) {
+        this.matchrewardstate = matchrewardstate;
     }
 }

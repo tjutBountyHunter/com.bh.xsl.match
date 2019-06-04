@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.ResultUtils;
 import com.xsl.enums.DataStatesEnum;
+import com.xsl.enums.TeamStatesEnum;
 import com.xsl.pojo.Example.XslOrientedExample;
 import com.xsl.pojo.XslOriented;
 import com.xsl.result.EasyUIDataGridResult;
@@ -146,14 +147,13 @@ public class XslOrientedServiceImpl implements XslOrientedService {
             XslOrientedExample xslOrientedExample = new XslOrientedExample();
             XslOrientedExample.Criteria criteria = xslOrientedExample.createCriteria();
             criteria.andOrientedidIn(xslOrientedIds);
-
+            xslOriented.setOrientedstate(TeamStatesEnum.DELETE.getCode());
             int i = xslOrientedMapper.updateByExampleSelective(xslOriented, xslOrientedExample);
 
             if (i < xslOrientedIds.size() - 1){
                     LOGGER.error("updateMatchState 删除部分失败");
                     return ResultUtils.error();
                 }
-
             return ResultUtils.ok();
         }catch (Exception e){
             throw new RuntimeException("删除人群异常:" + e.getMessage());

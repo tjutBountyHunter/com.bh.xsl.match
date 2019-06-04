@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>宜立方商城后台管理系统</title>
+<title>高校组队后台管理系统</title>
 <link rel="stylesheet" type="text/css" href="js/jquery-easyui-1.4.1/themes/gray/easyui.css" />
 <link rel="stylesheet" type="text/css" href="js/jquery-easyui-1.4.1/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="css/e3.css" />
@@ -44,13 +44,12 @@
          		<ul>
 	         		<li data-options="attributes:{'url':'match-team-add'}">创建队伍</li>
 					<li data-options="attributes:{'url':'match-team-list'}">队伍管理</li>
-	         		<li data-options="attributes:{'url':'content'}">内容管理</li>
 	         	</ul>
          	</li>
          	<li>
          		<span>标签管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'index-item'}">标签管理</li>
+	         		<li data-options="attributes:{'url':'match-tag-list'}">标签管理</li>
 	         	</ul>
          	</li>
          </ul>

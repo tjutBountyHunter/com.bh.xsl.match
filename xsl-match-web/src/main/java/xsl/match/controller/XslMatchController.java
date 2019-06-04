@@ -79,7 +79,7 @@ public class XslMatchController {
         return xslResult;
     }
 
-    @RequestMapping("/list")
+    @RequestMapping("/page")
     @ResponseBody
     /**
      *
@@ -175,7 +175,7 @@ public class XslMatchController {
      */
     public XslResult disableMatch(@Param("matchIds") String matchIds){
         List<String> stringList = MYStringUtils.getStringList(matchIds, ",");
-        return xslMatchService.updateMatchState(stringList, MatchStateEnum.DELETE.getKey());
+        return xslMatchService.deleteMatchByIds(stringList);
     }
 
 

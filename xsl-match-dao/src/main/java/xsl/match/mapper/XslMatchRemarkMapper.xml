@@ -3,12 +3,12 @@
 <mapper namespace="xsl.match.mapper.XslMatchRemarkMapper">
   <resultMap id="BaseResultMap" type="com.xsl.pojo.XslMatchRemark">
     <id column="Id" jdbcType="INTEGER" property="id" />
-    <result column="CommentatorId" jdbcType="VARCHAR" property="commentatorid" />
+    <result column="commentatorId" jdbcType="VARCHAR" property="commentatorid" />
     <result column="targetId" jdbcType="VARCHAR" property="targetid" />
+    <result column="teamId" jdbcType="VARCHAR" property="teamid" />
     <result column="score" jdbcType="INTEGER" property="score" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="comments" jdbcType="VARCHAR" property="comments" />
-    <result column="teamId" jdbcType="VARCHAR" property="teamid" />
     <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Id, CommentatorId, targetId, score, createTime, comments, teamId, state
+    Id, commentatorId, targetId, teamId, score, createTime, comments, state
   </sql>
   <select id="selectByExample" parameterType="com.xsl.pojo.Example.XslMatchRemarkExample" resultMap="BaseResultMap">
     select
@@ -103,12 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.xsl.pojo.XslMatchRemark">
-    insert into xsl_match_remark (Id, CommentatorId, targetId, 
-      score, createTime, comments, 
-      teamId, state)
+    insert into xsl_match_remark (Id, commentatorId, targetId, 
+      teamId, score, createTime, 
+      comments, state)
     values (#{id,jdbcType=INTEGER}, #{commentatorid,jdbcType=VARCHAR}, #{targetid,jdbcType=VARCHAR}, 
-      #{score,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{comments,jdbcType=VARCHAR}, 
-      #{teamid,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER})
+      #{teamid,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{comments,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xsl.pojo.XslMatchRemark">
     insert into xsl_match_remark
@@ -117,10 +117,13 @@
         Id,
       </if>
       <if test="commentatorid != null">
-        CommentatorId,
+        commentatorId,
       </if>
       <if test="targetid != null">
         targetId,
+      </if>
+      <if test="teamid != null">
+        teamId,
       </if>
       <if test="score != null">
         score,
@@ -130,9 +133,6 @@
       </if>
       <if test="comments != null">
         comments,
-      </if>
-      <if test="teamid != null">
-        teamId,
       </if>
       <if test="state != null">
         state,
@@ -148,6 +148,9 @@
       <if test="targetid != null">
         #{targetid,jdbcType=VARCHAR},
       </if>
+      <if test="teamid != null">
+        #{teamid,jdbcType=VARCHAR},
+      </if>
       <if test="score != null">
         #{score,jdbcType=INTEGER},
       </if>
@@ -156,9 +159,6 @@
       </if>
       <if test="comments != null">
         #{comments,jdbcType=VARCHAR},
-      </if>
-      <if test="teamid != null">
-        #{teamid,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -178,10 +178,13 @@
         Id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.commentatorid != null">
-        CommentatorId = #{record.commentatorid,jdbcType=VARCHAR},
+        commentatorId = #{record.commentatorid,jdbcType=VARCHAR},
       </if>
       <if test="record.targetid != null">
         targetId = #{record.targetid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamid != null">
+        teamId = #{record.teamid,jdbcType=VARCHAR},
       </if>
       <if test="record.score != null">
         score = #{record.score,jdbcType=INTEGER},
@@ -191,9 +194,6 @@
       </if>
       <if test="record.comments != null">
         comments = #{record.comments,jdbcType=VARCHAR},
-      </if>
-      <if test="record.teamid != null">
-        teamId = #{record.teamid,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null">
         state = #{record.state,jdbcType=INTEGER},
@@ -206,12 +206,12 @@
   <update id="updateByExample" parameterType="map">
     update xsl_match_remark
     set Id = #{record.id,jdbcType=INTEGER},
-      CommentatorId = #{record.commentatorid,jdbcType=VARCHAR},
+      commentatorId = #{record.commentatorid,jdbcType=VARCHAR},
       targetId = #{record.targetid,jdbcType=VARCHAR},
+      teamId = #{record.teamid,jdbcType=VARCHAR},
       score = #{record.score,jdbcType=INTEGER},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
       comments = #{record.comments,jdbcType=VARCHAR},
-      teamId = #{record.teamid,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -221,10 +221,13 @@
     update xsl_match_remark
     <set>
       <if test="commentatorid != null">
-        CommentatorId = #{commentatorid,jdbcType=VARCHAR},
+        commentatorId = #{commentatorid,jdbcType=VARCHAR},
       </if>
       <if test="targetid != null">
         targetId = #{targetid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamid != null">
+        teamId = #{teamid,jdbcType=VARCHAR},
       </if>
       <if test="score != null">
         score = #{score,jdbcType=INTEGER},
@@ -235,9 +238,6 @@
       <if test="comments != null">
         comments = #{comments,jdbcType=VARCHAR},
       </if>
-      <if test="teamid != null">
-        teamId = #{teamid,jdbcType=VARCHAR},
-      </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
       </if>
@@ -246,12 +246,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xsl.pojo.XslMatchRemark">
     update xsl_match_remark
-    set CommentatorId = #{commentatorid,jdbcType=VARCHAR},
+    set commentatorId = #{commentatorid,jdbcType=VARCHAR},
       targetId = #{targetid,jdbcType=VARCHAR},
+      teamId = #{teamid,jdbcType=VARCHAR},
       score = #{score,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       comments = #{comments,jdbcType=VARCHAR},
-      teamId = #{teamid,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER}
     where Id = #{id,jdbcType=INTEGER}
   </update>

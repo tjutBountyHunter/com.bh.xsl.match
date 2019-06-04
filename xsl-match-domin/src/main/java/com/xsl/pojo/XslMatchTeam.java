@@ -1,8 +1,9 @@
 package com.xsl.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class XslMatchTeam {
+public class XslMatchTeam implements Serializable {
     private Integer id;
 
     private String teamid;

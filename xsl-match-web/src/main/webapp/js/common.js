@@ -39,6 +39,9 @@ var E3 = {
 	MATCH_REVIEW(4,"评审阶段"),MATCH_END(5,"比赛结束"),
     DELETE(6,"比赛已删除");*/
     formatMatchStatus : function formatStatus(val,row){
+        if (val == 0) {
+            return '比赛禁用';
+        }
         if (val == 1){
             return '报名未开始';
         }
@@ -56,9 +59,6 @@ var E3 = {
         }
         if (val == 6) {
             return '比赛结束';
-        }
-        if (val == 7) {
-            return '比赛禁用';
         }
     },
     formatRank : function(val,row){
@@ -155,14 +155,21 @@ var E3 = {
         var msg;
         $.ajax({
             method : 'get',
-            url : 'match/info/select/one',
-            data : {'matchId': val},
+            url : 'match/info/select/one?matchid='+ val ,
             async : false,
             success : function (data) {
                msg = data.matchname;
             }
         });
         return msg + "";
+    },
+    formatTagStatus : function formatStatus(val,row){
+        if (val == true) {
+            return '使用中';
+        }
+        if (val == false){
+            return '已删除';
+        }
     }
 };
 

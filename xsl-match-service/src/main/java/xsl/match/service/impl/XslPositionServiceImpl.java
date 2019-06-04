@@ -153,9 +153,11 @@ public class XslPositionServiceImpl implements XslPositionService {
             if (StringUtils.isNotBlank(json)){
                 xslTaskTags = JsonUtils.jsonToList(json, XslTaskTag.class);
                 //删除不在使用的标签
-                for (XslTaskTag xslTaskTag : xslTaskTags){
-                    xslPositionTagService.removePositionTag(positionId,xslTaskTag.getTagid());
-                }
+                ArrayList<String> removeIds = new ArrayList<>();
+                xslTaskTags.forEach(xslHunterTag -> {
+                    removeIds.add(xslHunterTag.getTagid());
+                });
+                XslResult xslResult = xslPositionTagService.removePositionTag(positionId, removeIds);
             }
             //将所有该职位的申请置为不可用
             xslPositionApplicationService.changeApplyState(positionId,null, PositionApplicationStatesEnum.INVALID.getCode());

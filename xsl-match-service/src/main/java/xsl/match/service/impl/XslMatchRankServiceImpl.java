@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslMatchRankMapper;
 import xsl.match.service.XslMatchRankService;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -180,14 +181,11 @@ public class XslMatchRankServiceImpl implements XslMatchRankService {
             XslMatchRank xslMatchRank = new XslMatchRank();
             XslMatchRankExample xslMatchRankExample = new XslMatchRankExample();
             XslMatchRankExample.Criteria criteria = xslMatchRankExample.createCriteria();
-            for (String str : split){
-                xslMatchRankExample.clear();
-                criteria.andMatchrankidEqualTo(str);
-                xslMatchRank.setRankstate(DataStatesEnum.DELETE.getCode());
-                int i = xslMatchRankMapper.updateByExampleSelective(xslMatchRank,xslMatchRankExample);
-                if (i <= 0){
-                    return ResultUtils.parameterError("deleteMatchRanks() 删除数据" + str + "失败");
-                }
+            criteria.andMatchrankidIn(Arrays.asList(split));
+            xslMatchRank.setRankstate(DataStatesEnum.DELETE.getCode());
+            int i = xslMatchRankMapper.updateByExampleSelective(xslMatchRank,xslMatchRankExample);
+            if (i <= 0){
+                return ResultUtils.parameterError("deleteMatchRanks() 删除数据失败");
             }
             return ResultUtils.ok();
         }catch (Exception e){

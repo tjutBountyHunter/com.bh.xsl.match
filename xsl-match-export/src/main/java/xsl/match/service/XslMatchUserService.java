@@ -25,10 +25,10 @@ public interface XslMatchUserService {
     /** 根据hunterId查询用户补充信息 */
     XslMatchUser selectMatchUserInfoByHunterId(String hunterId)throws RuntimeException;
 
-    /** 添加一个用户标签 */
-    XslResult addHunterTag(String hunterId, String tagId)throws RuntimeException;
-    /** 删除一个用户标签 */
-    XslResult removeHunterTag(String hunterId, String tagId)throws RuntimeException;
+    /** 添加用户标签 */
+    XslResult addHunterTag(String hunterId, List<String> tagIds)throws RuntimeException;
+    /** 删除用户标签 */
+    XslResult removeHunterTag(String hunterId, List<String> tagIds)throws RuntimeException;
     /** 根据hunterId 获取用户标签 */
     List<XslHunterTag> getAllTagsByHunterId(String hunterId)throws RuntimeException;
     /** 根据hunterId 获取用户标签 + 标签名 */

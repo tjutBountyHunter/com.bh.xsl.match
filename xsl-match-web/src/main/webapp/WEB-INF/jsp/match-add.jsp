@@ -68,7 +68,7 @@
 			<tr>
 				<td>选择参赛形式:</td>
 				<td>
-					<input type="text" id="matchForm" class="easyui-combobox" name="matchForm"
+					<input type="text" id="matchForm" class="easyui-combobox" name="matchform"
 						   data-options="valueField:'matchForm',textField:'matchFormName',url:'match/info/select/form',prompt: '请选择参赛形式',required:true,editable:false" />
 					<nobr hidden="hidden" id="matchTeamNum">
 						&nbsp;&nbsp;团队人数限制:<input class="easyui-textbox" type="text" name="matchteamnum"  data-options="" />

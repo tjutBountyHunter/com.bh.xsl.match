@@ -9,13 +9,13 @@ public class XslMatchRemark {
 
     private String targetid;
 
+    private String teamid;
+
     private Integer score;
 
     private Date createtime;
 
     private String comments;
-
-    private String teamid;
 
     private Integer state;
 
@@ -43,6 +43,14 @@ public class XslMatchRemark {
         this.targetid = targetid == null ? null : targetid.trim();
     }
 
+    public String getTeamid() {
+        return teamid;
+    }
+
+    public void setTeamid(String teamid) {
+        this.teamid = teamid == null ? null : teamid.trim();
+    }
+
     public Integer getScore() {
         return score;
     }
@@ -65,14 +73,6 @@ public class XslMatchRemark {
 
     public void setComments(String comments) {
         this.comments = comments == null ? null : comments.trim();
-    }
-
-    public String getTeamid() {
-        return teamid;
-    }
-
-    public void setTeamid(String teamid) {
-        this.teamid = teamid == null ? null : teamid.trim();
     }
 
     public Integer getState() {

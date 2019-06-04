@@ -4,22 +4,23 @@
 <script type="text/javascript" charset="utf-8" src="/js/kindeditor-4.1.10/lang/zh_CN.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/jquery.serializejson.min.js"></script>
 <div style="padding:10px 10px 10px 10px">
-	<form id="matchRankAddForm" class="itemForm" method="post">
+	<form id="matchTagEditForm" class="itemForm" method="post">
 		<table cellpadding="5">
-			<input type="text" hidden="hidden" name="matchid">
-			<%--<tr>--%>
-				<%--<td>ID:</td>--%>
-				<%--<td><input class="easyui-textbox" type="text" name="matchRankId" data-options="readonly:true" style="width: 280px;"></input></td>--%>
-			<%--</tr>--%>
 			<tr>
-				<td>级别名称:</td>
+				<td>标签ID:</td>
+				<td><input id="getRewardTagId" class="easyui-textbox" type="text" name="tagid" data-options="readonly:true" style="width: 280px;"></input></td>
+			</tr>
+			<tr>
+				<td>标签名称:</td>
 				<td>
-					<input class="easyui-textbox" type="text" name="rankname" data-options="required:true" style="width: 280px;"></input>
+					<input class="easyui-textbox" type="text" name="name" data-options="required:true" style="width: 280px;"></input>
 				</td>
 			</tr>
 			<tr>
-				<td>说明:</td>
-				<td><input class="easyui-textbox" type="text" name="rankinfo" data-options="" style="width: 280px;"></input></td>
+				<td>标签状态:</td>
+				<td>
+					<input class="easyui-textbox" type="text" name="state" data-options="readonly:true" style="width: 280px;"></input>
+				</td>
 			</tr>
 		</table>
 	</form>
@@ -33,30 +34,35 @@
 	//提交表单
 	function submitForm(){
 		//有效性验证
-		if(!$('#matchRankAddForm').form('validate')){
+		if(!$('#matchTagEditForm').form('validate')){
 			$.messager.alert('提示','表单还未填写完成!');
 			return ;
 		}
-		var da = JSON.stringify($("#matchRankAddForm").serializeJSON());
+		var da = JSON.stringify($("#matchTagEditForm").serializeJSON());
 		$.ajax({
 			type : 'post',
-			url : 'match/rank/add',
+			url : 'tag/edit/tag',
 			data : da,
 			contentType : 'application/json; charset=utf-8',
 			dataType : 'json',
 			success : function (data) {
                 if(data.code == 200){
-                    $.messager.alert('提示','新增等级成功!');
-                    $('#addRankWindow').window('close');
-                    $('#matchRankList').datagrid('reload');
+                    $.messager.alert('提示','修改成功!');
+                    $('#editTagWindow').window('close');
+                    $('#matchTagList').datagrid('reload');
                 }
             }
 		})
 	}
 	/* 清空表单 */
 	function clearForm(){
-		$('#matchRankAddForm').form('reset');
-		itemAddEditor.html('');
+	    var id = $('#getTagId').val();
+	    id = {
+            tagid : id
+		}
+		$('#matchTagEditForm').form('reset');
+		$('#matchTagEditForm').form('load',id);
+		// itemAddEditor.html('');
 	}
 
 

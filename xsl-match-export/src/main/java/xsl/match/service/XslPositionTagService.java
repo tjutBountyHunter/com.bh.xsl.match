@@ -14,10 +14,8 @@ import java.util.List;
  * @Description:
  */
 public interface XslPositionTagService {
-    /** 为职位添加一个标签 */
-    XslResult addPositionTag(String positionId ,String tagId)throws RuntimeException;
-    /** 为职位删除一个标签 */
-    XslResult removePositionTag(String positionId ,String tagId)throws RuntimeException;
+    /** 为职位删除标签 */
+    XslResult removePositionTag(String positionId ,List<String> tagIds)throws RuntimeException;
     /** 为职位添加多个标签 */
     XslResult addPositionTags(String positionId ,List<String> tagIds)throws RuntimeException;
     /** 查询职位的所有使用中标签 */

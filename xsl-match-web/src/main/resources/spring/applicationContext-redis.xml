@@ -30,7 +30,7 @@
 		<constructor-arg name="host" value="39.108.211.37"></constructor-arg>
 		<constructor-arg name="port" value="8379"></constructor-arg>
 		<constructor-arg name="timeout" value="20000"></constructor-arg>
-		<constructor-arg name="database" value="1"></constructor-arg>
+		<constructor-arg name="database" value="0"></constructor-arg>
 		<constructor-arg name="jedisPoolConfig" ref="jedisPoolConfig"></constructor-arg>
 	</bean>
 <!-- 连接redis -->

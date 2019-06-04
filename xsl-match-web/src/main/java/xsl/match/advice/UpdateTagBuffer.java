@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import xsl.match.mapper.XslTagMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -86,16 +88,24 @@ public class UpdateTagBuffer {
          * @auther: 11432_000
          * @date: 2019/4/28 14:02
          */
-        //添加单个
-        String tagId = (String) joinPoint.getArgs()[0];
-        JedisUtils.delete(TAG_BUFFER + ":" + tagId);
+        List<String> strings = null;
+        Object arg = joinPoint.getArgs()[0];
+        if (arg instanceof String){
+            strings = new ArrayList<>();
+            strings.add((String) arg);
+        }else if (arg instanceof List){
+            strings = (List<String>) arg;
+        }
 
-        //更新列表
-        XslTagExample xslTagExample = new XslTagExample();
-        xslTagExample.createCriteria().andTagidLike(MATCH_TAG_PREFIX + "%").andStateEqualTo(true);
-        List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
+        strings.forEach(tagId->{
+            JedisUtils.delete(TAG_BUFFER + ":" + tagId);
+            //更新列表
+            XslTagExample xslTagExample = new XslTagExample();
+            xslTagExample.createCriteria().andTagidLike(MATCH_TAG_PREFIX + "%").andStateEqualTo(true);
+            List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
 
-        String json = JsonUtils.objectToJson(xslTags);
-        JedisUtils.set(TAG_BUFFER_LIST,json);
+            String json = JsonUtils.objectToJson(xslTags);
+            JedisUtils.set(TAG_BUFFER_LIST,json);
+        });
     }
 }

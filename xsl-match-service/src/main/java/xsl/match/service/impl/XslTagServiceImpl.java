@@ -1,5 +1,7 @@
 package xsl.match.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xsl.Utils.IdUtils;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
@@ -8,6 +10,7 @@ import com.xsl.annotation.AddTag;
 import com.xsl.annotation.DeleteTag;
 import com.xsl.pojo.Example.XslTagExample;
 import com.xsl.pojo.XslTag;
+import com.xsl.result.EasyUIDataGridResult;
 import com.xsl.result.XslResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,5 +155,100 @@ public class XslTagServiceImpl implements XslTagService {
         }
     }
 
+    @Override
+    /** 获取所有标签 分页*/
+    public EasyUIDataGridResult getPageTags(Integer page, Integer rows) throws RuntimeException {
+        try {
+            PageHelper.startPage(page,rows);
+            XslTagExample xslTagExample = new XslTagExample();
+            List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
+            PageInfo pageInfo = new PageInfo(xslTags);
+            EasyUIDataGridResult result = new EasyUIDataGridResult();
+            result.setRows(xslTags);
+            result.setTotal(pageInfo.getTotal());
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
+    /** 获取指定的标签 */
+    private List<XslTag> getTags(String tagId,Boolean... state){
+        XslTagExample xslTagExample = new XslTagExample();
+        XslTagExample.Criteria criteria = xslTagExample.createCriteria();
+        if (StringUtils.isNotBlank(tagId)){
+            criteria.andTagidEqualTo(tagId);
+        }
+        if (state != null && state.length > 0){
+            criteria.andStateIn(Arrays.asList(state));
+        }
+        List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
+        return xslTags;
+    }
+
+    @Override
+    /** 修改标签 */
+    public XslResult updateTags(XslTag xslTag) throws RuntimeException {
+        try {
+            XslTagExample xslTagExample = new XslTagExample();
+            xslTagExample.createCriteria().andTagidEqualTo(xslTag.getTagid()).andStateEqualTo(xslTag.getState());
+            int i = xslTagMapper.updateByExampleSelective(xslTag, xslTagExample);
+            if (i < 0){
+                return ResultUtils.parameterError();
+            }
+            return ResultUtils.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    @DeleteTag
+    public XslResult removeTags(List<String> tagIds) throws RuntimeException {
+        try {
+            XslTagExample xslTagExample = new XslTagExample();
+            xslTagExample.createCriteria().andTagidIn(tagIds);
+            XslTag xslTag = new XslTag();
+            xslTag.setState(false);
+            int i = xslTagMapper.updateByExampleSelective(xslTag, xslTagExample);
+            if(i <= 0){
+                return ResultUtils.error("删除失败");
+            }
+            return ResultUtils.ok();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    /** 更新标签使用次数  传入tagIds */
+    public XslResult updateTagUseNum(Object arg) throws RuntimeException {
+        XslResult xslResult = ResultUtils.ok();
+        if (arg != null && arg instanceof List){
+            xslResult= updateTagUseNum((List<String>) arg);
+        }
+        return xslResult;
+    }
+
+    private XslResult updateTagUseNum(List<String> tagIds){
+        try {
+            XslTagExample xslTagExample = new XslTagExample();
+            XslTagExample.Criteria criteria = xslTagExample.createCriteria();
+            criteria.andTagidIn(tagIds).andStateEqualTo(true);
+            List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
+            xslTags.forEach(xslTag -> {
+                xslTagExample.clear();
+                xslTag.setUsenum((short)(xslTag.getUsenum() + 1));
+                criteria.andTagidEqualTo(xslTag.getTagid()).andStateEqualTo(true);
+                xslTagMapper.updateByExampleSelective(xslTag,xslTagExample);
+            });
+            return ResultUtils.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

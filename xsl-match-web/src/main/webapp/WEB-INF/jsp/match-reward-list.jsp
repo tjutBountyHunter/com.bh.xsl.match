@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <form id="getUrlPara">
-    <input hidden="hidden" id="getMatchId"  type="text"  name="matchId">
-    比赛名称：<input  class="easyui-textbox"  type="text"  name="matchName" data-options="readonly:true">
+    <input hidden="hidden" id="getMatchId"  type="text"  name="matchid">
+    比赛名称：<input  class="easyui-textbox"  type="text"  name="matchname" data-options="readonly:true">
 </form>
 <table  id="matchRewardList" title="比赛奖励列表"
        data-options="singleSelect:false,collapsible:true,pagination:true,pageSize:30,toolbar:toolbar">
@@ -64,7 +64,7 @@
                     var data = $("#matchRewardList").datagrid("getSelections")[0];
                     var matchId = $('#getMatchId').val();
                     // 动态的为对象添加属性
-                    eval("data.matchId = '" + matchid + "'")
+                    eval("data.matchId = '" + matchId + "'")
                     // 为表单提供数据
         			$("#matchRewardEditForm").form("load",data);
         		}
@@ -106,7 +106,7 @@
         handler:function() {
             var data = $('#getMatchId').val();
             data = {
-                matchId : data
+                matchid : data
             }
             $("#addRewardWindow").window({
                 onLoad : function () {

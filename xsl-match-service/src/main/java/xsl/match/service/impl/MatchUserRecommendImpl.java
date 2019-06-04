@@ -110,6 +110,7 @@ public class MatchUserRecommendImpl implements MatchUserRecommend {
             //设置推荐列表保存三天
             JedisUtils.expire(HUNTER_RECOMMEND_BUFFER + ":" + positionId,60*60*24*3);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }

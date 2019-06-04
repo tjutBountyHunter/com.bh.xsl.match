@@ -72,22 +72,20 @@
         		return ;
         	}
         	$.messager.confirm('确认','确定删除比赛等级 : ['+ names +'] 吗？',function(r){
-        	    if (r){
-        	    	var params = {"matchRankIds":ids};
-                	$.ajax({
-                        method : 'get',
-                        data : params,
-                        url : 'match/rank/delete',
-                        contentType : 'application/json; charset=utf-8',
-                        dataType : 'json',
-                        success : function (data) {
-                            if (data.code == 200){
-                                $.messager.alert('提示','比赛等级删除成功!');
-                                $('#matchRankList').datagrid('reload');
-                            }
+                var params = {"matchRankIds":ids};
+                $.ajax({
+                    method : 'get',
+                    data : params,
+                    url : 'match/rank/delete',
+                    contentType : 'application/json; charset=utf-8',
+                    dataType : 'json',
+                    success : function (data) {
+                        if (data.code == 200){
+                            $.messager.alert('提示','比赛等级删除成功!');
+                            $('#matchRankList').datagrid('reload');
                         }
-                    })
-        	    }
+                    }
+                })
         	});
         }
     },'-',{

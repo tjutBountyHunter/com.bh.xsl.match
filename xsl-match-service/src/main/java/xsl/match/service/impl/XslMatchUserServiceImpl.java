@@ -17,11 +17,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import xsl.match.mapper.XslHunterTagMapper;
 import xsl.match.mapper.XslMatchUserMapper;
 import xsl.match.service.XslMatchUserService;
+import xsl.match.service.XslTagService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,10 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
     private XslMatchUserMapper xslMatchUserMapper;
     @Autowired
     private XslHunterTagMapper xslHunterTagMapper;
+    @Autowired
+    private XslTagService xslTagService;
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     @Value("${MATCH_HUNTER_PREFIX}")
     private String MATCH_HUNTER_PREFIX;
     @Value("${HUNTER_TAG_BUFFER}")
@@ -172,10 +178,10 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
 
     @Override
     @UpdateHunterTag
-    public XslResult addHunterTag(String hunterId, String tagId) throws RuntimeException {
+    public XslResult addHunterTag(String hunterId, List<String> tagIds) throws RuntimeException {
         /**
          *
-         * 功能描述: 添加一个用户标签
+         * 功能描述: 添加用户标签
          *
          * @param: [hunterId, tagId]
          * @return: com.xsl.result.XslResult
@@ -184,13 +190,19 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
          */
         try {
             XslHunterTag xslHunterTag =  new XslHunterTag();
-            xslHunterTag.setHunterid(hunterId);
-            xslHunterTag.setTagid(tagId);
-            xslHunterTag.setState(true);
-            int i = xslHunterTagMapper.insertSelective(xslHunterTag);
-            if(i <= 0){
-                return ResultUtils.error("添加用户标签失败");
-            }
+            tagIds.forEach(tagId ->{
+                xslHunterTag.setHunterid(hunterId);
+                xslHunterTag.setTagid(tagId);
+                xslHunterTag.setState(true);
+                int i = xslHunterTagMapper.insertSelective(xslHunterTag);
+                if(i <= 0){
+                    LOGGER.error("public XslResult addHunterTag(String,List<String>) arg1=[{}],arg2=[{}]",hunterId,tagIds);
+                }
+            });
+            //异步更新使用次数
+            threadPoolTaskExecutor.execute(() -> {
+                xslTagService.updateTagUseNum(tagIds);
+            });
             return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
@@ -199,7 +211,7 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
 
     @Override
     @UpdateHunterTag
-    public XslResult removeHunterTag(String hunterId, String tagId) throws RuntimeException {
+    public XslResult removeHunterTag(String hunterId, List<String> tagIds) throws RuntimeException {
         /**
          *
          * 功能描述: 删除一个用户标签
@@ -211,12 +223,12 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
          */
         try {
             XslHunterTagExample xslHunterTagExample = new XslHunterTagExample();
-            xslHunterTagExample.createCriteria().andHunteridEqualTo(hunterId).andTagidEqualTo(tagId);
+            xslHunterTagExample.createCriteria().andHunteridEqualTo(hunterId).andTagidIn(tagIds);
             XslHunterTag xslHunterTag = new XslHunterTag();
             xslHunterTag.setState(false);
             int i = xslHunterTagMapper.updateByExampleSelective(xslHunterTag, xslHunterTagExample);
             if (i <= 0){
-                return ResultUtils.error("删除用户标签失败");
+                LOGGER.error("public XslResult removeHunterTag(String hunterId, List<String> tagIds) hunterId=[{}],tagIds=[{}]",hunterId,tagIds);
             }
             return ResultUtils.ok();
         } catch (Exception e) {
@@ -296,7 +308,6 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
     }
 
     @Override
-    @UpdateHunterTag
     @UpdateUser
     /** 更改用户标签 */
     public XslResult updateHunterTag(String hunterId,List<String> tagIds) throws RuntimeException {
@@ -322,14 +333,18 @@ public class XslMatchUserServiceImpl implements XslMatchUserService {
                     }
                 }
                 //删除不在使用的标签
-                for (XslHunterTag xslHunterTag : xslHunterTags){
-                    removeHunterTag(xslHunterTag.getHunterid(),xslHunterTag.getTagid());
-                }
+                ArrayList<String> removeIds = new ArrayList<>();
+                xslHunterTags.forEach(xslHunterTag -> {
+                    removeIds.add(xslHunterTag.getTagid());
+                });
+                XslResult xslResult = removeHunterTag(hunterId, removeIds);
             }
             //添加增标签
-            for (XslHunterTag xslHunterTag : list){
-                addHunterTag(xslHunterTag.getHunterid(),xslHunterTag.getTagid());
-            }
+            ArrayList<String> addIds = new ArrayList<>();
+            list.forEach(xslHunterTag ->{
+                addIds.add(xslHunterTag.getTagid());
+            });
+            XslResult xslResult = addHunterTag(hunterId, addIds);
             return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());

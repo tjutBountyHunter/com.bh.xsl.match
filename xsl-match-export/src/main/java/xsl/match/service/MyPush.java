@@ -14,4 +14,7 @@ public interface MyPush {
 
 	/** 发送推送 */
 	public XslResult sendPushByPhone(JPushReqVo jPushReqVo)throws RuntimeException;
+
+	/** 向所有人发送推送 */
+	public XslResult sendAll(JPushReqVo jPushReqVo)throws RuntimeException;
 }

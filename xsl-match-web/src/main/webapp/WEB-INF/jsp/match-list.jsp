@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <table class="easyui-datagrid" id="matchList" title="比赛列表"
-       data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/info/list',method:'get',pageSize:30,toolbar:toolbar">
+       data-options="singleSelect:false,collapsible:true,pagination:true,url:'match/info/page',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
         	<th data-options="field:'matchid',checkbox:true"></th>
@@ -167,7 +167,7 @@
                         url : 'match/reward/select/info',
                         method : 'get',
                         queryParams : {
-                            matchId : data.matchId
+                            matchId : data.matchid
                         }
                     })
                     // 为表单提供数据

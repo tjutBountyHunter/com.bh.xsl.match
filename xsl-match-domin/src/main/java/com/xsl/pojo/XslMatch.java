@@ -214,6 +214,6 @@ public class XslMatch implements Serializable {
 
     @Override
     public int hashCode() {
-        return this.getMatchid().hashCode();
+        return this.matchid.hashCode();
     }
 }

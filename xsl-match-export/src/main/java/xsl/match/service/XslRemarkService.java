@@ -22,4 +22,6 @@ public interface XslRemarkService {
     List<XslMatchRemark> selectRemarkByCommentatorIdAndTargetId(String commentatorId,String targetId,String teamId)throws RuntimeException;
     /** 获取某个人的评论 */
     List<XslMatchRemark> selectRemarkByTargetId(String targetId)throws RuntimeException;
+    /** 获取某个人发表的评论 */
+    List<XslMatchRemark> selectRemarkByCommentatorId(String commentatorId)throws RuntimeException;
 }

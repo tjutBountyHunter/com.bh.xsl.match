@@ -99,7 +99,7 @@ public class XslTeamPositionController {
 			List<String> tags = positionUpdateReqVo.getTagIds();
 			String positionId = xslResult.getData().toString();
 			XslResult xslResult1 = xslPositionTagService.addPositionTags(positionId, tags);
-			if (!ResultUtils.isSuccess(xslResult1)){
+			if (ResultUtils.isSuccess(xslResult1)){
 				//启动推荐
 				matchUserRecommend.recommended(positionId);
 				return xslResult1;
@@ -124,7 +124,7 @@ public class XslTeamPositionController {
 	@RequestMapping("get/null")
 	@ResponseBody
 	/** 获取空闲职位 */
-	public XslResult getNullPosition(@Param("teamId")String teamId){
+	public XslResult getNullPosition(@Param("teamId") String teamId){
 		List<XslTeamPosition> xslTeamPositions = xslPositionService.getAllPositionByTeamIdAndState(teamId, PositionStatesEnum.RECRUITMENT.getCode());
 		return ResultUtils.ok(xslTeamPositions);
 	}

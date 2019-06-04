@@ -1,5 +1,7 @@
 package xsl.match.service.impl;
 
+import com.alibaba.dubbo.container.page.PageHandler;
+import com.github.pagehelper.PageHelper;
 import com.xsl.Utils.JedisUtils;
 import com.xsl.Utils.JsonUtils;
 import com.xsl.Utils.MatchArrayUtils;
@@ -95,7 +97,7 @@ public class XslMatchServiceImpl implements XslMatchService {
         ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map;
         for (MatchFormEnum matchForm : MatchFormEnum.values()){
-            map = new HashMap<String, String>(2);
+            map = new HashMap<>(2);
             map.put(FORM_KEY,"" + matchForm.getKey());
             map.put(FORM_INFO,matchForm.getValue());
             list.add(map);
@@ -248,7 +250,7 @@ public class XslMatchServiceImpl implements XslMatchService {
     @DeleteMatch
     public XslResult deleteMatchByIds(List<String> matchIds) throws RuntimeException{
         try{
-            XslResult result = updateMatchState(matchIds, DataStatesEnum.DELETE.getCode());
+            XslResult result = editState(matchIds, DataStatesEnum.DELETE.getCode());
             if (ResultUtils.isSuccess(result)){
                 LOGGER.info("删除数据 matchId = [" +  matchIds + "] 成功");
                 return ResultUtils.ok(matchIds);
@@ -271,6 +273,10 @@ public class XslMatchServiceImpl implements XslMatchService {
     @Override
     @UpdateMatch
     public XslResult updateMatchState(List<String> matchIds,Integer state)throws RuntimeException {
+        return editState(matchIds,state);
+    }
+
+    private XslResult editState(List<String> matchIds,Integer state){
         if (matchIds == null){
             LOGGER.info("更新比赛状态 matchId 为null");
             return ResultUtils.parameterError();
@@ -280,14 +286,13 @@ public class XslMatchServiceImpl implements XslMatchService {
             XslMatchExample xslMatchExample = new XslMatchExample();
             XslMatchExample.Criteria criteria = xslMatchExample.createCriteria();
             criteria.andMatchidIn(matchIds);
-
             xslMatch.setMatchstate(state);
             int i = xslMatchMapper.updateByExampleSelective(xslMatch,xslMatchExample);
             if (i <= 0){
                 LOGGER.error("updateMatchState 更新比赛状态部分失败");
             }
             LOGGER.info("更新比赛状态 matchId = [" +  matchIds + "] 成功");
-            return ResultUtils.ok(matchIds);
+            return ResultUtils.ok(matchIds.toArray());
         }catch (Exception e){
             throw new RuntimeException("更新比赛状态异常:" + e.getMessage());
         }

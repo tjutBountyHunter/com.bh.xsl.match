@@ -60,7 +60,7 @@
                     var data = $("#matchRewardList").datagrid("getSelections")[0];
                     var matchId = $('#getMatchId').val();
                     // 动态的为对象添加属性
-                    eval("data.matchId = '" + matchId + "'")
+                    eval("data.matchid = '" + matchId + "'")
                     // 为表单提供数据
         			$("#matchRewardEditForm").form("load",data);
         		}

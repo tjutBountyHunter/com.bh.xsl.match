@@ -119,4 +119,13 @@ public class XslMatchTeamController {
         XslMatchTeam currentTeamByTeamId = xslMatchTeamService.getCurrentTeamByTeamId(teamId);
         return ResultUtils.ok(currentTeamByTeamId);
     }
+
+
+    @RequestMapping("/get/team/byMatchId")
+    @ResponseBody
+    /** 根据hunterId获取所在队伍信息 */
+    XslResult getTeams(@Param("matchId")String matchId){
+        List<XslMatchTeam> xslMatchTeams = xslMatchTeamService.selectAllTeamByMatch(matchId);
+        return ResultUtils.ok(xslMatchTeams);
+    }
 }

@@ -2,6 +2,7 @@ package xsl.match.service.impl;
 
 import com.xsl.result.XslResult;
 import com.xsl.user.JpushResource;
+import com.xsl.user.enums.JpushTypeEnum;
 import com.xsl.user.vo.ResBaseVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,20 @@ public class MyPushImpl implements MyPush {
 
 	@Override
 	public XslResult sendPushByPhone(JPushReqVo jPushReqVo) throws RuntimeException {
+		LOGGER.debug("推送开始");
+		jPushReqVo.setSource(JpushTypeEnum.GXZD.getName());
 		ResBaseVo resBaseVo = jpushResource.sendByPhone(jPushReqVo);
+		XslResult result = new XslResult();
+		result.setCode(resBaseVo.getStatus());
+		result.setData(resBaseVo.getExParam());
+		result.setMsg(resBaseVo.getMsg());
+		return result;
+	}
+
+	@Override
+	public XslResult sendAll(JPushReqVo jPushReqVo) throws RuntimeException {
+		jPushReqVo.setSource(JpushTypeEnum.GXZD.getName());
+		ResBaseVo resBaseVo = jpushResource.sendAll(jPushReqVo);
 		XslResult result = new XslResult();
 		result.setCode(resBaseVo.getStatus());
 		result.setData(resBaseVo.getExParam());

@@ -124,15 +124,11 @@ public class XslRewardRankServiceImpl implements XslRewardRankService {
         XslRewardRankExample.Criteria criteria = xslRewardRankExample.createCriteria();
         try {
             XslRewardRank xslRewardRank = new XslRewardRank();
-            for (String rewardRankId : ids){
-                xslRewardRankExample.clear();
-                criteria.andRewardrankidEqualTo(rewardRankId);
-                xslRewardRank.setRewardrankstate(DataStatesEnum.DELETE.getCode());
-                int i = xslRewardRankMapper.updateByExampleSelective(xslRewardRank,xslRewardRankExample);
-                if (i <= 0){
-                    LOGGER.error("deleteByRewardRankIds 删除奖励等级失败");
-                    return ResultUtils.error();
-                }
+            criteria.andRewardrankidIn(ids);
+            xslRewardRank.setRewardrankstate(DataStatesEnum.DELETE.getCode());
+            int i = xslRewardRankMapper.updateByExampleSelective(xslRewardRank,xslRewardRankExample);
+            if (i < 0){
+                throw new RuntimeException("奖励等级删除失败！");
             }
             return ResultUtils.ok();
         } catch (Exception e) {

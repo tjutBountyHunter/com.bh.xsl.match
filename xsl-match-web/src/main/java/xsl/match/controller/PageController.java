@@ -118,4 +118,17 @@ public class PageController {
     public String teamList(){
         return "match-team-list";
     }
+
+    @RequestMapping("match-tag-list")
+    public String tagList(){
+        return "match-tag-list";
+    }
+    @RequestMapping("match-tag-edit")
+    public String tagEdit(){
+        return "match-tag-edit";
+    }
+    @RequestMapping("match-tag-add")
+    public String tagAdd(){
+        return "match-tag-add";
+    }
 }

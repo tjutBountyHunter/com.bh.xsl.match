@@ -16,9 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import xsl.match.mapper.XslTaskTagMapper;
 import xsl.match.service.XslPositionTagService;
+import xsl.match.service.XslTagService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,10 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
 
     @Autowired
     private XslTaskTagMapper xslTaskTagMapper;
+    @Autowired
+    private XslTagService xslTagService;
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     @Value("${POSITION_TAG_BUFFER}")
     private String POSITION_TAG_BUFFER;
     @Value("${TAG_BUFFER}")
@@ -46,7 +52,7 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
     private Integer POSITION_TAG_MAX_NUM;
 
     @Override
-    public XslResult addPositionTag(String positionId, String tagId) throws RuntimeException {
+    public XslResult addPositionTags(String positionId, List<String> tagIds) throws RuntimeException {
         /**
          *
          * 功能描述: 为职位添加一个标签
@@ -57,18 +63,25 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
          * @date: 2019/5/6 20:12
          */
         try {
-//            List<XslTaskTag> allTagByPositionId = getAllTagByPositionId(positionId);
-//            if (allTagByPositionId.size() >= POSITION_TAG_MAX_NUM){
-//                return ResultUtils.parameterError("已达可添加标签上限");
-//            }
-            XslTaskTag xslTaskTag = new XslTaskTag();
-            xslTaskTag.setTaskid(positionId);
-            xslTaskTag.setTagid(tagId);
-            xslTaskTag.setState(true);
-            int i = xslTaskTagMapper.insertSelective(xslTaskTag);
-            if (i <= 0){
-                return ResultUtils.error("添加职位标签失败");
+            List<XslTaskTag> allTagByPositionId = getAllTagByPositionId(positionId);
+            int size = allTagByPositionId.size();
+            if (size >= POSITION_TAG_MAX_NUM){
+                return ResultUtils.parameterError("已达可添加标签上限");
             }
+            XslTaskTag xslTaskTag = new XslTaskTag();
+            for (String tagId : tagIds) {
+                if (size ++ >= POSITION_TAG_MAX_NUM){break;}
+                xslTaskTag.setTaskid(positionId);
+                xslTaskTag.setTagid(tagId);
+                xslTaskTag.setState(true);
+                int i = xslTaskTagMapper.insertSelective(xslTaskTag);
+                if (i <= 0){
+                    LOGGER.error("public XslResult addPositionTag(String positionId, List<String> tagIds) positionId={},tagIds={}",positionId,tagIds);
+                }
+            }
+            threadPoolTaskExecutor.execute(() -> {
+                XslResult updateTagUseNum = xslTagService.updateTagUseNum(tagIds);
+            });
             return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
@@ -76,7 +89,7 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
     }
 
     @Override
-    public XslResult removePositionTag(String positionId, String tagId) throws RuntimeException {
+    public XslResult removePositionTag(String positionId, List<String> tagIds) throws RuntimeException {
         /**
          *
          * 功能描述: 为职位删除一个标签
@@ -88,25 +101,17 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
          */
         try {
             XslTaskTagExample xslTaskTagExample = new XslTaskTagExample();
-            xslTaskTagExample.createCriteria().andTaskidEqualTo(positionId).andTagidEqualTo(tagId);
+            xslTaskTagExample.createCriteria().andTaskidEqualTo(positionId).andTagidIn(tagIds);
             XslTaskTag xslTaskTag = new XslTaskTag();
             xslTaskTag.setState(false);
             int i = xslTaskTagMapper.updateByExampleSelective(xslTaskTag, xslTaskTagExample);
             if (i <= 0){
-                return ResultUtils.error("删除职位标签失败");
+                LOGGER.error("public XslResult removePositionTag(String positionId, List<String> tagIds) positionId={},tagIds={}",positionId,tagIds);
             }
             return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    @Override
-    public XslResult addPositionTags(String positionId, List<String> tagIds) throws RuntimeException {
-        for (int j = 0; j < POSITION_TAG_MAX_NUM && j < tagIds.size(); j++) {
-            addPositionTag(positionId, tagIds.get(j));
-        }
-        return ResultUtils.ok();
     }
 
     @Override
@@ -210,14 +215,18 @@ public class XslPositionTagServiceImpl implements XslPositionTagService {
                     }
                 }
                 //删除不在使用的标签
-                for (XslTaskTag xslTaskTag : xslTaskTags){
-                    XslResult xslResult = removePositionTag(positionId, xslTaskTag.getTagid());
-                }
+                ArrayList<String> removeIds = new ArrayList<>();
+                xslTaskTags.forEach(xslHunterTag -> {
+                    removeIds.add(xslHunterTag.getTagid());
+                });
+                XslResult xslResult = removePositionTag(positionId, removeIds);
             }
             //添加增标签
-            for (XslTaskTag xslTaskTag : list){
-                XslResult xslResult = addPositionTag(positionId, xslTaskTag.getTagid());
-            }
+            ArrayList<String> addIds = new ArrayList<>();
+            list.forEach(xslHunterTag ->{
+                addIds.add(xslHunterTag.getTagid());
+            });
+            XslResult xslResult = addPositionTags(positionId, addIds);
             return ResultUtils.ok();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());

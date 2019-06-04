@@ -260,7 +260,7 @@ public class XslMatchTeamServiceImpl implements XslMatchTeamService {
         try {
             XslMatchTeamExample xslMatchTeamExample = new XslMatchTeamExample();
             XslMatchTeamExample.Criteria criteria = xslMatchTeamExample.createCriteria();
-            criteria.andMatchidEqualTo(matchId);
+            criteria.andMatchidEqualTo(matchId).andTeamstateNotIn(Arrays.asList(TeamStatesEnum.DELETE.getCode(),TeamStatesEnum.DISBANDED.getCode()));
             List<XslMatchTeam> xslMatchTeams = xslMatchTeamMapper.selectByExample(xslMatchTeamExample);
             return xslMatchTeams;
         } catch (Exception e) {

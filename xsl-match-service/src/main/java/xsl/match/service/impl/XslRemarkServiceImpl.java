@@ -70,7 +70,12 @@ public class XslRemarkServiceImpl implements XslRemarkService {
 
     @Override
     public List<XslMatchRemark> selectRemarkByTargetId(String targetId) throws RuntimeException {
-        return getRemarks(null,targetId,null);
+        return getRemarks(null,targetId,null,RemarkStateEnum.NORMAL.getCode());
+    }
+
+    @Override
+    public List<XslMatchRemark> selectRemarkByCommentatorId(String commentatorId) throws RuntimeException {
+        return getRemarks(commentatorId,null,null,RemarkStateEnum.NORMAL.getCode());
     }
 
     /** 获取评论 */
@@ -86,7 +91,10 @@ public class XslRemarkServiceImpl implements XslRemarkService {
         if (StringUtils.isNotBlank(teamId)){
             criteria.andTeamidEqualTo(teamId);
         }
-        if (state != null && state.length > 0){
+        if (state != null && state.length == 1){
+            criteria.andStateEqualTo(state[0]);
+        }
+        if (state != null && state.length > 1){
             criteria.andStateIn(Arrays.asList(state));
         }
         List<XslMatchRemark> xslMatchRemarks = xslMatchRemarkMapper.selectByExample(xslMatchRemarkExample);

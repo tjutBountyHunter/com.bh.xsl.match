@@ -16,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 import xsl.match.mapper.*;
 import xsl.match.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * 说明：
@@ -51,7 +53,8 @@ public class XslUserServiceImpl implements XslUserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(XslUserServiceImpl.class);
     @Value("${USER_DEFAULT_SIGNATURE}")
     private String USER_DEFAULT_SIGNATURE;
-
+    @Value("${REDIS_USER_SESSION_KEY}")
+    private String REDIS_USER_SESSION_KEY;
     @Value("${MATCH_HUNTER_PREFIX}")
     private String MATCH_HUNTER_PREFIX;
     @Value("${MATCH_TAG_PREFIX}")
@@ -226,13 +229,13 @@ public class XslUserServiceImpl implements XslUserService {
         XslUserExample.Criteria criteria = example.createCriteria();
         criteria.andPhoneEqualTo(xslUserRegister.getPhone());
         List<XslUser> list = xslUserMapper.selectByExample(example);
-//        if (ResultUtils.isSuccess(phoneAuthentication.checkVerificationCode(xslUserRegister.getPhone(),xslUserRegister.getCode()))){
-//            return ResultUtils.parameterError("验证码不正确！");
-//        }
+        //验证码校验
+        if (ResultUtils.isSuccess(phoneAuthentication.checkVerificationCode(xslUserRegister.getPhone(),xslUserRegister.getCode()))){
+            return ResultUtils.parameterError("验证码不正确！");
+        }
         if(list != null && list.size() > 0){
             return ResultUtils.parameterError("该手机号已经注册过");
         }
-
         XslUser xslUser = new XslUser();
         xslUser.setUserid(IdUtils.getUuid("MT:"));
         //初始化猎人信息
@@ -246,9 +249,9 @@ public class XslUserServiceImpl implements XslUserService {
         userResVo.setHunterid(xslMatchUser.getHunterid());
         userResVo.setHunterlevel(xslMatchUser.getLevel());
         userResVo.setTxUrl("http://47.93.200.190/images/default.png");
-
+        //将设备码存入缓存
+        setPushId(xslUserRegister.getPhone(),xslUserRegister.getToken());
         return ResultUtils.ok(userResVo);
-
     }
 
     /** 初始化 比赛用户 信息  */
@@ -379,6 +382,7 @@ public class XslUserServiceImpl implements XslUserService {
         if (org.apache.commons.lang3.StringUtils.isNotBlank(memberByHunterId.getTeamid())){
             resVo.setTeamId(memberByHunterId.getTeamid());
         }
+        setPushId(phone,token);
         //将用户信息加入缓存
 //        jedisClient.set(REDIS_USER_SESSION_KEY + ":" + user.getPhone(), token);
 //        Gson gson = GsonSingle.getGson();
@@ -578,6 +582,12 @@ public class XslUserServiceImpl implements XslUserService {
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    private void setPushId(String phone,String pushId){
+        if (!StringUtils.isEmpty(pushId)){
+            JedisUtils.set(REDIS_USER_SESSION_KEY + ":" + phone,pushId);
         }
     }
 }

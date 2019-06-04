@@ -12,6 +12,7 @@ import com.xsl.result.XslResult;
 import com.xsl.search.export.vo.MatchSearchVo;
 import com.xsl.search.export.vo.MatchTeamSearchVo;
 import com.xsl.search.export.vo.MatchUserSearchVo;
+import com.xsl.user.vo.JPushReqVo;
 import org.apache.activemq.ActiveMQQueueSession;
 import org.apache.activemq.ActiveMQSession;
 import org.junit.runner.RunWith;
@@ -38,6 +39,8 @@ import javax.jms.Session;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 说明：
@@ -50,16 +53,19 @@ import java.util.*;
 //@ContextConfiguration({"classpath:spring/*.xml"})
 public class Test {
 
-    @Autowired
-    XslMatchService xslMatchService;
-    @Autowired
-    XslMatchTeamService xslMatchTeamService;
-    @Autowired
-    XslUserService xslUserService;
-    @Autowired
-    GxzdESService gxzdESService;
-
-//    @org.junit.Test
+//    @Autowired
+//    XslMatchService xslMatchService;
+//    @Autowired
+//    XslMatchTeamService xslMatchTeamService;
+//    @Autowired
+//    XslUserService xslUserService;
+//    @Autowired
+//    GxzdESService gxzdESService;
+//    @Value("${REDIS_USER_SESSION_KEY}")
+//    private String REDIS_USER_SESSION_KEY;
+//    @Autowired
+//    private MyPush myPush;
+////    @org.junit.Test
     public void test04(){
 //        List<XslMatch> matchList = xslMatchService.getMatchList();
 //        matchList.forEach(match ->{
@@ -86,6 +92,24 @@ public class Test {
 ////        System.out.println();
 //        List<MatchUserSearchVo> matchUserSearchVos = gxzdESService.searchUser("188", null, 10);
 //        System.out.println();
+    }
+    @org.junit.Test
+    public void test003(){
+//        JedisUtils.set(REDIS_USER_SESSION_KEY + ":" + "18222905538","13065ffa4e5470861ee");
+//        JPushReqVo jPushReqVo = new JPushReqVo();
+//        jPushReqVo.setPhone("18222905538");
+//        jPushReqVo.setMsgTitle("测试标题");
+//        jPushReqVo.setMsgContent("测试主体");
+//        jPushReqVo.setNotificationTitle("测试内容标题");
+//        jPushReqVo.setExtrasparam("测试扩展");
+//        XslResult xslResult = myPush.sendPushByPhone(jPushReqVo);
+//        System.out.println();
+
+        /** 正则 */
+//        Pattern compile = Pattern.compile("^1[3|4|5|7|8][0-9]{9}$");
+//        Matcher matcher = compile.matcher("1522235009");
+//        System.out.println(matcher.matches());
+//        System.out.println("15222355009".matches("^1[3|4|5|7|8][0-9]{9}$"));
     }
     //    @org.junit.Test
 //    public void test(){

@@ -6,7 +6,7 @@
     <result column="tagId" property="tagid" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="useNum" property="usenum" jdbcType="SMALLINT" />
-    <result column="createDate" property="createdate" jdbcType="DATE" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
     <result column="state" property="state" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
