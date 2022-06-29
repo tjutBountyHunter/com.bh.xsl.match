@@ -42,7 +42,7 @@
         <jedis.version>2.7.2</jedis.version>
         <alipay-sdk.version>3.3.49.ALL</alipay-sdk.version>
         <dubbo.version>2.5.3</dubbo.version>
-        <zookeeper.version>3.4.7</zookeeper.version>
+        <zookeeper.version>3.4.14</zookeeper.version>
         <zkclient.version>0.1</zkclient.version>
         <activemq.version>5.8.0</activemq.version>
         <Gson.version>2.8.0</Gson.version>
